@@ -4,13 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CinemaConsole
+namespace CinemaConsole.Pages
 {
-    class Program
+    class Login
     {
-        static void Main(string[] args)
-        {
-
-        }
     }
 }

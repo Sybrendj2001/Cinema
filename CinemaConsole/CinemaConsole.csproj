@@ -43,11 +43,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Employee\Movies.cs" />
+    <Compile Include="Data\Employee\RestaurantMenu.cs" />
+    <Compile Include="Data\Employee\TheatherHalls.cs" />
+    <Compile Include="Data\Profiles.cs" />
+    <Compile Include="Data\Revenue Data\RestaurantRevenue.cs" />
+    <Compile Include="Data\Revenue Data\TheatherHallRevenue.cs" />
+    <Compile Include="Pages\Customer.cs" />
+    <Compile Include="Pages\Login.cs" />
+    <Compile Include="Pages\UserInterface.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\Admin\" />
+    <Folder Include="Pages\Retailer\" />
+    <Folder Include="Pages\Salesperson\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

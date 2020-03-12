@@ -4,13 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CinemaConsole
+namespace CinemaConsole.Data.Employee
 {
-    class Program
+    class Movies
     {
-        static void Main(string[] args)
-        {
-
-        }
     }
 }

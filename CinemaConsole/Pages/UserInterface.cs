@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace CinemaConsole
 {
-    class Program
+    interface UserInterface
     {
-        static void Main(string[] args)
-        {
 
-        }
     }
 }

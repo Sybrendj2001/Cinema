@@ -4,13 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CinemaConsole
+namespace CinemaConsole.Data.Revenue_Data
 {
-    class Program
+    class RestaurantRevenue
     {
-        static void Main(string[] args)
-        {
-
-        }
     }
 }
