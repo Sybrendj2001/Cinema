@@ -6,8 +6,20 @@ using System.Threading.Tasks;
 
 namespace CinemaConsole
 {
-    interface UserInterface
+    interface IUserInterface
     {
+        string Password { get; set; }
 
+        string Username { get; set; }
+
+        public void EditPassword(string currentName, string newName)
+        {
+            
+        }
+
+        public void EditPassword(string currentName, string newName)
+        {
+
+        }
     }
 }

@@ -49,7 +49,9 @@
     <Compile Include="Data\Profiles.cs" />
     <Compile Include="Data\Revenue Data\RestaurantRevenue.cs" />
     <Compile Include="Data\Revenue Data\TheatherHallRevenue.cs" />
+    <Compile Include="Pages\Admin\Admin.cs" />
     <Compile Include="Pages\Customer.cs" />
+    <Compile Include="Pages\Employee.cs" />
     <Compile Include="Pages\Login.cs" />
     <Compile Include="Pages\UserInterface.cs" />
     <Compile Include="Program.cs" />
@@ -60,7 +62,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Pages\Admin\" />
     <Folder Include="Pages\Retailer\" />
     <Folder Include="Pages\Salesperson\" />
   </ItemGroup>
