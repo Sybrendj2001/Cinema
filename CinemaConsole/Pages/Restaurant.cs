@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CinemaConsole.Data.Employee;
 
-namespace CinemaConsole.Pages
+namespace CinemaConsole.Pages.Restaurant
 {
     class Restaurant
     {
@@ -15,7 +16,7 @@ namespace CinemaConsole.Pages
 
         public void removeProduct()
         {
-            
+
         }
     }
 }
