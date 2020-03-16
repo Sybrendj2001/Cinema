@@ -1,0 +1,6 @@
+C:\Users\mark\Source\Repos\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csprojAssemblyReference.cache
+C:\Users\mark\Source\Repos\Cinema\CinemaConsole\bin\Debug\CinemaConsole.exe.config
+C:\Users\mark\Source\Repos\Cinema\CinemaConsole\bin\Debug\CinemaConsole.exe
+C:\Users\mark\Source\Repos\Cinema\CinemaConsole\bin\Debug\CinemaConsole.pdb
+C:\Users\mark\Source\Repos\Cinema\CinemaConsole\obj\Debug\CinemaConsole.exe
+C:\Users\mark\Source\Repos\Cinema\CinemaConsole\obj\Debug\CinemaConsole.pdb
