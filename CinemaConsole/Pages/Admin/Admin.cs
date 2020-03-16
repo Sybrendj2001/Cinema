@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Pages;
+using CinemaConsole.Data.Employee;
 
 namespace CinemaConsole.Pages.Admin
 {
@@ -11,7 +12,7 @@ namespace CinemaConsole.Pages.Admin
     {
         public Admin()
         {
-            //Insert code here that u want to run once the class is runned for one time
+           
         }
     }
 }
