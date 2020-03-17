@@ -36,7 +36,7 @@ namespace CinemaConsole.Pages.Admin
                     age = Convert.ToInt32(TiYeAg[2]);
                     TiyeAg = false;
                 }
-                catch (FormatException e)
+                catch (FormatException)
                 {
                     Console.WriteLine("\nEither the year or the age restriction was filled in incorrectly, please try again.\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
                     tiyeag = Console.ReadLine();
