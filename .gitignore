@@ -3,3 +3,8 @@
 ################################################################################
 
 /CinemaConsole/.vs/CinemaConsole/v16/Server/sqlite3
+/CinemaConsole/.vs
+/.vs
+/CinemaConsole/bin/Debug
+/CinemaConsole/obj/Debug
+/CinemaConsole/.vscode
