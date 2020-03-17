@@ -7,33 +7,33 @@ namespace CinemaConsole.Pages
 
     public class Customer
     {
-        public class Agenda : IEquatable<Agenda>
+        public class Movie : IEquatable<Movie>
         {
-            public string AgendaTime { get; set; }
+            public string MovieTime { get; set; }
 
-            public string AgendaDate { get; set; }
+            public string MovieDate { get; set; }
 
-            public int AgendaId { get; set; }
+            public int MovieId { get; set; }
 
             public override string ToString()
             {
-                return "ID: " + AgendaId + "   Datum: " + AgendaDate + "   Time: " + AgendaTime;
+                return "ID: " + MovieId + "   Datum: " + MovieDate + "   Time: " + MovieTime;
             }
             public override bool Equals(object obj)
             {
                 if (obj == null) return false;
-                Agenda objAsAgenda = obj as Agenda;
-                if (objAsAgenda == null) return false;
-                else return Equals(objAsAgenda);
+                Movie objAsMovie = obj as Movie;
+                if (objAsMovie == null) return false;
+                else return Equals(objAsMovie);
             }
             public override int GetHashCode()
             {
-                return AgendaId;
+                return MovieId;
             }
-            public bool Equals(Agenda other)
+            public bool Equals(Movie other)
             {
                 if (other == null) return false;
-                return (this.AgendaId.Equals(other.AgendaId));
+                return (this.MovieId.Equals(other.MovieId));
             }
         }
         public class Example
@@ -41,22 +41,22 @@ namespace CinemaConsole.Pages
             public static void Main()
             {
                 // Create a list of times.
-                List<Agenda> agenda = new List<Agenda>();
+                List<Movie> agenda = new List<Movie>();
 
                 // Add Time and Dates to the list.
-                agenda.Add(new Agenda { AgendaTime = "12:30", AgendaDate = "12-06-2020", AgendaId = 1 });
-                agenda.Add(new Agenda { AgendaTime = "19:45", AgendaDate = "12-06-2020", AgendaId = 2 });
-                agenda.Add(new Agenda { AgendaTime = "18:00", AgendaDate = "13-06-2020", AgendaId = 3 });
-                agenda.Add(new Agenda { AgendaTime = "21:30", AgendaDate = "13-06-2020", AgendaId = 4 });
-                agenda.Add(new Agenda { AgendaTime = "15:30", AgendaDate = "14-06-2020", AgendaId = 5 });
-                agenda.Add(new Agenda { AgendaTime = "21:00", AgendaDate = "14-06-2020", AgendaId = 6 });
+                agenda.Add(new Movie { MovieTime = "12:30", MovieDate = "12-06-2020", MovieId = 1 });
+                agenda.Add(new Movie { MovieTime = "19:45", MovieDate = "12-06-2020", MovieId = 2 });
+                agenda.Add(new Movie { MovieTime = "18:00", MovieDate = "13-06-2020", MovieId = 3 });
+                agenda.Add(new Movie { MovieTime = "21:30", MovieDate = "13-06-2020", MovieId = 4 });
+                agenda.Add(new Movie { MovieTime = "15:30", MovieDate = "14-06-2020", MovieId = 5 });
+                agenda.Add(new Movie { MovieTime = "21:00", MovieDate = "14-06-2020", MovieId = 6 });
 
                 // Write out the time and dates in the list. This will call the overridden ToString method
-                // in the Agenda class.
+                // in the Movie class.
                 Console.WriteLine();
-                foreach (Agenda aAgenda in agenda)
+                foreach (Movie aMovie in agenda)
                 {
-                    Console.WriteLine(aAgenda);
+                    Console.WriteLine(aMovie);
                 }
                 Console.WriteLine(" ");
 
