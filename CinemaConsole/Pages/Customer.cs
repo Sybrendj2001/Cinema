@@ -19,23 +19,15 @@ namespace CinemaConsole.Pages
             {
                 return "ID: " + MovieId + "   Datum: " + MovieDate + "   Time: " + MovieTime;
             }
-            public override bool Equals(object obj)
-            {
-                if (obj == null) return false;
-                Movie objAsMovie = obj as Movie;
-                if (objAsMovie == null) return false;
-                else return Equals(objAsMovie);
-            }
-            public override int GetHashCode()
-            {
-                return MovieId;
-            }
+         
             public bool Equals(Movie other)
             {
                 if (other == null) return false;
                 return (this.MovieId.Equals(other.MovieId));
             }
         }
+
+ 
         public class Example
         {
             public static void Main()
@@ -43,7 +35,7 @@ namespace CinemaConsole.Pages
                 // Create a list of times.
                 List<Movie> agenda = new List<Movie>();
 
-                // Add Time and Dates to the list.
+                // Add Time and Dates to the list. (For now)
                 agenda.Add(new Movie { MovieTime = "12:30", MovieDate = "12-06-2020", MovieId = 1 });
                 agenda.Add(new Movie { MovieTime = "19:45", MovieDate = "12-06-2020", MovieId = 2 });
                 agenda.Add(new Movie { MovieTime = "18:00", MovieDate = "13-06-2020", MovieId = 3 });
@@ -51,18 +43,43 @@ namespace CinemaConsole.Pages
                 agenda.Add(new Movie { MovieTime = "15:30", MovieDate = "14-06-2020", MovieId = 5 });
                 agenda.Add(new Movie { MovieTime = "21:00", MovieDate = "14-06-2020", MovieId = 6 });
 
-                // Write out the time and dates in the list. This will call the overridden ToString method
-                // in the Movie class.
-                Console.WriteLine();
-                foreach (Movie aMovie in agenda)
+
+
+                bool k = true;
+                // menu with options for the customer to choose from.
+                while (k)
                 {
-                    Console.WriteLine(aMovie);
+
+                    Console.WriteLine("\n[1] Choose date and time\n[2] Contact information\n[3] Exit the program\n\nPlease enter yout choice. Type in ID: ");
+                 
+                    string CustomerOption = Console.ReadLine();
+
+                    if (CustomerOption == "1")
+                    {
+                        foreach (Movie aMovie in agenda)
+                        {
+                            Console.WriteLine(aMovie);
+                        }
+
+                        Console.WriteLine("\nPlease enter yout choice. Type in ID: ");
+                        int CustomerTimeDate = int.Parse(Console.ReadLine());
+                        Console.WriteLine("\nYou have chosen for " + agenda[CustomerTimeDate - 1]);
+
+                    }
+
+                    //Cinema contact information
+                    if (CustomerOption == "2")
+                    {
+                        Console.WriteLine("\nAdres: Wijnhaven 99, 3011 WN Rotterdam\nPhone number: 010-794 4000\n\nOpening hours:\nMonday - Thursday: 12:00 - 21:00\nFriday: 12:00 - 01:00\nSaturday - Sunday: 12:00 - 02:00 ");
+                    }
+
+                    //Exit the menu 
+                    else if(CustomerOption == "3")
+                    {
+                        k = false;
+                    }
+
                 }
-                Console.WriteLine(" ");
-
-                Console.WriteLine("Please enter yout choice. Type in ID: ");
-                string CustomerTimeDate = Console.ReadLine();
-
 
 
 
