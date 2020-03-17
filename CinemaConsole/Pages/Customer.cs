@@ -49,7 +49,7 @@ namespace CinemaConsole.Pages
                 while (k)
                 {
 
-                    Console.WriteLine("\n[1] Choose date and time\n[2] Contact information\n[3] Exit the program\n\nPlease enter yout choice. Type in ID: ");
+                    Console.WriteLine("\n[1] Pick date and time\n[2] Contact information\n[3] Exit the program\n\nPlease enter your choice. Type in ID: ");
                  
                     string CustomerOption = Console.ReadLine();
 
@@ -62,6 +62,8 @@ namespace CinemaConsole.Pages
 
                         Console.WriteLine("\nPlease enter yout choice. Type in ID: ");
                         int CustomerTimeDate = int.Parse(Console.ReadLine());
+
+                        //Out of range check
                         if (CustomerTimeDate > agenda.Count)
                         {
                             Console.WriteLine("\nError ID " + CustomerTimeDate + " does not exist");
@@ -71,7 +73,6 @@ namespace CinemaConsole.Pages
                         {
                             Console.WriteLine("\nYou have chosen for " + agenda[CustomerTimeDate - 1]);
                         }
-
                     }
 
                     //Cinema contact information
