@@ -1,57 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CinemaConsole.Pages;
-using CinemaConsole.Data;
 
 
 namespace CinemaConsole.Pages
 {
+
     public class Customer
     {
-        public string MovieTimeId { get; set; }
-
-        public string MovieDate { get; set; }
-        public string MovieTime { get; set; }
-
-        public override string ToString()
+        public class Agenda : IEquatable<Agenda>
         {
-            return "ID: " + MovieTimeId + "   Date: " + MovieDate + "   Time: " + MovieTime;
-        }
+            public string AgendaTime { get; set; }
 
+            public string AgendaDate { get; set; }
 
+            public int AgendaId { get; set; }
 
-    public static void Main()
-        {
-            // Create a list of times.
-            List<Time> times = new List<Time>();
-
-            // Add times and dates to the list.
-            times.Add(new Time { MovieTimeId = 0, MovieDate = 12 - 04, MovieTime = 12.00 });
-            times.Add(new Time { MovieTimeId = 1, MovieDate = 12 - 04, MovieTime = 18.30 });
-            times.Add(new Time { MovieTimeId = 2, MovieDate = 12 - 04, MovieTime = 21.00 });
-            times.Add(new Time { MovieTimeId = 3, MovieDate = 13 - 04, MovieTime = 19.15 });
-            times.Add(new Time { MovieTimeId = 4, MovieDate = 13 - 04, MovieTime = 21.00 });
-            times.Add(new Time { MovieTimeId = 5, MovieDate = 14 - 04, MovieTime = 19.30 });
-
-
-            // Write out the times and dates in the list. This will call the overridden ToString method
-            // in the Time class.
-            Console.WriteLine();
-            foreach (Time aTime in times)
+            public override string ToString()
             {
-                Console.WriteLine(aTime);
+                return "ID: " + AgendaId + "   Datum: " + AgendaDate + "   Time: " + AgendaTime;
             }
-
-            string TimeChosen;
-            Console.Write("Enter Time ID ");
-            TimeChosen = Console.ReadLine();
-            Console.WriteLine("You entered '{0}'", TimeChosen);
-
-
+            public override bool Equals(object obj)
+            {
+                if (obj == null) return false;
+                Agenda objAsAgenda = obj as Agenda;
+                if (objAsAgenda == null) return false;
+                else return Equals(objAsAgenda);
+            }
+            public override int GetHashCode()
+            {
+                return AgendaId;
+            }
+            public bool Equals(Agenda other)
+            {
+                if (other == null) return false;
+                return (this.AgendaId.Equals(other.AgendaId));
+            }
         }
+        public class Example
+        {
+            public static void Main()
+            {
+                // Create a list of times.
+                List<Agenda> agenda = new List<Agenda>();
 
+                // Add Time and Dates to the list.
+                agenda.Add(new Agenda { AgendaTime = "12:30", AgendaDate = "12-06-2020", AgendaId = 1 });
+                agenda.Add(new Agenda { AgendaTime = "19:45", AgendaDate = "12-06-2020", AgendaId = 2 });
+                agenda.Add(new Agenda { AgendaTime = "18:00", AgendaDate = "13-06-2020", AgendaId = 3 });
+                agenda.Add(new Agenda { AgendaTime = "21:30", AgendaDate = "13-06-2020", AgendaId = 4 });
+                agenda.Add(new Agenda { AgendaTime = "15:30", AgendaDate = "14-06-2020", AgendaId = 5 });
+                agenda.Add(new Agenda { AgendaTime = "21:00", AgendaDate = "14-06-2020", AgendaId = 6 });
+
+                // Write out the time and dates in the list. This will call the overridden ToString method
+                // in the Agenda class.
+                Console.WriteLine();
+                foreach (Agenda aAgenda in agenda)
+                {
+                    Console.WriteLine(aAgenda);
+                }
+                Console.WriteLine(" ");
+
+                Console.WriteLine("Please enter yout choice. Type in ID: ");
+                string CustomerTimeDate = Console.ReadLine();
+
+
+
+
+            }
+        }
     }
 }
