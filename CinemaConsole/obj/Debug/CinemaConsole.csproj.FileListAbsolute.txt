@@ -1,0 +1,13 @@
+C:/Users/timfeskens/Source/Repos/Cinema/CinemaConsole/obj/Debug/CinemaConsole.csprojAssemblyReference.cache
+C:/Users/timfeskens/Source/Repos/Cinema/CinemaConsole/bin/Debug/CinemaConsole.exe.config
+C:/Users/timfeskens/Source/Repos/Cinema/CinemaConsole/bin/Debug/CinemaConsole.exe
+C:/Users/timfeskens/Source/Repos/Cinema/CinemaConsole/bin/Debug/CinemaConsole.pdb
+C:/Users/timfeskens/Source/Repos/Cinema/CinemaConsole/obj/Debug/CinemaConsole.exe
+C:/Users/timfeskens/Source/Repos/Cinema/CinemaConsole/obj/Debug/CinemaConsole.pdb
+/Volumes/[C] Windows 10.hidden/Users/timfeskens/source/repos/Cinema/CinemaConsole/bin/Debug/CinemaConsole.exe.config
+/Volumes/[C] Windows 10.hidden/Users/timfeskens/source/repos/Cinema/CinemaConsole/bin/Debug/CinemaConsole.exe
+/Volumes/[C] Windows 10.hidden/Users/timfeskens/source/repos/Cinema/CinemaConsole/bin/Debug/CinemaConsole.pdb
+/Volumes/[C] Windows 10.hidden/Users/timfeskens/source/repos/Cinema/CinemaConsole/obj/Debug/CinemaConsole.csprojAssemblyReference.cache
+/Volumes/[C] Windows 10.hidden/Users/timfeskens/source/repos/Cinema/CinemaConsole/obj/Debug/CinemaConsole.csproj.CoreCompileInputs.cache
+/Volumes/[C] Windows 10.hidden/Users/timfeskens/source/repos/Cinema/CinemaConsole/obj/Debug/CinemaConsole.exe
+/Volumes/[C] Windows 10.hidden/Users/timfeskens/source/repos/Cinema/CinemaConsole/obj/Debug/CinemaConsole.pdb
