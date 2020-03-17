@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CinemaConsole.Pages.Admin;
 
 namespace CinemaConsole
 {
@@ -10,7 +11,7 @@ namespace CinemaConsole
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("hello");
+            Admin.Menu();
         }
     }
 }

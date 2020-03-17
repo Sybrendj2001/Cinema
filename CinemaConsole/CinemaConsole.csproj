@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Employee\Seats.cs" />
+    <Compile Include="Data\Employee\MovieList.cs" />
     <Compile Include="Data\Employee\Movies.cs" />
     <Compile Include="Data\Employee\RestaurantMenu.cs" />
     <Compile Include="Data\Employee\TheatherHalls.cs" />
@@ -53,7 +55,6 @@
     <Compile Include="Pages\Customer.cs" />
     <Compile Include="Pages\Employee.cs" />
     <Compile Include="Pages\Login.cs" />
-    <Compile Include="Pages\UserInterface.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

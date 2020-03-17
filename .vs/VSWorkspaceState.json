@@ -1,12 +1,6 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\CinemaConsole",
-    "\\CinemaConsole\\Data",
-    "\\CinemaConsole\\Data\\Employee",
-    "\\CinemaConsole\\Pages",
-    "\\CinemaConsole\\Pages\\Admin"
+    ""
   ],
-  "SelectedNode": "\\CinemaConsole\\Program.cs",
   "PreviewInSolutionExplorer": false
 }
