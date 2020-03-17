@@ -11,7 +11,7 @@ namespace CinemaConsole.Pages.Admin
     {
         public Admin()
         {
-            //Insert code here that u want to run once the class is runned for one time
+            
         }
     }
 }
