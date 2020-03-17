@@ -1,18 +1,22 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CinemaConsole.Pages;
 using CinemaConsole.Data.Employee;
 
-namespace CinemaConsole.Pages.Admin
+namespace CinemaConsole.Pages.Restaurant
 {
-    class Admin : Employee
+    class Restaurant
     {
-        public Admin()
+        public void addProduct()
         {
-           
+
+        }
+
+        public void removeProduct()
+        {
+
         }
     }
 }

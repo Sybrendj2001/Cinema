@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace CinemaConsole.Data.Employee
 {
-    public class Movies
-    {  
+    public class MovieList
+    {
+        
+        public static List<Movies> movieList { get; set; } = new List<Movies>();
+
     }
 }
