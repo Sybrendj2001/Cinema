@@ -44,7 +44,6 @@ namespace CinemaConsole.Pages
                 agenda.Add(new Movie { MovieTime = "21:00", MovieDate = "14-06-2020", MovieId = 6 });
 
 
-
                 bool k = true;
                 // menu with options for the customer to choose from.
                 while (k)
@@ -63,7 +62,15 @@ namespace CinemaConsole.Pages
 
                         Console.WriteLine("\nPlease enter yout choice. Type in ID: ");
                         int CustomerTimeDate = int.Parse(Console.ReadLine());
-                        Console.WriteLine("\nYou have chosen for " + agenda[CustomerTimeDate - 1]);
+                        if (CustomerTimeDate > agenda.Count)
+                        {
+                            Console.WriteLine("\nError ID " + CustomerTimeDate + " does not exist");
+                        }
+
+                        else
+                        {
+                            Console.WriteLine("\nYou have chosen for " + agenda[CustomerTimeDate - 1]);
+                        }
 
                     }
 
@@ -80,8 +87,6 @@ namespace CinemaConsole.Pages
                     }
 
                 }
-
-
 
             }
         }
