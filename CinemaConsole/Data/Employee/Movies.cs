@@ -8,7 +8,7 @@ namespace CinemaConsole.Data.Employee
 {
     public class Movies
     {
-        private int Mid { get; } = MovieList.movieList.Count + 1;
+        private int Mid { get; set; }
 
         private string Mname { get; set; }
 
@@ -20,8 +20,9 @@ namespace CinemaConsole.Data.Employee
 
         private string Mactors { get; set; }
 
-        public Movies(string name, int year, int age, string summary, string actors)
+        public Movies(int id, string name, int year, int age, string summary, string actors)
         {
+            Mid = id;
             Myear = year;
             Mname = name;
             Mage = age;
@@ -29,7 +30,7 @@ namespace CinemaConsole.Data.Employee
             Mactors = actors;
         }
 
-        public Tuple<int, string, int> getInfo()
+        public Tuple<int, string, int> getMovieInfo()
         {
             int idd = Mid;
             string name = Mname;
