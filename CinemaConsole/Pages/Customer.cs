@@ -22,7 +22,8 @@ namespace CinemaConsole.Pages
         }
 
 
-        public static void Main()
+
+    public static void Main()
         {
             // Create a list of times.
             List<Time> times = new List<Time>();
