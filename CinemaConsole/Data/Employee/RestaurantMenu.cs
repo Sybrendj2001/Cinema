@@ -8,5 +8,6 @@ namespace CinemaConsole.Data
 {
     class RestaurantMenu
     {
+		var ProductList = new List<>();
     }
 }
