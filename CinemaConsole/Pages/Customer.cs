@@ -10,11 +10,12 @@ namespace CinemaConsole.Pages.Customer
 {
     public class Customer
     {
+        // adding some movies to test
         public static void AddStuff()
         {
-            Movies movie1 = new Movies(1, "Transformers", 2018, 12, "bla", "bla1");
-            Movies movie2 = new Movies(2, "Avengers", 2012, 12, "bla", "bla2");
-            Movies movie3 = new Movies(3, "Batman", 2010, 12, "bla", "bla3");
+            Movies movie1 = new Movies(1, "Transformers", 2007, 12, "An ancient struggle between two Cybertronian races, the heroic Autobots and the evil Decepticons, comes to Earth, with a clue to the ultimate power held by a teenager.", "Shia LaBeouf, Megan Fox");
+            Movies movie2 = new Movies(2, "Avengers", 2012, 12, "Earth's mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.", "Robert Downey Jr., Chris Evans, Scarlett Johansson");
+            Movies movie3 = new Movies(3, "The Dark Knight", 2008, 12, "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.", " Christian Bale, Heath Ledger, Aaron Eckhart");
 
             MovieList.movieList.Add(movie1);
             MovieList.movieList.Add(movie2);
@@ -23,55 +24,65 @@ namespace CinemaConsole.Pages.Customer
         }
         private static void Display()
         {
-
-            // convert movielist count to a string
-            string movieCount = (MovieList.movieList.Count + 1).ToString();
-
-            Console.WriteLine("Please enter the number that stands before the movie you want to reserve.");
-            Console.WriteLine("Movies on today:");
-
-            // Loop trough all movies currently in the movielist
-            foreach (Movies movie in MovieList.movieList)
+            while (true)
             {
-                Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " " + movie.getMovieInfo().Item3);
-            }
-            
-            Console.WriteLine("\n[" + movieCount + "] Exit the program.");
 
-            // Loop trough all movies to check which number was selected
-            foreach (Movies movie in MovieList.movieList)
-            {
-                // check if number equals movie ID
-                if (Console.ReadLine() == movie.getMovieInfo().Item1.ToString())
+                // convert movielist count to a string
+                string movieCount = (MovieList.movieList.Count + 1).ToString();
+
+                Console.WriteLine("\nPlease enter the number that stands before the movie you want to reserve.");
+                Console.WriteLine("Movies on today:");
+
+                // Loop trough all movies currently in the movielist
+                foreach (Movies movie in MovieList.movieList)
                 {
-                    Console.WriteLine("Movie selected: " + movie.getMovieInfo().Item2);
-                    Console.WriteLine("Info: " + movie.getMovieInfo().Item3);
+                    Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
                 }
-            }
-            // check if user wants to exit 
-            if (Console.ReadLine() == movieCount)
-            {
-                // clear the console and load the menu (not working yet)
-                Console.Clear();
-                Menu();
+
+                // check if user wants to go back
+                Console.WriteLine("\n[" + movieCount + "] Back to the menu.");
+
+                string line = Console.ReadLine();
+
+                // check if user wants to go back 
+                if (line == movieCount.ToString())
+                {
+                    break;
+                }
+
+
+                for (int i = 0; i < MovieList.movieList.Count; i++)
+                {
+                    // check if number equals movie ID
+                    if (line == MovieList.movieList[i].getMovieInfo().Item1.ToString())
+                    {
+                        Console.WriteLine("Movie selected: " + MovieList.movieList[i].getMovieInfo().Item2);
+                        Console.WriteLine("Year: " + MovieList.movieList[i].getMovieInfo().Item3);
+                        Console.WriteLine("Age restriction: " + MovieList.movieList[i].getMovieInfo().Item4 + "+");
+                        Console.WriteLine("Actors: " + MovieList.movieList[i].getMovieInfo().Item6);
+                        Console.WriteLine("Summary: " + MovieList.movieList[i].getMovieInfo().Item5);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
             }
         }
 
         public static void Menu()
         {
-            bool k = true;
-
-            while (k)
+            while (true)
             {
                 Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Show all the movies.\n[2] Exit the program.");
-                string nummer = Console.ReadLine();
-                if (nummer == "1")
+                string line = Console.ReadLine();
+                if (line == "1")
                 {
                     Display();
                 }
-                else if (nummer == "2")
+                else if (line == "2")
                 {
-                    k = false;
+                    break;
                 }
             }
         }

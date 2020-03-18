@@ -23,20 +23,23 @@ namespace CinemaConsole.Data.Employee
         public Movies(int id, string name, int year, int age, string summary, string actors)
         {
             Mid = id;
-            Myear = year;
             Mname = name;
+            Myear = year;
             Mage = age;
             Msumm = summary;
             Mactors = actors;
         }
 
-        public Tuple<int, string, int> getMovieInfo()
+        public Tuple<int, string, int, int, string, string> getMovieInfo()
         {
             int idd = Mid;
             string name = Mname;
             int year = Myear;
+            int age = Mage;
+            string summary = Msumm;
+            string actors = Mactors;
 
-            return Tuple.Create(idd, name, year);
+            return Tuple.Create(idd, name, year, age, summary, actors);
         }
     }
 }
