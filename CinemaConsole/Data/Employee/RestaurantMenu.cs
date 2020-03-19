@@ -9,5 +9,10 @@ namespace CinemaConsole.Data
     class RestaurantMenu
     {
 		var ProductList = new List<>();
+
+        void addItem(string name, double price)
+        {
+            ProductList.Add(Tuple.Create(name, price));
+        }
     }
 }

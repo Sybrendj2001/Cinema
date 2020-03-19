@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Data.Employee;
-using CinemaConsole.Data.Employee.ResataurantMenu;
+using CinemaConsole.Data.Employee.RestaurantMenu;
 
 namespace CinemaConsole.Pages
 {
@@ -55,7 +55,7 @@ namespace CinemaConsole.Pages
         
         public void addProduct()
         {
-            //Code here to add a product to the list.
+            RestaurantMenu.addItem();
         }
 
         public void removeProduct()
@@ -63,4 +63,5 @@ namespace CinemaConsole.Pages
             //Code here to remove a product to the list.
         }
     }
+
 }
