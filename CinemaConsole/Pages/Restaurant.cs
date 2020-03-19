@@ -26,7 +26,7 @@ namespace CinemaConsole.Pages
             int operation = Console.ReadLine();
             if(operation == 1)
 			{
-
+                RestaurantMenu.printList();
 			}
             else if(operation == 2)
 			{
@@ -39,12 +39,16 @@ namespace CinemaConsole.Pages
 			}
             else if(operation == 3)
 			{
-                //Code here to remove a product from the list.
-			}
+                Console.WriteLine("Please fill in the name of the product you wish to remove (Case Sensitive).");
+                string name = Console.ReadLine();
+
+                removeProduct(name);
+            }
             else if(operation == 4)
 			{
-                //Code here to exit application.
-			}
+                Application.Exit()
+
+            }
 			else
 			{
                 Console.WriteLine("Invalid Input. Please try again.");
@@ -60,7 +64,7 @@ namespace CinemaConsole.Pages
 
         public void removeProduct()
         {
-            //Code here to remove a product to the list.
+            RestaurantMenu.removeItem()
         }
     }
 
