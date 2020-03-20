@@ -51,7 +51,7 @@ namespace CinemaConsole.Pages.Admin
             string actors = Console.ReadLine();
 
             int id = MovieList.movieList.Count;
-            Movies movie = new Movies(id, titel, year, age, sum, actors);
+            Movies movie = new Movies(titel, year, age, sum, actors);
 
 
             MovieList.movieList.Add(movie);
