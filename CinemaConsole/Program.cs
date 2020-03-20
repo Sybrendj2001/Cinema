@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Pages.Admin;
+using CinemaConsole.Pages.Customer;
 using CinemaConsole.Pages;
 
 namespace CinemaConsole
@@ -48,6 +49,11 @@ namespace CinemaConsole
                 }
             }
             Admin.Menu();
+            // Just to add 3 basic movies
+            Customer.AddStuff();
+
+            // running the customer menu
+            Customer.Menu();
         }
     }
 }

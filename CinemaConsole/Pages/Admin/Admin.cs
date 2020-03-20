@@ -50,7 +50,8 @@ namespace CinemaConsole.Pages.Admin
             Console.WriteLine("Please give some actors.(Write them like this: Tom Cruise, Brad Pitt)");
             string actors = Console.ReadLine();
 
-            Movies movie = new Movies(titel, year, age, sum, actors);
+            int id = MovieList.movieList.Count;
+            Movies movie = new Movies(id, titel, year, age, sum, actors);
 
 
             MovieList.movieList.Add(movie);
@@ -61,7 +62,7 @@ namespace CinemaConsole.Pages.Admin
             Console.WriteLine("Movies:");
             for (int i = 0; i < MovieList.movieList.Count; i++)
             {
-                Console.WriteLine(MovieList.movieList[i].getInfo().Item1 + "   " + MovieList.movieList[i].getInfo().Item2);
+                Console.WriteLine(MovieList.movieList[i].getMovieInfo().Item1 + "   " + MovieList.movieList[i].getMovieInfo().Item2);
             }
 
         }
