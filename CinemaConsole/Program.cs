@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CinemaConsole.Pages.Admin;
 using CinemaConsole.Pages;
 
 namespace CinemaConsole
@@ -46,6 +47,7 @@ namespace CinemaConsole
                     Console.WriteLine("This function doesnt exist yet");
                 }
             }
+            Admin.Menu();
         }
     }
 }
