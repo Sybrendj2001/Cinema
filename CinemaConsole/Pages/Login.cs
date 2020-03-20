@@ -62,7 +62,7 @@ namespace CinemaConsole.Pages
                     register(credentials[0], credentials[1]);
                     if (checkIfLoginIsRight())
                     {
-                        checkFunction();
+                        Function = checkFunction();
                         ErrorMessage = getErrorMessage(ErrorCode);
                         checkLogin = false;
                         Console.WriteLine("You are Logged in and redirected to your page");

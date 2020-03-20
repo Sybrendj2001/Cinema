@@ -14,13 +14,22 @@ namespace CinemaConsole
         static void Main(string[] args)
         {
             bool Running = true;
-            while (Running == false)
+            Login login = new Login();
+            string pageToBe = "";
+            string toDo = "";
+            while (Running)
             {
-                Console.WriteLine("Do you want to see the movielist or login? (movielist/login)");
-                string toDo = Console.ReadLine();
+                if (pageToBe != "")
+                {
+                    toDo = pageToBe;
+                    pageToBe = "";
+                }
+                else
+                {
+                    Console.WriteLine("Do you want to see the movielist or login? (movielist/login)");
+                    toDo = Console.ReadLine();
+                }
                 toDo.ToLower();
-                Login login = new Login();
-                string pageToBe
                 switch (toDo)
                 {
                     case "login":
@@ -49,7 +58,7 @@ namespace CinemaConsole
                 }
                 if(login.Function != "")
                 {
-
+                    pageToBe = login.Function;
                 }
             }
         }
