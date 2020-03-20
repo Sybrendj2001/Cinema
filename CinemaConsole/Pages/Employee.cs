@@ -8,11 +8,11 @@ namespace CinemaConsole.Pages
 {
     public class Employee
     {
-        private string Password { get; set; }
+        public string Password { get; set; }
 
-        private string Username { get; set; }
+        public string Username { get; set; }
 
-        private void ChangeUsername(string currentUsername, string newUsername)
+        public void ChangeUsername(string currentUsername, string newUsername)
         {
             if (currentUsername == Username)
             {
@@ -24,7 +24,7 @@ namespace CinemaConsole.Pages
             }
         }
 
-        private void changePassword(string currentPassword, string newPassword)
+        public void changePassword(string currentPassword, string newPassword)
         {
             if (currentPassword == Password)
             {
