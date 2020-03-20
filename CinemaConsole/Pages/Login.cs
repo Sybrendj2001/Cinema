@@ -28,27 +28,61 @@ namespace CinemaConsole.Pages
 
         private int ProfilePlace = 0;
 
-        public readonly string ErrorMessage;
+        public string ErrorMessage;
 
         public string Function = "";
 
         public bool loggedIn = false;
 
-        public Login(string username, string password){
-            Username = username;
-            Password = password;
-            loggedIn = checkIfLoginIsRight(Username, Password);
-            Function = checkFunction();
-            ErrorMessage = getErrorCode(ErrorCode);
+        public Login()
+        {
+
         }
 
-        private bool checkIfLoginIsRight(string username, string password)
+        private void register(string username, string password)
+        {
+            Username = username;
+            Password = password;
+        }
+
+        public void Menu()
+        {
+            bool checkLogin = true;
+            while (checkLogin == true)
+            {
+                Console.WriteLine("Give your credentials:(username - password)");
+                string login = Console.ReadLine();
+                string[] credentials = login.Split(' ');
+                if (credentials.Length != 2)
+                {
+                    Console.WriteLine("Your credentials are not in the right format. (username - password)");
+                }
+                else
+                {
+                    register(credentials[0], credentials[1]);
+                    if (checkIfLoginIsRight())
+                    {
+                        checkFunction();
+                        ErrorMessage = getErrorMessage(ErrorCode);
+                        checkLogin = false;
+                        Console.WriteLine("You are Logged in and redirected to your page");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Wrong Username/Password");
+                    }
+                }
+            }
+
+        }
+
+        private bool checkIfLoginIsRight()
         {
             bool usernameExists = false;
             //Checks if the username exist
             for (int i = 0; i < profiles.Count; i++)
             {
-                if(profiles[i].UserName == username)
+                if (profiles[i].UserName == Username)
                 {
                     ProfilePlace = i;
                     i = profiles.Count;
@@ -61,7 +95,7 @@ namespace CinemaConsole.Pages
                 }
             }
 
-            if (usernameExists && password == profiles[ProfilePlace].Password)
+            if (usernameExists && Password == profiles[ProfilePlace].Password)
             {
                 Console.WriteLine("Logged in!");
                 return true;
@@ -71,23 +105,23 @@ namespace CinemaConsole.Pages
                 ErrorCode = 1;
                 return false;
             }
-            
+
         }
 
         private string checkFunction()
         {
-            if (checkIfLoginIsRight(Username, Password))
+            if (checkIfLoginIsRight())
             {
                 return profiles[ProfilePlace].Function;
             }
             else
             {
                 Console.WriteLine(ErrorCode);
-                return "\n";
+                return "";
             }
         }
 
-        private string getErrorCode(int id)
+        private string getErrorMessage(int id)
         {
             switch (id)
             {

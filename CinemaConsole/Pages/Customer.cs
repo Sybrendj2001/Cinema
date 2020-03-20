@@ -78,6 +78,7 @@ namespace CinemaConsole.Pages.Customer
                 string line = Console.ReadLine();
                 if (line == "1")
                 {
+                    AddStuff();
                     Display();
                 }
                 else if (line == "2")

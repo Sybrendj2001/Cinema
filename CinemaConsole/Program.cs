@@ -13,47 +13,45 @@ namespace CinemaConsole
     {
         static void Main(string[] args)
         {
-            string pageTobe = "MainMenu";
-            bool start = false;
-            while(start == false){
+            bool Running = true;
+            while (Running == false)
+            {
                 Console.WriteLine("Do you want to see the movielist or login? (movielist/login)");
                 string toDo = Console.ReadLine();
-                if(toDo == "Login"){
-                    bool checkLogin = true;
-                    while(checkLogin == true){
-                        Console.WriteLine("Give your credentials:(username - password)");
-                        string login = Console.ReadLine();
-                        string[] credentials = login.Split(' ');
-                        if (credentials.Length != 2){
-                            Console.WriteLine("Your credentials are not in the right format. (username - password)");
-                        }
-                        else{
-                            Login log = new Login(credentials[0],credentials[1]);
-                            checkLogin = false;
-                            pageTobe = log.Function;
-                            Console.WriteLine("You are logged in");
-                        }
-                    }
-                }
-                else if (toDo == "Movielist")
+                toDo.ToLower();
+                Login login = new Login();
+                string pageToBe
+                switch (toDo)
                 {
-                    Console.WriteLine("This function is not here");
+                    case "login":
+                        login.Menu();
+                        break;
+
+                    case "admin":
+                        Admin.Menu();
+                        break;
+
+                    case "movielist":
+                        Customer.Menu();
+                        break;
+
+                    case "help":
+                        Console.WriteLine("Help: show help.\nLogin: Log into your own page.\nMovielist: Show movielist.");
+                        break;
+
+                    case "exit":
+                        Running = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("You are writting a command wrong or the command doesn't exist yet");
+                        break;
                 }
-                else if (toDo == "Help")
+                if(login.Function != "")
                 {
-                    Console.WriteLine("Help: show help.\nLogin: Log into your own page.\nMovielist: Show movielist.");
-                }
-                else
-                {
-                    Console.WriteLine("This function doesnt exist yet");
+
                 }
             }
-            Admin.Menu();
-            // Just to add 3 basic movies
-            Customer.AddStuff();
-
-            // running the customer menu
-            Customer.Menu();
         }
     }
 }
