@@ -8,7 +8,7 @@ namespace CinemaConsole.Data
 {
     class RestaurantMenu
     {
-		var ProductList = new List<>();
+		List<> ProductList = new List<>();
 
         void printList()
         {
@@ -22,6 +22,17 @@ namespace CinemaConsole.Data
         void addItem(string name, double price)
         {
             ProductList.Add(Tuple.Create(name, price));
+        }
+
+        void removeItem(string name)
+        {
+            for (int i = 0; i < ProductList.Length; i++)
+            {
+                if(ProductList[i.Item1] == name)
+                {
+                    ProductList.RemoveAt(i);
+                }
+            }
         }
     }
 }

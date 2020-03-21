@@ -46,7 +46,7 @@ namespace CinemaConsole.Pages
             }
             else if(operation == 4)
 			{
-                Application.Exit()
+                Application.Exit();
 
             }
 			else
@@ -64,7 +64,7 @@ namespace CinemaConsole.Pages
 
         public void removeProduct()
         {
-            RestaurantMenu.removeItem()
+            RestaurantMenu.removeItem();
         }
     }
 

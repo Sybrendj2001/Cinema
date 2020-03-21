@@ -1,0 +1,2 @@
+C:\Data\2019-2020_INF1F\Project_Bravo\Cinema2\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csprojAssemblyReference.cache
+C:\Data\2019-2020_INF1F\Project_Bravo\Cinema2\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csproj.CoreCompileInputs.cache
