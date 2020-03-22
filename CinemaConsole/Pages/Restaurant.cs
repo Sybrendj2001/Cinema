@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Data.Employee;
-using CinemaConsole.Data.Employee.RestaurantMenu;
 
-namespace CinemaConsole.Pages
+namespace CinemaConsole.Pages.Restaurant
 {
     class Restaurant
     {
@@ -26,7 +25,7 @@ namespace CinemaConsole.Pages
             int operation = Console.ReadLine();
             if(operation == 1)
 			{
-                RestaurantMenu.printList();
+                //RestaurantMenu.printList();
 			}
             else if(operation == 2)
 			{
@@ -35,7 +34,7 @@ namespace CinemaConsole.Pages
                 Console.WriteLine("Please fill in the price of the product.");
                 int price = Console.ReadLine();
                 
-                addProduct(name, price);
+                RestaurantMenu.addProduct(name, price);
 			}
             else if(operation == 3)
 			{
