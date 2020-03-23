@@ -19,10 +19,6 @@ namespace CinemaConsole.Pages.Customer
             MovieList.movieList.Add(movie2);
             Movies movie3 = new Movies("The Dark Knight", 2008, 12, "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.", " Christian Bale, Heath Ledger, Aaron Eckhart");
             MovieList.movieList.Add(movie3);
-
-
-
-
         }
         private static void Display()
         {
