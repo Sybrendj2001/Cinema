@@ -5,10 +5,9 @@
     "\\CinemaConsole\\Data",
     "\\CinemaConsole\\Data\\Employee",
     "\\CinemaConsole\\Data\\Login",
-    "\\CinemaConsole\\obj",
     "\\CinemaConsole\\Pages",
     "\\CinemaConsole\\Pages\\Admin"
   ],
-  "SelectedNode": "\\CinemaConsole\\Pages\\Login.cs",
+  "SelectedNode": "\\CinemaConsole\\Data\\Employee",
   "PreviewInSolutionExplorer": false
 }
