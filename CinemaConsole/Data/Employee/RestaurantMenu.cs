@@ -9,10 +9,19 @@ namespace CinemaConsole.Data.Employee
 {
 	class RestaurantMenu
 	{
-
+		private string name { get; set; }
+		private double price { get; set; }
 
 
 		List<Tuple<string, double>> ProductList = new List<Tuple<string, double>>();
+
+		public RestaurantMenu(string productName, double productPrice)
+		{
+			productName = name;
+			productPrice = price;
+		}
+
+
 
 		void addItem(string name, double price)
 		{
