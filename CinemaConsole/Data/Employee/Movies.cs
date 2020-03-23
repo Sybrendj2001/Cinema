@@ -20,6 +20,9 @@ namespace CinemaConsole.Data.Employee
 
         private string Mactors { get; set; }
 
+        public List<DateTimeHall> DateTimeHallsList { get; set; } = new List<DateTimeHall>();
+
+        
         public Movies(string name, int year, int age, string summary, string actors)
         {
             Mname = name;

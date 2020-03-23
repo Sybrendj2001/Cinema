@@ -55,6 +55,38 @@ namespace CinemaConsole.Pages.Admin
 
 
             MovieList.movieList.Add(movie);
+
+            bool k = true;
+
+            while (k)
+            {
+                Console.WriteLine("Please enter a date and time when you want the movie to play.(12-12-2012/12:20)");
+                string dateTime = Console.ReadLine();
+                string[] DateTime = dateTime.Split('/');
+                string date = DateTime[0];
+                string time = DateTime[1];
+
+                Console.WriteLine("Please enter theaterhall you want it to play in.(1)");
+                string SHall = Console.ReadLine();
+
+                bool y = true;
+                while (y)
+                {
+                    try
+                    {
+                        int hall = Convert.ToInt32(SHall);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Please enter theaterhall correctly like in the exapmle between the brackets.(1)");
+                        SHall = Console.ReadLine();
+                    }
+                }
+
+                
+
+                movie.DateTimeHallsList.Add();
+            }
         }
 
         private static void Display()
@@ -86,6 +118,7 @@ namespace CinemaConsole.Pages.Admin
                 else if (nummer == "3")
                 {
                     k = false;
+                    break;
                 }
 
             }

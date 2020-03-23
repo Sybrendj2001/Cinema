@@ -59,6 +59,7 @@ namespace CinemaConsole
                 if(login.Function != "")
                 {
                     pageToBe = login.Function;
+                    login.Function = "";
                 }
             }
         }
