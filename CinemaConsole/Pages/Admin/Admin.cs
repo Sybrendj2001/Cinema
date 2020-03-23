@@ -67,26 +67,37 @@ namespace CinemaConsole.Pages.Admin
                 string date = DateTime[0];
                 string time = DateTime[1];
 
-                Console.WriteLine("Please enter theaterhall you want it to play in.(1)");
-                string SHall = Console.ReadLine();
+               
 
+                int hall = 1;
                 bool y = true;
                 while (y)
                 {
+                    Console.WriteLine("Please enter theaterhall you want it to play in.(1,2,3)");
+                    string SHall = Console.ReadLine();
                     try
                     {
-                        int hall = Convert.ToInt32(SHall);
+                        hall = Convert.ToInt32(SHall);
+                        if (hall > 0 && hall < 4)
+                        {
+                            y = false;
+                        }
                     }
                     catch
                     {
-                        Console.WriteLine("Please enter theaterhall correctly like in the exapmle between the brackets.(1)");
-                        SHall = Console.ReadLine();
                     }
                 }
-
-                DateTimeHall datetimehall = new DateTimeHall();
+                DateTimeHall datetimehall = new DateTimeHall(date, time, hall);
 
                 movie.DateTimeHallsList.Add(datetimehall);
+
+                Console.WriteLine("Please type in add if you have no more dates or times to fill in. Else press on enter");
+                string exit = Console.ReadLine();
+                if (exit == "add")
+                {
+                    k = false;
+                }
+
             }
         }
 
