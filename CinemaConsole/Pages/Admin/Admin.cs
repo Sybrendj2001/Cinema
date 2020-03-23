@@ -101,23 +101,66 @@ namespace CinemaConsole.Pages.Admin
             }
         }
 
+        private static void Remove()
+        {
+            Console.WriteLine("Movies:");
+            // Loop trough all movies currently in the movielist
+            foreach (Movies movie in MovieList.movieList)
+            {
+                Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
+            }
+            Console.WriteLine("Enter the number of the movie you want to remove:");
+            string line = Console.ReadLine();
+            int number = Int32.Parse(line);
+
+            foreach (Movies movie in MovieList.movieList)
+            {
+                // check if number equals movie ID
+                if (line == movie.getMovieInfo().Item1.ToString())
+                {
+                    // remove movie if id is the same as user input
+                    MovieList.movieList.RemoveAll(movie1 => movie1.getMovieInfo().Item1 == (number));
+                    Console.WriteLine("You removed " + movie.getMovieInfo().Item2);
+                    
+                    Console.WriteLine("Press enter to continue");
+
+                    // using readline here to wait for an enter
+                    Console.ReadLine();
+
+                    // i have to break out of the foreach loop, because you cannot modify a loop while you're in it. 
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+
         private static void Display()
         {
             Console.WriteLine("Movies:");
-            for (int i = 0; i < MovieList.movieList.Count; i++)
+            // Loop trough all movies currently in the movielist
+            foreach (Movies movie in MovieList.movieList)
             {
-                Console.WriteLine(MovieList.movieList[i].getMovieInfo().Item1 + "   " + MovieList.movieList[i].getMovieInfo().Item2);
+                Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
             }
-
+            Console.WriteLine("Press enter to continue");
+            
+            // using readline here to wait for an enter
+            Console.ReadLine();
         }
 
         public static void Menu()
         {
             bool k = true;
 
+            // test for adding some movies
+            Customer.Customer.AddStuff();
+
             while (k)
             {
-                Console.WriteLine("PLease enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Show all the movies.\n[3] Exit the program.");
+                Console.WriteLine("PLease enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Remove a movie.\n[3] Show all the movies.\n[4] Exit the program.");
                 string nummer = Console.ReadLine();
                 if (nummer == "1")
                 {
@@ -125,14 +168,17 @@ namespace CinemaConsole.Pages.Admin
                 }
                 else if (nummer == "2")
                 {
-                    Display();
+                    Remove();
                 }
                 else if (nummer == "3")
+                {
+                    Display();
+                }
+                else if (nummer == "4")
                 {
                     k = false;
                     break;
                 }
-
             }
         }
     }
