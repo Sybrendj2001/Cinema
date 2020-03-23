@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Pages;
 using CinemaConsole.Data.Employee;
+using CinemaConsole.Data;
 
 namespace CinemaConsole.Pages.Admin
 {
@@ -83,9 +84,9 @@ namespace CinemaConsole.Pages.Admin
                     }
                 }
 
-                
+                DateTimeHall datetimehall = new DateTimeHall();
 
-                movie.DateTimeHallsList.Add();
+                movie.DateTimeHallsList.Add(datetimehall);
             }
         }
 

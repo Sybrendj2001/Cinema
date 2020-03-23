@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CinemaConsole.Data.Employee
 {
-	class Seat
+	public class Seat
 	{
 		private string SeatName { get; set; }
 		private string SeatPlace { get; set; }

@@ -28,7 +28,7 @@ namespace CinemaConsole.Data
 		}
 	}
 
-	class TheatherHalls
+	public class TheatherHalls
 	{
 		private Seat[][] hall { get; set; }
 
