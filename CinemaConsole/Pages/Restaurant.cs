@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CinemaConsole.Pages;
 using CinemaConsole.Data.Employee;
 
 namespace CinemaConsole.Pages.Restaurant
 {
-    class Restaurant
+    public class Restaurant : Employee
     {
+        public Restaurant()
+		{
+
+		}
         
         public void menu() 
         {
@@ -34,14 +39,14 @@ namespace CinemaConsole.Pages.Restaurant
                 Console.WriteLine("Please fill in the price of the product.");
                 int price = Console.ReadLine();
                 
-                RestaurantMenu.addProduct(name, price);
+                RestaurantMenu.addItem(name, price);
 			}
             else if(operation == 3)
 			{
                 Console.WriteLine("Please fill in the name of the product you wish to remove (Case Sensitive).");
                 string name = Console.ReadLine();
 
-                removeProduct(name);
+                RestaurantMenu.removeItem(name);
             }
             else if(operation == 4)
 			{
@@ -55,16 +60,6 @@ namespace CinemaConsole.Pages.Restaurant
         }
         
         
-        
-        public void addProduct()
-        {
-            RestaurantMenu.addItem();
-        }
-
-        public void removeProduct()
-        {
-            RestaurantMenu.removeItem();
-        }
     }
 
 }

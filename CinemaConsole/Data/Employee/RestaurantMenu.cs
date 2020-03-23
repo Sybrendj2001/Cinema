@@ -5,30 +5,31 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public class RestaurantMenu
+namespace CinemaConsole.Data.Employee
 {
-	public Class1()
+	class RestaurantMenu
 	{
 
-	}
 
-	List<Tuple<string, double>> ProductList = new List<Tuple<string, double>>();
 
-	void addItem(string name, double price)
-	{
-		for (int i = 0; i < ProductList.length; i++)
+		List<Tuple<string, double>> ProductList = new List<Tuple<string, double>>();
+
+		void addItem(string name, double price)
 		{
-			ProductList.Add(new Tuple<string, double>(name, price));
-		}
-	}
-
-	void removeItem(string name)
-	{
-		for (int i = 0; i < ProductList.length; i++)
-		{
-			if (name == ProductList[i].Item1)
+			for (int i = 0; i < ProductList.length; i++)
 			{
-				ProductList.RemoveAt(i);
+				ProductList.Add(new Tuple<string, double>(name, price));
+			}
+		}
+
+		void removeItem(string name)
+		{
+			for (int i = 0; i < ProductList.length; i++)
+			{
+				if (name == ProductList[i].Item1)
+				{
+					ProductList.RemoveAt(i);
+				}
 			}
 		}
 	}
