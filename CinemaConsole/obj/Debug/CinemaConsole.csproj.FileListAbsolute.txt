@@ -18,3 +18,9 @@ C:\Users\timfeskens\source\repos\Cinema\CinemaConsole\obj\Debug\CinemaConsole.cs
 C:\Users\timfeskens\source\repos\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csproj.CoreCompileInputs.cache
 C:\Users\timfeskens\source\repos\Cinema\CinemaConsole\obj\Debug\CinemaConsole.exe
 C:\Users\timfeskens\source\repos\Cinema\CinemaConsole\obj\Debug\CinemaConsole.pdb
+C:\Users\jan-jaaptencate\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\bin\Debug\CinemaConsole.exe.config
+C:\Users\jan-jaaptencate\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\bin\Debug\CinemaConsole.exe
+C:\Users\jan-jaaptencate\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\bin\Debug\CinemaConsole.pdb
+C:\Users\jan-jaaptencate\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csprojAssemblyReference.cache
+C:\Users\jan-jaaptencate\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\obj\Debug\CinemaConsole.exe
+C:\Users\jan-jaaptencate\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\obj\Debug\CinemaConsole.pdb

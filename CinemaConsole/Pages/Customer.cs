@@ -33,7 +33,7 @@ namespace CinemaConsole.Pages.Customer
 
             public override string ToString()
             {
-                return "ID: " + MovieId + "   Datum: " + MovieDate + "   Time: " + MovieTime;
+                return "[" + MovieId + "]   Datum: " + MovieDate + "   Time: " + MovieTime;
             }
          
             public bool Equals(Movie other)
@@ -97,7 +97,7 @@ namespace CinemaConsole.Pages.Customer
                         Console.WriteLine("Actors: " + MovieList.movieList[i].getMovieInfo().Item6);
                         Console.WriteLine("Summary: " + MovieList.movieList[i].getMovieInfo().Item5);
 
-                        Console.WriteLine("\nWould you like to reservate? [1] Yes, [2] No:");
+                        Console.WriteLine("\nWould you like to reserve? [1] Yes, [2] No:");
                  
                         string CustomerReservateOption = Console.ReadLine();
                         
@@ -108,7 +108,7 @@ namespace CinemaConsole.Pages.Customer
                                 Console.WriteLine(aMovie);
                             }
 
-                            Console.WriteLine("\nPlease enter yout choice. Type in ID: ");
+                            Console.WriteLine("\nPlease enter your choice: ");
                             int CustomerTimeDate = int.Parse(Console.ReadLine());
 
                             //Out of range check
