@@ -64,7 +64,7 @@ namespace CinemaConsole.Pages
 
         public void removeProduct()
         {
-            RestaurantMenu.removeItem()
+            RestaurantMenu.removeItem();
         }
     }
 

@@ -20,12 +20,44 @@ namespace CinemaConsole.Pages.Customer
             Movies movie3 = new Movies("The Dark Knight", 2008, 12, "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.", " Christian Bale, Heath Ledger, Aaron Eckhart");
             MovieList.movieList.Add(movie3);
 
-
-
-
         }
+
+
+        public class Movie : IEquatable<Movie>
+        {
+            public string MovieTime { get; set; }
+
+            public string MovieDate { get; set; }
+
+            public int MovieId { get; set; }
+
+            public override string ToString()
+            {
+                return "ID: " + MovieId + "   Datum: " + MovieDate + "   Time: " + MovieTime;
+            }
+         
+            public bool Equals(Movie other)
+            {
+                if (other == null) return false;
+                return (this.MovieId.Equals(other.MovieId));
+            }
+        }
+
         private static void Display()
         {
+
+            // Create a list of times.
+            List<Movie> agenda = new List<Movie>();
+
+            // Add Time and Dates to the list. (For now)
+            agenda.Add(new Movie { MovieTime = "12:30", MovieDate = "12-06-2020", MovieId = 1 });
+            agenda.Add(new Movie { MovieTime = "19:45", MovieDate = "12-06-2020", MovieId = 2 });
+            agenda.Add(new Movie { MovieTime = "18:00", MovieDate = "13-06-2020", MovieId = 3 });
+            agenda.Add(new Movie { MovieTime = "21:30", MovieDate = "13-06-2020", MovieId = 4 });
+            agenda.Add(new Movie { MovieTime = "15:30", MovieDate = "14-06-2020", MovieId = 5 });
+            agenda.Add(new Movie { MovieTime = "21:00", MovieDate = "14-06-2020", MovieId = 6 });
+
+
             while (true)
             {
 
@@ -55,6 +87,7 @@ namespace CinemaConsole.Pages.Customer
 
                 for (int i = 0; i < MovieList.movieList.Count; i++)
                 {
+
                     // check if number equals movie ID
                     if (line == MovieList.movieList[i].getMovieInfo().Item1.ToString())
                     {
@@ -63,6 +96,40 @@ namespace CinemaConsole.Pages.Customer
                         Console.WriteLine("Age restriction: " + MovieList.movieList[i].getMovieInfo().Item4 + "+");
                         Console.WriteLine("Actors: " + MovieList.movieList[i].getMovieInfo().Item6);
                         Console.WriteLine("Summary: " + MovieList.movieList[i].getMovieInfo().Item5);
+
+                        Console.WriteLine("\nWould you like to reservate? [1] Yes, [2] No:");
+                 
+                        string CustomerReservateOption = Console.ReadLine();
+                        
+                        if (CustomerReservateOption == "1")
+                        {
+                            foreach (Movie aMovie in agenda)
+                            {
+                                Console.WriteLine(aMovie);
+                            }
+
+                            Console.WriteLine("\nPlease enter yout choice. Type in ID: ");
+                            int CustomerTimeDate = int.Parse(Console.ReadLine());
+
+                            //Out of range check
+                            if (CustomerTimeDate > agenda.Count)
+                            {
+                                Console.WriteLine("\nError ID " + CustomerTimeDate + " does not exist");
+                            }
+
+                            else
+                            {
+                                Console.WriteLine("\nYou have chosen for " + agenda[CustomerTimeDate - 1]);
+                                break;
+                            }
+                        }
+
+                        if (CustomerReservateOption == "2")
+                        {
+                            continue;
+                        }
+
+
                     }
                     else
                     {
@@ -76,14 +143,20 @@ namespace CinemaConsole.Pages.Customer
         {
             while (true)
             {
-                Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Show all the movies.\n[2] Exit the program.");
+                Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Show all the movies.\n[2] Show contact information\n[3] Exit the program.");
                 string line = Console.ReadLine();
                 if (line == "1")
                 {
                     AddStuff();
                     Display();
                 }
+
                 else if (line == "2")
+                {
+                    Console.WriteLine("\nAdres: Wijnhaven 99, 3011 WN Rotterdam\nPhone number: 010-794 4000\n\nOpening hours:\nMonday - Thursday: 12:00 - 21:00\nFriday: 12:00 - 01:00\nSaturday - Sunday: 12:00 - 02:00 \n\n");
+                }
+
+                else if (line == "3")
                 {
                     break;
                 }
