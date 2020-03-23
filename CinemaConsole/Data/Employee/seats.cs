@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace CinemaConsole.Data.Employee
 {
-    class MovieList
+    class Seats
     {
-        public static List<Movies> movieList { get; set; } = new List<Movies>();
+        private bool availability { get; set; }
+        private int price { get; set; }
+
+        public Seats(bool avail, int Sprice)
+        {
+
+        }
+
     }
 }

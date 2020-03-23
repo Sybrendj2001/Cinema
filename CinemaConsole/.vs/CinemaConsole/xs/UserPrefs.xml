@@ -1,0 +1,34 @@
+﻿<Properties StartupConfiguration="{DD98809F-B7BF-4216-B3F8-E8DA87799E79}|Default">
+  <MonoDevelop.Ide.ItemProperties.CinemaConsole PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Pages/Customer.cs">
+    <Files>
+      <File FileName="Program.cs" Line="17" Column="1" />
+      <File FileName="Pages/Customer.cs" Line="10" Column="6" />
+      <File FileName="Data/Employee/Movies.cs" Line="25" Column="1" />
+      <File FileName="Pages/Admin/Admin.cs" Line="18" Column="1" />
+      <File FileName="Data/Employee/MovieList.cs" Line="13" Column="2" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="CinemaConsole" expanded="True">
+            <Node name="CinemaConsole" expanded="True">
+              <Node name="Data" expanded="True">
+                <Node name="Employee" expanded="True" />
+              </Node>
+              <Node name="Pages" expanded="True" />
+              <Node name="Properties" expanded="True" />
+              <Node name="App.config" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

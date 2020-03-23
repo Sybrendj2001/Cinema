@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +8,6 @@ namespace CinemaConsole.Data.Employee
 {
     class MovieList
     {
-        public static List<Movies> movieList { get; set; } = new List<Movies>();
+        public static IList<Movies> movieList { get; set; } = new List<Movies>();
     }
 }

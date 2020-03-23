@@ -2,9 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\CinemaConsole",
+    "\\CinemaConsole\\Data",
     "\\CinemaConsole\\Data\\Employee",
-    "\\CinemaConsole\\Pages"
+    "\\CinemaConsole\\Data\\Login",
+    "\\CinemaConsole\\obj",
+    "\\CinemaConsole\\Pages",
+    "\\CinemaConsole\\Pages\\Admin"
   ],
-  "SelectedNode": "\\CinemaConsole\\CinemaConsole.sln",
+  "SelectedNode": "\\CinemaConsole\\Pages\\Login.cs",
   "PreviewInSolutionExplorer": false
 }
