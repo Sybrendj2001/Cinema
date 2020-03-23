@@ -24,7 +24,6 @@ namespace CinemaConsole.Pages.Customer
         {
             while (true)
             {
-
                 // convert movielist count to a string
                 string movieCount = (MovieList.movieList.Count + 1).ToString();
 
@@ -48,7 +47,6 @@ namespace CinemaConsole.Pages.Customer
                     break;
                 }
 
-
                 for (int i = 0; i < MovieList.movieList.Count; i++)
                 {
                     // check if number equals movie ID
@@ -59,6 +57,10 @@ namespace CinemaConsole.Pages.Customer
                         Console.WriteLine("Age restriction: " + MovieList.movieList[i].getMovieInfo().Item4 + "+");
                         Console.WriteLine("Actors: " + MovieList.movieList[i].getMovieInfo().Item6);
                         Console.WriteLine("Summary: " + MovieList.movieList[i].getMovieInfo().Item5);
+                        Console.WriteLine("\nPress enter to continue");
+
+                        // using readline here to wait for an enter
+                        Console.ReadLine();
                     }
                     else
                     {
