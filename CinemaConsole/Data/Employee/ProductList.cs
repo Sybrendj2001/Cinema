@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace CinemaConsole.Data.Employee
 {
-    class Class1
+    class ProductList
     {
+        public static List<RestaurantProduct> productList = new List<RestaurantProduct>();
     }
 }
