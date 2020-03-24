@@ -48,15 +48,20 @@ namespace CinemaConsole.Pages.Customer
             Console.WriteLine("Actors: " + movie.getMovieInfo().Item6);
             Console.WriteLine("Summary: " + movie.getMovieInfo().Item5);
 
-            Console.WriteLine("\nWould you like to reserve? [1] Yes, [2] No:");
+            Console.WriteLine("\nWould you like to see the dates and times? [1] Yes, [2] No:");
             string CustomerReservateOption = Console.ReadLine();
 
             if (CustomerReservateOption == "1")
             {
+                int i = 1;
                 foreach (DateTimeHall date in movie.DateTimeHallsList)
                 { 
-                    Console.WriteLine(date.getInfo().Item1 + "      " + date.getInfo().Item2);  
+                    Console.WriteLine("[" + i + "] "+ date.getInfo().Item1 + "      " + date.getInfo().Item2);
+                    i++;
                 }
+
+                Console.WriteLine("\nWould you like to reserve? [1] Yes, [2] No:");
+
 
 
             }
