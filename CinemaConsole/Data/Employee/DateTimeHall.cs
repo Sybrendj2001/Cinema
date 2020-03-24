@@ -89,8 +89,6 @@ namespace CinemaConsole.Data
 					}
 
 					SeatPlacement = "(" + j + "," + i + ")";
-
-
 					hall[i][j] = new Seat(SeatName, SeatPlacement, SeatAvail);
 				}
 			}

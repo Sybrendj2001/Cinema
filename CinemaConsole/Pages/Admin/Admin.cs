@@ -69,11 +69,10 @@ namespace CinemaConsole.Pages.Admin
             {
                 Console.WriteLine("Please enter a date and time when you want the movie to play.(12-12-2012/12:20)");
                 string dateTime = Console.ReadLine();
+                
                 string[] DateTime = dateTime.Split('/');
                 string date = DateTime[0];
                 string time = DateTime[1];
-
-               
 
                 int hall = 1;
                 bool y = true;
@@ -103,7 +102,6 @@ namespace CinemaConsole.Pages.Admin
                 {
                     k = false;
                 }
-
             }
         }
 
@@ -172,7 +170,7 @@ namespace CinemaConsole.Pages.Admin
 
             while (k)
             {
-                Console.WriteLine("PLease enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Remove a movie.\n[3] Show all the movies.\n[4] Exit the program.");
+                Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Remove a movie.\n[3] Show all the movies.\n[4] Exit the program.");
                 string nummer = Console.ReadLine();
                 if (nummer == "1")
                 {

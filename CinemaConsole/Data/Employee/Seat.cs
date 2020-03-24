@@ -23,6 +23,5 @@ namespace CinemaConsole.Data.Employee
 		{
 			return Tuple.Create(SeatPlace,SeatName,SeatAvail);
 		}
-
 	}
 }
