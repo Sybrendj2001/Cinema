@@ -68,7 +68,11 @@ namespace CinemaConsole
                         Running = false;
                         break;
 
-                    case "help":
+                    case "5":
+                        Console.WriteLine("\nAdres: Wijnhaven 99, 3011 WN Rotterdam\nPhone number: 010-794 4000\n\nOpening hours:\nMonday - Thursday: 12:00 - 21:00\nFriday: 12:00 - 01:00\nSaturday - Sunday: 12:00 - 02:00 \n\n");
+                        break;
+
+                    case "6":
                         Console.WriteLine("Help: show help.\nLogin: Log into your own page.\nMovielist: Show movielist.");
                         break;
 

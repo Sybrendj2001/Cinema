@@ -41,41 +41,46 @@ namespace CinemaConsole.Pages.Customer
             movie3.DateTimeHallsList.Add(datetimehall3A);
         }
 
+        private static void SelectSeat()
+        {
+            Console.WriteLine("Select option: ");
+        }
 
-        private static void Reserve(Movies movie)
+        private static void GetMovieInfo(Movies movie)
         {
             Console.WriteLine("Movie selected: " + movie.getMovieInfo().Item2);
             Console.WriteLine("Year: " + movie.getMovieInfo().Item3);
             Console.WriteLine("Age restriction: " + movie.getMovieInfo().Item4 + "+");
             Console.WriteLine("Actors: " + movie.getMovieInfo().Item6);
             Console.WriteLine("Summary: " + movie.getMovieInfo().Item5);
-
             Console.WriteLine("\nWould you like to see the dates and times? [1] Yes, [2] No:");
             string CustomerReservateOption = Console.ReadLine();
 
             if (CustomerReservateOption == "1")
             {
-                int i = 1;
                 foreach (DateTimeHall date in movie.DateTimeHallsList)
                 { 
-                    Console.WriteLine("[" + i + "] "+ date.getInfo().Item1 + "      " + date.getInfo().Item2);
-                    i++;
+                    Console.WriteLine("[" + date.getHallInfo().Item1 + "] " + date.getHallInfo().Item2 + "      " + date.getHallInfo().Item3);
                 }
 
                 Console.WriteLine("\nWould you like to reserve? [1] Yes, [2] No:");
+                string CustomerReserve = Console.ReadLine();
 
-
+                if (CustomerReserve == "1")
+                {
+                    SelectSeat();
+                }
 
             }
-
         }
 
 
-        private static void Display()
+        public static void Menu()
         {
-            while (true)
+            AddStuff();
+            bool running = true;
+            while (running)
             {
-
                 // convert movielist count to a string
                 string movieCount = (MovieList.movieList.Count + 1).ToString();
 
@@ -103,35 +108,9 @@ namespace CinemaConsole.Pages.Customer
                 {
                     if (line == aMovie.getMovieInfo().Item1.ToString())
                     {
-                        Reserve(aMovie);
+                        GetMovieInfo(aMovie);
                         break;
                     }
-                }
-            }
-        }
-        /// <summary>
-        /// Showing the starting menu
-        /// </summary>
-        public static void Menu()
-        {
-            while (true)
-            {
-                Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Show all the movies.\n[2] Show contact information\n[3] Exit the program.");
-                string line = Console.ReadLine();
-                if (line == "1")
-                {
-                    AddStuff();
-                    Display();
-                }
-
-                else if (line == "2")
-                {
-                    Console.WriteLine("\nAdres: Wijnhaven 99, 3011 WN Rotterdam\nPhone number: 010-794 4000\n\nOpening hours:\nMonday - Thursday: 12:00 - 21:00\nFriday: 12:00 - 01:00\nSaturday - Sunday: 12:00 - 02:00 \n\n");
-                }
-
-                else if (line == "3")
-                {
-                    break;
                 }
             }
         }
