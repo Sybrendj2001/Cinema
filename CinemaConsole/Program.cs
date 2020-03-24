@@ -34,7 +34,7 @@ namespace CinemaConsole
                 toDo.ToLower();
                 switch (toDo)
                 {
-                    case "login":
+                    case "1":
                         login.Menu();
                         break;
 
@@ -42,7 +42,7 @@ namespace CinemaConsole
                         Admin.Menu();
                         break;
 
-                    case "movielist":
+                    case "2":
                         Customer.Menu();
                         break;
 
@@ -55,7 +55,7 @@ namespace CinemaConsole
                         Console.WriteLine("Help: show help.\nLogin: Log into your own page.\nMovielist: Show movielist.");
                         break;
 
-                    case "exit":
+                    case "4":
                         Running = false;
                         break;
 

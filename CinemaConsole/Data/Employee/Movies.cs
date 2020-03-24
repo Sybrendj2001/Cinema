@@ -8,7 +8,7 @@ namespace CinemaConsole.Data.Employee
 {
     public class Movies
     {
-        private int Mid { get; set; }
+        private int Mid { get; set; } = MovieID();
 
         private string Mname { get; set; }
 
@@ -20,9 +20,10 @@ namespace CinemaConsole.Data.Employee
 
         private string Mactors { get; set; }
 
-        public Movies(int id, string name, int year, int age, string summary, string actors)
+        public List<DateTimeHall> DateTimeHallsList { get; set; } = new List<DateTimeHall>();
+
+        public Movies(string name, int year, int age, string summary, string actors)
         {
-            Mid = id;
             Mname = name;
             Myear = year;
             Mage = age;
@@ -40,6 +41,19 @@ namespace CinemaConsole.Data.Employee
             string actors = Mactors;
 
             return Tuple.Create(idd, name, year, age, summary, actors);
+        }
+
+        private static int MovieID()
+        {
+            int idd;
+            for (int i = 0; i < MovieList.movieList.Count; i++){
+                idd = i + 1;
+                if (MovieList.movieList[i].getMovieInfo().Item1 != idd)
+                {
+                    return idd;
+                }
+            }
+            return MovieList.movieList.Count + 1;
         }
     }
 }
