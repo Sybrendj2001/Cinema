@@ -16,15 +16,15 @@ namespace CinemaConsole.Pages.Customer
         {
             Movies movie1 = new Movies("Transformers", 2007, 12, "An ancient struggle between two Cybertronian races, the heroic Autobots and the evil Decepticons, comes to Earth, with a clue to the ultimate power held by a teenager.", "Shia LaBeouf, Megan Fox");
             MovieList.movieList.Add(movie1);
-            
+
             DateTimeHall datetimehall1 = new DateTimeHall("21-04-2020", "12:20", 1);
             movie1.DateTimeHallsList.Add(datetimehall1);
             DateTimeHall datetimehall1A = new DateTimeHall("21-06-2020", "12:20", 2);
             movie1.DateTimeHallsList.Add(datetimehall1A);
-            
+
             Movies movie2 = new Movies("Avengers", 2012, 12, "Earth's mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.", "Robert Downey Jr., Chris Evans, Scarlett Johansson");
             MovieList.movieList.Add(movie2);
-            
+
             DateTimeHall datetimehall2 = new DateTimeHall("21-05-2020", "12:20", 1);
             movie2.DateTimeHallsList.Add(datetimehall2);
             DateTimeHall datetimehall2A = new DateTimeHall("21-06-2020", "12:20", 3);
@@ -32,7 +32,7 @@ namespace CinemaConsole.Pages.Customer
 
             Movies movie3 = new Movies("The Dark Knight", 2008, 12, "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.", " Christian Bale, Heath Ledger, Aaron Eckhart");
             MovieList.movieList.Add(movie3);
-            
+
             DateTimeHall datetimehall3 = new DateTimeHall("21-06-2020", "12:20", 1);
             movie3.DateTimeHallsList.Add(datetimehall3);
             DateTimeHall datetimehall3A = new DateTimeHall("21-05-2020", "12:20", 2);
@@ -40,41 +40,32 @@ namespace CinemaConsole.Pages.Customer
         }
 
 
-        public class Movie : IEquatable<Movie>
+        private static void Reserve(Movies movie)
         {
-            public string MovieTime { get; set; }
+            Console.WriteLine("Movie selected: " + movie.getMovieInfo().Item2);
+            Console.WriteLine("Year: " + movie.getMovieInfo().Item3);
+            Console.WriteLine("Age restriction: " + movie.getMovieInfo().Item4 + "+");
+            Console.WriteLine("Actors: " + movie.getMovieInfo().Item6);
+            Console.WriteLine("Summary: " + movie.getMovieInfo().Item5);
 
-            public string MovieDate { get; set; }
+            Console.WriteLine("\nWould you like to reserve? [1] Yes, [2] No:");
+            string CustomerReservateOption = Console.ReadLine();
 
-            public int MovieId { get; set; }
-
-            public override string ToString()
+            if (CustomerReservateOption == "1")
             {
-                return "[" + MovieId + "]   Datum: " + MovieDate + "   Time: " + MovieTime;
+                foreach (DateTimeHall date in movie.DateTimeHallsList)
+                { 
+                    Console.WriteLine(date.getInfo().Item1 + "      " + date.getInfo().Item2);  
+                }
+
+
             }
-         
-            public bool Equals(Movie other)
-            {
-                if (other == null) return false;
-                return (this.MovieId.Equals(other.MovieId));
-            }
+
         }
+
 
         private static void Display()
         {
-
-            // Create a list of times.
-            List<Movie> agenda = new List<Movie>();
-
-            // Add Time and Dates to the list. (For now)
-            agenda.Add(new Movie { MovieTime = "12:30", MovieDate = "12-06-2020", MovieId = 1 });
-            agenda.Add(new Movie { MovieTime = "19:45", MovieDate = "12-06-2020", MovieId = 2 });
-            agenda.Add(new Movie { MovieTime = "18:00", MovieDate = "13-06-2020", MovieId = 3 });
-            agenda.Add(new Movie { MovieTime = "21:30", MovieDate = "13-06-2020", MovieId = 4 });
-            agenda.Add(new Movie { MovieTime = "15:30", MovieDate = "14-06-2020", MovieId = 5 });
-            agenda.Add(new Movie { MovieTime = "21:00", MovieDate = "14-06-2020", MovieId = 6 });
-
-
             while (true)
             {
 
@@ -101,56 +92,12 @@ namespace CinemaConsole.Pages.Customer
                     break;
                 }
 
-
-                for (int i = 0; i < MovieList.movieList.Count; i++)
+                foreach (Movies aMovie in MovieList.movieList) 
                 {
-
-                    // check if number equals movie ID
-                    if (line == MovieList.movieList[i].getMovieInfo().Item1.ToString())
+                    if (line == aMovie.getMovieInfo().Item1.ToString())
                     {
-                        Console.WriteLine("Movie selected: " + MovieList.movieList[i].getMovieInfo().Item2);
-                        Console.WriteLine("Year: " + MovieList.movieList[i].getMovieInfo().Item3);
-                        Console.WriteLine("Age restriction: " + MovieList.movieList[i].getMovieInfo().Item4 + "+");
-                        Console.WriteLine("Actors: " + MovieList.movieList[i].getMovieInfo().Item6);
-                        Console.WriteLine("Summary: " + MovieList.movieList[i].getMovieInfo().Item5);
-
-                        Console.WriteLine("\nWould you like to reserve? [1] Yes, [2] No:");
-                 
-                        string CustomerReservateOption = Console.ReadLine();
-                        
-                        if (CustomerReservateOption == "1")
-                        {
-                            foreach (Movie aMovie in agenda)
-                            {
-                                Console.WriteLine(aMovie);
-                            }
-
-                            Console.WriteLine("\nPlease enter your choice: ");
-                            int CustomerTimeDate = int.Parse(Console.ReadLine());
-
-                            //Out of range check
-                            if (CustomerTimeDate > agenda.Count)
-                            {
-                                Console.WriteLine("\nError ID " + CustomerTimeDate + " does not exist");
-                            }
-
-                            else
-                            {
-                                Console.WriteLine("\nYou have chosen for " + agenda[CustomerTimeDate - 1]);
-                                break;
-                            }
-                        }
-
-                        if (CustomerReservateOption == "2")
-                        {
-                            continue;
-                        }
-
-
-                    }
-                    else
-                    {
-                        continue;
+                        Reserve(aMovie);
+                        break;
                     }
                 }
             }
@@ -181,3 +128,4 @@ namespace CinemaConsole.Pages.Customer
         }
     }
 }
+
