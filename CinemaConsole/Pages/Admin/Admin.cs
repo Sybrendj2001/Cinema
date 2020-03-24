@@ -125,7 +125,7 @@ namespace CinemaConsole.Pages.Admin
 
             while (k)
             {
-                Console.WriteLine("PLease enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Remove a movie.\n[3] Show all the movies.\n[4] Exit the program.");
+                Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Remove a movie.\n[3] Show all the movies.\n[4] Exit the program.");
                 string nummer = Console.ReadLine();
                 if (nummer == "1")
                 {
