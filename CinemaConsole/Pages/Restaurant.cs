@@ -1,71 +1,90 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CinemaConsole.Pages;
 using CinemaConsole.Data.Employee;
-using CinemaConsole.Data.Employee.RestaurantMenu;
 
-namespace CinemaConsole.Pages
+
+namespace CinemaConsole.Pages.Restaurant
 {
-    class Restaurant
+    public class Restaurant : Employee
     {
-        
-        public void menu() 
+        public Restaurant()
         {
-            Console.WriteLine("Please input the desired action: ");
-            Console.WriteLine(" ");
-            Console.WriteLine("[1] Show current list of products");
-            Console.WriteLine(" ");
-            Console.WriteLine("[2] Add a product to the list");
-            Console.WriteLine(" ");
-            Console.WriteLine("[3] Remove a product from the list");
-            Console.WriteLine(" ");
-            Console.WriteLine("[4] Exit the menu");
 
-            int operation = Console.ReadLine();
-            if(operation == 1)
-			{
-                RestaurantMenu.printList();
-			}
-            else if(operation == 2)
-			{
-                Console.WriteLine("Please fill in the name of the product.");
-                string name = Console.ReadLine();
-                Console.WriteLine("Please fill in the price of the product.");
-                int price = Console.ReadLine();
-                
-                addProduct(name, price);
-			}
-            else if(operation == 3)
-			{
-                Console.WriteLine("Please fill in the name of the product you wish to remove (Case Sensitive).");
-                string name = Console.ReadLine();
-
-                removeProduct(name);
-            }
-            else if(operation == 4)
-			{
-                Application.Exit()
-
-            }
-			else
-			{
-                Console.WriteLine("Invalid Input. Please try again.");
-			}
-        }
-        
-        
-        
-        public void addProduct()
-        {
-            RestaurantMenu.addItem();
         }
 
-        public void removeProduct()
+        public static void addItem(string name, double price)
         {
-            RestaurantMenu.removeItem();
+            RestaurantProduct product = new RestaurantProduct(name, price);
+            ProductList.productList.Add(product);            
+        }
+        
+        public static void removeItem(string delName)
+        {
+            for (int i = 0; i < ProductList.productList.Count; i++)
+            { 
+                if (ProductList.productList[i].getProductInfo().Item1 == delName)
+                {
+                    ProductList.productList.RemoveAt(i);
+                }                
+            }
+        }
+
+        private static void Display()
+        {
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.WriteLine("Products:");
+            for (int i = 0; i < ProductList.productList.Count; i++)
+            {
+                Console.WriteLine(ProductList.productList[i].getProductInfo().Item1 + "    €" + ProductList.productList[i].getProductInfo().Item2.ToString("0.00"));
+            }
+        }
+
+
+        public static void Menu()
+        {
+            while (true)
+            {
+                Console.WriteLine("Please input the desired action: ");
+                Console.WriteLine("[1] Show current list of products");
+                Console.WriteLine("[2] Add a product to the list");
+                Console.WriteLine("[3] Remove a product from the list");
+                Console.WriteLine("[4] Exit the menu");
+
+                int operation = Convert.ToInt32(Console.ReadLine());
+                if (operation == 1)
+                {
+                    Display();
+                }
+                else if (operation == 2)
+                {
+                    Console.WriteLine("Please fill in the name of the product.");
+                    string name = Console.ReadLine();
+                    Console.WriteLine("Please fill in the price of the product.");
+                    double price = double.Parse(Console.ReadLine());
+
+                    addItem(name, price);
+                }
+                else if (operation == 3)
+                {
+                    Console.WriteLine("Please fill in the name of the product you wish to remove (Case Sensitive).");
+                    string itemName = Console.ReadLine();
+
+                    removeItem(itemName);
+                }
+                else if (operation == 4)
+                {
+                    //CinemaConsole.Exit();
+
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Input. Please try again.");
+                }
+            }
         }
     }
-
 }

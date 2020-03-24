@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Data;
+using CinemaConsole.Data.BackEnd;
 
 namespace CinemaConsole.Pages
 {
@@ -82,7 +83,7 @@ namespace CinemaConsole.Pages
             //Checks if the username exist
             for (int i = 0; i < profiles.Count; i++)
             {
-                if (profiles[i].UserName == Username)
+                if (profiles[i].Username == Username)
                 {
                     ProfilePlace = i;
                     i = profiles.Count;

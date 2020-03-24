@@ -16,6 +16,9 @@ namespace CinemaConsole.Pages.Admin
             
         }
 
+        /// <summary>
+        /// reading the movie data, then splitting the data with  "/" and adding it to the movielist
+        /// </summary>
         private static void Add()
         {
             Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
@@ -60,7 +63,6 @@ namespace CinemaConsole.Pages.Admin
             int id = MovieList.movieList.Count;
             Movies movie = new Movies(titel, year, age, sum, actors);
 
-
             MovieList.movieList.Add(movie);
 
             bool k = true;
@@ -92,7 +94,7 @@ namespace CinemaConsole.Pages.Admin
                     {
                     }
                 }
-                DateTimeHall datetimehall = new DateTimeHall(date, time, hall);
+                DateTimeHall datetimehall = new DateTimeHall(date, time, hall, movie);
 
                 movie.DateTimeHallsList.Add(datetimehall);
 
@@ -104,43 +106,90 @@ namespace CinemaConsole.Pages.Admin
                 }
             }
         }
-
+        /// <summary>
+        /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll remove the movie.
+        /// </summary>
         private static void Remove()
         {
-            Console.WriteLine("Movies:");
-            // Loop trough all movies currently in the movielist
-            foreach (Movies movie in MovieList.movieList)
+            bool k = true;
+            while (k)
             {
-                Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
-            }
-            Console.WriteLine("Enter the number of the movie you want to remove:");
-            string line = Console.ReadLine();
-            int number = Int32.Parse(line);
-
-            foreach (Movies movie in MovieList.movieList)
-            {
-                // check if number equals movie ID
-                if (line == movie.getMovieInfo().Item1.ToString())
+                Console.WriteLine("Movies:");
+                // Loop trough all movies currently in the movielist
+                foreach (Movies movie in MovieList.movieList)
                 {
-                    // remove movie if id is the same as user input
-                    MovieList.movieList.RemoveAll(movie1 => movie1.getMovieInfo().Item1 == (number));
-                    Console.WriteLine("You removed " + movie.getMovieInfo().Item2);
-                    
-                    Console.WriteLine("Press enter to continue");
-
-                    // using readline here to wait for an enter
-                    Console.ReadLine();
-
-                    // i have to break out of the foreach loop, because you cannot modify a loop while you're in it. 
-                    break;
+                    Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
                 }
-                else
+
+                // count all movies + 1 for an exit number
+                int moviecount = MovieList.movieList.Count + 1;
+
+                Console.WriteLine("Enter the number of the movie you want to remove or enter [" + moviecount.ToString() + "] to go back.:");
+                
+                string line = Console.ReadLine();
+
+                if (line == moviecount.ToString())
                 {
-                    continue;
+                    k = false;
+                }
+
+                foreach (Movies movie in MovieList.movieList)
+                {
+                    // check if number equals movie ID
+                    if (line == movie.getMovieInfo().Item1.ToString())
+                    {
+                        // save line as an int
+                        int number = Int32.Parse(line);
+                        Console.WriteLine("Enter [1] if you want to remove the entire movie or enter [2] if you only want to remove a certain time:");
+                        
+                        // readline again
+                        line = Console.ReadLine();
+
+                        if (line == "1")
+                        {
+                            // remove movie if id is the same as user input
+                            MovieList.movieList.RemoveAll(movie1 => movie1.getMovieInfo().Item1 == (number));
+                            Console.WriteLine("You removed " + movie.getMovieInfo().Item2);
+
+                            Console.WriteLine("Press enter to continue");
+
+                            // using readline here to wait for an enter
+                            Console.ReadLine();
+
+                            // i have to break out of the foreach loop, because you cannot modify a loop while you're in it. 
+                            break;
+                        }
+                        else if (line == "2")
+                        {
+                            Console.WriteLine("Select the time you want to remove:");
+                            foreach (DateTimeHall date in movie.DateTimeHallsList)
+                            {
+                                Console.WriteLine("[" + date.getHallInfo().Item1 + "] " + date.getHallInfo().Item2 + "      " + date.getHallInfo().Item3);
+                            }
+
+                            // make an int of the input
+                            int time = int.Parse(Console.ReadLine());
+                            movie.DateTimeHallsList.RemoveAll(movie1 => movie1.getHallInfo().Item1 == (time));
+
+                            Console.WriteLine("Press enter to continue");
+
+                            // using readline here to wait for an enter
+                            Console.ReadLine();
+
+                            // i have to break out of the foreach loop, because you cannot modify a loop while you're in it. 
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
             }
         }
-
+        /// <summary>
+        /// Display all the movies by using a foreach loop
+        /// </summary>
         private static void Display()
         {
             Console.WriteLine("Movies:");
@@ -151,7 +200,7 @@ namespace CinemaConsole.Pages.Admin
                 
                 foreach (DateTimeHall date in movie.DateTimeHallsList)
                 {
-                    Console.WriteLine(date.getInfo().Item1 + "      " + date.getInfo().Item2 + "    Theaterhall " + date.getInfo().Item3.getInfo().Item2);
+                    Console.WriteLine(date.getHallInfo().Item1 + "      " + date.getHallInfo().Item2 + "    Theaterhall " + date.getHallInfo().Item3);
                 }
                 Console.WriteLine("");
             }
@@ -160,7 +209,9 @@ namespace CinemaConsole.Pages.Admin
             // using readline here to wait for an enter
             Console.ReadLine();
         }
-
+        /// <summary>
+        /// Showing the starting menu
+        /// </summary>
         public static void Menu()
         {
             bool k = true;
