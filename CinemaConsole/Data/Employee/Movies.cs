@@ -50,10 +50,8 @@ namespace CinemaConsole.Data.Employee
                 {
                     return idd;
                 }
-                
             }
             return MovieList.movieList.Count + 1;
-
         }
     }
 }

@@ -19,16 +19,11 @@ namespace CinemaConsole.Pages.Customer
             MovieList.movieList.Add(movie2);
             Movies movie3 = new Movies("The Dark Knight", 2008, 12, "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.", " Christian Bale, Heath Ledger, Aaron Eckhart");
             MovieList.movieList.Add(movie3);
-
-
-
-
         }
         private static void Display()
         {
             while (true)
             {
-
                 // convert movielist count to a string
                 string movieCount = (MovieList.movieList.Count + 1).ToString();
 
@@ -52,7 +47,6 @@ namespace CinemaConsole.Pages.Customer
                     break;
                 }
 
-
                 for (int i = 0; i < MovieList.movieList.Count; i++)
                 {
                     // check if number equals movie ID
@@ -63,6 +57,10 @@ namespace CinemaConsole.Pages.Customer
                         Console.WriteLine("Age restriction: " + MovieList.movieList[i].getMovieInfo().Item4 + "+");
                         Console.WriteLine("Actors: " + MovieList.movieList[i].getMovieInfo().Item6);
                         Console.WriteLine("Summary: " + MovieList.movieList[i].getMovieInfo().Item5);
+                        Console.WriteLine("\nPress enter to continue");
+
+                        // using readline here to wait for an enter
+                        Console.ReadLine();
                     }
                     else
                     {

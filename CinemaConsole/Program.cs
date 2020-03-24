@@ -27,13 +27,13 @@ namespace CinemaConsole
                 }
                 else
                 {
-                    Console.WriteLine("Do you want to see the movielist or login? (movielist/login)");
+                    Console.WriteLine("PLease enter the number that stands before the option you want.\n[1] Login.\n[2] Show the movielist.\n[4] Exit the program.");
                     toDo = Console.ReadLine();
                 }
                 toDo.ToLower();
                 switch (toDo)
                 {
-                    case "login":
+                    case "1":
                         login.Menu();
                         break;
 
@@ -41,7 +41,7 @@ namespace CinemaConsole
                         Admin.Menu();
                         break;
 
-                    case "movielist":
+                    case "2":
                         Customer.Menu();
                         break;
 
@@ -49,7 +49,7 @@ namespace CinemaConsole
                         Console.WriteLine("Help: show help.\nLogin: Log into your own page.\nMovielist: Show movielist.");
                         break;
 
-                    case "exit":
+                    case "4":
                         Running = false;
                         break;
 
@@ -60,6 +60,7 @@ namespace CinemaConsole
                 if(login.Function != "")
                 {
                     pageToBe = login.Function;
+                    login.Function = "";
                 }
             }
         }
