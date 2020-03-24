@@ -11,8 +11,6 @@ namespace CinemaConsole.Data.Employee
 		private string name { get; set; }
 		private double price { get; set; }
 
-
-
 		public RestaurantProduct(string productName, double productPrice)
 		{
 			productName = name;
@@ -26,8 +24,5 @@ namespace CinemaConsole.Data.Employee
 
 			return Tuple.Create(pName, pPrice);
 		}
-
-
-
 	}
 }

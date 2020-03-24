@@ -17,22 +17,18 @@ namespace CinemaConsole.Pages.Restaurant
 
         void addItem(string name, double price)
         {
-
             RestaurantProduct product = new RestaurantProduct(name, price);
-            ProductList.productList.Add(product);
-            
+            ProductList.productList.Add(product);            
         }
         
         void removeItem(string delName)
         {
-
             for (int i = 0; i < ProductList.productList.Count; i++)
             { 
                     if (ProductList.productList[i].getProductInfo().Item1 == delName)
                     {
                         ProductList.productList.RemoveAt(i);
-                    }
-                
+                    }                
             }
         }
 
@@ -43,7 +39,6 @@ namespace CinemaConsole.Pages.Restaurant
             {
                 Console.WriteLine(ProductList.productList[i].getProductInfo().Item1 + "   " + ProductList.productList[i].getProductInfo().Item2);
             }
-
         }
 
 
@@ -90,8 +85,5 @@ namespace CinemaConsole.Pages.Restaurant
                 Console.WriteLine("Invalid Input. Please try again.");
             }
         }
-
-
     }
-
 }
