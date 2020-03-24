@@ -162,7 +162,22 @@ namespace CinemaConsole.Pages.Admin
                         }
                         else if (line == "2")
                         {
-                            // removing time comes here:
+                            Console.WriteLine("Select the time you want to remove:");
+                            foreach (DateTimeHall date in movie.DateTimeHallsList)
+                            {
+                                Console.WriteLine("[" + date.getHallInfo().Item1 + "] " + date.getHallInfo().Item2 + "      " + date.getHallInfo().Item3);
+                            }
+
+                            // make an int of the input
+                            int time = Int32.Parse(Console.ReadLine());
+                            movie.DateTimeHallsList.RemoveAll(movie1 => movie1.getHallInfo().Item1 == (time));
+
+                            Console.WriteLine("Press enter to continue");
+
+                            // using readline here to wait for an enter
+                            Console.ReadLine();
+
+                            // i have to break out of the foreach loop, because you cannot modify a loop while you're in it. 
                             break;
                         }
                     }
@@ -186,7 +201,7 @@ namespace CinemaConsole.Pages.Admin
                 
                 foreach (DateTimeHall date in movie.DateTimeHallsList)
                 {
-                    Console.WriteLine(date.getInfo().Item1 + "      " + date.getInfo().Item2 + "    Theaterhall " + date.getInfo().Item3.getInfo().Item2);
+                    Console.WriteLine(date.getHallInfo().Item1 + "      " + date.getHallInfo().Item2 + "    Theaterhall " + date.getHallInfo().Item3);
                 }
                 Console.WriteLine("");
             }
