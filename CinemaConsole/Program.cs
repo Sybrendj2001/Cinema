@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Pages.Admin;
 using CinemaConsole.Pages.Customer;
+using CinemaConsole.Pages.Restaurant;
 using CinemaConsole.Pages;
 
 namespace CinemaConsole

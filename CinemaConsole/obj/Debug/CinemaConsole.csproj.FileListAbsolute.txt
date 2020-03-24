@@ -13,3 +13,10 @@ C:\Users\mark\Source\Repos\Cinema\CinemaConsole\obj\Debug\CinemaConsole.exe
 C:\Users\mark\Source\Repos\Cinema\CinemaConsole\obj\Debug\CinemaConsole.pdb
 C:\Data\2019-2020_INF1F\Project_Bravo\Cinema2\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csprojAssemblyReference.cache
 C:\Data\2019-2020_INF1F\Project_Bravo\Cinema2\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csproj.CoreCompileInputs.cache
+D:\School\Project_bravo\Cinema\CinemaConsole\bin\Debug\CinemaConsole.exe.config
+D:\School\Project_bravo\Cinema\CinemaConsole\bin\Debug\CinemaConsole.exe
+D:\School\Project_bravo\Cinema\CinemaConsole\bin\Debug\CinemaConsole.pdb
+D:\School\Project_bravo\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csprojAssemblyReference.cache
+D:\School\Project_bravo\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csproj.CoreCompileInputs.cache
+D:\School\Project_bravo\Cinema\CinemaConsole\obj\Debug\CinemaConsole.exe
+D:\School\Project_bravo\Cinema\CinemaConsole\obj\Debug\CinemaConsole.pdb

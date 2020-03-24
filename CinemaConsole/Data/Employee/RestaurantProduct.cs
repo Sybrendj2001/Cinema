@@ -19,7 +19,13 @@ namespace CinemaConsole.Data.Employee
 			productPrice = price;
 		}
 
+		public Tuple<string, double> getProductInfo()
+		{
+			string pName = name;
+			double pPrice = price;
 
+			return Tuple.Create(pName, pPrice);
+		}
 
 
 

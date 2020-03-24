@@ -23,19 +23,31 @@ namespace CinemaConsole.Pages.Restaurant
             
         }
         
-        void removeItem(string name)
+        void removeItem(string delName)
         {
-            //for (int i = 0; i < ProductList.productList.Count; i++)
-            //{
-            //    if (name == ProductList[i].Item1)
-            //    {
-            //        ProductList.RemoveAt(i);
-            //    }
-            //}
-        }
-    
 
-        public void menu()
+            for (int i = 0; i < ProductList.productList.Count; i++)
+            { 
+                    if (ProductList.productList[i].getProductInfo().Item1 == delName)
+                    {
+                        ProductList.productList.RemoveAt(i);
+                    }
+                
+            }
+        }
+
+        private static void Display()
+        {
+            Console.WriteLine("Products:");
+            for (int i = 0; i < ProductList.productList.Count; i++)
+            {
+                Console.WriteLine(ProductList.productList[i].getProductInfo().Item1 + "   " + ProductList.productList[i].getProductInfo().Item2);
+            }
+
+        }
+
+
+        public void Menu()
         {
             Console.WriteLine("Please input the desired action: ");
             Console.WriteLine(" ");
@@ -50,7 +62,7 @@ namespace CinemaConsole.Pages.Restaurant
             int operation = Convert.ToInt32(Console.ReadLine());
             if (operation == 1)
             {
-                //RestaurantMenu.printList();
+                Display();
             }
             else if (operation == 2)
             {
@@ -64,13 +76,13 @@ namespace CinemaConsole.Pages.Restaurant
             else if (operation == 3)
             {
                 Console.WriteLine("Please fill in the name of the product you wish to remove (Case Sensitive).");
-                string name = Console.ReadLine();
+                string itemName = Console.ReadLine();
 
-                //RestaurantProduct.removeItem(name);
+                removeItem(itemName);
             }
             else if (operation == 4)
             {
-                //Application.Exit();
+                //CinemaConsole.Exit();
 
             }
             else
