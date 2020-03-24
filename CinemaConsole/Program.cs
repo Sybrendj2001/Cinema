@@ -45,6 +45,10 @@ namespace CinemaConsole
                         Customer.Menu();
                         break;
 
+                    case "retailer":
+                        Restaurant.Menu();
+                        break;
+
                     case "help":
                         Console.WriteLine("Help: show help.\nLogin: Log into your own page.\nMovielist: Show movielist.");
                         break;

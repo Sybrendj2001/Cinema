@@ -13,8 +13,8 @@ namespace CinemaConsole.Data.Employee
 
 		public RestaurantProduct(string productName, double productPrice)
 		{
-			productName = name;
-			productPrice = price;
+			name = productName;
+			price = productPrice;
 		}
 
 		public Tuple<string, double> getProductInfo()
