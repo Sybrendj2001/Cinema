@@ -19,9 +19,17 @@ namespace CinemaConsole.Data.Employee
         private string Msumm { get; set; }
 
         private string Mactors { get; set; }
-
+        
         public List<DateTimeHall> DateTimeHallsList { get; set; } = new List<DateTimeHall>();
-
+        
+        /// <summary>
+        /// The movie class with all data
+        /// </summary>
+        /// <param name="name">Name of the movie</param>
+        /// <param name="year">Year of the movie</param>
+        /// <param name="age">Year  of the movie</param>
+        /// <param name="summary">Summary of the movie</param>
+        /// <param name="actors">Actors of the movie (split by ",")</param>
         public Movies(string name, int year, int age, string summary, string actors)
         {
             Mname = name;
@@ -30,7 +38,9 @@ namespace CinemaConsole.Data.Employee
             Msumm = summary;
             Mactors = actors;
         }
-
+        /// <summary>
+        /// Creating a public turple to get the movie info so you dont have to touch the private ints and strings
+        /// </summary>
         public Tuple<int, string, int, int, string, string> getMovieInfo()
         {
             int idd = Mid;
@@ -42,7 +52,9 @@ namespace CinemaConsole.Data.Employee
 
             return Tuple.Create(idd, name, year, age, summary, actors);
         }
-
+        /// <summary>
+        /// Creating a new unique ID and checking for missing ID's
+        /// </summary>
         private static int MovieID()
         {
             int idd;

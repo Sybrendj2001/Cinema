@@ -9,22 +9,40 @@ namespace CinemaConsole.Data
 {
     public class DateTimeHall
     {
+		private int id { get; set; }
 		private string date { get; set; }
 
 		private string time { get; set; }
 
 		private TheatherHalls hall { get; set; }
 
-		public DateTimeHall(string DateInput, string TimeInput, int HallInput)
+		public DateTimeHall(string DateInput, string TimeInput, int HallInput, Movies movie)
 		{
 			date = DateInput;
 			time = TimeInput;
 			hall = new TheatherHalls(HallInput);
+			id = HallID(movie);
 		}
 
-		public Tuple<string, string, TheatherHalls> getInfo()
+		public Tuple<int, string, string, TheatherHalls> getHallInfo()
 		{
-			return Tuple.Create(date, time, hall);
+			return Tuple.Create(id, date, time, hall);
+		}
+		/// <summary>
+		/// Creating a new unique ID and checking for missing ID's
+		/// </summary>
+		private static int HallID(Movies movie)
+		{
+			int idd;
+			for (int i = 0; i < movie.DateTimeHallsList.Count; i++)
+			{
+				idd = i + 1;
+				if (movie.DateTimeHallsList[i].getHallInfo().Item1 != idd)
+				{
+					return idd;
+				}
+			}
+			return movie.DateTimeHallsList.Count + 1;
 		}
 	}
 
@@ -216,5 +234,5 @@ namespace CinemaConsole.Data
 		{
 			return Tuple.Create(hall,HallNumber);
 		}
-    }
+	}
 }
