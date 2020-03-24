@@ -43,10 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Employee\Seats.cs" />
+    <Compile Include="Data\Employee\Seat.cs" />
     <Compile Include="Data\Employee\MovieList.cs" />
     <Compile Include="Data\Employee\Movies.cs" />
-    <Compile Include="Data\Employee\TheatherHalls.cs" />
+    <Compile Include="Data\Employee\DateTimeHall.cs" />
     <Compile Include="Data\Profiles.cs" />
     <Compile Include="Data\Revenue Data\RestaurantRevenue.cs" />
     <Compile Include="Data\Revenue Data\TheatherHallRevenue.cs" />
