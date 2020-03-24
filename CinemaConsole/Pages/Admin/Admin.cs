@@ -43,6 +43,12 @@ namespace CinemaConsole.Pages.Admin
                     tiyeag = Console.ReadLine();
                     TiYeAg = tiyeag.Split('/');
                 }
+                catch (IndexOutOfRangeException)
+                {
+                    Console.WriteLine("\nYou missed one of the things you need to fill in, please try again.\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
+                    tiyeag = Console.ReadLine();
+                    TiYeAg = tiyeag.Split('/');
+                }
             }
                     
             Console.WriteLine("Please enter a short summary of the movie.");
@@ -144,6 +150,12 @@ namespace CinemaConsole.Pages.Admin
             foreach (Movies movie in MovieList.movieList)
             {
                 Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
+                
+                foreach (DateTimeHall date in movie.DateTimeHallsList)
+                {
+                    Console.WriteLine(date.getInfo().Item1 + "      " + date.getInfo().Item2 + "    Theaterhall " + date.getInfo().Item3.getInfo().Item2);
+                }
+                Console.WriteLine("");
             }
             Console.WriteLine("Press enter to continue");
             

@@ -31,9 +31,12 @@ namespace CinemaConsole.Data
 	public class TheatherHalls
 	{
 		private Seat[][] hall { get; set; }
+		private int HallNumber { get; set; }
 
 		public TheatherHalls(int hallNumber)
 		{
+			HallNumber = hallNumber;
+
 			if (hallNumber == 1)
 			{
 				hall = Hall1();
@@ -211,9 +214,9 @@ namespace CinemaConsole.Data
 			return hall;
 		}
 
-		public  Tuple<Seat[][]> getInfo()
+		public  Tuple<Seat[][], int> getInfo()
 		{
-			return Tuple.Create(hall);
+			return Tuple.Create(hall,HallNumber);
 		}
     }
 }
