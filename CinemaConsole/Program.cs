@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using CinemaConsole.Pages.Admin;
 using CinemaConsole.Pages.Customer;
 using CinemaConsole.Pages;
-using CinemaConsole.Data.BackEnd;
 
 namespace CinemaConsole
 {
@@ -27,7 +26,6 @@ namespace CinemaConsole
                 }
                 else
                 {
-                    //TODO: update this line
                     Console.WriteLine("Do you want to see the movielist or login? (movielist/login)");
                     toDo = Console.ReadLine();
                 }
@@ -46,11 +44,6 @@ namespace CinemaConsole
                         Customer.Menu();
                         break;
 
-                    case "ticketmenu":
-                        TicketInfo goIntoTicket = new TicketInfo("Sybren",3,3,13.00,DateTime.Now,"Thor","HALL2");
-                        goIntoTicket.Menu();
-                        break;
-
                     case "help":
                         Console.WriteLine("Help: show help.\nLogin: Log into your own page.\nMovielist: Show movielist.");
                         break;
@@ -66,7 +59,6 @@ namespace CinemaConsole
                 if(login.Function != "")
                 {
                     pageToBe = login.Function;
-                    login.Function = "";
                 }
             }
         }
