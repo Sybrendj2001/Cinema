@@ -27,14 +27,13 @@ namespace CinemaConsole
                 }
                 else
                 {
-                    //TODO: update this line
-                    Console.WriteLine("Do you want to see the movielist or login? (movielist/login)");
+                    Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Login.\n[2] Show the movielist.\n[3]Create ticket\n[4] Exit the program.");
                     toDo = Console.ReadLine();
                 }
                 toDo.ToLower();
                 switch (toDo)
                 {
-                    case "login":
+                    case "1":
                         login.Menu();
                         break;
 
@@ -42,11 +41,11 @@ namespace CinemaConsole
                         Admin.Menu();
                         break;
 
-                    case "movielist":
+                    case "2":
                         Customer.Menu();
                         break;
 
-                    case "ticketmenu":
+                    case "3":
                         TicketInfo goIntoTicket = new TicketInfo("Sybren",3,3,13.00,DateTime.Now,"Thor","HALL2");
                         goIntoTicket.Menu();
                         break;
@@ -55,7 +54,7 @@ namespace CinemaConsole
                         Console.WriteLine("Help: show help.\nLogin: Log into your own page.\nMovielist: Show movielist.");
                         break;
 
-                    case "exit":
+                    case "4":
                         Running = false;
                         break;
 
