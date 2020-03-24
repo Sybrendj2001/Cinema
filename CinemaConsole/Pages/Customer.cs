@@ -10,7 +10,9 @@ namespace CinemaConsole.Pages.Customer
 {
     public class Customer
     {
-        // adding some movies to test
+        /// <summary>
+        /// Adding some data, so you won't have to create new movies everytime you run the application
+        /// </summary>
         public static void AddStuff()
         {
             Movies movie1 = new Movies("Transformers", 2007, 12, "An ancient struggle between two Cybertronian races, the heroic Autobots and the evil Decepticons, comes to Earth, with a clue to the ultimate power held by a teenager.", "Shia LaBeouf, Megan Fox");
@@ -20,6 +22,9 @@ namespace CinemaConsole.Pages.Customer
             Movies movie3 = new Movies("The Dark Knight", 2008, 12, "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.", " Christian Bale, Heath Ledger, Aaron Eckhart");
             MovieList.movieList.Add(movie3);
         }
+        /// <summary>
+        /// Display all the movies by using a foreach loop, adding an ID before the movies to make them selectable. When selecting a movie, this will display all the added movie info
+        /// </summary>
         private static void Display()
         {
             while (true)
@@ -69,7 +74,9 @@ namespace CinemaConsole.Pages.Customer
                 }
             }
         }
-
+        /// <summary>
+        /// Showing the starting menu
+        /// </summary>
         public static void Menu()
         {
             while (true)

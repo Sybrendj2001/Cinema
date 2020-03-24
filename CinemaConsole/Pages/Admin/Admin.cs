@@ -15,6 +15,9 @@ namespace CinemaConsole.Pages.Admin
             
         }
 
+        /// <summary>
+        /// reading the movie data, then splitting the data with  "/" and adding it to the movielist
+        /// </summary>
         private static void Add()
         {
             Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
@@ -56,7 +59,9 @@ namespace CinemaConsole.Pages.Admin
 
             MovieList.movieList.Add(movie);
         }
-
+        /// <summary>
+        /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll remove the movie.
+        /// </summary>
         private static void Remove()
         {
             Console.WriteLine("Movies:");
@@ -92,7 +97,9 @@ namespace CinemaConsole.Pages.Admin
                 }
             }
         }
-
+        /// <summary>
+        /// Display all the movies by using a foreach loop
+        /// </summary>
         private static void Display()
         {
             Console.WriteLine("Movies:");
@@ -106,7 +113,9 @@ namespace CinemaConsole.Pages.Admin
             // using readline here to wait for an enter
             Console.ReadLine();
         }
-
+        /// <summary>
+        /// Showing the starting menu
+        /// </summary>
         public static void Menu()
         {
             bool k = true;
