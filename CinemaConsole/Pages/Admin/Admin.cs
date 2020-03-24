@@ -63,7 +63,6 @@ namespace CinemaConsole.Pages.Admin
             int id = MovieList.movieList.Count;
             Movies movie = new Movies(titel, year, age, sum, actors);
 
-
             MovieList.movieList.Add(movie);
 
             bool k = true;
@@ -95,7 +94,7 @@ namespace CinemaConsole.Pages.Admin
                     {
                     }
                 }
-                DateTimeHall datetimehall = new DateTimeHall(date, time, hall);
+                DateTimeHall datetimehall = new DateTimeHall(date, time, hall, movie);
 
                 movie.DateTimeHallsList.Add(datetimehall);
 
@@ -169,7 +168,7 @@ namespace CinemaConsole.Pages.Admin
                             }
 
                             // make an int of the input
-                            int time = Int32.Parse(Console.ReadLine());
+                            int time = int.Parse(Console.ReadLine());
                             movie.DateTimeHallsList.RemoveAll(movie1 => movie1.getHallInfo().Item1 == (time));
 
                             Console.WriteLine("Press enter to continue");
