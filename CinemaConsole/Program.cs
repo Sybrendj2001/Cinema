@@ -41,6 +41,10 @@ namespace CinemaConsole
                         Admin.Menu();
                         break;
 
+                    case "retailer":
+                        Restaurant.Menu();
+                        break;
+
                     case "1":
                         Login login = new Login();
                         login.Menu();
@@ -54,13 +58,6 @@ namespace CinemaConsole
                     case "2":
                         Customer.Menu();
                         break;
-
-                    case "retailer":
-                        Restaurant.Menu();
-                        break;
-
-                    case "help":
-                        Console.WriteLine("Help: show help.\nLogin: Log into your own page.\nMovielist: Show movielist.");
 
                     case "3":
                         TicketInfo goIntoTicket = new TicketInfo("Sybren",3,3,13.00,DateTime.Now,"Thor","HALL2");

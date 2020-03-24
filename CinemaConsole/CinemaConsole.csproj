@@ -46,12 +46,12 @@
     <Compile Include="Data\BackEnd\Profiles.cs" />
     <Compile Include="Data\Employee\ProductList.cs" />
     <Compile Include="Data\Employee\RestaurantProduct.cs" />
-    <Compile Include="Data\Employee\Seats.cs" />
     <Compile Include="Data\BackEnd\TicketInfo.cs" />
     <Compile Include="Data\BackEnd\Ticket.cs" />
     <Compile Include="Data\Employee\MovieList.cs" />
     <Compile Include="Data\Employee\Movies.cs" />
     <Compile Include="Data\Employee\DateTimeHall.cs" />
+    <Compile Include="Data\Employee\Seat.cs" />
     <Compile Include="Data\Revenue Data\RestaurantRevenue.cs" />
     <Compile Include="Data\Revenue Data\TheatherHallRevenue.cs" />
     <Compile Include="Pages\Admin\Admin.cs" />
