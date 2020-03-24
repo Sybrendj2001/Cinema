@@ -19,6 +19,9 @@ namespace CinemaConsole.Data.Employee
         private string Msumm { get; set; }
 
         private string Mactors { get; set; }
+        
+        public List<DateTimeHall> DateTimeHallsList { get; set; } = new List<DateTimeHall>();
+        
         /// <summary>
         /// The movie class with all data
         /// </summary>
