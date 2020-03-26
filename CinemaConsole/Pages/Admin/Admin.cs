@@ -292,10 +292,10 @@ namespace CinemaConsole.Pages.Admin
                 }
             }
         }
+        
         /// <summary>
         /// Display all the movies by using a foreach loop
         /// </summary>
-        
         private static void Display()
         {
             Console.WriteLine("Movies:");
