@@ -17,6 +17,7 @@ namespace CinemaConsole.Pages.TicketSalesman
 
         }
 
+        // Shows the ticket salesman all reservations with details of the customer and the movie.
         private static void Display()
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -27,7 +28,7 @@ namespace CinemaConsole.Pages.TicketSalesman
             }
         }
 
-
+        // This let the ticket salesman  remove/cancel reservations.
         public static void RemoveReservation(string delName)
         {
             for (int i = 0; i < ReservationList.reservationList.Count; i++)
@@ -39,7 +40,8 @@ namespace CinemaConsole.Pages.TicketSalesman
             }
         }
 
-
+        // The the ticket salesman is able to make a reservation for customers. You can make a movie choice, pick a date and time, 
+        // put in the amount of tickets, put in the contact information of the customer.
         public static void AddReservation()
         {
             while (true)
@@ -50,7 +52,6 @@ namespace CinemaConsole.Pages.TicketSalesman
                 {
                     Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
                 }
-
 
                 string line = Console.ReadLine();
 
@@ -100,12 +101,14 @@ namespace CinemaConsole.Pages.TicketSalesman
             }
         }
 
+        // Add the reservation to the resservation list.
         public static void AddReservation(string movieTitle, string date_time, int ticketAmount, string name, string email)
         {
             TicketReservations reservations = new TicketReservations(movieTitle, date_time, ticketAmount, name, email);
             ReservationList.reservationList.Add(reservations);
         }
 
+        // Menu with the options for the ticket salesman to choose from.
         public static void Menu()
         {
             Customer.Customer.AddStuff();
