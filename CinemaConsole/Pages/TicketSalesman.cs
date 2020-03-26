@@ -20,30 +20,19 @@ namespace CinemaConsole.Pages.TicketSalesman
         private static void Display()
         {
             Console.OutputEncoding = Encoding.UTF8;
-            Console.WriteLine("All reservations:\nName:      E-mail:        Movie:      Date&Time:");
+            Console.WriteLine("All reservations:\nName: E-mail: Ticket amount: Movie: Date&Time:");
             for (int i = 0; i < ReservationList.reservationList.Count; i++)
             {
-                Console.WriteLine(ReservationList.reservationList[i].getReservationInfo().Item3 + "  " + ReservationList.reservationList[i].getReservationInfo().Item4 + "  " + ReservationList.reservationList[i].getReservationInfo().Item1 + "  " + ReservationList.reservationList[i].getReservationInfo().Item2);
+                Console.WriteLine(ReservationList.reservationList[i].getReservationInfo().Item4 + "  " + ReservationList.reservationList[i].getReservationInfo().Item5 + "  " + ReservationList.reservationList[i].getReservationInfo().Item3 + "  " + ReservationList.reservationList[i].getReservationInfo().Item1 + "  " + ReservationList.reservationList[i].getReservationInfo().Item2);
             }
         }
 
 
-        public static void GetMovieDates(Movies movie)
-        {
-            Console.WriteLine("Movie selected: " + movie.getMovieInfo().Item2);
-            string title = movie.getMovieInfo().Item2;
-
-            foreach (DateTimeHall date in movie.DateTimeHallsList)
-            {
-                Console.WriteLine("[" + date.getHallInfo().Item1 + "] " + date.getHallInfo().Item2 + "      " + date.getHallInfo().Item3);
-            }
-        }
-
-        public static void removeReservation(string delName)
+        public static void RemoveReservation(string delName)
         {
             for (int i = 0; i < ReservationList.reservationList.Count; i++)
             {
-                if (ReservationList.reservationList[i].getReservationInfo().Item3 == delName)
+                if (ReservationList.reservationList[i].getReservationInfo().Item4 == delName)
                 {
                     ReservationList.reservationList.RemoveAt(i);
                 }
@@ -53,45 +42,69 @@ namespace CinemaConsole.Pages.TicketSalesman
 
         public static void AddReservation()
         {
-            Console.WriteLine("Please make a movie choice");
-
-            foreach (Movies movie in MovieList.movieList)
+            while (true)
             {
-                Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
-            }
+                Console.WriteLine("Please enter a movie choice");
 
-            string movieTitle = Console.ReadLine();
-
-            Console.WriteLine("Please make a date and time choice");
-
-
-            foreach (Movies aMovie in MovieList.movieList)
-            {
-                if (movieTitle == aMovie.getMovieInfo().Item1.ToString())
+                foreach (Movies movie in MovieList.movieList)
                 {
-                    GetMovieDates(aMovie);
-                    break;
+                    Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
                 }
+
+
+                string line = Console.ReadLine();
+
+                Console.WriteLine("Please enter a date and time choice");
+                string MovieTitle = "";
+                string MovieDT = "";
+
+                foreach (Movies aMovie in MovieList.movieList)
+                {
+                    if (line == aMovie.getMovieInfo().Item1.ToString())
+                    {
+                        MovieTitle = aMovie.getMovieInfo().Item2.ToString();
+
+                        Console.WriteLine("[" + aMovie.getMovieInfo().Item1 + "]   " + aMovie.getMovieInfo().Item2 + " (" + aMovie.getMovieInfo().Item3 + ")");
+
+                        foreach (DateTimeHall date in aMovie.DateTimeHallsList)
+                        {
+                            Console.WriteLine(date.getHallInfo().Item1 + "      " + date.getHallInfo().Item2 + "    Theaterhall " + date.getHallInfo().Item3);
+                        }
+
+                        string w = Console.ReadLine();
+
+                        foreach (DateTimeHall date in aMovie.DateTimeHallsList)
+                        {
+                            if (w == date.getHallInfo().Item1.ToString())
+                            {
+                                MovieDT = date.getHallInfo().Item1 + "      " + date.getHallInfo().Item2 + "    Theaterhall " + date.getHallInfo().Item3;
+                            }
+                        }
+                    }
+                }
+                
+                string movieTitle = MovieTitle;
+                string date_time = MovieDT;
+
+                Console.WriteLine("Please enter the amount of tickets:");
+                int ticketAmount = Convert.ToInt32(Console.ReadLine());
+
+                Console.WriteLine("Please enter the customer name:");
+                string name = Console.ReadLine();
+
+                Console.WriteLine("Please enter the customer e-mail:");
+                string email = Console.ReadLine();
+
+                AddReservation(movieTitle, date_time, ticketAmount, name, email);
+                break;
             }
-
-
-            string date_time = Console.ReadLine();
-
-            Console.WriteLine("Please fill in the customer name:");
-            string name = Console.ReadLine();
-            Console.WriteLine("Please fill in the customer e-mail:");
-            string email = Console.ReadLine();
-
-            addReservation(movieTitle, date_time, name, email);
-
         }
 
-        public static void addReservation(string movieTitle, string date_time, string name, string email)
+        public static void AddReservation(string movieTitle, string date_time, int ticketAmount, string name, string email)
         {
-            TicketReservations reservations = new TicketReservations(movieTitle, date_time, name, email);
+            TicketReservations reservations = new TicketReservations(movieTitle, date_time, ticketAmount, name, email);
             ReservationList.reservationList.Add(reservations);
         }
-
 
         public static void Menu()
         {
@@ -116,8 +129,9 @@ namespace CinemaConsole.Pages.TicketSalesman
                     Console.WriteLine("Please fill in the name of the customer you wish to remove (Case Sensitive).");
                     string customerName = Console.ReadLine();
 
-                    removeReservation(customerName);
+                    RemoveReservation(customerName);
                 }
+
                 else if (TicketSalesmanOption == "4")
                 {
                     break;
