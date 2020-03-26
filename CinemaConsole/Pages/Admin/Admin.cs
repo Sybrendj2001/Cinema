@@ -64,14 +64,19 @@ namespace CinemaConsole.Pages.Admin
             Movies movie = new Movies(titel, year, age, sum, actors);
 
             MovieList.movieList.Add(movie);
-
+            AddMovieTimes(movie);
+        }
+        /// <summary>
+        /// add a movie time to the given movie.
+        /// </summary>
+        private static void AddMovieTimes(Movies movie)
+        {
             bool k = true;
-
             while (k)
             {
-                Console.WriteLine("Please enter a date and time when you want the movie to play.(12-12-2012/12:20)");
+                Console.WriteLine("Please enter a date and time when you want " + movie.getMovieInfo().Item2 + " to play.(12-12-2012/12:20)");
                 string dateTime = Console.ReadLine();
-                
+
                 string[] DateTime = dateTime.Split('/');
                 string date = DateTime[0];
                 string time = DateTime[1];
@@ -80,7 +85,7 @@ namespace CinemaConsole.Pages.Admin
                 bool y = true;
                 while (y)
                 {
-                    Console.WriteLine("Please enter theaterhall you want it to play in.(1,2,3)");
+                    Console.WriteLine("Please enter the theaterhall [1],[2] or [3] you want it to play in on " + dateTime);
                     string SHall = Console.ReadLine();
                     try
                     {
@@ -98,14 +103,73 @@ namespace CinemaConsole.Pages.Admin
 
                 movie.DateTimeHallsList.Add(datetimehall);
 
-                Console.WriteLine("Please type in add if you have no more dates or times to fill in. Else press on enter");
+                Console.WriteLine("Please type [1] if you have no more dates or times to fill in or press enter to continue.");
                 string exit = Console.ReadLine();
-                if (exit == "add")
+                if (exit == "1")
                 {
                     k = false;
                 }
             }
         }
+        /// <summary>
+        /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll edit the movie.
+        /// </summary>
+        private static void Edit()
+        {
+            bool k = true;
+            while (k)
+            {
+                Console.WriteLine("Movies:");
+                // Loop trough all movies currently in the movielist
+                foreach (Movies movie in MovieList.movieList)
+                {
+                    Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
+                }
+
+                // count all movies + 1 for an exit number
+                int moviecount = MovieList.movieList.Count + 1;
+
+                Console.WriteLine("Enter the number of the movie you want to edit or enter [" + moviecount.ToString() + "] to go back.:");
+
+                string line = Console.ReadLine();
+
+                if (line == moviecount.ToString())
+                {
+                    k = false;
+                }
+
+                foreach (Movies movie in MovieList.movieList)
+                {
+                    // check if number equals movie ID
+                    if (line == movie.getMovieInfo().Item1.ToString())
+                    {
+                        // save line as an int
+                        int number = Int32.Parse(line);
+                        Console.WriteLine("Enter [1] if you want to edit an entire movie or enter [2] if you only want to add a certain time:");
+
+                        // readline again
+                        line = Console.ReadLine();
+
+                        if (line == "1")
+                        {
+                            
+                            // i have to break out of the foreach loop, because you cannot modify a loop while you're in it. 
+                            break;
+                        }
+                        else if (line == "2")
+                        {
+                            AddMovieTimes(movie);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll remove the movie.
         /// </summary>
@@ -221,7 +285,7 @@ namespace CinemaConsole.Pages.Admin
 
             while (k)
             {
-                Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Remove a movie.\n[3] Show all the movies.\n[4] Exit the program.");
+                Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Edit a movie or add a time\n[3] Remove a movie.\n[4] Show all the movies.\n[5] Exit the program.");
                 string nummer = Console.ReadLine();
                 if (nummer == "1")
                 {
@@ -229,13 +293,17 @@ namespace CinemaConsole.Pages.Admin
                 }
                 else if (nummer == "2")
                 {
-                    Remove();
+                    Edit();
                 }
                 else if (nummer == "3")
                 {
-                    Display();
+                    Remove();
                 }
                 else if (nummer == "4")
+                {
+                    Display();
+                }
+                else if (nummer == "5")
                 {
                     k = false;
                     break;
