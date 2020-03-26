@@ -116,9 +116,9 @@ namespace CinemaConsole.Pages.Admin
 
                 movie.DateTimeHallsList.Add(datetimehall);
 
-                Console.WriteLine("Please type [1] if you have no more dates or times to fill in or press enter to continue.");
+                Console.WriteLine("Please enter 'add' if you have no more dates or times to fill in or press enter to continue.");
                 string exit = Console.ReadLine();
-                if (exit == "1")
+                if (exit == "add")
                 {
                     k = false;
                 }
