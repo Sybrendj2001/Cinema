@@ -52,6 +52,32 @@ namespace CinemaConsole.Data.Employee
 
             return Tuple.Create(idd, name, year, age, summary, actors);
         }
+
+        /// <summary>
+        /// Creating a public turple to set the movie info so you dont have to touch the private ints and strings, this is only for editting movies, not for adding them.
+        /// </summary>
+        public void setMovieInfo(string name = "" , int year = 0, int age = 0, string sum = "", string actors = "")
+        {
+            // only change these if a value is given
+            if (name != "" && year != 0 && age != 0)
+            {
+                Mname = name;
+                Myear = year;
+                Mage = age;
+            }
+
+            // these can be skipped seperatly, only change these if a value is given
+            if (sum != "")
+            {
+                Msumm = sum;
+            }
+
+            if (actors != "")
+            {
+                Mactors = actors;
+            }
+        }
+
         /// <summary>
         /// Creating a new unique ID and checking for missing ID's
         /// </summary>
