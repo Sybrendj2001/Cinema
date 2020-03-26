@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CinemaConsole.Pages.Admin;
 using CinemaConsole.Pages.Customer;
 using CinemaConsole.Pages.Restaurant;
+using CinemaConsole.Pages.TicketSalesman;
 using CinemaConsole.Pages;
 using CinemaConsole.Data.BackEnd;
 
@@ -43,6 +44,10 @@ namespace CinemaConsole
 
                     case "retailer":
                         Restaurant.Menu();
+                        break;
+
+                    case "ticketSalesman":
+                        TicketSalesman.Menu();
                         break;
 
                     case "1":

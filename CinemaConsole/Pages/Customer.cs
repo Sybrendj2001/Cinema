@@ -46,7 +46,7 @@ namespace CinemaConsole.Pages.Customer
             Console.WriteLine("Select option: ");
         }
 
-        private static void GetMovieInfo(Movies movie)
+        public static void GetMovieInfo(Movies movie)
         {
             Console.WriteLine("Movie selected: " + movie.getMovieInfo().Item2);
             Console.WriteLine("Year: " + movie.getMovieInfo().Item3);
