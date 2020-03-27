@@ -64,8 +64,8 @@ namespace CinemaConsole.Pages.TicketSalesman
                     if (line == aMovie.getMovieInfo().Item1.ToString())
                     {
                         MovieTitle = aMovie.getMovieInfo().Item2.ToString();
-
-                        Console.WriteLine("[" + aMovie.getMovieInfo().Item1 + "]   " + aMovie.getMovieInfo().Item2 + " (" + aMovie.getMovieInfo().Item3 + ")");
+                       
+                        Console.WriteLine(aMovie.getMovieInfo().Item2 + " (" + aMovie.getMovieInfo().Item3 + ")");
 
                         foreach (DateTimeHall date in aMovie.DateTimeHallsList)
                         {
@@ -78,7 +78,7 @@ namespace CinemaConsole.Pages.TicketSalesman
                         {
                             if (w == date.getHallInfo().Item1.ToString())
                             {
-                                MovieDT = date.getHallInfo().Item1 + "      " + date.getHallInfo().Item2 + "    Theaterhall " + date.getHallInfo().Item3;
+                                MovieDT = date.getHallInfo().Item2 + "    Theaterhall " + date.getHallInfo().Item3;
                             }
                         }
                     }
