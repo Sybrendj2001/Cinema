@@ -41,12 +41,220 @@ namespace CinemaConsole.Pages.Customer
             movie3.DateTimeHallsList.Add(datetimehall3A);
         }
 
-        private static void SelectSeat()
+        private static bool SeatCheck(int id, Movies movie, int amount)
         {
-            Console.WriteLine("Select option: ");
+            bool check = false;
+
+            foreach (DateTimeHall time in movie.DateTimeHallsList)
+            {
+                if (time.getDateInfo().Item1 == id)
+                {
+                    Seat[][] seat = time.getDateInfo().Item4.getHallInfo().Item1;
+                    
+                    for (int i = 0; i < seat.Length; i++)
+                    {
+                        int count = 0;
+                        for (int j = 0; j < seat[i].Length; j++)
+                        {
+                            if (seat[i][j].getInfo().Item3)
+                            {
+                                count++;
+                                if (count >= amount)
+                                {
+                                    check = true;
+                                }
+                            }
+                            else
+                            {
+                                count = 0;
+                            }
+                        }
+                    }
+                    break;
+                }
+                
+            }
+            return check;
         }
 
-        private static void GetMovieInfo(Movies movie)
+        private static void ShowHall(int id, Movies movie)
+        {
+            foreach (DateTimeHall time in movie.DateTimeHallsList)
+            {
+                if (time.getDateInfo().Item1 == id)
+                {
+                    Seat[][] seat = time.getDateInfo().Item4.getHallInfo().Item1;
+                    string show = "";
+
+                    for (int i = 0; i < seat[0].Length; i++)
+                    {
+                        if (i > 8)
+                        {
+                            show += (i + 1) + " ";
+                        }
+                        else if (i == 8)
+                        {
+                            show += (i + 1) + " ";
+                        }
+                        else
+                        {
+                            show += (i + 1) + "  ";
+                        }
+                    }
+                    show += "\n";
+                    for (int i = 0; i < seat.Length; i++)
+                    { 
+                        for (int j = 0; j < seat[i].Length; j++)
+                        {
+                            if (seat[i][j].getInfo().Item3)
+                            {
+                                if (j > 8)
+                                {
+                                    show += " O ";
+                                }
+                                else if (j==8)
+                                {
+                                    show += "O ";
+                                }
+                                else
+                                {
+                                    show += "O  ";
+                                }
+                            }
+                            else
+                            {
+                                if (j > 8)
+                                {
+                                    show += " X ";
+                                }
+                                else if (j == 8)
+                                {
+                                    show += "X ";
+                                }
+                                else
+                                {
+                                    show += "X  ";
+                                }
+                            }
+                        }
+                        show +=(i + 1)+ "\n";
+                    }
+                    Console.WriteLine(show);
+                }
+            }
+        }
+
+        private static void ChooseSeat(int id, Movies movie, int amount)
+        {
+            foreach (DateTimeHall time in movie.DateTimeHallsList)
+            {
+                if (time.getDateInfo().Item1 == id)
+                {
+                    Seat[][] seat = time.getDateInfo().Item4.getHallInfo().Item1;
+                    
+                    bool k = true;
+
+                    int seatX = 0;
+                    int seatY = 0;
+
+                    while (k)
+                    {
+                        Console.WriteLine("Please enter the most left seat you want to reserve like this x/y. (5/3)");
+                        string selected = Console.ReadLine();
+                        string[] selectedSeat = selected.Split('/');
+
+                        try
+                        {
+                            seatX = Convert.ToInt32(selectedSeat[0]);
+                            seatY = Convert.ToInt32(selectedSeat[1]);
+
+                            bool free = true;
+                            for (int  i = seatX-1;  i < (seatX+amount-1);  i++)
+                            {
+                                if (!seat[seatY-1][i].getInfo().Item3)
+                                {
+                                    free = false;
+                                }
+                            } 
+                            if (free)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("There are not enough seats free from this point.");
+                            }
+
+                        }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine("Please enter it like in the example.");
+                        }
+                        catch (IndexOutOfRangeException)
+                        {
+                            Console.WriteLine("Please enter it like in the example and make sure your seats are in the theatherhall.");
+                        }
+                    }
+
+                    for (int i = seatX-1; i < seatX + amount -1; i++)
+                    {
+                        seat[seatY - 1][i].editAvail();
+                    }
+                }
+            }
+        }
+
+        private static void SelectSeat(Movies movie, int id)
+        {
+            int amount = 0;
+            bool k = true;
+            while (k)
+            {
+                try
+                {
+                    Console.WriteLine("Please enter how many seats you want. (Maximum of 10 seats)");
+                    amount = Convert.ToInt32(Console.ReadLine());
+                    if (amount < 0 && amount > 30)
+                    {
+                        Console.WriteLine("Please enter a number that is between 0 and 10.");
+                    }
+                    else
+                    {
+                        bool seatCheck = SeatCheck(id, movie, amount);
+
+                        if (seatCheck)
+                        {
+                            ShowHall(id, movie);
+                            ChooseSeat(id, movie, amount);
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("There are not enough seats left. Type [1] if you wnat to reserve different amount of seats. Else type [2]");
+                            string again = Console.ReadLine();
+                            if (again == "2")
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Please enter a number.");
+                }
+            }
+
+            
+
+            
+            
+            
+            
+            
+        }
+
+        private static string GetMovieInfo(Movies movie)
         {
             Console.WriteLine("Movie selected: " + movie.getMovieInfo().Item2);
             Console.WriteLine("Year: " + movie.getMovieInfo().Item3);
@@ -55,23 +263,34 @@ namespace CinemaConsole.Pages.Customer
             Console.WriteLine("Summary: " + movie.getMovieInfo().Item5);
             Console.WriteLine("\nWould you like to see the dates and times? [1] Yes, [2] No:");
             string CustomerReservateOption = Console.ReadLine();
-
+            string CustomerReserve = "2";
             if (CustomerReservateOption == "1")
             {
                 foreach (DateTimeHall date in movie.DateTimeHallsList)
                 { 
-                    Console.WriteLine("[" + date.getHallInfo().Item1 + "] " + date.getHallInfo().Item2 + "      " + date.getHallInfo().Item3);
+                    Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item2 + "      " + date.getDateInfo().Item3);
                 }
 
-                Console.WriteLine("\nWould you like to reserve? [1] Yes, [2] No:");
-                string CustomerReserve = Console.ReadLine();
-
-                if (CustomerReserve == "1")
-                {
-                    SelectSeat();
-                }
-
+                Console.WriteLine("\nPlease enter the number or word that stands before the time you want to reserve or action you want to do");
+                CustomerReserve = Console.ReadLine();
             }
+            return CustomerReserve;
+        }
+
+
+
+        private static void display()
+        {
+            Console.WriteLine("Movies:");
+
+            // Loop trough all movies currently in the movielist
+            foreach (Movies movie in MovieList.movieList)
+            {
+                Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
+            }
+
+            // check if user wants to go back
+            Console.WriteLine("\n[exit] Back to the menu.");
         }
 
 
@@ -82,24 +301,14 @@ namespace CinemaConsole.Pages.Customer
             while (running)
             {
                 // convert movielist count to a string
-                string movieCount = (MovieList.movieList.Count + 1).ToString();
+                Console.WriteLine("\nPlease enter the number or word that stands before the movie you want to reserve or action you want to do.");
 
-                Console.WriteLine("\nPlease enter the number that stands before the movie you want to reserve.");
-                Console.WriteLine("Movies on today:");
-
-                // Loop trough all movies currently in the movielist
-                foreach (Movies movie in MovieList.movieList)
-                {
-                    Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
-                }
-
-                // check if user wants to go back
-                Console.WriteLine("\n[" + movieCount + "] Back to the menu.");
+                display();
 
                 string line = Console.ReadLine();
 
                 // check if user wants to go back 
-                if (line == movieCount.ToString())
+                if (line == "exit")
                 {
                     break;
                 }
@@ -108,8 +317,16 @@ namespace CinemaConsole.Pages.Customer
                 {
                     if (line == aMovie.getMovieInfo().Item1.ToString())
                     {
-                        GetMovieInfo(aMovie);
-                        break;
+                        string seat = GetMovieInfo(aMovie);
+                        try
+                        {
+                            int Seat = Convert.ToInt32(seat);
+                            SelectSeat(aMovie, Seat);
+                        }
+                        catch (FormatException)
+                        {
+
+                        }
                     }
                 }
             }
