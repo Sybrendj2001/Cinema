@@ -41,6 +41,13 @@ namespace CinemaConsole.Pages.Customer
             movie3.DateTimeHallsList.Add(datetimehall3A);
         }
 
+        /// <summary>
+        /// seatCheck returns if there is enough room for the chosen number of seats
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="movie"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
         private static bool SeatCheck(int id, Movies movie, int amount)
         {
             bool check = false;
@@ -49,8 +56,11 @@ namespace CinemaConsole.Pages.Customer
             {
                 if (time.getDateInfo().Item1 == id)
                 {
+                    //This is the hall of the movie
                     Seat[][] seat = time.getDateInfo().Item4.getHallInfo().Item1;
                     
+                    //this checks if there is enough room for the amount of seats
+                    //If not check remains false else it becomes true
                     for (int i = 0; i < seat.Length; i++)
                     {
                         int count = 0;
@@ -77,15 +87,23 @@ namespace CinemaConsole.Pages.Customer
             return check;
         }
 
+        /// <summary>
+        /// Is a function to show the theaterhall
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="movie"></param>
         private static void ShowHall(int id, Movies movie)
         {
             foreach (DateTimeHall time in movie.DateTimeHallsList)
             {
                 if (time.getDateInfo().Item1 == id)
                 {
+                    //This is the hall of the movie
                     Seat[][] seat = time.getDateInfo().Item4.getHallInfo().Item1;
                     string show = "";
 
+                    //This for loop gives numbers ontop of the raster
+                    //The difference in spaces is because of the extra number if collum becomes bigger than 9(i > 8) 
                     for (int i = 0; i < seat[0].Length; i++)
                     {
                         if (i > 8)
@@ -102,6 +120,7 @@ namespace CinemaConsole.Pages.Customer
                         }
                     }
                     show += "\n";
+                    //If avail of seat(getInfo.Item3) is true then place a O else place a X
                     for (int i = 0; i < seat.Length; i++)
                     { 
                         for (int j = 0; j < seat[i].Length; j++)
@@ -144,31 +163,39 @@ namespace CinemaConsole.Pages.Customer
             }
         }
 
+        /// <summary>
+        /// let's you choose the place of your seat
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="movie"></param>
+        /// <param name="amount"></param>
         private static void ChooseSeat(int id, Movies movie, int amount)
         {
             foreach (DateTimeHall time in movie.DateTimeHallsList)
             {
                 if (time.getDateInfo().Item1 == id)
                 {
+                    //This is the hall of the movie
                     Seat[][] seat = time.getDateInfo().Item4.getHallInfo().Item1;
                     
                     bool k = true;
 
                     int seatX = 0;
                     int seatY = 0;
-
+                    bool free = true;
+                    //This loop will let you choose 
                     while (k)
                     {
                         Console.WriteLine("Please enter the most left seat you want to reserve like this x/y. (5/3)");
                         string selected = Console.ReadLine();
                         string[] selectedSeat = selected.Split('/');
 
+                        //changes the string number to intergers and checks if the seats chosen are free
                         try
                         {
                             seatX = Convert.ToInt32(selectedSeat[0]);
                             seatY = Convert.ToInt32(selectedSeat[1]);
-
-                            bool free = true;
+  
                             for (int  i = seatX-1;  i < (seatX+amount-1);  i++)
                             {
                                 if (!seat[seatY-1][i].getInfo().Item3)
@@ -186,35 +213,47 @@ namespace CinemaConsole.Pages.Customer
                             }
 
                         }
+                        //Catches if the user put in a number
                         catch (FormatException)
                         {
                             Console.WriteLine("Please enter it like in the example.");
                         }
+                        //Catches if the user put in no / and if it is not out of bounce the theaterhall
                         catch (IndexOutOfRangeException)
                         {
-                            Console.WriteLine("Please enter it like in the example and make sure your seats are in the theatherhall.");
+                            Console.WriteLine("Make sure your seats are in the theatherhall and it is written like in the example.");
                         }
                     }
 
-                    for (int i = seatX-1; i < seatX + amount -1; i++)
+                    //edits the seat to opposite of what it was
+                    if (free)
                     {
-                        seat[seatY - 1][i].editAvail();
+                        for (int i = seatX - 1; i < seatX + amount - 1; i++)
+                        {
+                            seat[seatY - 1][i].editAvail();
+                        }
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// This starts the process of selecting the amount of seats and the place of the seats
+        /// </summary>
+        /// <param name="movie"></param>
+        /// <param name="id"></param>
         private static void SelectSeat(Movies movie, int id)
         {
             int amount = 0;
             bool k = true;
             while (k)
             {
+                //gets a number and checks if it is higher than 0 and smaller than 11
                 try
                 {
                     Console.WriteLine("Please enter how many seats you want. (Maximum of 10 seats)");
                     amount = Convert.ToInt32(Console.ReadLine());
-                    if (amount < 0 && amount > 30)
+                    if (amount < 0 && amount > 10)
                     {
                         Console.WriteLine("Please enter a number that is between 0 and 10.");
                     }
@@ -239,20 +278,14 @@ namespace CinemaConsole.Pages.Customer
                         }
                     }
                 }
+                //Catches if the user did not use a number
                 catch (FormatException)
                 {
                     Console.WriteLine("Please enter a number.");
                 }
-            }
-
-            
-
-            
-            
-            
-            
-            
+            }   
         }
+
 
         private static string GetMovieInfo(Movies movie)
         {
