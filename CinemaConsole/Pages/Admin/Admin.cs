@@ -324,7 +324,6 @@ namespace CinemaConsole.Pages.Admin
             bool k = true;
 
             // test for adding some movies
-            Customer.Customer.AddStuff();
 
             while (k)
             {

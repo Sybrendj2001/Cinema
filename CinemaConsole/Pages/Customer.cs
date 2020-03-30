@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Data;
 using CinemaConsole.Data.Employee;
+using CinemaConsole.Pages.Restaurant;
 
 
 namespace CinemaConsole.Pages.Customer
@@ -331,13 +332,13 @@ namespace CinemaConsole.Pages.Customer
             }
 
             // check if user wants to go back
+            Console.WriteLine("\n[menu] Restaurant Menu");
             Console.WriteLine("\n[exit] Back to the menu.");
         }
 
 
         public static void Menu()
         {
-            AddStuff();
             bool running = true;
             while (running)
             {
@@ -352,6 +353,10 @@ namespace CinemaConsole.Pages.Customer
                 if (line == "exit")
                 {
                     break;
+                }
+                else if (line == "menu")
+                {
+                    Restaurant.Restaurant.Display();
                 }
 
                 foreach (Movies aMovie in MovieList.movieList) 
