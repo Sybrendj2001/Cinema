@@ -87,7 +87,7 @@ namespace CinemaConsole.Data
 				for (int j = 0; j < 12; j++)
 				{
 					SeatName = "(row " + (14 - i) + " seat ";
-					SeatAvail = true;
+					SeatAvail =	true;
 					if ((i == 0 || i > 11) && (j > 1 && j < 10))
 					{
 						SeatName += (j - 1) + ")";
