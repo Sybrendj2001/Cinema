@@ -66,7 +66,7 @@ namespace CinemaConsole.Pages
                         Function = checkFunction();
                         ErrorMessage = getErrorMessage(ErrorCode);
                         checkLogin = false;
-                        Console.WriteLine("You are Logged in and redirected to your page");
+                        Console.WriteLine("You're logged in and redirected to your page");
                     }
                     else
                     {

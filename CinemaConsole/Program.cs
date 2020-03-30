@@ -77,7 +77,7 @@ namespace CinemaConsole
                         break;
 
                     default:
-                        Console.WriteLine("You are writting a command wrong or the command doesn't exist yet");
+                        Console.WriteLine("You entered a wrong command");
                         break;
                 }
             }
