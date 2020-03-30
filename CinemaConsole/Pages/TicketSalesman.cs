@@ -40,6 +40,40 @@ namespace CinemaConsole.Pages.TicketSalesman
             }
         }
 
+        public static void MovieInfo()
+        {
+            while (true)
+            {
+                Console.WriteLine("Please enter a movie choice");
+
+                foreach (Movies movie in MovieList.movieList)
+                {
+                    Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
+                }
+
+                string line = Console.ReadLine();
+
+                foreach (Movies aMovie in MovieList.movieList)
+                {
+                    if (line == aMovie.getMovieInfo().Item1.ToString())
+                    {
+                        Console.WriteLine("Movie selected: " + aMovie.getMovieInfo().Item2);
+                        Console.WriteLine("Year: " + aMovie.getMovieInfo().Item3);
+                        Console.WriteLine("Age restriction: " + aMovie.getMovieInfo().Item4 + "+");
+                        Console.WriteLine("Actors: " + aMovie.getMovieInfo().Item6);
+                        Console.WriteLine("Summary: " + aMovie.getMovieInfo().Item5);
+                    }
+                }
+
+                Console.WriteLine("\nEnter to go back");
+                string line2 = Console.ReadLine();
+                if(line2 == "1")
+                {
+                    break;
+                } 
+            }
+        }
+
         // The the ticket salesman is able to make a reservation for customers. You can make a movie choice, pick a date and time, 
         // put in the amount of tickets, put in the contact information of the customer.
         public static void AddReservation()
@@ -114,7 +148,7 @@ namespace CinemaConsole.Pages.TicketSalesman
             Customer.Customer.AddStuff();
             while (true)
             {
-                Console.WriteLine("\nPlease input the desired action:\n[1] Show all reservations.\n[2] Add reservation.\n[3] Remove reservation.\n[4] Exit the program.");
+                Console.WriteLine("\nPlease input the desired action:\n[1] Show all reservations.\n[2] Add reservation.\n[3] Remove reservation.\n[4] Show movie information\n[5] Exit the program.");
                 string TicketSalesmanOption = Console.ReadLine();
 
                 if (TicketSalesmanOption == "1")
@@ -135,7 +169,13 @@ namespace CinemaConsole.Pages.TicketSalesman
                     RemoveReservation(customerName);
                 }
 
-                else if (TicketSalesmanOption == "4")
+
+                if (TicketSalesmanOption == "4")
+                {
+                    MovieInfo();
+                }
+
+                else if (TicketSalesmanOption == "5")
                 {
                     break;
                 }
