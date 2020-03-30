@@ -12,13 +12,11 @@ namespace CinemaConsole.Pages
     {
         List<Profiles> profiles = new List<Profiles>()
         {
-            {new Profiles("mark010","1234","retailer") },
-            {new Profiles("sybrendj","2001","admin") },
-            {new Profiles("timf","4567","retailer") },
-            {new Profiles("jaja","1002","ticketSalesman") },
-            {new Profiles("falco","7654","ticketSalesman") },
-            {new Profiles("test","tset","admin") }
-
+            {new Profiles("retailer","retailer","retailer") },
+            {new Profiles("admin","admin","admin") },
+            {new Profiles("retailer","retailer","retailer") },
+            {new Profiles("ticketsalesman","ticketsalesman","ticketSalesman") },
+            {new Profiles("admin","admin","admin") }
         };
 
         private string Username { get; set; }

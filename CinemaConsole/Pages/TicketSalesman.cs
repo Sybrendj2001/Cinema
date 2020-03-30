@@ -69,16 +69,16 @@ namespace CinemaConsole.Pages.TicketSalesman
 
                         foreach (DateTimeHall date in aMovie.DateTimeHallsList)
                         {
-                            Console.WriteLine(date.getHallInfo().Item1 + "      " + date.getHallInfo().Item2 + "    Theaterhall " + date.getHallInfo().Item3);
+                            Console.WriteLine(date.getDateInfo().Item1 + "      " + date.getDateInfo().Item2 + "    Theaterhall " + date.getDateInfo().Item3);
                         }
 
                         string w = Console.ReadLine();
 
                         foreach (DateTimeHall date in aMovie.DateTimeHallsList)
                         {
-                            if (w == date.getHallInfo().Item1.ToString())
+                            if (w == date.getDateInfo().Item1.ToString())
                             {
-                                MovieDT = date.getHallInfo().Item2 + "    Theaterhall " + date.getHallInfo().Item3;
+                                MovieDT = date.getDateInfo().Item2 + "    Theaterhall " + date.getDateInfo().Item3;
                             }
                         }
                     }
