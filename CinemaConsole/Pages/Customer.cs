@@ -100,7 +100,7 @@ namespace CinemaConsole.Pages.Customer
                 {
                     //This is the hall of the movie
                     Seat[][] seat = time.getDateInfo().Item4.getHallInfo().Item1;
-                    string show = "";
+                    string show = "\n";
 
                     //This for loop gives numbers ontop of the raster
                     //The difference in spaces is because of the extra number if collum becomes bigger than 9(i > 8) 
@@ -156,8 +156,16 @@ namespace CinemaConsole.Pages.Customer
                                 }
                             }
                         }
-                        show +=(i + 1)+ "\n";
+                        show +=(seat.Length-i)+ "\n";
                     }
+
+                    show += "\n";
+                    for (int i = 0; i < seat[0].Length; i++)
+                    {
+                        show += "---";
+                    }
+                    
+                    show += "       (screen)\n";
                     Console.WriteLine(show);
                 }
             }
