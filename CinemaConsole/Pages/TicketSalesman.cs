@@ -40,6 +40,7 @@ namespace CinemaConsole.Pages.TicketSalesman
             }
         }
 
+        // Ticketsalesman able to select a movie and see all the movie informarion.
         public static void MovieInfo()
         {
             while (true)
@@ -65,12 +66,17 @@ namespace CinemaConsole.Pages.TicketSalesman
                     }
                 }
 
-                Console.WriteLine("\nEnter to go back");
+                Console.WriteLine("\nEnter [1] to go back to the menu or [2] to go back to the movielist");
                 string line2 = Console.ReadLine();
                 if(line2 == "1")
                 {
-                    break;
-                } 
+                    Menu();
+                }
+
+                if (line2 == "2")
+                {
+                    MovieInfo();
+                }
             }
         }
 
@@ -168,7 +174,6 @@ namespace CinemaConsole.Pages.TicketSalesman
 
                     RemoveReservation(customerName);
                 }
-
 
                 if (TicketSalesmanOption == "4")
                 {
