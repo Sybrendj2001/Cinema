@@ -16,6 +16,8 @@ namespace CinemaConsole
     {
         static void Main(string[] args)
         {
+            Customer.AddStuff();
+            Restaurant.someProducts();
             bool Running = true;
             string pageToBe = "";
             string toDo = "";

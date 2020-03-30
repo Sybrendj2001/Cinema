@@ -17,14 +17,36 @@ namespace CinemaConsole.Pages.Admin
         }
 
         /// <summary>
-        /// reading the movie data, then splitting the data with  "/" and adding it to the movielist
+        /// adding the movie data to the movielist
         /// </summary>
         private static void Add()
         {
             Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
             string tiyeag = Console.ReadLine();
 
-            string[] TiYeAg = tiyeag.Split('/');
+            // create a function for adding the movie info 
+            var movieinfo = AddTimeYearAge(tiyeag);
+
+            Console.WriteLine("Please enter a short summary of the movie.");
+            string sum = Console.ReadLine();
+
+            Console.WriteLine("Please give some actors.(Write them like this: Tom Cruise, Brad Pitt)");
+            string actors = Console.ReadLine();
+
+            Movies movie = new Movies(movieinfo.Item1, movieinfo.Item2, movieinfo.Item3, sum, actors);
+
+            MovieList.movieList.Add(movie);
+
+            // adding the movie times to the given movie
+            AddMovieTimes(movie);
+        }
+
+        /// <summary>
+        /// add a time year age and return the Tuple.
+        /// </summary>
+        private static Tuple<string, int, int> AddTimeYearAge(string line)
+        {
+            string[] TiYeAg = line.Split('/');
 
             bool TiyeAg = true;
             string titel = "";
@@ -43,35 +65,31 @@ namespace CinemaConsole.Pages.Admin
                 catch (FormatException)
                 {
                     Console.WriteLine("\nEither the year or the age restriction was filled in incorrectly, please try again.\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
-                    tiyeag = Console.ReadLine();
-                    TiYeAg = tiyeag.Split('/');
+                    line = Console.ReadLine();
+                    TiYeAg = line.Split('/');
                 }
                 catch (IndexOutOfRangeException)
                 {
                     Console.WriteLine("\nYou missed one of the things you need to fill in, please try again.\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
-                    tiyeag = Console.ReadLine();
-                    TiYeAg = tiyeag.Split('/');
+                    line = Console.ReadLine();
+                    TiYeAg = line.Split('/');
                 }
             }
-                    
-            Console.WriteLine("Please enter a short summary of the movie.");
-            string sum = Console.ReadLine();
-
-            Console.WriteLine("Please give some actors.(Write them like this: Tom Cruise, Brad Pitt)");
-            string actors = Console.ReadLine();
-
-            int id = MovieList.movieList.Count;
-            Movies movie = new Movies(titel, year, age, sum, actors);
-
-            MovieList.movieList.Add(movie);
-
+            
+            return Tuple.Create(titel, year, age);
+        }
+        
+        /// <summary>
+        /// add a movie time to the given movie.
+        /// </summary>
+        private static void AddMovieTimes(Movies movie)
+        {
             bool k = true;
-
             while (k)
             {
-                Console.WriteLine("Please enter a date and time when you want the movie to play.(12-12-2012/12:20)");
+                Console.WriteLine("Please enter a date and time when you want " + movie.getMovieInfo().Item2 + " to play.(12-12-2012/12:20)");
                 string dateTime = Console.ReadLine();
-                
+
                 string[] DateTime = dateTime.Split('/');
                 string date = DateTime[0];
                 string time = DateTime[1];
@@ -80,7 +98,7 @@ namespace CinemaConsole.Pages.Admin
                 bool y = true;
                 while (y)
                 {
-                    Console.WriteLine("Please enter theaterhall you want it to play in.(1,2,3)");
+                    Console.WriteLine("Please enter the theaterhall [1],[2] or [3] you want it to play in on " + dateTime);
                     string SHall = Console.ReadLine();
                     try
                     {
@@ -98,7 +116,7 @@ namespace CinemaConsole.Pages.Admin
 
                 movie.DateTimeHallsList.Add(datetimehall);
 
-                Console.WriteLine("Please type in add if you have no more dates or times to fill in. Else press on enter");
+                Console.WriteLine("Please enter 'add' if you have no more dates or times to fill in or press enter to continue.");
                 string exit = Console.ReadLine();
                 if (exit == "add")
                 {
@@ -106,6 +124,93 @@ namespace CinemaConsole.Pages.Admin
                 }
             }
         }
+        
+        /// <summary>
+        /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll edit the movie.
+        /// </summary>
+        private static void Edit()
+        {
+            bool k = true;
+            while (k)
+            {
+                Console.WriteLine("Movies:");
+                // Loop trough all movies currently in the movielist
+                foreach (Movies movie in MovieList.movieList)
+                {
+                    Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
+                }
+
+                // count all movies + 1 for an exit number
+                int moviecount = MovieList.movieList.Count + 1;
+
+                Console.WriteLine("Enter the number of the movie you want to edit or enter [" + moviecount.ToString() + "] to go back.:");
+
+                string line = Console.ReadLine();
+
+                if (line == moviecount.ToString())
+                {
+                    k = false;
+                }
+
+                foreach (Movies movie in MovieList.movieList)
+                {
+                    // check if number equals movie ID
+                    if (line == movie.getMovieInfo().Item1.ToString())
+                    {
+                        // save line as an int
+                        int number = Int32.Parse(line);
+                        Console.WriteLine("Enter [1] if you want to edit an entire movie or enter [2] if you only want to add a certain time:");
+
+                        // readline again
+                        line = Console.ReadLine();
+
+                        if (line == "1")
+                        {
+                            Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13) or enter 'skip' if you want to skip and keep the original");
+                            string tiyeag = Console.ReadLine();
+
+                            if (tiyeag != "skip")
+                            {
+                                var movieinfo = AddTimeYearAge(tiyeag);
+
+                                // replace original values for new ones
+                                movie.setMovieInfo(movieinfo.Item1, movieinfo.Item2, movieinfo.Item3);
+                            }
+
+                            Console.WriteLine("Please enter a short summary of the movie or enter 'skip' if you want to skip and keep the original");
+                            string sum = Console.ReadLine();
+                            if (sum != "skip")
+                            {
+                                // replace original value for new one
+                                movie.setMovieInfo("",0, 0, sum);
+                            }
+
+                            Console.WriteLine("Please give some actors (like this: Tom Cruise, Brad Pitt) or enter 'skip' if you want to skip and keep the original");
+                            string actors = Console.ReadLine();
+                            if (actors != "skip")
+                            {
+                                // replace original value for new one
+                                movie.setMovieInfo("", 0, 0, "", actors);
+                            }
+
+                            // i have to break out of the foreach loop, because you cannot modify a loop while you're in it. 
+                            break;
+                            
+                        }
+                        else if (line == "2")
+                        {
+                            AddMovieTimes(movie);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll remove the movie.
         /// </summary>
@@ -164,12 +269,12 @@ namespace CinemaConsole.Pages.Admin
                             Console.WriteLine("Select the time you want to remove:");
                             foreach (DateTimeHall date in movie.DateTimeHallsList)
                             {
-                                Console.WriteLine("[" + date.getHallInfo().Item1 + "] " + date.getHallInfo().Item2 + "      " + date.getHallInfo().Item3);
+                                Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item2 + "      " + date.getDateInfo().Item3);
                             }
 
                             // make an int of the input
                             int time = int.Parse(Console.ReadLine());
-                            movie.DateTimeHallsList.RemoveAll(movie1 => movie1.getHallInfo().Item1 == (time));
+                            movie.DateTimeHallsList.RemoveAll(movie1 => movie1.getDateInfo().Item1 == (time));
 
                             Console.WriteLine("Press enter to continue");
 
@@ -187,6 +292,7 @@ namespace CinemaConsole.Pages.Admin
                 }
             }
         }
+        
         /// <summary>
         /// Display all the movies by using a foreach loop
         /// </summary>
@@ -200,7 +306,7 @@ namespace CinemaConsole.Pages.Admin
                 
                 foreach (DateTimeHall date in movie.DateTimeHallsList)
                 {
-                    Console.WriteLine(date.getHallInfo().Item1 + "      " + date.getHallInfo().Item2 + "    Theaterhall " + date.getHallInfo().Item3);
+                    Console.WriteLine(date.getDateInfo().Item1 + "      " + date.getDateInfo().Item2 + "     " + date.getDateInfo().Item3 + "    Theaterhall " + date.getDateInfo().Item4.getHallInfo().Item2);
                 }
                 Console.WriteLine("");
             }
@@ -209,6 +315,7 @@ namespace CinemaConsole.Pages.Admin
             // using readline here to wait for an enter
             Console.ReadLine();
         }
+        
         /// <summary>
         /// Showing the starting menu
         /// </summary>
@@ -217,11 +324,10 @@ namespace CinemaConsole.Pages.Admin
             bool k = true;
 
             // test for adding some movies
-            Customer.Customer.AddStuff();
 
             while (k)
             {
-                Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Remove a movie.\n[3] Show all the movies.\n[4] Exit the program.");
+                Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Edit a movie or add a time\n[3] Remove a movie.\n[4] Show all the movies.\n[5] Back to the menu.");
                 string nummer = Console.ReadLine();
                 if (nummer == "1")
                 {
@@ -229,13 +335,17 @@ namespace CinemaConsole.Pages.Admin
                 }
                 else if (nummer == "2")
                 {
-                    Remove();
+                    Edit();
                 }
                 else if (nummer == "3")
                 {
-                    Display();
+                    Remove();
                 }
                 else if (nummer == "4")
+                {
+                    Display();
+                }
+                else if (nummer == "5")
                 {
                     k = false;
                     break;
