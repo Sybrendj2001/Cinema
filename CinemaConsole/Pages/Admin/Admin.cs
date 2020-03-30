@@ -269,12 +269,12 @@ namespace CinemaConsole.Pages.Admin
                             Console.WriteLine("Select the time you want to remove:");
                             foreach (DateTimeHall date in movie.DateTimeHallsList)
                             {
-                                Console.WriteLine("[" + date.getHallInfo().Item1 + "] " + date.getHallInfo().Item2 + "      " + date.getHallInfo().Item3);
+                                Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item2 + "      " + date.getDateInfo().Item3);
                             }
 
                             // make an int of the input
                             int time = int.Parse(Console.ReadLine());
-                            movie.DateTimeHallsList.RemoveAll(movie1 => movie1.getHallInfo().Item1 == (time));
+                            movie.DateTimeHallsList.RemoveAll(movie1 => movie1.getDateInfo().Item1 == (time));
 
                             Console.WriteLine("Press enter to continue");
 
@@ -306,7 +306,7 @@ namespace CinemaConsole.Pages.Admin
                 
                 foreach (DateTimeHall date in movie.DateTimeHallsList)
                 {
-                    Console.WriteLine(date.getHallInfo().Item1 + "      " + date.getHallInfo().Item2 + "      " + date.getHallInfo().Item3 + "    Theaterhall " + date.getHallInfo().Item4.getInfo().Item2);
+                    Console.WriteLine(date.getDateInfo().Item1 + "      " + date.getDateInfo().Item2 + "     " + date.getDateInfo().Item3 + "    Theaterhall " + date.getDateInfo().Item4.getHallInfo().Item2);
                 }
                 Console.WriteLine("");
             }
@@ -324,7 +324,6 @@ namespace CinemaConsole.Pages.Admin
             bool k = true;
 
             // test for adding some movies
-            Customer.Customer.AddStuff();
 
             while (k)
             {
