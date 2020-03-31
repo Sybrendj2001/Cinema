@@ -284,7 +284,7 @@ namespace CinemaConsole.Pages.Customer
                         }
                         else
                         {
-                            Console.WriteLine("There are not enough seats left. Type [1] if you wnat to reserve different amount of seats. Else type [2]");
+                            Console.WriteLine("There are not enough seats left. Type [1] if you want to reserve different amount of seats. Else type [2]");
                             string again = Console.ReadLine();
                             if (again == "2")
                             {
