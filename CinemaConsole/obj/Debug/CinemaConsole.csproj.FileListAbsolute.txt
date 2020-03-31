@@ -24,3 +24,10 @@ C:\Users\jan-jaaptencate\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\bin\Debu
 C:\Users\jan-jaaptencate\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csprojAssemblyReference.cache
 C:\Users\jan-jaaptencate\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\obj\Debug\CinemaConsole.exe
 C:\Users\jan-jaaptencate\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\obj\Debug\CinemaConsole.pdb
+D:\School\Project_bravo\Cinema\CinemaConsole\bin\Debug\CinemaConsole.exe.config
+D:\School\Project_bravo\Cinema\CinemaConsole\bin\Debug\CinemaConsole.exe
+D:\School\Project_bravo\Cinema\CinemaConsole\bin\Debug\CinemaConsole.pdb
+D:\School\Project_bravo\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csprojAssemblyReference.cache
+D:\School\Project_bravo\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csproj.CoreCompileInputs.cache
+D:\School\Project_bravo\Cinema\CinemaConsole\obj\Debug\CinemaConsole.exe
+D:\School\Project_bravo\Cinema\CinemaConsole\obj\Debug\CinemaConsole.pdb

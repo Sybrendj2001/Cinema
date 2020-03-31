@@ -16,24 +16,37 @@ namespace CinemaConsole.Pages.Restaurant
 
         }
 
+        //Adds some items to the productlist.
+        //Function is only invoked when logging in.
+        public static void someProducts()
+        {
+            Restaurant.addItem("Cola", 2.50);
+            Restaurant.addItem("Popcorn", 3.50);
+        }
+
+        //Allows the retailer to add new items to the list of products.
+        //Information on the products consists of the name and price of the product.
         public static void addItem(string name, double price)
         {
             RestaurantProduct product = new RestaurantProduct(name, price);
-            ProductList.productList.Add(product);            
+            ProductList.productList.Add(product);
         }
-        
+
+        //Allows the retailer to remove items from the list of products.
+        //Curently requires you to enter the name of the product.
         public static void removeItem(string delName)
         {
             for (int i = 0; i < ProductList.productList.Count; i++)
-            { 
-                if (ProductList.productList[i].getProductInfo().Item1 == delName)
+            {
+                if (ProductList.productList[i].getProductInfo().Item1.Equals(delName, StringComparison.OrdinalIgnoreCase))
                 {
                     ProductList.productList.RemoveAt(i);
-                }                
+                }
             }
         }
 
-        private static void Display()
+        //Displays a list of he items within the list of products.
+        public static void Display()
         {
             Console.OutputEncoding = Encoding.UTF8;
             Console.WriteLine("Products:");
@@ -43,7 +56,7 @@ namespace CinemaConsole.Pages.Restaurant
             }
         }
 
-
+        //Presents a menu with options to choose from.
         public static void Menu()
         {
             while (true)
@@ -52,36 +65,49 @@ namespace CinemaConsole.Pages.Restaurant
                 Console.WriteLine("[1] Show current list of products");
                 Console.WriteLine("[2] Add a product to the list");
                 Console.WriteLine("[3] Remove a product from the list");
-                Console.WriteLine("[4] Exit the menu");
+                Console.WriteLine("[exit] Exit the menu");
 
-                int operation = Convert.ToInt32(Console.ReadLine());
-                if (operation == 1)
+                //Requests input and executes functions depending on the choice.
+                string operation = Console.ReadLine();
+
+                //calls the Display function.
+                if (operation == "1")
                 {
                     Display();
                 }
-                else if (operation == 2)
+                else if (operation == "2")
                 {
+                    //Requests the name of the product to be added.
                     Console.WriteLine("Please fill in the name of the product.");
-                    string name = Console.ReadLine();
+                    string inputName = Console.ReadLine();
+
+                    //Requests the price of the product to be added.
                     Console.WriteLine("Please fill in the price of the product.");
                     double price = double.Parse(Console.ReadLine());
 
+                    string name = inputName.First().ToString().ToUpper() + inputName.Substring(1);
+
+                    //Calls the addItem function and enters the name and price given earlier.
                     addItem(name, price);
                 }
-                else if (operation == 3)
+                else if (operation == "3")
                 {
-                    Console.WriteLine("Please fill in the name of the product you wish to remove (Case Sensitive).");
+                    Restaurant.Display();
+                    //Requests the name of the product to be removed.
+                    Console.WriteLine("Please fill in the name of the product you wish to remove.");
                     string itemName = Console.ReadLine();
 
+                    //Calls the removeItem function and enters the name of the product given earlier.
                     removeItem(itemName);
                 }
-                else if (operation == 4)
+                else if (operation == "exit")
                 {
-                    //CinemaConsole.Exit();
-
+                    //Exits to the former step.
+                    break;
                 }
                 else
                 {
+                    //Display error message.
                     Console.WriteLine("Invalid Input. Please try again.");
                 }
             }
