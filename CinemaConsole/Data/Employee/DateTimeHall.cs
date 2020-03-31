@@ -31,7 +31,7 @@ namespace CinemaConsole.Data
 		/// <summary>
 		/// Creating a new unique ID and checking for missing ID's
 		/// </summary>
-		private static int HallID(Movies movie)
+		private int HallID(Movies movie)
 		{
 			int idd;
 			for (int i = 0; i < movie.DateTimeHallsList.Count; i++)
