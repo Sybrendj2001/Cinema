@@ -19,6 +19,11 @@ namespace CinemaConsole.Data.Employee
             SeatAvail = Savail;
         }
 
+        public void editAvail()
+        {
+            SeatAvail = !SeatAvail;
+        }
+
         public Tuple<string, string, bool> getInfo()
         {
             return Tuple.Create(SeatPlace, SeatName, SeatAvail);
