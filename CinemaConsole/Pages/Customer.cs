@@ -67,7 +67,7 @@ namespace CinemaConsole.Pages.Customer
                         int count = 0;
                         for (int j = 0; j < seat[i].Length; j++)
                         {
-                            if (seat[i][j].getInfo().Item3)
+                            if (seat[seat.Length-1-i][j].getInfo().Item3)
                             {
                                 count++;
                                 if (count >= amount)
@@ -126,7 +126,7 @@ namespace CinemaConsole.Pages.Customer
                     {
                         for (int j = 0; j < seat[i].Length; j++)
                         {
-                            if (seat[i][j].getInfo().Item3)
+                            if (seat[seat.Length -1 -i][j].getInfo().Item3)
                             {
                                 if (j > 8)
                                 {
@@ -195,8 +195,14 @@ namespace CinemaConsole.Pages.Customer
                     //This loop will let you choose 
                     while (k)
                     {
-                        Console.WriteLine("Please enter the most left seat you want to reserve like this x/y. (5/3)");
+                        Console.WriteLine("Please enter the most left seat you want to reserve like this x/y or type [exit] to leave the reservation. (5/3)");
                         string selected = Console.ReadLine();
+                        if (selected == "exit")
+                        {
+                            //skip the last if statement
+                            free = false;
+                            break;
+                        }
                         string[] selectedSeat = selected.Split('/');
 
                         //changes the string number to intergers and checks if the seats chosen are free
@@ -263,7 +269,7 @@ namespace CinemaConsole.Pages.Customer
                 {
                     Console.WriteLine("Please enter how many seats you want. (Maximum of 10 seats)");
                     amount = Convert.ToInt32(Console.ReadLine());
-                    if (amount < 0 && amount > 10)
+                    if (amount > 10 || amount < 1)
                     {
                         Console.WriteLine("Please enter a number that is between 0 and 10.");
                     }
@@ -281,7 +287,7 @@ namespace CinemaConsole.Pages.Customer
                         }
                         else
                         {
-                            Console.WriteLine("There are not enough seats left. Type [1] if you wnat to reserve different amount of seats. Else type [2]");
+                            Console.WriteLine("There are not enough seats left. Type [1] if you want to reserve different amount of seats. Else type [2]");
                             string again = Console.ReadLine();
                             if (again == "2")
                             {
