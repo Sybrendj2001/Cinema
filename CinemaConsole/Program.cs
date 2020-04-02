@@ -30,7 +30,7 @@ namespace CinemaConsole
                 }
                 else
                 {
-                    Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Login.\n[2] Show the movielist.\n[3] Create ticket\n[4] Exit the program.");
+                    Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Login.\n[2] Show the movielist.\n[3] Create ticket\n[exit] Exit the program.");
                     toDo = Console.ReadLine();
                     if (!int.TryParse(toDo, out _))
                     {
@@ -66,7 +66,7 @@ namespace CinemaConsole
                         goIntoTicket.Menu();
                         break;
 
-                    case "4":
+                    case "exit":
                         Running = false;
                         break;
 

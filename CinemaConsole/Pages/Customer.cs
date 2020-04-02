@@ -67,7 +67,7 @@ namespace CinemaConsole.Pages.Customer
                         int count = 0;
                         for (int j = 0; j < seat[i].Length; j++)
                         {
-                            if (seat[i][j].getInfo().Item3)
+                            if (seat[seat.Length-1-i][j].getInfo().Item3)
                             {
                                 count++;
                                 if (count >= amount)
@@ -126,7 +126,7 @@ namespace CinemaConsole.Pages.Customer
                     { 
                         for (int j = 0; j < seat[i].Length; j++)
                         {
-                            if (seat[i][j].getInfo().Item3)
+                            if (seat[seat.Length -1 -i][j].getInfo().Item3)
                             {
                                 if (j > 8)
                                 {
@@ -195,8 +195,14 @@ namespace CinemaConsole.Pages.Customer
                     //This loop will let you choose 
                     while (k)
                     {
-                        Console.WriteLine("Please enter the most left seat you want to reserve like this x/y. (5/3)");
+                        Console.WriteLine("Please enter the most left seat you want to reserve like this x/y or type [exit] to leave the reservation. (5/3)");
                         string selected = Console.ReadLine();
+                        if (selected == "exit")
+                        {
+                            //skip the last if statement
+                            free = false;
+                            break;
+                        }
                         string[] selectedSeat = selected.Split('/');
 
                         //changes the string number to intergers and checks if the seats chosen are free
@@ -262,7 +268,7 @@ namespace CinemaConsole.Pages.Customer
                 {
                     Console.WriteLine("Please enter how many seats you want. (Maximum of 10 seats)");
                     amount = Convert.ToInt32(Console.ReadLine());
-                    if (amount < 0 && amount > 10)
+                    if (amount > 10 || amount < 1)
                     {
                         Console.WriteLine("Please enter a number that is between 0 and 10.");
                     }
@@ -278,7 +284,7 @@ namespace CinemaConsole.Pages.Customer
                         }
                         else
                         {
-                            Console.WriteLine("There are not enough seats left. Type [1] if you wnat to reserve different amount of seats. Else type [2]");
+                            Console.WriteLine("There are not enough seats left. Type [1] if you want to reserve different amount of seats. Else type [2]");
                             string again = Console.ReadLine();
                             if (again == "2")
                             {
@@ -303,18 +309,27 @@ namespace CinemaConsole.Pages.Customer
             Console.WriteLine("Age restriction: " + movie.getMovieInfo().Item4 + "+");
             Console.WriteLine("Actors: " + movie.getMovieInfo().Item6);
             Console.WriteLine("Summary: " + movie.getMovieInfo().Item5);
-            Console.WriteLine("\nWould you like to see the dates and times? [1] Yes, [2] No:");
-            string CustomerReservateOption = Console.ReadLine();
-            string CustomerReserve = "2";
-            if (CustomerReservateOption == "1")
+            bool k = true;
+            string CustomerReserve = "exit";
+            while (k)
             {
-                foreach (DateTimeHall date in movie.DateTimeHallsList)
-                { 
-                    Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item2 + "      " + date.getDateInfo().Item3);
-                }
+                Console.WriteLine("\n[1] See movie dates and times\n[exit] Back");
+                string CustomerReservateOption = Console.ReadLine();
+                if (CustomerReservateOption == "1")
+                {
+                    foreach (DateTimeHall date in movie.DateTimeHallsList)
+                    {
+                        Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item2 + "      " + date.getDateInfo().Item3);
+                    }
 
-                Console.WriteLine("\nPlease enter the number or word that stands before the time you want to reserve or action you want to do");
-                CustomerReserve = Console.ReadLine();
+                    Console.WriteLine("\nPlease enter the number or word that stands before the time you want to reserve or action you want to do");
+                    CustomerReserve = Console.ReadLine();
+                    k = false;
+                }
+                else if (CustomerReservateOption == "exit")
+                {
+                    k = false;
+                }
             }
             return CustomerReserve;
         }
@@ -363,15 +378,25 @@ namespace CinemaConsole.Pages.Customer
                 {
                     if (line == aMovie.getMovieInfo().Item1.ToString())
                     {
-                        string seat = GetMovieInfo(aMovie);
-                        try
+                        while (true)
                         {
-                            int Seat = Convert.ToInt32(seat);
-                            SelectSeat(aMovie, Seat);
-                        }
-                        catch (FormatException)
-                        {
+                            string seat = GetMovieInfo(aMovie);
 
+                            if (seat == "1")
+                            {
+                                try
+                                {
+                                    int Seat = Convert.ToInt32(seat);
+                                    SelectSeat(aMovie, Seat);
+                                }
+                                catch (FormatException)
+                                {
+                                }
+                            }
+                            else if (seat == "exit")
+                            {
+                                break;
+                            }
                         }
                     }
                 }
