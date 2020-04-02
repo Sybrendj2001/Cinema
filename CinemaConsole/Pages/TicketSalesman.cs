@@ -68,6 +68,9 @@ namespace CinemaConsole.Pages.TicketSalesman
                         Customer.Customer.GetMovieInfo(aMovie);
                     }
                 }
+
+                Console.WriteLine("\nPress enter to return to the movielist");
+                Console.ReadLine();
             }
         }
 

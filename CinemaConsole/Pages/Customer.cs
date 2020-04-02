@@ -307,25 +307,36 @@ namespace CinemaConsole.Pages.Customer
         }
 
 
-        public static void GetMovieInfo(Movies movie)
+        public static string GetMovieInfo(Movies movie)
         {
             Console.WriteLine("Movie selected: " + movie.getMovieInfo().Item2);
             Console.WriteLine("Year: " + movie.getMovieInfo().Item3);
             Console.WriteLine("Age restriction: " + movie.getMovieInfo().Item4 + "+");
             Console.WriteLine("Actors: " + movie.getMovieInfo().Item6);
             Console.WriteLine("Summary: " + movie.getMovieInfo().Item5);
-            Console.WriteLine("\nWould you like to see the dates and times? [1] Yes, [2] No:");
-            string CustomerReservateOption = Console.ReadLine();
-         
-            if (CustomerReservateOption == "1")
-            {
-                foreach (DateTimeHall date in movie.DateTimeHallsList)
-                { 
-                    Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item2 + "      " + date.getDateInfo().Item3);
+            string CustomerReservateOption = "";
+            while (true)
+                {
+                Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
+                CustomerReservateOption = Console.ReadLine();
+
+                if (CustomerReservateOption == "1")
+                {
+                    foreach (DateTimeHall date in movie.DateTimeHallsList)
+                    {
+                        Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item2 + "      " + date.getDateInfo().Item3);
+                    }
+
+                    Console.WriteLine("[exit] Back to menu");
+                    break;
                 }
 
-                Console.WriteLine("[exit] Back to menu");
+                else if(CustomerReservateOption == "exit")
+                {
+                    break;
+                }
             }
+            return CustomerReservateOption;
         }
 
         public static void display()
@@ -370,8 +381,8 @@ namespace CinemaConsole.Pages.Customer
                 {
                     if (line == aMovie.getMovieInfo().Item1.ToString())
                     {
-                        GetMovieInfo(aMovie);
-                        while (true)
+                        string Movieinfo = GetMovieInfo(aMovie);
+                        while (true && Movieinfo == "1")
                         {
                             Console.WriteLine("\nPlease enter the number or word that stands before the time you want to reserve or action you want to do");
                             string CustomerReserve = Console.ReadLine();
@@ -387,20 +398,11 @@ namespace CinemaConsole.Pages.Customer
                                 {
                                     if(CustomerReserve == date.getDateInfo().Item1.ToString())
                                     {
-                                        try
-                                        {
-                                            SelectSeat(aMovie, date.getDateInfo().Item1);
-                                        }
-                                        catch (FormatException)
-                                        {
-
-                                        }
+                                        SelectSeat(aMovie, date.getDateInfo().Item1);
                                     }
-                                    
                                 }
                             }
                         }
-
                     }
                 }
             }
