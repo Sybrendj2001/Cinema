@@ -178,7 +178,7 @@ namespace CinemaConsole.Pages.Customer
         /// <param name="id"></param>
         /// <param name="movie"></param>
         /// <param name="amount"></param>
-        private static void ChooseSeat(int id, Movies movie, int amount)
+        public static void ChooseSeat(int id, Movies movie, int amount)
         {
             foreach (DateTimeHall time in movie.DateTimeHallsList)
             {
@@ -251,7 +251,7 @@ namespace CinemaConsole.Pages.Customer
         /// </summary>
         /// <param name="movie"></param>
         /// <param name="id"></param>
-        private static void SelectSeat(Movies movie, int id)
+        public static void SelectSeat(Movies movie, int id)
         {
             int amount = 0;
             bool k = true;
