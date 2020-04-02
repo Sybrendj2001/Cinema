@@ -9,7 +9,6 @@ using CinemaConsole.Data.Employee;
 using CinemaConsole.Data.BackEnd;
 
 
-
 namespace CinemaConsole.Pages.TicketSalesman
 {
     public class TicketSalesman : Employee
@@ -23,7 +22,7 @@ namespace CinemaConsole.Pages.TicketSalesman
         private static void Display()
         {
             Console.OutputEncoding = Encoding.UTF8;
-            Console.WriteLine("All reservations:\nName: E-mail:  Movie: Date&Time:");
+            Console.WriteLine("All reservations:\nName: E-mail:  Movie: Date&Time:     Seats:");
             for (int i = 0; i < ReservationList.reservationList.Count; i++)
             {
                 Console.WriteLine(ReservationList.reservationList[i].getReservationInfo().Item4 + "  " + ReservationList.reservationList[i].getReservationInfo().Item5 + "  " + ReservationList.reservationList[i].getReservationInfo().Item1 + "  " + ReservationList.reservationList[i].getReservationInfo().Item2 + "  " + ReservationList.reservationList[i].getReservationInfo().Item3);
@@ -45,29 +44,30 @@ namespace CinemaConsole.Pages.TicketSalesman
         // Ticketsalesman able to select a movie and see all the movie informarion.
         public static void MovieInfo()
         {
+            string line = "";
             while (true)
             {
-                Console.WriteLine("Please enter a movie choice");
+                Console.WriteLine("\nPlease enter the number or word that stands before the movie you want to reserve or action you want to do.");
+                Customer.Customer.display();
+                line = Console.ReadLine();
 
-                foreach (Movies movie in MovieList.movieList)
+                if (line == "exit")
                 {
-                    Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
+                    break;
                 }
 
-                string line = Console.ReadLine();
+                else if (line == "menu")
+                {
+                    Restaurant.Restaurant.Display();
+                }
 
                 foreach (Movies aMovie in MovieList.movieList)
                 {
                     if (line == aMovie.getMovieInfo().Item1.ToString())
                     {
-                        Console.WriteLine("Movie selected: " + aMovie.getMovieInfo().Item2);
-                        Console.WriteLine("Year: " + aMovie.getMovieInfo().Item3);
-                        Console.WriteLine("Age restriction: " + aMovie.getMovieInfo().Item4 + "+");
-                        Console.WriteLine("Actors: " + aMovie.getMovieInfo().Item6);
-                        Console.WriteLine("Summary: " + aMovie.getMovieInfo().Item5);
+                        Customer.Customer.GetMovieInfo(aMovie);
                     }
                 }
-                break;               
             }
         }
 
@@ -90,6 +90,7 @@ namespace CinemaConsole.Pages.TicketSalesman
                 string MovieTitle = "";
                 string MovieDT = "";
                 string Pseats = "";
+                int TheatherHall = 0;
 
                 foreach (Movies aMovie in MovieList.movieList)
                 {
@@ -110,15 +111,26 @@ namespace CinemaConsole.Pages.TicketSalesman
                         {
                             if (w == date.getDateInfo().Item1.ToString())
                             {
-                                MovieDT = date.getDateInfo().Item2 + "    Theaterhall " + date.getDateInfo().Item4.getHallInfo().Item2 + "   " + date.getDateInfo().Item3;
+                                MovieDT = date.getDateInfo().Item2 +" " + date.getDateInfo().Item3;
+                                TheatherHall = date.getDateInfo().Item4.getHallInfo().Item2;
                             }
                         }
 
-                        Customer.Customer.SelectSeat(aMovie, aMovie.getMovieInfo().Item1);
-                        //Pseats = Customer.Customer.ChooseSeat(aMovie, seatX, seatY);
+                        Tuple<int, int, int> AmountXY = Customer.Customer.SelectSeat(aMovie, aMovie.getMovieInfo().Item1);
 
-                        //TicketInfo.createTicketID(5, 7, aMovie.DateTimeHallsList, MovieTitle, "4");
+                        if(AmountXY.Item1 == 0)
+                        {
+                            break;
+                        }
 
+                        else
+                        {
+                            //TicketInfo TI = new TicketInfo(name, AmountXY.Item2, AmountXY.Item3, 15.70, MovieDT, MovieTitle, TheatherHall);
+
+                        }
+
+
+                        Pseats = AmountXY.Item2.ToString() + "/" + AmountXY.Item3.ToString();
                     }
                 }
 

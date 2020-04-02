@@ -19,7 +19,7 @@ namespace CinemaConsole.Pages.Customer
         {
             Movies movie1 = new Movies("Transformers", 2007, 12, "An ancient struggle between two Cybertronian races, the heroic Autobots and the evil Decepticons, comes to Earth, with a clue to the ultimate power held by a teenager.", "Shia LaBeouf, Megan Fox");
             MovieList.movieList.Add(movie1);
-            
+
             DateTimeHall datetimehall1 = new DateTimeHall("21-04-2020", "12:20", 1, movie1);
             movie1.DateTimeHallsList.Add(datetimehall1);
             DateTimeHall datetimehall1A = new DateTimeHall("21-06-2020", "12:20", 2, movie1);
@@ -27,7 +27,7 @@ namespace CinemaConsole.Pages.Customer
 
             Movies movie2 = new Movies("Avengers", 2012, 12, "Earth's mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.", "Robert Downey Jr., Chris Evans, Scarlett Johansson");
             MovieList.movieList.Add(movie2);
-            
+
             DateTimeHall datetimehall2 = new DateTimeHall("21-05-2020", "12:20", 1, movie2);
             movie2.DateTimeHallsList.Add(datetimehall2);
             DateTimeHall datetimehall2A = new DateTimeHall("21-06-2020", "12:20", 3, movie2);
@@ -35,7 +35,7 @@ namespace CinemaConsole.Pages.Customer
 
             Movies movie3 = new Movies("The Dark Knight", 2008, 12, "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.", " Christian Bale, Heath Ledger, Aaron Eckhart");
             MovieList.movieList.Add(movie3);
-            
+
             DateTimeHall datetimehall3 = new DateTimeHall("21-06-2020", "12:20", 1, movie3);
             movie3.DateTimeHallsList.Add(datetimehall3);
             DateTimeHall datetimehall3A = new DateTimeHall("21-05-2020", "12:20", 2, movie3);
@@ -59,7 +59,7 @@ namespace CinemaConsole.Pages.Customer
                 {
                     //This is the hall of the movie
                     Seat[][] seat = time.getDateInfo().Item4.getHallInfo().Item1;
-                    
+
                     //this checks if there is enough room for the amount of seats
                     //If not check remains false else it becomes true
                     for (int i = 0; i < seat.Length; i++)
@@ -83,7 +83,7 @@ namespace CinemaConsole.Pages.Customer
                     }
                     break;
                 }
-                
+
             }
             return check;
         }
@@ -123,7 +123,7 @@ namespace CinemaConsole.Pages.Customer
                     show += "\n";
                     //If avail of seat(getInfo.Item3) is true then place a O else place a X
                     for (int i = 0; i < seat.Length; i++)
-                    { 
+                    {
                         for (int j = 0; j < seat[i].Length; j++)
                         {
                             if (seat[i][j].getInfo().Item3)
@@ -132,7 +132,7 @@ namespace CinemaConsole.Pages.Customer
                                 {
                                     show += " O ";
                                 }
-                                else if (j==8)
+                                else if (j == 8)
                                 {
                                     show += "O ";
                                 }
@@ -157,7 +157,7 @@ namespace CinemaConsole.Pages.Customer
                                 }
                             }
                         }
-                        show +=(seat.Length-i)+ "\n";
+                        show += (seat.Length - i) + "\n";
                     }
 
                     show += "\n";
@@ -165,7 +165,7 @@ namespace CinemaConsole.Pages.Customer
                     {
                         show += "---";
                     }
-                    
+
                     show += "       (screen)\n";
                     Console.WriteLine(show);
                 }
@@ -178,19 +178,19 @@ namespace CinemaConsole.Pages.Customer
         /// <param name="id"></param>
         /// <param name="movie"></param>
         /// <param name="amount"></param>
-        public static void ChooseSeat(int id, Movies movie, int amount)
+        public static Tuple<int, int> ChooseSeat(int id, Movies movie, int amount)
         {
+            int seatX = 0;
+            int seatY = 0;
+
             foreach (DateTimeHall time in movie.DateTimeHallsList)
             {
                 if (time.getDateInfo().Item1 == id)
                 {
                     //This is the hall of the movie
                     Seat[][] seat = time.getDateInfo().Item4.getHallInfo().Item1;
-                    
-                    bool k = true;
 
-                    int seatX = 0;
-                    int seatY = 0;
+                    bool k = true;
                     bool free = true;
                     //This loop will let you choose 
                     while (k)
@@ -204,14 +204,14 @@ namespace CinemaConsole.Pages.Customer
                         {
                             seatX = Convert.ToInt32(selectedSeat[0]);
                             seatY = Convert.ToInt32(selectedSeat[1]);
-  
-                            for (int  i = seatX-1;  i < (seatX+amount-1);  i++)
+
+                            for (int i = seatX - 1; i < (seatX + amount - 1); i++)
                             {
-                                if (!seat[seatY-1][i].getInfo().Item3)
+                                if (!seat[seatY - 1][i].getInfo().Item3)
                                 {
                                     free = false;
                                 }
-                            } 
+                            }
                             if (free)
                             {
                                 break;
@@ -244,6 +244,7 @@ namespace CinemaConsole.Pages.Customer
                     }
                 }
             }
+            return Tuple.Create(seatX, seatY);
         }
 
         /// <summary>
@@ -251,7 +252,7 @@ namespace CinemaConsole.Pages.Customer
         /// </summary>
         /// <param name="movie"></param>
         /// <param name="id"></param>
-        public static void SelectSeat(Movies movie, int id)
+        public static Tuple<int, int, int> SelectSeat(Movies movie, int id)
         {
             int amount = 0;
             bool k = true;
@@ -273,8 +274,10 @@ namespace CinemaConsole.Pages.Customer
                         if (seatCheck)
                         {
                             ShowHall(id, movie);
-                            ChooseSeat(id, movie, amount);
-                            break;
+                            Tuple<int, int> XY = ChooseSeat(id, movie, amount);
+                            int X = XY.Item1;
+                            int Y = XY.Item2;
+                            return Tuple.Create(amount, X, Y);
                         }
                         else
                         {
@@ -282,7 +285,7 @@ namespace CinemaConsole.Pages.Customer
                             string again = Console.ReadLine();
                             if (again == "2")
                             {
-                                break;
+                                return Tuple.Create(0, 0, 0);
                             }
                         }
                     }
@@ -292,11 +295,13 @@ namespace CinemaConsole.Pages.Customer
                 {
                     Console.WriteLine("Please enter a number.");
                 }
-            }   
+            }
+            return Tuple.Create(0, 0, 0);
+
         }
 
 
-        private static string GetMovieInfo(Movies movie)
+        public static void GetMovieInfo(Movies movie)
         {
             Console.WriteLine("Movie selected: " + movie.getMovieInfo().Item2);
             Console.WriteLine("Year: " + movie.getMovieInfo().Item3);
@@ -305,7 +310,7 @@ namespace CinemaConsole.Pages.Customer
             Console.WriteLine("Summary: " + movie.getMovieInfo().Item5);
             Console.WriteLine("\nWould you like to see the dates and times? [1] Yes, [2] No:");
             string CustomerReservateOption = Console.ReadLine();
-            string CustomerReserve = "2";
+         
             if (CustomerReservateOption == "1")
             {
                 foreach (DateTimeHall date in movie.DateTimeHallsList)
@@ -313,15 +318,11 @@ namespace CinemaConsole.Pages.Customer
                     Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item2 + "      " + date.getDateInfo().Item3);
                 }
 
-                Console.WriteLine("\nPlease enter the number or word that stands before the time you want to reserve or action you want to do");
-                CustomerReserve = Console.ReadLine();
+                Console.WriteLine("[exit] Back to menu");
             }
-            return CustomerReserve;
         }
 
-
-
-        private static void display()
+        public static void display()
         {
             Console.WriteLine("Movies:");
 
@@ -363,16 +364,37 @@ namespace CinemaConsole.Pages.Customer
                 {
                     if (line == aMovie.getMovieInfo().Item1.ToString())
                     {
-                        string seat = GetMovieInfo(aMovie);
-                        try
+                        GetMovieInfo(aMovie);
+                        while (true)
                         {
-                            int Seat = Convert.ToInt32(seat);
-                            SelectSeat(aMovie, Seat);
-                        }
-                        catch (FormatException)
-                        {
+                            Console.WriteLine("\nPlease enter the number or word that stands before the time you want to reserve or action you want to do");
+                            string CustomerReserve = Console.ReadLine();
+                            
+                            if(CustomerReserve == "exit")
+                            {
+                                break;
+                            }
 
+                            else
+                            {
+                                foreach(DateTimeHall date in aMovie.DateTimeHallsList)
+                                {
+                                    if(CustomerReserve == date.getDateInfo().Item1.ToString())
+                                    {
+                                        try
+                                        {
+                                            SelectSeat(aMovie, date.getDateInfo().Item1);
+                                        }
+                                        catch (FormatException)
+                                        {
+
+                                        }
+                                    }
+                                    
+                                }
+                            }
                         }
+
                     }
                 }
             }

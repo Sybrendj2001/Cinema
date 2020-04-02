@@ -67,7 +67,7 @@ namespace CinemaConsole
                         break;
 
                     case "3":
-                        TicketInfo goIntoTicket = new TicketInfo("Sybren",3,3,13.00,DateTime.Now,"Thor","HALL2");
+                        TicketInfo goIntoTicket = new TicketInfo("Sybren",3,3,13.00,"17/02/2020 16:30","Thor",2);
                         goIntoTicket.Menu();
                         break;
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Data.BackEnd;
 using System.IO;
+using System.Globalization;
 
 namespace CinemaConsole.Data.BackEnd
 {
@@ -36,15 +37,15 @@ namespace CinemaConsole.Data.BackEnd
         /// <param name="moviename"></param>
         /// <param name="theatherhall"></param>
         public TicketInfo(string ticketowner, int seatx, int seaty, double seatprice, 
-                            DateTime time, string moviename, string theatherhall)
+                            string time, string moviename, int theatherhall)
         {
             Owner = ticketowner;
             X = seatx;
             Y = seaty;
             Price = seatprice;
-            Time = time;
+            Time = DateTime.ParseExact(time, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
             MovieName = moviename;
-            TheatherHall = theatherhall;
+            TheatherHall = theatherhall.ToString();
         }
 
         /// <summary>
