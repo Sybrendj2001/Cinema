@@ -24,7 +24,14 @@ namespace CinemaConsole.Data.BackEnd
 
         private string MovieName { get; set; }
 
-        private string TheatherHall { get; set; }
+        private int TheatherHall { get; set; }
+
+        private string Ticket { get; set; }
+
+        private string Email { get; set; }
+
+        private int Amount { get; set; }
+
 
         /// <summary>
         /// 
@@ -36,7 +43,7 @@ namespace CinemaConsole.Data.BackEnd
         /// <param name="time"></param>
         /// <param name="moviename"></param>
         /// <param name="theatherhall"></param>
-        public TicketInfo(string ticketowner, int seatx, int seaty, double seatprice, 
+        public TicketInfo(string ticketowner, string email, int seatx, int seaty, int amount, double seatprice, 
                             string time, string moviename, int theatherhall)
         {
             Owner = ticketowner;
@@ -45,7 +52,10 @@ namespace CinemaConsole.Data.BackEnd
             Price = seatprice;
             Time = DateTime.ParseExact(time, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
             MovieName = moviename;
-            TheatherHall = theatherhall.ToString();
+            TheatherHall = theatherhall;
+            Ticket = createTicketID();
+            Email = email;
+            Amount = amount;
         }
 
         /// <summary>
@@ -57,23 +67,23 @@ namespace CinemaConsole.Data.BackEnd
         /// <param name="MovieName"></param>
         /// <param name="TheatherHall"></param>
         /// <returns></returns>
-        private string createTicketID(int SeatX, int SeatY,DateTime Time, string MovieName, string TheatherHall)
+        private string createTicketID()
         {
-            //Split the data what time the movie starts
-            int MovieStartTimeMinute = Time.Minute;
-            int MovieStartTimeHour = Time.Hour;
-            int MovieStartTimeDay = Time.Day;
-            int MovieStartTimeMonth = Time.Month;
-            int MovieStartTimeYear = Time.Year;
             //Takes the first 3 letters of the movie and makes them all caps
             string MovieNameShort = MovieName.Substring(0, 3).ToUpper();
 
             //Create the movie unique id
-            string MovieTicketData = MovieStartTimeMinute + MovieStartTimeHour + MovieStartTimeDay +
-                MovieStartTimeMonth + MovieStartTimeYear + MovieNameShort + SeatX + SeatY + TheatherHall;
+            string MovieTicketData = (Time.ToString("mm")) + (Time.ToString("HH")) + (Time.ToString("dd")) +
+                (Time.ToString("MM")) + (Time.ToString("yyyy")) + MovieNameShort + X + Y + TheatherHall;
 
             return MovieTicketData;
         }
+
+        public Tuple<Tuple<string, string, string, string>, int, int, int, double, DateTime, int> GetTicketInfo()
+        {
+            return Tuple.Create(Tuple.Create(Owner, Email, MovieName, Ticket), X, Y, Amount, Price, Time, TheatherHall);
+        }
+
 
         /// <summary>
         /// 
@@ -126,7 +136,7 @@ namespace CinemaConsole.Data.BackEnd
                 switch (todo)
                 {
                     case "1":
-                        ticketInfo = createTicketID(X,Y,Time,MovieName,TheatherHall);
+                        ticketInfo = createTicketID();
                         Console.WriteLine("Completed");
                         break;
                     case "2":

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Data;
+using CinemaConsole.Data.BackEnd;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Pages.Restaurant;
 
@@ -20,25 +21,25 @@ namespace CinemaConsole.Pages.Customer
             Movies movie1 = new Movies("Transformers", 2007, 12, "An ancient struggle between two Cybertronian races, the heroic Autobots and the evil Decepticons, comes to Earth, with a clue to the ultimate power held by a teenager.", "Shia LaBeouf, Megan Fox");
             MovieList.movieList.Add(movie1);
 
-            DateTimeHall datetimehall1 = new DateTimeHall("21-04-2020", "12:20", 1, movie1);
+            DateTimeHall datetimehall1 = new DateTimeHall("04/04/2020", "09:00", 1, movie1);
             movie1.DateTimeHallsList.Add(datetimehall1);
-            DateTimeHall datetimehall1A = new DateTimeHall("21-06-2020", "12:20", 2, movie1);
+            DateTimeHall datetimehall1A = new DateTimeHall("21/06/2020", "12:20", 2, movie1);
             movie1.DateTimeHallsList.Add(datetimehall1A);
 
             Movies movie2 = new Movies("Avengers", 2012, 12, "Earth's mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.", "Robert Downey Jr., Chris Evans, Scarlett Johansson");
             MovieList.movieList.Add(movie2);
 
-            DateTimeHall datetimehall2 = new DateTimeHall("21-05-2020", "12:20", 1, movie2);
+            DateTimeHall datetimehall2 = new DateTimeHall("21/05/2020", "12:20", 1, movie2);
             movie2.DateTimeHallsList.Add(datetimehall2);
-            DateTimeHall datetimehall2A = new DateTimeHall("21-06-2020", "12:20", 3, movie2);
+            DateTimeHall datetimehall2A = new DateTimeHall("21/06/2020", "12:20", 3, movie2);
             movie2.DateTimeHallsList.Add(datetimehall2A);
 
             Movies movie3 = new Movies("The Dark Knight", 2008, 12, "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.", " Christian Bale, Heath Ledger, Aaron Eckhart");
             MovieList.movieList.Add(movie3);
 
-            DateTimeHall datetimehall3 = new DateTimeHall("21-06-2020", "12:20", 1, movie3);
+            DateTimeHall datetimehall3 = new DateTimeHall("21/06/2020", "12:20", 1, movie3);
             movie3.DateTimeHallsList.Add(datetimehall3);
-            DateTimeHall datetimehall3A = new DateTimeHall("21-05-2020", "12:20", 2, movie3);
+            DateTimeHall datetimehall3A = new DateTimeHall("21/05/2020", "12:20", 2, movie3);
             movie3.DateTimeHallsList.Add(datetimehall3A);
         }
 
@@ -243,11 +244,9 @@ namespace CinemaConsole.Pages.Customer
                     //edits the seat to opposite of what it was
                     if (free)
                     {
-                        for (int i = seatX - 1; i < seatX + amount - 1; i++)
-                        {
-                            seat[seatY - 1][i].editAvail();
-                        }
+                        Cancel(amount, seatX, seatY, time);
                     }
+                    break;
                 }
             }
             return Tuple.Create(seatX, seatY);
@@ -354,6 +353,45 @@ namespace CinemaConsole.Pages.Customer
             Console.WriteLine("\n[exit] Back to the menu.");
         }
 
+        private static Tuple<string, string, string> Name()
+        {
+            Console.WriteLine("Please enter your first name");
+            string first_name = Console.ReadLine();
+
+            Console.WriteLine("Please enter your last name");
+            string last_name = Console.ReadLine();
+
+            Console.WriteLine("Please enter your e-mail adress");
+            string email = Console.ReadLine();
+
+            return Tuple.Create(first_name, last_name, email);
+        }
+
+        public static void Overview(TicketInfo ticket)
+        {
+            Tuple<Tuple<string, string, string, string>, int, int, int, double, DateTime, int> InfoTicket = ticket.GetTicketInfo();
+
+            Console.WriteLine("\n" + InfoTicket.Item1.Item3 + " " + InfoTicket.Item6.ToString("HH:mm dd/MM/yyyy"));
+
+            string seats = "";
+
+            for (int i = InfoTicket.Item2; i < InfoTicket.Item2 + InfoTicket.Item4; i++)
+            {
+                seats += "(" + i + "/" + InfoTicket.Item3 + ") ";
+            }
+
+            Console.WriteLine("Seats: " + seats);
+            Console.WriteLine(InfoTicket.Item1.Item1 + " " + InfoTicket.Item1.Item2);
+
+        }
+
+        private static void Cancel(int amount, int X, int Y, DateTimeHall DTH)
+        {
+            for (int i = X; i < amount + X; i++)
+            {
+                DTH.getDateInfo().Item4.getHallInfo().Item1[Y][i].editAvail();
+            }
+        }
 
         public static void Menu()
         {
@@ -382,27 +420,78 @@ namespace CinemaConsole.Pages.Customer
                     if (line == aMovie.getMovieInfo().Item1.ToString())
                     {
                         string Movieinfo = GetMovieInfo(aMovie);
-                        while (true && Movieinfo == "1")
+                        
+                        if(Movieinfo == "1")
                         {
-                            Console.WriteLine("\nPlease enter the number or word that stands before the time you want to reserve or action you want to do");
-                            string CustomerReserve = Console.ReadLine();
-                            
-                            if(CustomerReserve == "exit")
+                            while (true)
                             {
-                                break;
-                            }
+                                Console.WriteLine("\nPlease enter the number or word that stands before the time you want to reserve or action you want to do");
+                                string CustomerReserve = Console.ReadLine();
 
-                            else
-                            {
-                                foreach(DateTimeHall date in aMovie.DateTimeHallsList)
+                                if (CustomerReserve == "exit")
                                 {
-                                    if(CustomerReserve == date.getDateInfo().Item1.ToString())
+                                    break;
+                                }
+
+                                else
+                                {
+                                    int Break = 0;
+                                    foreach (DateTimeHall date in aMovie.DateTimeHallsList)
                                     {
-                                        SelectSeat(aMovie, date.getDateInfo().Item1);
+                                        if (CustomerReserve == date.getDateInfo().Item1.ToString())
+                                        {
+                                            Tuple<int, int, int> AmountXY = SelectSeat(aMovie, date.getDateInfo().Item1);
+                                            Break = AmountXY.Item1;
+
+                                            if (AmountXY.Item1 == 0)
+                                            {
+                                                break;
+                                            }
+
+                                            else
+                                            {
+                                                Tuple<string, string, string> Information = Name();
+                                                string fullname = Information.Item1 + " " + Information.Item2;
+
+                                                string Date = date.getDateInfo().Item2 + " " + date.getDateInfo().Item3;
+                                                int Theatherhall = date.getDateInfo().Item4.getHallInfo().Item2;
+                                                TicketInfo TI = new TicketInfo(fullname, Information.Item3, AmountXY.Item2, AmountXY.Item3, AmountXY.Item1, 15.00, Date, aMovie.getMovieInfo().Item2, Theatherhall);
+
+                                                Overview(TI);
+
+                                                while (true)
+                                                {
+                                                    Console.WriteLine("\nDo you want to comfirm the reservation? \n[1] Comfirm reservation\n[2] Cancel reservation");
+                                                    string comfirm = Console.ReadLine();
+
+                                                    if (comfirm == "1")
+                                                    {
+                                                        ReservationList.reservationList.Add(TI);
+                                                        Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + TI.GetTicketInfo().Item1.Item4);
+                                                        Console.WriteLine("\nEnter to go back to the movielist");
+                                                        Console.ReadLine();
+                                                        break;
+                                                    }
+
+                                                    else if (comfirm == "2")
+                                                    {
+                                                        Cancel(AmountXY.Item1, AmountXY.Item2, AmountXY.Item3, date);
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    }
+                                    
+                                    if(Break != 0)
+                                    {
+                                        break;
                                     }
                                 }
                             }
                         }
+                        break;
                     }
                 }
             }

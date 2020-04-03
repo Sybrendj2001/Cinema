@@ -49,7 +49,6 @@
     <Compile Include="Data\Employee\TicketReservations.cs" />
     <Compile Include="Data\Employee\RestaurantProduct.cs" />
     <Compile Include="Data\BackEnd\TicketInfo.cs" />
-    <Compile Include="Data\BackEnd\Ticket.cs" />
     <Compile Include="Data\Employee\MovieList.cs" />
     <Compile Include="Data\Employee\Movies.cs" />
     <Compile Include="Data\Employee\DateTimeHall.cs" />

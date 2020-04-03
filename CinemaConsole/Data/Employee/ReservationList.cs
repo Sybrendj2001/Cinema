@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CinemaConsole.Data.BackEnd;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace CinemaConsole.Data.Employee
 {
     class ReservationList
     {
-        public static List<TicketReservations> reservationList = new List<TicketReservations>();
+        public static List<TicketInfo> reservationList = new List<TicketInfo>();
     }
 }

@@ -17,6 +17,7 @@ namespace CinemaConsole
         static void Main(string[] args)
         {
             Customer.AddStuff();
+            TicketSalesman.Tickets();
             Restaurant.someProducts();
             bool Running = true;
             string pageToBe = "";
@@ -67,8 +68,8 @@ namespace CinemaConsole
                         break;
 
                     case "3":
-                        TicketInfo goIntoTicket = new TicketInfo("Sybren",3,3,13.00,"17/02/2020 16:30","Thor",2);
-                        goIntoTicket.Menu();
+                        //TicketInfo goIntoTicket = new TicketInfo("Sybren",3,3,13.00,"17/02/2020 16:30","Thor",2);
+                        //goIntoTicket.Menu();
                         break;
 
                     case "exit":
