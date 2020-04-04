@@ -9,6 +9,6 @@ namespace CinemaConsole.Data.Employee
 {
     class ReservationList
     {
-        public static List<TicketInfo> reservationList = new List<TicketInfo>();
+        public static List<TicketInfo> reservationList { get; set; } = new List<TicketInfo>();
     }
 }

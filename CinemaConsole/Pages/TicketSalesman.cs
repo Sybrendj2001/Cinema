@@ -17,7 +17,7 @@ namespace CinemaConsole.Pages.TicketSalesman
         {
 
         }
-
+        // Fake tickets
         public static void Tickets()
         {
             TicketInfo ticket1 = new TicketInfo("Mark van het Hof", "mark@gmailo.com", 5, 4, 1, 15.00, "10/10/2020 20:00", "Transformers", 2);
@@ -30,61 +30,79 @@ namespace CinemaConsole.Pages.TicketSalesman
             ReservationList.reservationList.Add(ticket3);
         }
 
-        // Shows the ticket salesman all reservations with details of the customer and the movie.
+        // Ticketsalesman able to search to on customer name or ticketnumber or movie
         private static void Display()
         {
             Console.WriteLine("[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date");
             string SearchOption = Console.ReadLine();
 
-            if(SearchOption == "1")
+            if (SearchOption == "1")
             {
                 Console.WriteLine("Please enter the customer full name");
                 string name = Console.ReadLine();
 
-                foreach(TicketInfo ticket in ReservationList.reservationList)
+                if (ReservationList.reservationList.Count != 0)
                 {
-                    if (ticket.GetTicketInfo().Item1.Item1 == name)
+                    foreach (TicketInfo ticket in ReservationList.reservationList)
                     {
-                        Customer.Customer.Overview(ticket);
-                        Console.WriteLine("Ticketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
-                        Console.ReadLine();
-                        break;
-                    }
+                        if (ticket.GetTicketInfo().Item1.Item1 == name)
+                        {
+                            Customer.Customer.Overview(ticket);
+                            Console.WriteLine("Ticketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
+                            Console.ReadLine();
+                            break;
+                        }
 
-                    else
-                    {
-                        Console.WriteLine("\nThere were no results found with name: " + name + "\nPress enter to go back to the menu");
-                        Console.ReadLine();
-                        break;
+                        else
+                        {
+                            Console.WriteLine("\nThere were no results found with name: " + name + "\nPress enter to go back to the menu");
+                            Console.ReadLine();
+                            break;
+                        }
                     }
+                }
+
+                else
+                {
+                    Console.WriteLine("\nThere were no results found with name: " + name + "\nPress enter to go back to the menu");
+                    Console.ReadLine();
                 }
             }
 
-            else if(SearchOption == "2")
+            else if (SearchOption == "2")
             {
                 Console.WriteLine("Please enter the ticketnumber");
                 string ticketnumber = Console.ReadLine();
 
-                foreach (TicketInfo ticket in ReservationList.reservationList)
+                if (ReservationList.reservationList.Count != 0)
                 {
-                    if (ticket.GetTicketInfo().Item1.Item4 == ticketnumber)
+                    foreach (TicketInfo ticket in ReservationList.reservationList)
                     {
-                        Customer.Customer.Overview(ticket);
-                        Console.WriteLine("Ticketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
-                        Console.ReadLine();
-                        break;
-                    }
+                        if (ticket.GetTicketInfo().Item1.Item4 == ticketnumber)
+                        {
+                            Customer.Customer.Overview(ticket);
+                            Console.WriteLine("Ticketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
+                            Console.ReadLine();
+                            break;
+                        }
 
-                    else
-                    {
-                        Console.WriteLine("\nThere were no results found with ticketnumber: " + ticketnumber + "\nPress enter to go back to the menu");
-                        Console.ReadLine();
-                        break;
+                        else
+                        {
+                            Console.WriteLine("\nThere were no results found with ticketnumber: " + ticketnumber + "\nPress enter to go back to the menu");
+                            Console.ReadLine();
+                            break;
+                        }
                     }
+                }
+
+                else
+                {
+                    Console.WriteLine("\nThere were no results found with ticketnumber: " + ticketnumber + "\nPress enter to go back to the menu");
+                    Console.ReadLine();
                 }
             }
 
-            else if(SearchOption == "3")
+            else if (SearchOption == "3")
             {
                 Console.WriteLine("Please enter the movie");
                 string movie = Console.ReadLine();
@@ -97,24 +115,34 @@ namespace CinemaConsole.Pages.TicketSalesman
 
                 string DT = date + " " + time;
 
-                foreach (TicketInfo ticket in ReservationList.reservationList)
+                if (ReservationList.reservationList.Count != 0)
                 {
-                    string DTT = ticket.GetTicketInfo().Item6.ToString("dd/MM/yyyy HH:mm");
 
-                    if (DTT == DT && movie == ticket.GetTicketInfo().Item1.Item3)
+                    foreach (TicketInfo ticket in ReservationList.reservationList)
                     {
-                        Customer.Customer.Overview(ticket);
-                        Console.WriteLine("Ticketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
-                        Console.ReadLine();
-                        break;
-                    }
+                        string DTT = ticket.GetTicketInfo().Item6.ToString("dd/MM/yyyy HH:mm");
 
-                    else
-                    {
-                        Console.WriteLine("\nThere were no results found \nPress enter to go back to the menu");
-                        Console.ReadLine();
-                        break;
+                        if (DTT == DT && movie == ticket.GetTicketInfo().Item1.Item3)
+                        {
+                            Customer.Customer.Overview(ticket);
+                            Console.WriteLine("Ticketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
+                            Console.ReadLine();
+                            break;
+                        }
+
+                        else
+                        {
+                            Console.WriteLine("\nThere were no results found \nPress enter to go back to the menu");
+                            Console.ReadLine();
+                            break;
+                        }
                     }
+                }
+
+                else
+                {
+                    Console.WriteLine("\nThere were no results found \nPress enter to go back to the menu");
+                    Console.ReadLine();
                 }
             }
         }

@@ -455,25 +455,24 @@ namespace CinemaConsole.Pages.Customer
 
                                                 string Date = date.getDateInfo().Item2 + " " + date.getDateInfo().Item3;
                                                 int Theatherhall = date.getDateInfo().Item4.getHallInfo().Item2;
-                                                TicketInfo TI = new TicketInfo(fullname, Information.Item3, AmountXY.Item2, AmountXY.Item3, AmountXY.Item1, 15.00, Date, aMovie.getMovieInfo().Item2, Theatherhall);
+                                                TicketInfo ticket = new TicketInfo(fullname, Information.Item3, AmountXY.Item2, AmountXY.Item3, AmountXY.Item1, 15.00, Date, aMovie.getMovieInfo().Item2, Theatherhall);
 
-                                                Overview(TI);
+                                                Overview(ticket);
+                                                Console.WriteLine("\nDo you want to confirm the reservation? \n[1] Confirm reservation\n[2] Cancel reservation");
+                                                string confirm = Console.ReadLine();
 
                                                 while (true)
                                                 {
-                                                    Console.WriteLine("\nDo you want to comfirm the reservation? \n[1] Comfirm reservation\n[2] Cancel reservation");
-                                                    string comfirm = Console.ReadLine();
-
-                                                    if (comfirm == "1")
+                                                    if (confirm == "1")
                                                     {
-                                                        ReservationList.reservationList.Add(TI);
-                                                        Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + TI.GetTicketInfo().Item1.Item4);
+                                                        ReservationList.reservationList.Add(ticket);
+                                                        Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticket.GetTicketInfo().Item1.Item4);
                                                         Console.WriteLine("\nEnter to go back to the movielist");
                                                         Console.ReadLine();
                                                         break;
                                                     }
 
-                                                    else if (comfirm == "2")
+                                                    else if (confirm == "2")
                                                     {
                                                         Cancel(AmountXY.Item1, AmountXY.Item2, AmountXY.Item3, date);
                                                         break;
