@@ -91,10 +91,10 @@ namespace CinemaConsole.Pages.Admin
             bool k = true;
             while (k)
             {
-                Console.WriteLine("Please enter a date and time when you want " + movie.getMovieInfo().Item2 + " to play.(12-12-2012/12:20)");
+                Console.WriteLine("Please enter a date and time when you want " + movie.getMovieInfo().Item2 + " to play.(12/12/2012 12:20)");
                 string dateTime = Console.ReadLine();
 
-                string[] DateTime = dateTime.Split('/');
+                string[] DateTime = dateTime.Split(' ');
                 string date = DateTime[0];
                 string time = DateTime[1];
 
