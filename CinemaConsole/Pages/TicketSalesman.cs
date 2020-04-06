@@ -8,7 +8,6 @@ using CinemaConsole.Data;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Data.BackEnd;
 
-
 namespace CinemaConsole.Pages.TicketSalesman
 {
     public class TicketSalesman : Employee
@@ -17,7 +16,8 @@ namespace CinemaConsole.Pages.TicketSalesman
         {
 
         }
-        // Fake tickets
+
+        // Fake tickets so you don't have to make tickets everytime
         public static void Tickets()
         {
             TicketInfo ticket1 = new TicketInfo("Mark van het Hof", "mark@gmailo.com", 5, 4, 1, 15.00, "10/10/2020 20:00", "Transformers", 2);
@@ -41,10 +41,12 @@ namespace CinemaConsole.Pages.TicketSalesman
                 Console.WriteLine("Please enter the customer full name");
                 string name = Console.ReadLine();
 
+                // Check if the reservation list is empty or not
                 if (ReservationList.reservationList.Count != 0)
                 {
                     foreach (TicketInfo ticket in ReservationList.reservationList)
                     {
+                        //Search on name
                         if (ticket.GetTicketInfo().Item1.Item1 == name)
                         {
                             Customer.Customer.Overview(ticket);
@@ -71,6 +73,7 @@ namespace CinemaConsole.Pages.TicketSalesman
 
             else if (SearchOption == "2")
             {
+                //Search on ticketnumber
                 Console.WriteLine("Please enter the ticketnumber");
                 string ticketnumber = Console.ReadLine();
 
@@ -102,6 +105,7 @@ namespace CinemaConsole.Pages.TicketSalesman
                 }
             }
 
+            //Search on movie/time/date
             else if (SearchOption == "3")
             {
                 Console.WriteLine("Please enter the movie");
@@ -147,7 +151,7 @@ namespace CinemaConsole.Pages.TicketSalesman
             }
         }
 
-        // This let the ticket salesman  remove/cancel reservations.
+        // This let the ticket salesman remove/cancel reservations. You have to type in the ticketnumber to remove the reservation.
         public static void RemoveReservation()
         {
             Console.WriteLine("Please enter the ticketnumber of the reservation you want to remove:");

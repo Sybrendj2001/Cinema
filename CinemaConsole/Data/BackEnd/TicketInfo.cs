@@ -32,7 +32,6 @@ namespace CinemaConsole.Data.BackEnd
 
         private int Amount { get; set; }
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -83,7 +82,5 @@ namespace CinemaConsole.Data.BackEnd
         {
             return Tuple.Create(Tuple.Create(Owner, Email, MovieName, Ticket), X, Y, Amount, Price, Time, TheatherHall);
         }
-
-
     }
 }

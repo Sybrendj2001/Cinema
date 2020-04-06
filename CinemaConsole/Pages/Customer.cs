@@ -68,7 +68,7 @@ namespace CinemaConsole.Pages.Customer
                         int count = 0;
                         for (int j = 0; j < seat[i].Length; j++)
                         {
-                            if (seat[seat.Length-1-i][j].getInfo().Item3)
+                            if (seat[seat.Length - 1 - i][j].getInfo().Item3)
                             {
                                 count++;
                                 if (count >= amount)
@@ -127,7 +127,7 @@ namespace CinemaConsole.Pages.Customer
                     {
                         for (int j = 0; j < seat[i].Length; j++)
                         {
-                            if (seat[seat.Length -1 -i][j].getInfo().Item3)
+                            if (seat[seat.Length - 1 - i][j].getInfo().Item3)
                             {
                                 if (j > 8)
                                 {
@@ -305,7 +305,6 @@ namespace CinemaConsole.Pages.Customer
 
         }
 
-
         public static string GetMovieInfo(Movies movie)
         {
             Console.WriteLine("Movie selected: " + movie.getMovieInfo().Item2);
@@ -315,7 +314,7 @@ namespace CinemaConsole.Pages.Customer
             Console.WriteLine("Summary: " + movie.getMovieInfo().Item5);
             string CustomerReservateOption = "";
             while (true)
-                {
+            {
                 Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
                 CustomerReservateOption = Console.ReadLine();
 
@@ -330,7 +329,7 @@ namespace CinemaConsole.Pages.Customer
                     break;
                 }
 
-                else if(CustomerReservateOption == "exit")
+                else if (CustomerReservateOption == "exit")
                 {
                     break;
                 }
@@ -367,6 +366,7 @@ namespace CinemaConsole.Pages.Customer
             return Tuple.Create(first_name, last_name, email);
         }
 
+        //Overview of the customers information and movie information.You can check all the information before you reserve the tickets.
         public static void Overview(TicketInfo ticket)
         {
             Tuple<Tuple<string, string, string, string>, int, int, int, double, DateTime, int> InfoTicket = ticket.GetTicketInfo();
@@ -382,9 +382,9 @@ namespace CinemaConsole.Pages.Customer
 
             Console.WriteLine("Seats: " + seats);
             Console.WriteLine(InfoTicket.Item1.Item1 + " " + InfoTicket.Item1.Item2);
-
         }
 
+        // Cancel the reservation and make the seats available again.
         private static void Cancel(int amount, int X, int Y, DateTimeHall DTH)
         {
             for (int i = X; i < amount + X; i++)
@@ -415,13 +415,13 @@ namespace CinemaConsole.Pages.Customer
                     Restaurant.Restaurant.Display();
                 }
 
-                foreach (Movies aMovie in MovieList.movieList) 
+                foreach (Movies aMovie in MovieList.movieList)
                 {
                     if (line == aMovie.getMovieInfo().Item1.ToString())
                     {
                         string Movieinfo = GetMovieInfo(aMovie);
-                        
-                        if(Movieinfo == "1")
+
+                        if (Movieinfo == "1")
                         {
                             while (true)
                             {
@@ -463,6 +463,7 @@ namespace CinemaConsole.Pages.Customer
 
                                                 while (true)
                                                 {
+                                                    //Conform the reservation or cancel it.
                                                     if (confirm == "1")
                                                     {
                                                         ReservationList.reservationList.Add(ticket);
@@ -482,8 +483,8 @@ namespace CinemaConsole.Pages.Customer
                                             break;
                                         }
                                     }
-                                    
-                                    if(Break != 0)
+
+                                    if (Break != 0)
                                     {
                                         break;
                                     }
@@ -497,4 +498,3 @@ namespace CinemaConsole.Pages.Customer
         }
     }
 }
-
