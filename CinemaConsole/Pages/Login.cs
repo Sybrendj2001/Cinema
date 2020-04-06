@@ -15,8 +15,7 @@ namespace CinemaConsole.Pages
             {new Profiles("retailer","retailer","retailer") },
             {new Profiles("admin","admin","admin") },
             {new Profiles("retailer","retailer","retailer") },
-            {new Profiles("ticketsalesman","ticketsalesman","ticketsalesman") },
-            {new Profiles("ticketsalesman","ticketsalesman","ticketsaleman") },
+            {new Profiles("ticketsalesman","ticketsalesman","ticketSalesman") },
             {new Profiles("admin","admin","admin") }
         };
 
@@ -50,8 +49,12 @@ namespace CinemaConsole.Pages
             bool checkLogin = true;
             while (checkLogin == true)
             {
-                Console.WriteLine("Give your credentials:(username - password)");
+                Console.WriteLine("Give your credentials:(username - password) or enter [exit] to return to the menu");
                 string login = Console.ReadLine();
+                if (login == "exit")
+                {
+                    break;
+                }
                 string[] credentials = login.Split(' ');
                 if (credentials.Length != 2)
                 {

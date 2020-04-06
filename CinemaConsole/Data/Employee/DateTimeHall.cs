@@ -31,7 +31,7 @@ namespace CinemaConsole.Data
 		/// <summary>
 		/// Creating a new unique ID and checking for missing ID's
 		/// </summary>
-		private static int HallID(Movies movie)
+		private int HallID(Movies movie)
 		{
 			int idd;
 			for (int i = 0; i < movie.DateTimeHallsList.Count; i++)
@@ -87,7 +87,7 @@ namespace CinemaConsole.Data
 				for (int j = 0; j < 12; j++)
 				{
 					SeatName = "(row " + (14 - i) + " seat ";
-					SeatAvail = true;
+					SeatAvail =	true;
 					if ((i == 0 || i > 11) && (j > 1 && j < 10))
 					{
 						SeatName += (j - 1) + ")";
