@@ -30,7 +30,7 @@ namespace CinemaConsole
                 }
                 else
                 {
-                    Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Login.\n[2] Show the movielist.\n[3] Create ticket\n[4] Contact info\n[5] Help\n[exit] Exit the program.");
+                    Console.WriteLine("Welcome to Cinema Keine Ahnung!\n\nPlease enter the number that stands before the option you want.\n[1] Login.\n[2] Show the movielist.\n[3] Create ticket\n[4] Contact info\n[5] Help\n[exit] Exit the program.");
                     toDo = Console.ReadLine();
                 }
                 switch (toDo)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Pages;
+using CinemaConsole.Pages.Customer;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Data;
 
@@ -13,7 +14,6 @@ namespace CinemaConsole.Pages.Admin
     {
         public Admin()
         {
-
         }
 
         /// <summary>
@@ -319,12 +319,12 @@ namespace CinemaConsole.Pages.Admin
 
                 foreach (DateTimeHall date in movie.DateTimeHallsList)
                 {
-                    Console.WriteLine(date.getDateInfo().Item1 + "      " + date.getDateInfo().Item2 + "     " + date.getDateInfo().Item3 + "    Theaterhall " + date.getDateInfo().Item4.getHallInfo().Item2);
+                    Console.WriteLine("[" + movie.getMovieInfo().Item1 + "." + date.getDateInfo().Item1 + "]      " + date.getDateInfo().Item2 + "     " + date.getDateInfo().Item3 + "    Theaterhall " + date.getDateInfo().Item4.getHallInfo().Item2);
                 }
                 Console.Write("");
             }
 
-            Console.WriteLine("\nEnter the number of the movie for details:");
+            Console.WriteLine("\nEnter the number of the movie for details or enter the time-date to see the theaterhall '1.1':");
 
             string line = Console.ReadLine();
             foreach (Movies movie in MovieList.movieList)
@@ -344,6 +344,19 @@ namespace CinemaConsole.Pages.Admin
                         // using readline here to wait for an enter
                         Console.ReadLine();
                         k = false;
+                    }
+                }
+
+                foreach (DateTimeHall date in movie.DateTimeHallsList)
+                {
+                    string combined = movie.getMovieInfo().Item1.ToString() + "." + date.getDateInfo().Item1.ToString();
+                    if (line == combined)
+                    {
+                        Customer.Customer.ShowHall(date.getDateInfo().Item1, movie);
+                        Console.WriteLine("\nPress enter to continue");
+
+                        // using readline here to wait for an enter
+                        Console.ReadLine();
                     }
                 }
             }

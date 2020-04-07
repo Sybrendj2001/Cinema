@@ -93,7 +93,7 @@ namespace CinemaConsole.Pages.Customer
         /// </summary>
         /// <param name="id"></param>
         /// <param name="movie"></param>
-        private static void ShowHall(int id, Movies movie)
+        public static void ShowHall(int id, Movies movie)
         {
             foreach (DateTimeHall time in movie.DateTimeHallsList)
             {
