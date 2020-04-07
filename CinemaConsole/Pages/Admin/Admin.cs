@@ -21,24 +21,28 @@ namespace CinemaConsole.Pages.Admin
         /// </summary>
         private static void Add()
         {
-            Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
+            Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13) [exit] Back to menu");
             string tiyeag = Console.ReadLine();
 
-            // create a function for adding the movie info 
-            var movieinfo = AddTimeYearAge(tiyeag);
+            if (tiyeag != "exit")
+            {
+                // create a function for adding the movie info 
+                var movieinfo = AddTimeYearAge(tiyeag);
 
-            Console.WriteLine("Please enter a short summary of the movie.");
-            string sum = Console.ReadLine();
+                Console.WriteLine("Please enter a short summary of the movie.");
+                string sum = Console.ReadLine();
 
-            Console.WriteLine("Please give some actors.(Write them like this: Tom Cruise, Brad Pitt)");
-            string actors = Console.ReadLine();
+                Console.WriteLine("Please give some actors.(Write them like this: Tom Cruise, Brad Pitt)");
+                string actors = Console.ReadLine();
 
-            Movies movie = new Movies(movieinfo.Item1, movieinfo.Item2, movieinfo.Item3, sum, actors);
+                Movies movie = new Movies(movieinfo.Item1, movieinfo.Item2, movieinfo.Item3, sum, actors);
 
-            MovieList.movieList.Add(movie);
+                MovieList.movieList.Add(movie);
 
-            // adding the movie times to the given movie
-            AddMovieTimes(movie);
+                // adding the movie times to the given movie
+                AddMovieTimes(movie);
+                MovieList.orderList();
+            }
         }
 
         /// <summary>
@@ -115,6 +119,7 @@ namespace CinemaConsole.Pages.Admin
                 DateTimeHall datetimehall = new DateTimeHall(date, time, hall, movie);
 
                 movie.DateTimeHallsList.Add(datetimehall);
+                movie.orderList();
 
                 Console.WriteLine("Please enter 'add' if you have no more dates or times to fill in or press enter to continue.");
                 string exit = Console.ReadLine();
@@ -143,11 +148,11 @@ namespace CinemaConsole.Pages.Admin
                 // count all movies + 1 for an exit number
                 int moviecount = MovieList.movieList.Count + 1;
 
-                Console.WriteLine("Enter the number of the movie you want to edit or enter [" + moviecount.ToString() + "] to go back.:");
+                Console.WriteLine("Enter the number of the movie you want to edit or enter [exit] to go back.:");
 
                 string line = Console.ReadLine();
 
-                if (line == moviecount.ToString())
+                if (line == "exit")
                 {
                     k = false;
                 }
@@ -159,7 +164,7 @@ namespace CinemaConsole.Pages.Admin
                     {
                         // save line as an int
                         int number = Int32.Parse(line);
-                        Console.WriteLine("Enter [1] if you want to edit an entire movie or enter [2] if you only want to add a certain time:");
+                        Console.WriteLine("[1] If you want to edit an entire movie\n[2] If you only want to add a certain time\n[exit] Back to menu:");
 
                         // readline again
                         line = Console.ReadLine();
@@ -202,6 +207,10 @@ namespace CinemaConsole.Pages.Admin
                             AddMovieTimes(movie);
                             break;
                         }
+                        else if (line == "exit")
+                        {
+                            break;
+                        }
                     }
                     else
                     {
@@ -229,11 +238,11 @@ namespace CinemaConsole.Pages.Admin
                 // count all movies + 1 for an exit number
                 int moviecount = MovieList.movieList.Count + 1;
 
-                Console.WriteLine("Enter the number of the movie you want to remove or enter [" + moviecount.ToString() + "] to go back.:");
+                Console.WriteLine("Enter the number of the movie you want to remove or enter [exit] to go back:");
                 
                 string line = Console.ReadLine();
 
-                if (line == moviecount.ToString())
+                if (line == "exit")
                 {
                     k = false;
                 }
@@ -245,7 +254,7 @@ namespace CinemaConsole.Pages.Admin
                     {
                         // save line as an int
                         int number = Int32.Parse(line);
-                        Console.WriteLine("Enter [1] if you want to remove the entire movie or enter [2] if you only want to remove a certain time:");
+                        Console.WriteLine("[1] If you want to remove the entire movie \n[2] If you only want to remove a certain time\n[exit] Back to overview:");
                         
                         // readline again
                         line = Console.ReadLine();
@@ -269,12 +278,12 @@ namespace CinemaConsole.Pages.Admin
                             Console.WriteLine("Select the time you want to remove:");
                             foreach (DateTimeHall date in movie.DateTimeHallsList)
                             {
-                                Console.WriteLine("[" + date.getHallInfo().Item1 + "] " + date.getHallInfo().Item2 + "      " + date.getHallInfo().Item3);
+                                Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item2 + "      " + date.getDateInfo().Item3);
                             }
 
                             // make an int of the input
                             int time = int.Parse(Console.ReadLine());
-                            movie.DateTimeHallsList.RemoveAll(movie1 => movie1.getHallInfo().Item1 == (time));
+                            movie.DateTimeHallsList.RemoveAll(movie1 => movie1.getDateInfo().Item1 == (time));
 
                             Console.WriteLine("Press enter to continue");
 
@@ -282,6 +291,10 @@ namespace CinemaConsole.Pages.Admin
                             Console.ReadLine();
 
                             // i have to break out of the foreach loop, because you cannot modify a loop while you're in it. 
+                            break;
+                        }
+                        else if (line == "exit")
+                        {
                             break;
                         }
                     }
@@ -306,7 +319,7 @@ namespace CinemaConsole.Pages.Admin
                 
                 foreach (DateTimeHall date in movie.DateTimeHallsList)
                 {
-                    Console.WriteLine(date.getHallInfo().Item1 + "      " + date.getHallInfo().Item2 + "      " + date.getHallInfo().Item3 + "    Theaterhall " + date.getHallInfo().Item4.getInfo().Item2);
+                    Console.WriteLine(date.getDateInfo().Item1 + "      " + date.getDateInfo().Item2 + "     " + date.getDateInfo().Item3 + "    Theaterhall " + date.getDateInfo().Item4.getHallInfo().Item2);
                 }
                 Console.WriteLine("");
             }
@@ -324,11 +337,10 @@ namespace CinemaConsole.Pages.Admin
             bool k = true;
 
             // test for adding some movies
-            Customer.Customer.AddStuff();
 
             while (k)
             {
-                Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Edit a movie or add a time\n[3] Remove a movie.\n[4] Show all the movies.\n[5] Back to the menu.");
+                Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Edit a movie or add a time\n[3] Remove a movie.\n[4] Show all the movies.\n[exit] Back to the menu.");
                 string nummer = Console.ReadLine();
                 if (nummer == "1")
                 {
@@ -346,7 +358,7 @@ namespace CinemaConsole.Pages.Admin
                 {
                     Display();
                 }
-                else if (nummer == "5")
+                else if (nummer == "exit")
                 {
                     k = false;
                     break;

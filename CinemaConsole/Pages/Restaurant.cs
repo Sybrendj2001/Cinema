@@ -16,6 +16,13 @@ namespace CinemaConsole.Pages.Restaurant
 
         }
 
+        public static void someProducts()
+        {
+            Restaurant.addItem("cola",2.50);
+            Restaurant.addItem("popcorn", 3.50);
+
+        }
+
         public static void addItem(string name, double price)
         {
             RestaurantProduct product = new RestaurantProduct(name, price);
@@ -33,7 +40,7 @@ namespace CinemaConsole.Pages.Restaurant
             }
         }
 
-        private static void Display()
+        public static void Display()
         {
             Console.OutputEncoding = Encoding.UTF8;
             Console.WriteLine("Products:");

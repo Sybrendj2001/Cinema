@@ -8,7 +8,7 @@ namespace CinemaConsole.Data.Employee
 {
     public class Movies
     {
-        private int Mid { get; set; } = MovieID();
+        private int Mid { get; set; }
 
         private string Mname { get; set; }
 
@@ -37,6 +37,7 @@ namespace CinemaConsole.Data.Employee
             Mage = age;
             Msumm = summary;
             Mactors = actors;
+            Mid = MovieID();
         }
         /// <summary>
         /// Creating a public turple to get the movie info so you dont have to touch the private ints and strings
@@ -81,7 +82,7 @@ namespace CinemaConsole.Data.Employee
         /// <summary>
         /// Creating a new unique ID and checking for missing ID's
         /// </summary>
-        private static int MovieID()
+        private int MovieID()
         {
             int idd;
             for (int i = 0; i < MovieList.movieList.Count; i++){
@@ -92,6 +93,12 @@ namespace CinemaConsole.Data.Employee
                 }
             }
             return MovieList.movieList.Count + 1;
+        }
+
+        public void orderList()
+        {
+            List<DateTimeHall> orderedList = DateTimeHallsList.OrderBy(dateId => dateId.getDateInfo().Item1).ToList();
+            DateTimeHallsList = orderedList;
         }
     }
 }
