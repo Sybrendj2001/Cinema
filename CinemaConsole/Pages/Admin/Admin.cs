@@ -324,7 +324,7 @@ namespace CinemaConsole.Pages.Admin
                 Console.Write("");
             }
 
-            Console.WriteLine("\nEnter the number of the movie for details or enter the time-date to see the theaterhall '1.1':");
+            Console.WriteLine("\nEnter the number of the movie '1' for details or enter the time-date to see the theaterhall '1.1':");
 
             string line = Console.ReadLine();
             foreach (Movies movie in MovieList.movieList)
