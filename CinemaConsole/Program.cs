@@ -30,12 +30,8 @@ namespace CinemaConsole
                 }
                 else
                 {
-                    Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Login.\n[2] Show the movielist.\n[3] Create ticket\n[exit] Exit the program.");
+                    Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Login.\n[2] Show the movielist.\n[3] Create ticket\n[4] Contact info\n[5] Help\n[exit] Exit the program.");
                     toDo = Console.ReadLine();
-                    if (!int.TryParse(toDo, out _))
-                    {
-                        toDo = "somethingthatdoesntexist";
-                    }
                 }
                 switch (toDo)
                 {
@@ -70,12 +66,13 @@ namespace CinemaConsole
                         Running = false;
                         break;
 
-                    case "5":
+                    case "4":
                         Console.WriteLine("\nAdres: Wijnhaven 99, 3011 WN Rotterdam\nPhone number: 010-794 4000\n\nOpening hours:\nMonday - Thursday: 12:00 - 21:00\nFriday: 12:00 - 01:00\nSaturday - Sunday: 12:00 - 02:00 \n\n");
                         break;
 
-                    case "6":
-                        Console.WriteLine("Help: show help.\nLogin: Log into your own page.\nMovielist: Show movielist.");
+                    case "5":
+                        Console.WriteLine("Help: show help.\nLogin: Log into your own page.\nMovielist: Show movielist.\nPress enter to continue");
+                        Console.ReadLine();
                         break;
 
                     default:
