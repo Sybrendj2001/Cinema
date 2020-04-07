@@ -38,9 +38,12 @@ namespace CinemaConsole.Pages.Restaurant
         {
             for (int i = 0; i < ProductList.productList.Count; i++)
             {
-                if (ProductList.productList[i].getProductInfo().Item1.Equals(delID))
+                if (ProductList.productList[i] != null)
                 {
-                    ProductList.productList[i] = null;
+                    if (ProductList.productList[i].getProductInfo().Item1.Equals(delID))
+                    {
+                        ProductList.productList[i] = null;
+                    }
                 }
             }
         }
@@ -50,82 +53,84 @@ namespace CinemaConsole.Pages.Restaurant
         {
             for (int i = 0; i < ProductList.productList.Count; i++)
             {
-                //Checks every item on the list to see if it's ID matches the ID entered by the retailer.
-                if (ProductList.productList[i].getProductInfo().Item1.Equals(productID))
-                {
-                    Console.WriteLine("Please select which part you wish to edit:");
-                    Console.WriteLine("[1] Edit the name");
-                    Console.WriteLine("[2] Edit the price");
-                    Console.WriteLine("[3] Edit both");
-                    Console.WriteLine("[exit] Exit to the last menu");
-                    Console.WriteLine(" ");
-                    
-                    string operation = Console.ReadLine();
-                    
-                    //Edits the name of the selected product. Also forces the first letter of the name to be upper case.
-                    //Does so by creating a new product with the new name and old price, and removing the old product from the list.
-                    //Places the new product in place of the old one afterwards.
-                    if(operation == "1")
+                if (ProductList.productList[i] != null) {
+                    //Checks every item on the list to see if it's ID matches the ID entered by the retailer.
+                    if (ProductList.productList[i].getProductInfo().Item1.Equals(productID))
                     {
-                        Console.WriteLine("Please enter the new name of the product.");
-                        string inputName = Console.ReadLine();
-                        string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
-                        double newPrice = ProductList.productList[i].getProductInfo().Item3;
+                        Console.WriteLine("Please select which part you wish to edit:");
+                        Console.WriteLine("[1] Edit the name");
+                        Console.WriteLine("[2] Edit the price");
+                        Console.WriteLine("[3] Edit both");
+                        Console.WriteLine("[exit] Exit to the last menu");
                         Console.WriteLine(" ");
 
-                        RemoveItem(productID);
-                        RestaurantProduct product = new RestaurantProduct(newName, newPrice);
-                        ProductList.productList.Add(product);
-                        break;
-                    }
+                        string operation = Console.ReadLine();
 
-                    //Edits the price of the selected product.
-                    //Does so by creating a new product with the old name and new price, and removing the old product from the list.
-                    //Places the new product in place of the old one afterwards.
-                    else if (operation == "2")
-                    {
-                        Console.WriteLine("Please enter the new price of the product in euro's.");
-                        string newName = ProductList.productList[i].getProductInfo().Item2;
-                        double newPrice = double.Parse(Console.ReadLine());
-                        Console.WriteLine(" ");
+                        //Edits the name of the selected product. Also forces the first letter of the name to be upper case.
+                        //Does so by creating a new product with the new name and old price, and removing the old product from the list.
+                        //Places the new product in place of the old one afterwards.
+                        if (operation == "1")
+                        {
+                            Console.WriteLine("Please enter the new name of the product.");
+                            string inputName = Console.ReadLine();
+                            string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
+                            double newPrice = ProductList.productList[i].getProductInfo().Item3;
+                            Console.WriteLine(" ");
 
-                        RemoveItem(productID);
-                        RestaurantProduct product = new RestaurantProduct(newName, newPrice);
-                        ProductList.productList.Add(product);
-                        break;
-                    }
+                            RemoveItem(productID);
+                            RestaurantProduct product = new RestaurantProduct(newName, newPrice);
+                            ProductList.productList.Add(product);
+                            break;
+                        }
 
-                    //Edits both the name and price of the selected product. 
-                    //Does so by creating a new product with the new name and old price, and removing the old product from the list.
-                    //Places the new product in place of the old one afterwards.
-                    //Also forces the first letter of the name to be upper case.
-                    else if (operation == "3")
-                    {
-                        Console.WriteLine("Please enter the new name of the product.");
-                        string inputName = Console.ReadLine();
-                        string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
-                        Console.WriteLine(" ");
-                        Console.WriteLine("Please enter the new price of the product in euro's.");
-                        double newPrice = double.Parse(Console.ReadLine());
-                        Console.WriteLine(" ");
+                        //Edits the price of the selected product.
+                        //Does so by creating a new product with the old name and new price, and removing the old product from the list.
+                        //Places the new product in place of the old one afterwards.
+                        else if (operation == "2")
+                        {
+                            Console.WriteLine("Please enter the new price of the product in euro's.");
+                            string newName = ProductList.productList[i].getProductInfo().Item2;
+                            double newPrice = double.Parse(Console.ReadLine());
+                            Console.WriteLine(" ");
 
-                        RemoveItem(productID);
-                        RestaurantProduct product = new RestaurantProduct(newName, newPrice);
-                        ProductList.productList.Add(product);
-                        break;
-                    }
+                            RemoveItem(productID);
+                            RestaurantProduct product = new RestaurantProduct(newName, newPrice);
+                            ProductList.productList.Add(product);
+                            break;
+                        }
 
-                    //Exits the currrent menu.
-                    else if(operation == "exit")
-                    {
-                        break;
-                    }
+                        //Edits both the name and price of the selected product. 
+                        //Does so by creating a new product with the new name and old price, and removing the old product from the list.
+                        //Places the new product in place of the old one afterwards.
+                        //Also forces the first letter of the name to be upper case.
+                        else if (operation == "3")
+                        {
+                            Console.WriteLine("Please enter the new name of the product.");
+                            string inputName = Console.ReadLine();
+                            string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
+                            Console.WriteLine(" ");
+                            Console.WriteLine("Please enter the new price of the product in euro's.");
+                            double newPrice = double.Parse(Console.ReadLine());
+                            Console.WriteLine(" ");
 
-                    //Gives out a warning message when invalid input is detected.
-                    else
-                    {
-                        Console.WriteLine("Invalid input. Please try again.");
-                        Console.WriteLine(" ");
+                            RemoveItem(productID);
+                            RestaurantProduct product = new RestaurantProduct(newName, newPrice);
+                            ProductList.productList.Add(product);
+                            break;
+                        }
+
+                        //Exits the currrent menu.
+                        else if (operation == "exit")
+                        {
+                            break;
+                        }
+
+                        //Gives out a warning message when invalid input is detected.
+                        else
+                        {
+                            Console.WriteLine("Invalid input. Please try again.");
+                            Console.WriteLine(" ");
+                        }
                     }
                 }
             }
