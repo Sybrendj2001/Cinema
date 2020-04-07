@@ -147,15 +147,15 @@ namespace CinemaConsole.Pages.Customer
                             {
                                 if (j > 8)
                                 {
-                                    show += " - ";
+                                    show += "   ";
                                 }
                                 else if (j == 8)
                                 {
-                                    show += "- ";
+                                    show += "  ";
                                 }
                                 else
                                 {
-                                    show += "-  ";
+                                    show += "   ";
                                 }
                             }
                             else
