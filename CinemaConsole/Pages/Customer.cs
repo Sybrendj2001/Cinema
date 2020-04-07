@@ -127,7 +127,7 @@ namespace CinemaConsole.Pages.Customer
                     {
                         for (int j = 0; j < seat[i].Length; j++)
                         {
-                            if (seat[seat.Length - 1 - i][j].getInfo().Item3)
+                            if (seat[i][j].getInfo().Item3)
                             {
                                 if (j > 8)
                                 {
@@ -140,6 +140,22 @@ namespace CinemaConsole.Pages.Customer
                                 else
                                 {
                                     show += "O  ";
+                                }
+                            }
+
+                            else if (seat[i][j].getInfo().Item2 == "(No Seat)")
+                            {
+                                if (j > 8)
+                                {
+                                    show += " - ";
+                                }
+                                else if (j == 8)
+                                {
+                                    show += "- ";
+                                }
+                                else
+                                {
+                                    show += "-  ";
                                 }
                             }
                             else
@@ -196,6 +212,7 @@ namespace CinemaConsole.Pages.Customer
                     //This loop will let you choose 
                     while (k)
                     {
+                        free = true;
                         Console.WriteLine("Please enter the most left seat you want to reserve like this x/y or type [exit] to leave the reservation. (5/3)");
                         string selected = Console.ReadLine();
                         if (selected == "exit")
@@ -244,7 +261,7 @@ namespace CinemaConsole.Pages.Customer
                     //edits the seat to opposite of what it was
                     if (free)
                     {
-                        Cancel(amount, seatX, seatY, time);
+                        Cancel(amount, (seatX-1), (seat.Length - seatY), time);
                     }
                     break;
                 }

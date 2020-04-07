@@ -18,6 +18,7 @@ namespace CinemaConsole.Data.Employee
             SeatPlace = Splace;
             SeatName = Sname;
             SeatAvail = Savail;
+            
         }
 
         public void editAvail()
