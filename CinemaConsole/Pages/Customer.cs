@@ -378,7 +378,34 @@ namespace CinemaConsole.Pages.Customer
             string last_name = Console.ReadLine();
 
             Console.WriteLine("Please enter your e-mail adress");
-            string email = Console.ReadLine();
+            string email;
+
+            while (true)
+            {
+                email = Console.ReadLine();
+
+                if (IsValidEmail(email))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Please enter a valid e-mail adress");
+                }
+            }
+
+            bool IsValidEmail(string emailadress)
+            {
+                try
+                {
+                    var addr = new System.Net.Mail.MailAddress(emailadress);
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
 
             return Tuple.Create(first_name, last_name, email);
         }
