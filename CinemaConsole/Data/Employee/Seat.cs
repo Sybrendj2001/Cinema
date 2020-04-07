@@ -11,12 +11,13 @@ namespace CinemaConsole.Data.Employee
         private string SeatName { get; set; }
         private string SeatPlace { get; set; }
         private bool SeatAvail { get; set; } = true;
+        private double SeatPrice { get; set; } = 15.00;
 
         public Seat(string Sname, string Splace, bool Savail)
         {
             SeatPlace = Splace;
             SeatName = Sname;
-            SeatAvail = Savail;
+            SeatAvail = Savail;  
         }
 
         public void editAvail()
@@ -24,9 +25,9 @@ namespace CinemaConsole.Data.Employee
             SeatAvail = !SeatAvail;
         }
 
-        public Tuple<string, string, bool> getInfo()
+        public Tuple<string, string, bool, double> getInfo()
         {
-            return Tuple.Create(SeatPlace, SeatName, SeatAvail);
+            return Tuple.Create(SeatPlace, SeatName, SeatAvail, SeatPrice);
         }
     }
 }

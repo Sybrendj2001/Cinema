@@ -15,8 +15,7 @@ namespace CinemaConsole.Pages
             {new Profiles("retailer","retailer","retailer") },
             {new Profiles("admin","admin","admin") },
             {new Profiles("retailer","retailer","retailer") },
-            {new Profiles("ticketsalesman","ticketsalesman","ticketsalesman") },
-            {new Profiles("ticketsalesman","ticketsalesman","ticketsaleman") },
+            {new Profiles("ticketsalesman","ticketsalesman","ticketSalesman") },
             {new Profiles("admin","admin","admin") }
         };
 

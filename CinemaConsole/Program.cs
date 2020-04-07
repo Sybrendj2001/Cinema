@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CinemaConsole.Pages.Admin;
 using CinemaConsole.Pages.Customer;
 using CinemaConsole.Pages.Restaurant;
+using CinemaConsole.Pages.TicketSalesman;
 using CinemaConsole.Pages;
 using CinemaConsole.Data.BackEnd;
 
@@ -16,7 +17,8 @@ namespace CinemaConsole
         static void Main(string[] args)
         {
             Customer.AddStuff();
-            Restaurant.someProducts();
+            //TicketSalesman.Tickets();
+            Restaurant.SomeProducts();
             bool Running = true;
             string pageToBe = "";
             string toDo = "";
@@ -43,6 +45,10 @@ namespace CinemaConsole
                         Restaurant.Menu();
                         break;
 
+                    case "ticketSalesman":
+                        TicketSalesman.Menu();
+                        break;
+
                     case "1":
                         Login login = new Login();
                         login.Menu();
@@ -55,11 +61,6 @@ namespace CinemaConsole
 
                     case "2":
                         Customer.Menu();
-                        break;
-
-                    case "3":
-                        TicketInfo goIntoTicket = new TicketInfo("Sybren",3,3,13.00,DateTime.Now,"Thor","HALL2");
-                        goIntoTicket.Menu();
                         break;
 
                     case "exit":
