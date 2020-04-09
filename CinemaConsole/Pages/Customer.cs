@@ -84,7 +84,6 @@ namespace CinemaConsole.Pages.Customer
                     }
                     break;
                 }
-
             }
             return check;
         }
@@ -219,6 +218,7 @@ namespace CinemaConsole.Pages.Customer
                         {
                             //skip the last if statement
                             free = false;
+                    
                             break;
                         }
                         string[] selectedSeat = selected.Split('/');
@@ -372,10 +372,12 @@ namespace CinemaConsole.Pages.Customer
         private static Tuple<string, string, string> Name()
         {
             Console.WriteLine("Please enter your first name");
-            string first_name = Console.ReadLine();
+            string first_name2 = Console.ReadLine();
+            string first_name = first_name2.ToString().ToLower();
 
             Console.WriteLine("Please enter your last name");
-            string last_name = Console.ReadLine();
+            string last_name2 = Console.ReadLine();
+            string last_name = last_name2.ToString().ToLower();
 
             Console.WriteLine("Please enter your e-mail adress");
             string email = Console.ReadLine();

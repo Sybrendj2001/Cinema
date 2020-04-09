@@ -38,7 +38,7 @@ namespace CinemaConsole.Pages.TicketSalesman
 
             if (SearchOption == "1")
             {
-                Console.WriteLine("Please enter the customer full name");
+                Console.WriteLine("Please enter the customer full name in lowercase (john doe)");
                 string name = Console.ReadLine();
 
                 // Check if the reservation list is empty or not
