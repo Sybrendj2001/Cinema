@@ -8,7 +8,7 @@ namespace CinemaConsole.Data.Employee
 {
     public class Movies
     {
-        private int Mid { get; set; } = MovieID();
+        private int Mid { get; set; }
 
         private string Mname { get; set; }
 
@@ -37,6 +37,7 @@ namespace CinemaConsole.Data.Employee
             Mage = age;
             Msumm = summary;
             Mactors = actors;
+            Mid = MovieID();
         }
         /// <summary>
         /// Creating a public turple to get the movie info so you dont have to touch the private ints and strings
@@ -52,10 +53,36 @@ namespace CinemaConsole.Data.Employee
 
             return Tuple.Create(idd, name, year, age, summary, actors);
         }
+
+        /// <summary>
+        /// Creating a public turple to set the movie info so you dont have to touch the private ints and strings, this is only for editting movies, not for adding them.
+        /// </summary>
+        public void setMovieInfo(string name = "" , int year = 0, int age = 0, string sum = "", string actors = "")
+        {
+            // only change these if a value is given
+            if (name != "" && year != 0 && age != 0)
+            {
+                Mname = name;
+                Myear = year;
+                Mage = age;
+            }
+
+            // these can be skipped seperatly, only change these if a value is given
+            if (sum != "")
+            {
+                Msumm = sum;
+            }
+
+            if (actors != "")
+            {
+                Mactors = actors;
+            }
+        }
+
         /// <summary>
         /// Creating a new unique ID and checking for missing ID's
         /// </summary>
-        private static int MovieID()
+        private int MovieID()
         {
             int idd;
             for (int i = 0; i < MovieList.movieList.Count; i++){
@@ -66,6 +93,12 @@ namespace CinemaConsole.Data.Employee
                 }
             }
             return MovieList.movieList.Count + 1;
+        }
+
+        public void orderList()
+        {
+            List<DateTimeHall> orderedList = DateTimeHallsList.OrderBy(dateId => dateId.getDateInfo().Item1).ToList();
+            DateTimeHallsList = orderedList;
         }
     }
 }

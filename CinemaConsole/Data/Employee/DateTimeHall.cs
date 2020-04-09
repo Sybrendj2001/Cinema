@@ -24,20 +24,20 @@ namespace CinemaConsole.Data
 			id = HallID(movie);
 		}
 
-		public Tuple<int, string, string, TheatherHalls> getHallInfo()
+		public Tuple<int, string, string, TheatherHalls> getDateInfo()
 		{
 			return Tuple.Create(id, date, time, hall);
 		}
 		/// <summary>
 		/// Creating a new unique ID and checking for missing ID's
 		/// </summary>
-		private static int HallID(Movies movie)
+		private int HallID(Movies movie)
 		{
 			int idd;
 			for (int i = 0; i < movie.DateTimeHallsList.Count; i++)
 			{
 				idd = i + 1;
-				if (movie.DateTimeHallsList[i].getHallInfo().Item1 != idd)
+				if (movie.DateTimeHallsList[i].getDateInfo().Item1 != idd)
 				{
 					return idd;
 				}
@@ -87,7 +87,7 @@ namespace CinemaConsole.Data
 				for (int j = 0; j < 12; j++)
 				{
 					SeatName = "(row " + (14 - i) + " seat ";
-					SeatAvail = true;
+					SeatAvail =	true;
 					if ((i == 0 || i > 11) && (j > 1 && j < 10))
 					{
 						SeatName += (j - 1) + ")";
@@ -230,7 +230,7 @@ namespace CinemaConsole.Data
 			return hall;
 		}
 
-		public  Tuple<Seat[][], int> getInfo()
+		public  Tuple<Seat[][], int> getHallInfo()
 		{
 			return Tuple.Create(hall,HallNumber);
 		}

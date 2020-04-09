@@ -9,5 +9,11 @@ namespace CinemaConsole.Data.Employee
     class MovieList
     {
         public static List<Movies> movieList { get; set; } = new List<Movies>();
+
+        public static void orderList()
+        {
+            List<Movies> orderedList = movieList.OrderBy(movieId => movieId.getMovieInfo().Item1).ToList();
+            movieList = orderedList;
+        }
     }
 }
