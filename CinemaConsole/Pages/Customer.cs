@@ -380,6 +380,7 @@ namespace CinemaConsole.Pages.Customer
             Console.WriteLine("Please enter your e-mail adress");
             string email;
 
+            // loop to only accept a valid email
             while (true)
             {
                 email = Console.ReadLine();
@@ -394,6 +395,7 @@ namespace CinemaConsole.Pages.Customer
                 }
             }
 
+            // creating a boolean to check with a system function if it returns an error
             bool IsValidEmail(string emailadress)
             {
                 try
