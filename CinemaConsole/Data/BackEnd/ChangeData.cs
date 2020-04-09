@@ -103,19 +103,16 @@ namespace CinemaConsole.Data.BackEnd
                     }
 
                     //Add Variable Parameters to Query
-
                     command.Parameters.Add(ParamPlaceType);
                     command.Parameters.Add(ParamNewType);
 
                     //Execute Query
-
                     command.Prepare();
                     command.ExecuteNonQuery();
                 }
             }
             catch (MySqlException ex)
             {
-
                 throw;
             }
             finally
@@ -124,5 +121,45 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
+        public bool CheckTicket(string ticketid)
+        {
+            bool TicketExists = false;
+            try
+            {
+                Connection.Open();
+                string stringToCheck = @"SELECT TicketCode FROM ticket WHERE TicketCode = @TicketID";
+
+                MySqlCommand command = new MySqlCommand(stringToCheck, Connection);
+                MySqlParameter ParamticketID = new MySqlParameter("@TicketID", MySqlDbType.VarChar);
+
+                ParamticketID.Value = ticketid;
+                command.Parameters.Add(ParamticketID);
+                
+                MySqlDataReader dataReader = command.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    int TicketCheck = dataReader.GetInt32("COUNT(*)");
+                    if (TicketCheck == 1)
+                    {
+                        TicketExists = true;
+                        dataReader.Close();
+                    }
+                    else
+                    {
+                        TicketExists = false;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+            return TicketExists;
+        }
     }
 }
