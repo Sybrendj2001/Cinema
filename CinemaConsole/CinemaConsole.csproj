@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\BackEnd\Connecter.cs" />
+    <Compile Include="Data\BackEnd\ChangeData.cs" />
     <Compile Include="Data\BackEnd\Profiles.cs" />
     <Compile Include="Data\Employee\ReservationList.cs" />
     <Compile Include="Data\Employee\ProductList.cs" />
