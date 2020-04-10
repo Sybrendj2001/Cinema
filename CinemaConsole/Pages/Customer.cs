@@ -324,16 +324,18 @@ namespace CinemaConsole.Pages.Customer
 
         public static string GetMovieInfo(Movies movie)
         {
-            Console.WriteLine("Movie selected: " + movie.getMovieInfo().Item2);
+            Console.WriteLine("\nMovie selected: " + movie.getMovieInfo().Item2);
             Console.WriteLine("Year: " + movie.getMovieInfo().Item3);
             Console.WriteLine("Age restriction: " + movie.getMovieInfo().Item4 + "+");
             Console.WriteLine("Actors: " + movie.getMovieInfo().Item6);
             Console.WriteLine("Summary: " + movie.getMovieInfo().Item5);
             string CustomerReservateOption = "";
+            
             while (true)
             {
                 Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
                 CustomerReservateOption = Console.ReadLine();
+                Console.WriteLine("");
 
                 if (CustomerReservateOption == "1")
                 {

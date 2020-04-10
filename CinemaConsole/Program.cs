@@ -22,6 +22,11 @@ namespace CinemaConsole
             bool Running = true;
             string pageToBe = "";
             string toDo = "";
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\nWelcome to Cinema Keine Ahnung!");
+            Console.ResetColor();
+
             while (Running)
             {
                 if (pageToBe != "")
@@ -32,7 +37,8 @@ namespace CinemaConsole
                 }
                 else
                 {
-                    Console.WriteLine("Welcome to Cinema Keine Ahnung!\n\nPlease enter the number that stands before the option you want.\n[1] Login.\n[2] Show the movielist.\n[3] Create ticket\n[4] Contact info\n[5] Help\n[exit] Exit the program.");
+
+                    Console.WriteLine("\nPlease enter the number that stands before the option you want.\n[1] Login.\n[2] Show the movielist.\n[3] Create ticket\n[4] Contact info\n[5] Help\n[exit] Exit the program.");
                     toDo = Console.ReadLine();
                 }
                 switch (toDo)
