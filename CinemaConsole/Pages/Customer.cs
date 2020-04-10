@@ -324,7 +324,7 @@ namespace CinemaConsole.Pages.Customer
 
         public static string GetMovieInfo(Movies movie)
         {
-            Console.WriteLine("Movie selected: " + movie.getMovieInfo().Item2);
+            Console.WriteLine("\nMovie selected: " + movie.getMovieInfo().Item2);
             Console.WriteLine("Year: " + movie.getMovieInfo().Item3);
             Console.WriteLine("Age restriction: " + movie.getMovieInfo().Item4 + "+");
             Console.WriteLine("Actors: " + movie.getMovieInfo().Item6);
@@ -339,7 +339,7 @@ namespace CinemaConsole.Pages.Customer
                 {
                     foreach (DateTimeHall date in movie.DateTimeHallsList)
                     {
-                        Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item2 + "      " + date.getDateInfo().Item3);
+                        Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item3 + "      " + date.getDateInfo().Item2);
                     }
 
                     Console.WriteLine("[exit] Back to menu");
@@ -485,7 +485,7 @@ namespace CinemaConsole.Pages.Customer
                                                     {
                                                         ReservationList.reservationList.Add(ticket);
                                                         Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticket.GetTicketInfo().Item1.Item4);
-                                                        Console.WriteLine("\nEnter to go back to the movielist");
+                                                        Console.WriteLine("\nPress enter to go back to the movielist");
                                                         Console.ReadLine();
                                                         break;
                                                     }
