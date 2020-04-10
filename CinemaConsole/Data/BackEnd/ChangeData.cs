@@ -15,7 +15,7 @@ namespace CinemaConsole.Data.BackEnd
         {
             try
             {
-                Connection.Open();
+                Connection.Open();  
 
                 string stringToInsert = @"INSERT INTO login (ID, Username, Password, Functions) VALUES (@ID, @Username, @Password, @Functions)";
 
@@ -40,7 +40,6 @@ namespace CinemaConsole.Data.BackEnd
             }
             catch (MySqlException ex)
             {
-
                 throw;
             }
             finally
@@ -161,5 +160,58 @@ namespace CinemaConsole.Data.BackEnd
             }
             return TicketExists;
         }
+
+        public void ReservateTicket(string Owner, string Email, string TicketCode, string MovieName, int Amount, int Seats, DateTime Time, int TheaterHall, double TotalPrice)
+        {
+            try
+            {
+                Connection.Open();
+
+                string stringToInsert = @"INSERT INTO ticket (Owner, Email, TicketCode, MovieName, Amount, Seats, Time, TheaterHall, TotalPrice) VALUES (@Owner, @Email, @TicketCode, @MovieName, @Amount, @Seats, @Time, @TheaterHall, @TotalPrice)";
+
+                MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
+                MySqlParameter OwnerParam = new MySqlParameter("@Owner", MySqlDbType.VarChar);
+                MySqlParameter EmailParam = new MySqlParameter("@Email", MySqlDbType.VarChar);
+                MySqlParameter TicketCodeParam = new MySqlParameter("@TicketCode", MySqlDbType.VarChar);
+                MySqlParameter MovieNameParam = new MySqlParameter("@MovieName", MySqlDbType.VarChar);
+                MySqlParameter AmountParam = new MySqlParameter("@Amount", MySqlDbType.Int32);
+                MySqlParameter SeatsParam = new MySqlParameter("@Seats", MySqlDbType.Int32);
+                MySqlParameter TimeParam = new MySqlParameter("@Time", MySqlDbType.DateTime);
+                MySqlParameter TheaterHallParam = new MySqlParameter("@TheaterHall", MySqlDbType.Int32);
+                MySqlParameter TotalPriceParam = new MySqlParameter("@TotalPrice", MySqlDbType.Double);
+
+                OwnerParam.Value = Owner;
+                EmailParam.Value = Email;
+                TicketCodeParam.Value = TicketCode;
+                MovieNameParam.Value = MovieName;
+                AmountParam.Value = Amount;
+                SeatsParam.Value = Seats;
+                TimeParam.Value = Time;
+                TheaterHallParam.Value = TheaterHall;
+                TotalPriceParam.Value = TotalPrice;
+
+                command.Parameters.Add(OwnerParam);
+                command.Parameters.Add(EmailParam);
+                command.Parameters.Add(MovieNameParam);
+                command.Parameters.Add(AmountParam);
+                command.Parameters.Add(SeatsParam);
+                command.Parameters.Add(TimeParam);
+                command.Parameters.Add(TheaterHallParam);
+                command.Parameters.Add(TotalPriceParam);
+
+
+                command.Prepare();
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
     }
+    
 }

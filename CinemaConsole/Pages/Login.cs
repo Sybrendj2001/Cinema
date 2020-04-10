@@ -76,7 +76,6 @@ namespace CinemaConsole.Pages
                     }
                 }
             }
-
         }
 
         private bool checkIfLoginIsRight()
