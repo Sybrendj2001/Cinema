@@ -22,7 +22,7 @@ namespace CinemaConsole.Data.BackEnd
 
         private void Initialize()
         {
-            string dbstring = "server=localhost;user=root;password=password123uid=admin;database=cinema";
+            string dbstring = "server=localhost;user=root;uid=admin;database=cinema";
             Connection = new MySqlConnection(dbstring);
         }
     }
