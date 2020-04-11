@@ -78,12 +78,12 @@ namespace CinemaConsole
                         break;
 
                     case "5":
-                        Console.WriteLine("Help: show help.\nLogin: Log into your own page.\nMovielist: Show movielist.\nPress enter to continue");
+                        Console.WriteLine("\nHelp: show help.\nLogin: Log into your own page.\nMovielist: Show movielist.\nPress enter to continue");
                         Console.ReadLine();
                         break;
 
                     default:
-                        Console.WriteLine("You entered a wrong command");
+                        Console.WriteLine("\nYou entered a wrong command");
                         break;
                 }
             }

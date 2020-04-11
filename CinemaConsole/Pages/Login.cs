@@ -100,7 +100,6 @@ namespace CinemaConsole.Pages
 
             if (usernameExists && Password == profiles[ProfilePlace].Password)
             {
-                Console.WriteLine("\nLogged in!");
                 return true;
             }
             else
@@ -115,6 +114,7 @@ namespace CinemaConsole.Pages
         {
             if (checkIfLoginIsRight())
             {
+                Console.WriteLine("\nLogged in!");
                 return profiles[ProfilePlace].Function;
             }
             else

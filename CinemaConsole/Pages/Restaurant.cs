@@ -70,7 +70,7 @@ namespace CinemaConsole.Pages.Restaurant
                         //Places the new product in place of the old one afterwards.
                         if (operation == "1")
                         {
-                            Console.WriteLine("Please enter the new name of the product.");
+                            Console.WriteLine("\nPlease enter the new name of the product.");
                             string inputName = Console.ReadLine();
                             string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
                             double newPrice = ProductList.productList[i].getProductInfo().Item3;
@@ -87,7 +87,7 @@ namespace CinemaConsole.Pages.Restaurant
                         //Places the new product in place of the old one afterwards.
                         else if (operation == "2")
                         {
-                            Console.WriteLine("Please enter the new price of the product in euro's.");
+                            Console.WriteLine("\nPlease enter the new price of the product in euro's.");
                             string newName = ProductList.productList[i].getProductInfo().Item2;
                             double newPrice = double.Parse(Console.ReadLine());
                             Console.WriteLine(" ");
@@ -104,11 +104,10 @@ namespace CinemaConsole.Pages.Restaurant
                         //Also forces the first letter of the name to be upper case.
                         else if (operation == "3")
                         {
-                            Console.WriteLine("Please enter the new name of the product.");
+                            Console.WriteLine("\nPlease enter the new name of the product.");
                             string inputName = Console.ReadLine();
                             string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
-                            Console.WriteLine(" ");
-                            Console.WriteLine("Please enter the new price of the product in euro's.");
+                            Console.WriteLine("\nPlease enter the new price of the product in euro's.");
                             double newPrice = double.Parse(Console.ReadLine());
                             Console.WriteLine(" ");
 
@@ -127,8 +126,7 @@ namespace CinemaConsole.Pages.Restaurant
                         //Gives out a warning message when invalid input is detected.
                         else
                         {
-                            Console.WriteLine("Invalid input. Please try again.");
-                            Console.WriteLine(" ");
+                            Console.WriteLine("\nInvalid input. Please try again.\n");
                         }
                     }
                 }
