@@ -161,5 +161,104 @@ namespace CinemaConsole.Data.BackEnd
             }
             return TicketExists;
         }
+        
+        public void CreateProduct(int totalproducts, string itemname, double price, string function)
+        {
+            try
+            {
+                Connection.Open();
+
+                string stringToInsert = @"INSERT INTO login (ID, ItemName, Price, Functions) VALUES (@ID, @ItemName, @Price, @Functions)";
+
+                MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
+                MySqlParameter IDParam = new MySqlParameter("@ID", MySqlDbType.Int32);
+                MySqlParameter ItemNameParam = new MySqlParameter("@ItemName", MySqlDbType.VarChar);
+                MySqlParameter PriceParam = new MySqlParameter("@Price", MySqlDbType.VarChar);
+                MySqlParameter FunctionParam = new MySqlParameter("@Functions", MySqlDbType.VarChar);
+
+                IDParam.Value = totalproducts;
+                ItemNameParam.Value = itemname;
+                PriceParam.Value = price;
+                FunctionParam.Value = function;
+
+                command.Parameters.Add(IDParam);
+                command.Parameters.Add(ItemNameParam);
+                command.Parameters.Add(PriceParam);
+                command.Parameters.Add(FunctionParam);
+
+                command.Prepare();
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+       
+        public void UpdateProduct(int id = -1, string name = "", double price = -1)
+        {
+            try
+            {
+                Connection.Open();
+                bool updating = true;
+                while (updating)
+                {
+                    string stringToUpdate = @"UPDATE restaurantitems SET @PlaceType = @NewType WHERE ItemID = @ItemID";
+
+                    MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
+                    //Define Default Parameter
+                    MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
+                    //Valuate Default Parameter
+                    ParamID.Value = id;
+                    //Add Default Parameter to Query
+                    command.Parameters.Add(ParamID);
+
+                    //Create Variable Parameter
+                    MySqlParameter ParamPlaceType = new MySqlParameter("@PlaceType", MySqlDbType.Text);
+                    MySqlParameter ParamNewType = new MySqlParameter("@NewType", MySqlDbType.VarChar);
+
+                    //Check which variables you need to get
+                    if (name != "")
+                    {
+                        ParamPlaceType.Value = "ItemName";
+                        ParamNewType.Value = name;
+                        name = "";
+                    }
+                    else if (price != -1)
+                    {
+                        ParamPlaceType.Value = "Price";
+                        ParamNewType.Value = price;
+                        price = -1;
+                    }
+                    else
+                    {
+                        updating = false;
+                        break;
+                    }
+
+                    //Add Variable Parameters to Query
+                    command.Parameters.Add(ParamPlaceType);
+                    command.Parameters.Add(ParamNewType);
+
+                    //Execute Query
+                    command.Prepare();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
     }
+
 }
