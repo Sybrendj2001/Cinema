@@ -7,6 +7,7 @@ using CinemaConsole.Pages;
 using CinemaConsole.Pages.Customer;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Data;
+using CinemaConsole.Data.BackEnd;
 
 namespace CinemaConsole.Pages.Admin
 {
@@ -312,13 +313,10 @@ namespace CinemaConsole.Pages.Admin
         private static void Display()
         {
             Console.WriteLine("\nMovies:");
-            // Loop trough all movies currently in the movielist
-            foreach (Movies movie in MovieList.movieList)
-            {
-                Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
-            }
+            ChangeData showMovies = new ChangeData();
+            showMovies.ShowMovies();
 
-            Console.WriteLine("\nEnter the number of the movie '1' for details':");
+            Console.WriteLine("\nEnter the number of the movie for details:");
 
             string line = Console.ReadLine();
             foreach (Movies movie in MovieList.movieList)

@@ -8,6 +8,8 @@ using CinemaConsole.Data;
 using CinemaConsole.Data.BackEnd;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Pages.Restaurant;
+using CinemaConsole.Data.BackEnd;
+
 
 
 namespace CinemaConsole.Pages.Customer
@@ -359,13 +361,9 @@ namespace CinemaConsole.Pages.Customer
 
         public static void display()
         {
-            Console.WriteLine("Movies:");
-
-            // Loop trough all movies currently in the movielist
-            foreach (Movies movie in MovieList.movieList)
-            {
-                Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
-            }
+            Console.WriteLine("\nMovies:");
+            ChangeData showMovies = new ChangeData();
+            showMovies.ShowMovies();
 
             // check if user wants to go back
             Console.WriteLine("\n[menu] Restaurant Menu");
