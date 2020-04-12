@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CinemaConsole.Data.BackEnd;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,8 @@ namespace CinemaConsole.Data.Employee
         {
             SeatPlace = Splace;
             SeatName = Sname;
-            SeatAvail = Savail;  
+            SeatAvail = Savail;
+            
         }
 
         public void editAvail()
