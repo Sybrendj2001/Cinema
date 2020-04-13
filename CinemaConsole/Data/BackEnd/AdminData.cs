@@ -12,16 +12,25 @@ namespace CinemaConsole.Data.BackEnd
 {
     public class AdminData : Connecter
     {
-        public void CreateSeat(int price, int Y, int X, int hall, bool avail, string name)
+        /// <summary>
+        /// Inserts a seat in the database.
+        /// </summary>
+        /// <param name="price"></param>
+        /// <param name="Y"></param>
+        /// <param name="X"></param>
+        /// <param name="hall"></param>
+        /// <param name="avail"></param>
+        /// <param name="name"></param>
+        public void CreateSeat(double price, int Y, int X, int hall, bool avail, string name)
         {
             try
             {
                 Connection.Open();
 
-                string stringToInsert = @"INSERT INTO login (Price, RowSeat, ColumnSeat, Hall, Availability, Name) VALUES (@Price, @RowSeat, @ColumnSeat, @Hall, @Availability, @Name)";
+                string stringToInsert = @"INSERT INTO seats (Price, RowSeat, ColumnSeat, Hall, Availability, Name) VALUES (@Price, @RowSeat, @ColumnSeat, @Hall, @Availability, @Name)";
 
                 MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
-                MySqlParameter priceParam = new MySqlParameter("@Price", MySqlDbType.Int32);
+                MySqlParameter priceParam = new MySqlParameter("@Price", MySqlDbType.Double);
                 MySqlParameter RowSeatParam = new MySqlParameter("@RowSeat", MySqlDbType.Int32);
                 MySqlParameter colSeatParam = new MySqlParameter("@ColumnSeat", MySqlDbType.Int32);
                 MySqlParameter HallParam = new MySqlParameter("@Hall", MySqlDbType.Int32);
@@ -63,6 +72,13 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
+        /// <summary>
+        /// Changes the availibility of the seat.
+        /// </summary>
+        /// <param name="hall"></param>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        /// <param name="avail"></param>
         public void EditAvail(int hall, int X, int Y, bool avail)
         {
             try
@@ -107,5 +123,54 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Close();
             }
         }
+
+        public void CreateHall(int SeatsAmount, int X, int Y)
+        {
+            try
+            {
+                Connection.Open();
+
+                string stringToInsert = @"INSERT INTO hall (SeatsAmount, RowLength, ColLength) VALUES (@SeatsAmount, @RowLength, @ColLength)";
+
+                MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
+                MySqlParameter amountParam = new MySqlParameter("@SeatsAmount", MySqlDbType.Int32);
+                MySqlParameter rowParam = new MySqlParameter("@RowLength", MySqlDbType.Int32);
+                MySqlParameter colParam = new MySqlParameter("@ColLength", MySqlDbType.Int32);
+
+                
+                amountParam.Value = SeatsAmount;
+                rowParam.Value = Y;
+                colParam.Value = X;
+
+                command.Parameters.Add(amountParam);
+                command.Parameters.Add(rowParam);
+                command.Parameters.Add(colParam);
+
+                command.Prepare();
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+        public int GetMovieID()
+        {
+            string stringToCheck = @"SELECT TicketCode FROM movie WHERE TicketCode = @TicketID";
+            return 1;
+        }
+
+        public int GetHallID()
+        {
+            string stringToCheck = @"SELECT HallID FROM hall WHERE movie = @movieID";
+            return 1;
+        }
+
+        
     }
 }
