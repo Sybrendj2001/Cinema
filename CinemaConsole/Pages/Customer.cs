@@ -8,7 +8,6 @@ using CinemaConsole.Data;
 using CinemaConsole.Data.BackEnd;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Pages.Restaurant;
-using CinemaConsole.Data.BackEnd;
 
 
 
@@ -359,10 +358,42 @@ namespace CinemaConsole.Pages.Customer
             return CustomerReservateOption;
         }
 
+        public static string GetMovieInfoDB(string MovieID)
+        {
+            ShowData ShowMovieByID = new ShowData();
+            ShowMovieByID.ShowMovieByID(MovieID);
+
+            string CustomerReservateOption = "";
+
+            while (true)
+            {
+                Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
+                CustomerReservateOption = Console.ReadLine();
+                Console.WriteLine("");
+
+                if (CustomerReservateOption == "1")
+                {
+                    /*foreach (DateTimeHall date in movie.DateTimeHallsList)
+                    {
+                        Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item2 + "      " + date.getDateInfo().Item3);
+                    }*/
+                    
+                    Console.WriteLine("[exit] Back to menu");
+                    break;
+                }
+
+                else if (CustomerReservateOption == "exit")
+                {
+                    break;
+                }
+            }
+            return CustomerReservateOption;
+        }
         public static void display()
         {
             Console.WriteLine("\nMovies:");
-            ChangeData showMovies = new ChangeData();
+
+            ShowData showMovies = new ShowData();
             showMovies.ShowMovies();
 
             // check if user wants to go back
@@ -460,7 +491,7 @@ namespace CinemaConsole.Pages.Customer
                 {
                     if (line == aMovie.getMovieInfo().Item1.ToString())
                     {
-                        string Movieinfo = GetMovieInfo(aMovie);
+                        string Movieinfo = GetMovieInfoDB(line);
 
                         if (Movieinfo == "1")
                         {

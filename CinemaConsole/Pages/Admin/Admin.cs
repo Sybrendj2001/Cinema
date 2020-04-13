@@ -324,7 +324,7 @@ namespace CinemaConsole.Pages.Admin
                 if (line == movie.getMovieInfo().Item1.ToString())
                 {
                     // getMovieInfo returns a number or 'exit'
-                    string Movieinfo = Customer.Customer.GetMovieInfo(movie);
+                    string Movieinfo = Customer.Customer.GetMovieInfoDB(line);
 
                     if (Movieinfo == "1")
                     {

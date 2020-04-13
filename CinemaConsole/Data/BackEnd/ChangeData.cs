@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 using MySql.Data;
 using MySql;
 using MySql.Data.MySqlClient;
+
 
 namespace CinemaConsole.Data.BackEnd
 {
@@ -48,34 +50,6 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Close();
             }
         }
-        public void ShowMovieByID(int movieID)
-        {
-            try
-            {
-                Connection.Open();
-                string oString = @"SELECT * from movie WHERE MovieID = @id";
-                MySqlCommand oCmd = new MySqlCommand(oString, Connection);
-                oCmd.Parameters.AddWithValue("@id", movieID);
-
-                string movieName;
-                using (MySqlDataReader oReader = oCmd.ExecuteReader())
-                {
-                    while (oReader.Read())
-                    {
-                        movieName = oReader["MovieName"].ToString();
-                        Console.WriteLine(movieName);
-                    }
-                }
-            }
-            catch (MySqlException ex)
-            {
-                throw;
-            }
-            finally
-            {
-                Connection.Close();
-            }
-        }
 
         public void ShowMovies()
         {
@@ -110,6 +84,7 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Close();
             }
         }
+
         public void UpdateMovie(int id = -1, string name = "", int year = -1, int minimumage = -1, string summary = "")
         {
             try
