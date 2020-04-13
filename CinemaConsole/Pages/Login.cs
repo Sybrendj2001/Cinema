@@ -107,7 +107,6 @@ namespace CinemaConsole.Pages
                 ErrorCode = 1;
                 return false;
             }
-
         }
 
         private string checkFunction()

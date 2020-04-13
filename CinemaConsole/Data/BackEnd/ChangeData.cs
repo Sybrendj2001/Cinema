@@ -161,44 +161,49 @@ namespace CinemaConsole.Data.BackEnd
             return TicketExists;
         }
 
-        public void ReservateTicket(string Owner, string Email, string TicketCode, string MovieName, int Amount, int Seats, DateTime Time, int TheaterHall, double TotalPrice)
+        public void ReservateTicket(int TicketID, string Owner, string Email, string TicketCode, int movie, int Amount, int seatX, int seatY, int DateID, int HallID, double TotalPrice)
         {
             try
             {
                 Connection.Open();
 
-                string stringToInsert = @"INSERT INTO ticket (Owner, Email, TicketCode, MovieName, Amount, Seats, Time, TheaterHall, TotalPrice) VALUES (@Owner, @Email, @TicketCode, @MovieName, @Amount, @Seats, @Time, @TheaterHall, @TotalPrice)";
+                string stringToInsert = @"INSERT INTO ticket (TicketID, Owner, Email, TicketCode, movie, Amount, seatX, SeatY, DateID, HallID, TotalPrice) VALUES (@TicketID, @Owner, @Email, @TicketCode, @movie, @Amount, @seatX, @seatY, @DateID, @HallID, @TotalPrice)";
 
                 MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
+                MySqlParameter TicketIDParam = new MySqlParameter("@TicketID", MySqlDbType.Int32);
                 MySqlParameter OwnerParam = new MySqlParameter("@Owner", MySqlDbType.VarChar);
                 MySqlParameter EmailParam = new MySqlParameter("@Email", MySqlDbType.VarChar);
                 MySqlParameter TicketCodeParam = new MySqlParameter("@TicketCode", MySqlDbType.VarChar);
-                MySqlParameter MovieNameParam = new MySqlParameter("@MovieName", MySqlDbType.VarChar);
+                MySqlParameter movieParam = new MySqlParameter("@movie", MySqlDbType.Int32);
                 MySqlParameter AmountParam = new MySqlParameter("@Amount", MySqlDbType.Int32);
-                MySqlParameter SeatsParam = new MySqlParameter("@Seats", MySqlDbType.Int32);
-                MySqlParameter TimeParam = new MySqlParameter("@Time", MySqlDbType.DateTime);
-                MySqlParameter TheaterHallParam = new MySqlParameter("@TheaterHall", MySqlDbType.Int32);
+                MySqlParameter seatXParam = new MySqlParameter("@seatX", MySqlDbType.Int32);
+                MySqlParameter seatYParam = new MySqlParameter("@seatY", MySqlDbType.Int32);
+                MySqlParameter DateIDParam = new MySqlParameter("@DateID", MySqlDbType.Int32);
+                MySqlParameter HallIDParam = new MySqlParameter("@HallID", MySqlDbType.Int32);
                 MySqlParameter TotalPriceParam = new MySqlParameter("@TotalPrice", MySqlDbType.Double);
 
+                TicketIDParam.Value = TicketID;
                 OwnerParam.Value = Owner;
                 EmailParam.Value = Email;
                 TicketCodeParam.Value = TicketCode;
-                MovieNameParam.Value = MovieName;
+                movieParam.Value = movie;
                 AmountParam.Value = Amount;
-                SeatsParam.Value = Seats;
-                TimeParam.Value = Time;
-                TheaterHallParam.Value = TheaterHall;
+                seatXParam.Value = seatX;
+                seatYParam.Value = seatY;
+                DateIDParam.Value = DateID;
+                HallIDParam.Value = HallID;
                 TotalPriceParam.Value = TotalPrice;
 
+                command.Parameters.Add(TicketIDParam);
                 command.Parameters.Add(OwnerParam);
                 command.Parameters.Add(EmailParam);
-                command.Parameters.Add(MovieNameParam);
+                command.Parameters.Add(movieParam);
                 command.Parameters.Add(AmountParam);
-                command.Parameters.Add(SeatsParam);
-                command.Parameters.Add(TimeParam);
-                command.Parameters.Add(TheaterHallParam);
+                command.Parameters.Add(seatXParam);
+                command.Parameters.Add(seatYParam);
+                command.Parameters.Add(DateIDParam);
+                command.Parameters.Add(HallIDParam);
                 command.Parameters.Add(TotalPriceParam);
-
 
                 command.Prepare();
                 command.ExecuteNonQuery();

@@ -121,7 +121,6 @@ namespace CinemaConsole.Pages.TicketSalesman
 
                 if (ReservationList.reservationList.Count != 0)
                 {
-
                     foreach (TicketInfo ticket in ReservationList.reservationList)
                     {
                         string DTT = ticket.GetTicketInfo().Item6.ToString("dd/MM/yyyy HH:mm");
