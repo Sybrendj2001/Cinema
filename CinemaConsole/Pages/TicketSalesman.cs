@@ -33,12 +33,12 @@ namespace CinemaConsole.Pages.TicketSalesman
         // Ticketsalesman able to search to on customer name or ticketnumber or movie
         private static void Display()
         {
-            Console.WriteLine("[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date");
+            Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date");
             string SearchOption = Console.ReadLine();
 
             if (SearchOption == "1")
             {
-                Console.WriteLine("Please enter the customer full name in lowercase (john doe)");
+                Console.WriteLine("\nPlease enter the customer full name");
                 string name = Console.ReadLine();
 
                 // Check if the reservation list is empty or not
@@ -50,7 +50,7 @@ namespace CinemaConsole.Pages.TicketSalesman
                         if (ticket.GetTicketInfo().Item1.Item1 == name)
                         {
                             Customer.Customer.Overview(ticket);
-                            Console.WriteLine("Ticketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
+                            Console.WriteLine("\nTicketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
                             Console.ReadLine();
                             break;
                         }
@@ -74,7 +74,7 @@ namespace CinemaConsole.Pages.TicketSalesman
             else if (SearchOption == "2")
             {
                 //Search on ticketnumber
-                Console.WriteLine("Please enter the ticketnumber");
+                Console.WriteLine("\nPlease enter the ticketnumber");
                 string ticketnumber = Console.ReadLine();
 
                 if (ReservationList.reservationList.Count != 0)
@@ -84,7 +84,7 @@ namespace CinemaConsole.Pages.TicketSalesman
                         if (ticket.GetTicketInfo().Item1.Item4 == ticketnumber)
                         {
                             Customer.Customer.Overview(ticket);
-                            Console.WriteLine("Ticketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
+                            Console.WriteLine("\nTicketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
                             Console.ReadLine();
                             break;
                         }
@@ -108,13 +108,13 @@ namespace CinemaConsole.Pages.TicketSalesman
             //Search on movie/time/date
             else if (SearchOption == "3")
             {
-                Console.WriteLine("Please enter the movie");
+                Console.WriteLine("\nPlease enter the movie");
                 string movie = Console.ReadLine();
 
-                Console.WriteLine("Please enter the time (12:00)");
+                Console.WriteLine("\nPlease enter the time (12:00)");
                 string time = Console.ReadLine();
 
-                Console.WriteLine("Please enter the date (12/04/2020)");
+                Console.WriteLine("\nPlease enter the date (12/04/2020)");
                 string date = Console.ReadLine();
 
                 string DT = date + " " + time;
@@ -128,7 +128,7 @@ namespace CinemaConsole.Pages.TicketSalesman
                         if (DTT == DT && movie == ticket.GetTicketInfo().Item1.Item3)
                         {
                             Customer.Customer.Overview(ticket);
-                            Console.WriteLine("Ticketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
+                            Console.WriteLine("\nTicketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
                             Console.ReadLine();
                             break;
                         }
@@ -153,7 +153,7 @@ namespace CinemaConsole.Pages.TicketSalesman
         // This let the ticket salesman remove/cancel reservations. You have to type in the ticketnumber to remove the reservation.
         public static void RemoveReservation()
         {
-            Console.WriteLine("Please enter the ticketnumber of the reservation you want to remove:");
+            Console.WriteLine("\nPlease enter the ticketnumber of the reservation you want to remove:");
             string Cticketnumber = Console.ReadLine();
 
             foreach (TicketInfo ticket in ReservationList.reservationList)
@@ -161,7 +161,7 @@ namespace CinemaConsole.Pages.TicketSalesman
                 if (ticket.GetTicketInfo().Item1.Item4 == Cticketnumber)
                 {
                     Customer.Customer.Overview(ticket);
-                    Console.WriteLine("Ticketnumber: " + ticket.GetTicketInfo().Item1.Item4);
+                    Console.WriteLine("\nTicketnumber: " + ticket.GetTicketInfo().Item1.Item4);
 
                     while (true)
                     {
@@ -171,7 +171,7 @@ namespace CinemaConsole.Pages.TicketSalesman
                         if (Coption == "1")
                         {
                             ReservationList.reservationList.Remove(ticket);
-                            Console.WriteLine("Reservation removed. Press enter to go back to the menu");
+                            Console.WriteLine("\nReservation removed. Press enter to go back to the menu");
                             Console.ReadLine();
                             break;
                         }

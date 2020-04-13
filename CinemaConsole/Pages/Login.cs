@@ -49,7 +49,7 @@ namespace CinemaConsole.Pages
             bool checkLogin = true;
             while (checkLogin == true)
             {
-                Console.WriteLine("Give your credentials:(username - password) or enter [exit] to return to the menu");
+                Console.WriteLine("\nGive your credentials:(username - password) or enter [exit] to return to the menu");
                 string login = Console.ReadLine();
                 if (login == "exit")
                 {
@@ -58,68 +58,24 @@ namespace CinemaConsole.Pages
                 string[] credentials = login.Split(' ');
                 if (credentials.Length != 2)
                 {
-                    Console.WriteLine("Your credentials are not in the right format. (username - password)");
+                    Console.WriteLine("\nYour credentials are not in the right format. (username - password)");
                 }
                 else
                 {
-                    register(credentials[0], credentials[1]);
-                    if (checkIfLoginIsRight())
+                    ChangeData logincheck = new ChangeData();
+                    string checkeddata = logincheck.checkLoginAndFunction(credentials[0], credentials[1]);
+                    if (checkeddata != "")
                     {
-                        Function = checkFunction();
-                        ErrorMessage = getErrorMessage(ErrorCode);
+                        Function = checkeddata;
                         checkLogin = false;
-                        Console.WriteLine("You are Logged in and redirected to your page");
                     }
                     else
                     {
-                        Console.WriteLine("Wrong Username/Password");
+                        Console.WriteLine("\nWrong Username/Password");
                     }
                 }
             }
-        }
 
-        private bool checkIfLoginIsRight()
-        {
-            bool usernameExists = false;
-            //Checks if the username exist
-            for (int i = 0; i < profiles.Count; i++)
-            {
-                if (profiles[i].Username == Username)
-                {
-                    ProfilePlace = i;
-                    i = profiles.Count;
-                    usernameExists = true;
-                }
-                else
-                {
-                    usernameExists = false;
-                    ErrorCode = 1;
-                }
-            }
-
-            if (usernameExists && Password == profiles[ProfilePlace].Password)
-            {
-                Console.WriteLine("Logged in!");
-                return true;
-            }
-            else
-            {
-                ErrorCode = 1;
-                return false;
-            }
-        }
-
-        private string checkFunction()
-        {
-            if (checkIfLoginIsRight())
-            {
-                return profiles[ProfilePlace].Function;
-            }
-            else
-            {
-                Console.WriteLine(ErrorCode);
-                return "";
-            }
         }
 
         private string getErrorMessage(int id)
