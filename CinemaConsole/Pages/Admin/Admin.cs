@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Pages;
+using CinemaConsole.Pages.Customer;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Data;
 using System.Globalization;
@@ -14,7 +15,6 @@ namespace CinemaConsole.Pages.Admin
     {
         public Admin()
         {
-            
         }
 
         /// <summary>
@@ -30,10 +30,10 @@ namespace CinemaConsole.Pages.Admin
                 // create a function for adding the movie info 
                 var movieinfo = AddTimeYearAge(tiyeag);
 
-                Console.WriteLine("Please enter a short summary of the movie.");
+                Console.WriteLine("\nPlease enter a short summary of the movie.");
                 string sum = Console.ReadLine();
 
-                Console.WriteLine("Please give some actors.(Write them like this: Tom Cruise, Brad Pitt)");
+                Console.WriteLine("\nPlease give some actors.(Write them like this: Tom Cruise, Brad Pitt)");
                 string actors = Console.ReadLine();
 
                 Movies movie = new Movies(movieinfo.Item1, movieinfo.Item2, movieinfo.Item3, sum, actors);
@@ -80,10 +80,10 @@ namespace CinemaConsole.Pages.Admin
                     TiYeAg = line.Split('/');
                 }
             }
-            
+
             return Tuple.Create(titel, year, age);
         }
-        
+
         /// <summary>
         /// add a movie time to the given movie.
         /// </summary>
@@ -158,7 +158,7 @@ namespace CinemaConsole.Pages.Admin
             bool k = true;
             while (k)
             {
-                Console.WriteLine("Movies:");
+                Console.WriteLine("\nMovies:");
                 // Loop trough all movies currently in the movielist
                 foreach (Movies movie in MovieList.movieList)
                 {
@@ -168,7 +168,7 @@ namespace CinemaConsole.Pages.Admin
                 // count all movies + 1 for an exit number
                 int moviecount = MovieList.movieList.Count + 1;
 
-                Console.WriteLine("Enter the number of the movie you want to edit or enter [exit] to go back.:");
+                Console.WriteLine("\nEnter the number of the movie you want to edit or enter [exit] to go back.:");
 
                 string line = Console.ReadLine();
 
@@ -184,7 +184,7 @@ namespace CinemaConsole.Pages.Admin
                     {
                         // save line as an int
                         int number = Int32.Parse(line);
-                        Console.WriteLine("[1] If you want to edit an entire movie\n[2] If you only want to add a certain time\n[exit] Back to menu:");
+                        Console.WriteLine("\n[1] If you want to edit an entire movie\n[2] If you only want to add a certain time\n[exit] Back to menu:");
 
                         // readline again
                         line = Console.ReadLine();
@@ -202,15 +202,15 @@ namespace CinemaConsole.Pages.Admin
                                 movie.setMovieInfo(movieinfo.Item1, movieinfo.Item2, movieinfo.Item3);
                             }
 
-                            Console.WriteLine("Please enter a short summary of the movie or enter 'skip' if you want to skip and keep the original");
+                            Console.WriteLine("\nPlease enter a short summary of the movie or enter 'skip' if you want to skip and keep the original");
                             string sum = Console.ReadLine();
                             if (sum != "skip")
                             {
                                 // replace original value for new one
-                                movie.setMovieInfo("",0, 0, sum);
+                                movie.setMovieInfo("", 0, 0, sum);
                             }
 
-                            Console.WriteLine("Please give some actors (like this: Tom Cruise, Brad Pitt) or enter 'skip' if you want to skip and keep the original");
+                            Console.WriteLine("\nPlease give some actors (like this: Tom Cruise, Brad Pitt) or enter 'skip' if you want to skip and keep the original");
                             string actors = Console.ReadLine();
                             if (actors != "skip")
                             {
@@ -220,7 +220,7 @@ namespace CinemaConsole.Pages.Admin
 
                             // i have to break out of the foreach loop, because you cannot modify a loop while you're in it. 
                             break;
-                            
+
                         }
                         else if (line == "2")
                         {
@@ -248,7 +248,7 @@ namespace CinemaConsole.Pages.Admin
             bool k = true;
             while (k)
             {
-                Console.WriteLine("Movies:");
+                Console.WriteLine("\nMovies:");
                 // Loop trough all movies currently in the movielist
                 foreach (Movies movie in MovieList.movieList)
                 {
@@ -258,8 +258,8 @@ namespace CinemaConsole.Pages.Admin
                 // count all movies + 1 for an exit number
                 int moviecount = MovieList.movieList.Count + 1;
 
-                Console.WriteLine("Enter the number of the movie you want to remove or enter [exit] to go back:");
-                
+                Console.WriteLine("\nEnter the number of the movie you want to remove or enter [exit] to go back:");
+
                 string line = Console.ReadLine();
 
                 if (line == "exit")
@@ -274,8 +274,8 @@ namespace CinemaConsole.Pages.Admin
                     {
                         // save line as an int
                         int number = Int32.Parse(line);
-                        Console.WriteLine("[1] If you want to remove the entire movie \n[2] If you only want to remove a certain time\n[exit] Back to overview:");
-                        
+                        Console.WriteLine("\n[1] If you want to remove the entire movie \n[2] If you only want to remove a certain time\n[exit] Back to overview:");
+
                         // readline again
                         line = Console.ReadLine();
 
@@ -283,9 +283,9 @@ namespace CinemaConsole.Pages.Admin
                         {
                             // remove movie if id is the same as user input
                             MovieList.movieList.RemoveAll(movie1 => movie1.getMovieInfo().Item1 == (number));
-                            Console.WriteLine("You removed " + movie.getMovieInfo().Item2);
+                            Console.WriteLine("\nYou removed " + movie.getMovieInfo().Item2);
 
-                            Console.WriteLine("Press enter to continue");
+                            Console.WriteLine("\nPress enter to continue");
 
                             // using readline here to wait for an enter
                             Console.ReadLine();
@@ -295,7 +295,7 @@ namespace CinemaConsole.Pages.Admin
                         }
                         else if (line == "2")
                         {
-                            Console.WriteLine("Select the time you want to remove:");
+                            Console.WriteLine("\nSelect the time you want to remove:");
                             foreach (DateTimeHall date in movie.DateTimeHallsList)
                             {
                                 Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item2 + "      " + date.getDateInfo().Item3);
@@ -305,7 +305,7 @@ namespace CinemaConsole.Pages.Admin
                             int time = int.Parse(Console.ReadLine());
                             movie.DateTimeHallsList.RemoveAll(movie1 => movie1.getDateInfo().Item1 == (time));
 
-                            Console.WriteLine("Press enter to continue");
+                            Console.WriteLine("\nPress enter to continue");
 
                             // using readline here to wait for an enter
                             Console.ReadLine();
@@ -325,30 +325,66 @@ namespace CinemaConsole.Pages.Admin
                 }
             }
         }
-        
+
         /// <summary>
         /// Display all the movies by using a foreach loop
         /// </summary>
         private static void Display()
         {
-            Console.WriteLine("Movies:");
+            Console.WriteLine("\nMovies:");
             // Loop trough all movies currently in the movielist
             foreach (Movies movie in MovieList.movieList)
             {
                 Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
-                
-                foreach (DateTimeHall date in movie.DateTimeHallsList)
-                {
-                    Console.WriteLine(date.getDateInfo().Item1 + "      " + date.getDateInfo().Item2 + "     " + date.getDateInfo().Item3 + "    Theaterhall " + date.getDateInfo().Item4.getHallInfo().Item2);
-                }
-                Console.WriteLine("");
             }
-            Console.WriteLine("Press enter to continue");
-            
-            // using readline here to wait for an enter
-            Console.ReadLine();
+
+            Console.WriteLine("\nEnter the number of the movie '1' for details':");
+
+            string line = Console.ReadLine();
+            foreach (Movies movie in MovieList.movieList)
+            {
+                if (line == movie.getMovieInfo().Item1.ToString())
+                {
+                    // getMovieInfo returns a number or 'exit'
+                    string Movieinfo = Customer.Customer.GetMovieInfo(movie);
+
+                    if (Movieinfo == "1")
+                    {
+                        bool k = true;
+                        while (k)
+                        {
+                            Console.WriteLine("\nSelect the number before the time to see the availability");
+                            string CustomerReserve = Console.ReadLine();
+
+                            if (CustomerReserve == "exit")
+                            {
+                                break;
+                            }
+
+                            else
+                            {
+                                
+                                foreach (DateTimeHall date in movie.DateTimeHallsList)
+                                {
+                                    if (line == date.getDateInfo().Item1.ToString())
+                                    {
+                                        Customer.Customer.ShowHall(date.getDateInfo().Item1, movie);
+                                        Console.WriteLine("\nPress enter to continue");
+
+                                        // using readline here to wait for an enter
+                                        Console.ReadLine();
+
+                                        k = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
-        
+
         /// <summary>
         /// Showing the starting menu
         /// </summary>
@@ -360,7 +396,7 @@ namespace CinemaConsole.Pages.Admin
 
             while (k)
             {
-                Console.WriteLine("Please enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Edit a movie or add a time\n[3] Remove a movie.\n[4] Show all the movies.\n[exit] Back to the menu.");
+                Console.WriteLine("\nPlease enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Edit a movie or add a time\n[3] Remove a movie.\n[4] Show all the movies.\n[exit] Back to the menu.");
                 string nummer = Console.ReadLine();
                 if (nummer == "1")
                 {
