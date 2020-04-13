@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CinemaConsole.Data;
 using CinemaConsole.Data.BackEnd;
@@ -94,7 +95,7 @@ namespace CinemaConsole.Pages.Customer
         /// </summary>
         /// <param name="id"></param>
         /// <param name="movie"></param>
-        private static void ShowHall(int id, Movies movie)
+        public static void ShowHall(int id, Movies movie)
         {
             foreach (DateTimeHall time in movie.DateTimeHallsList)
             {
@@ -242,19 +243,19 @@ namespace CinemaConsole.Pages.Customer
                             }
                             else
                             {
-                                Console.WriteLine("There are not enough seats free from this point.");
+                                Console.WriteLine("\nThere are not enough seats free from this point.");
                             }
 
                         }
                         //Catches if the user put in a number
                         catch (FormatException)
                         {
-                            Console.WriteLine("Please enter it like in the example.");
+                            Console.WriteLine("\nPlease enter it like in the example.");
                         }
                         //Catches if the user put in no / and if it is not out of bounce the theaterhall
                         catch (IndexOutOfRangeException)
                         {
-                            Console.WriteLine("Make sure your seats are in the theatherhall and it is written like in the example.");
+                            Console.WriteLine("\nMake sure your seats are in the theatherhall and it is written like in the example.");
                         }
                     }
 
@@ -283,11 +284,11 @@ namespace CinemaConsole.Pages.Customer
                 //gets a number and checks if it is higher than 0 and smaller than 11
                 try
                 {
-                    Console.WriteLine("Please enter how many seats you want. (Maximum of 10 seats)");
+                    Console.WriteLine("\nPlease enter how many seats you want. (Maximum of 10 seats)");
                     amount = Convert.ToInt32(Console.ReadLine());
                     if (amount > 10 || amount < 1)
                     {
-                        Console.WriteLine("Please enter a number that is between 0 and 10.");
+                        Console.WriteLine("\nPlease enter a number that is between 0 and 10.");
                     }
                     else
                     {
@@ -303,7 +304,7 @@ namespace CinemaConsole.Pages.Customer
                         }
                         else
                         {
-                            Console.WriteLine("There are not enough seats left. Type [1] if you want to reserve different amount of seats. Else type [2]");
+                            Console.WriteLine("\nThere are not enough seats left. Type [1] if you want to reserve different amount of seats. Else type [2]");
                             string again = Console.ReadLine();
                             if (again == "2")
                             {
@@ -315,7 +316,7 @@ namespace CinemaConsole.Pages.Customer
                 //Catches if the user did not use a number
                 catch (FormatException)
                 {
-                    Console.WriteLine("Please enter a number.");
+                    Console.WriteLine("\nPlease enter a number.");
                 }
             }
             return Tuple.Create(0, 0, 0);
@@ -324,16 +325,18 @@ namespace CinemaConsole.Pages.Customer
 
         public static string GetMovieInfo(Movies movie)
         {
-            Console.WriteLine("Movie selected: " + movie.getMovieInfo().Item2);
+            Console.WriteLine("\nMovie selected: " + movie.getMovieInfo().Item2);
             Console.WriteLine("Year: " + movie.getMovieInfo().Item3);
             Console.WriteLine("Age restriction: " + movie.getMovieInfo().Item4 + "+");
             Console.WriteLine("Actors: " + movie.getMovieInfo().Item6);
             Console.WriteLine("Summary: " + movie.getMovieInfo().Item5);
             string CustomerReservateOption = "";
+            
             while (true)
             {
                 Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
                 CustomerReservateOption = Console.ReadLine();
+                Console.WriteLine("");
 
                 if (CustomerReservateOption == "1")
                 {
@@ -371,14 +374,37 @@ namespace CinemaConsole.Pages.Customer
 
         private static Tuple<string, string, string> Name()
         {
-            Console.WriteLine("Please enter your first name");
+            Console.WriteLine("\nPlease enter your first name");
             string first_name = Console.ReadLine();
 
-            Console.WriteLine("Please enter your last name");
+            Console.WriteLine("\nPlease enter your last name");
             string last_name = Console.ReadLine();
 
-            Console.WriteLine("Please enter your e-mail adress");
-            string email = Console.ReadLine();
+            Console.WriteLine("\nPlease enter your e-mail adress");
+            string email;
+
+            // loop to only accept a valid email
+            while (true)
+            {
+                email = Console.ReadLine();
+
+                if (IsValidEmail(email))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("\nPlease enter a valid e-mail adress");
+                }
+            }
+
+            // creating a boolean to check with a system function if it returns an error
+            bool IsValidEmail(string emailaddress)
+            {
+                Regex rx = new Regex(
+                @"^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+/0-9=?A-Z^_a-z{|}~])*@[a-zA-Z](-?[a-zA-Z0-9])*(\.[a-zA-Z](-?[a-zA-Z0-9])*)+$");
+                return rx.IsMatch(email);
+            }
 
             return Tuple.Create(first_name, last_name, email);
         }
