@@ -62,13 +62,12 @@ namespace CinemaConsole.Pages
                 }
                 else
                 {
-                    register(credentials[0], credentials[1]);
-                    if (checkIfLoginIsRight())
+                    ChangeData logincheck = new ChangeData();
+                    string checkeddata = logincheck.checkLoginAndFunction(credentials[0], credentials[1]);
+                    if (checkeddata != "")
                     {
-                        Function = checkFunction();
-                        ErrorMessage = getErrorMessage(ErrorCode);
+                        Function = checkeddata;
                         checkLogin = false;
-                        Console.WriteLine("\nYou're logged in and redirected to your page");
                     }
                     else
                     {
@@ -77,51 +76,6 @@ namespace CinemaConsole.Pages
                 }
             }
 
-        }
-
-        private bool checkIfLoginIsRight()
-        {
-            bool usernameExists = false;
-            //Checks if the username exist
-            for (int i = 0; i < profiles.Count; i++)
-            {
-                if (profiles[i].Username == Username)
-                {
-                    ProfilePlace = i;
-                    i = profiles.Count;
-                    usernameExists = true;
-                }
-                else
-                {
-                    usernameExists = false;
-                    ErrorCode = 1;
-                }
-            }
-
-            if (usernameExists && Password == profiles[ProfilePlace].Password)
-            {
-                return true;
-            }
-            else
-            {
-                ErrorCode = 1;
-                return false;
-            }
-
-        }
-
-        private string checkFunction()
-        {
-            if (checkIfLoginIsRight())
-            {
-                Console.WriteLine("\nLogged in!");
-                return profiles[ProfilePlace].Function;
-            }
-            else
-            {
-                Console.WriteLine(ErrorCode);
-                return "";
-            }
         }
 
         private string getErrorMessage(int id)

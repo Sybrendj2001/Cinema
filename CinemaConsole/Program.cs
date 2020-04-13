@@ -33,7 +33,6 @@ namespace CinemaConsole
                 {
                     toDo = pageToBe;
                     pageToBe = "";
-                    toDo.ToLower();
                 }
                 else
                 {
@@ -43,15 +42,15 @@ namespace CinemaConsole
                 }
                 switch (toDo)
                 {
-                    case "admin":
+                    case "Admin":
                         Admin.Menu();
                         break;
 
-                    case "retailer":
+                    case "Retailer":
                         Restaurant.Menu();
                         break;
 
-                    case "ticketSalesman":
+                    case "Ticketsalesman":
                         TicketSalesman.Menu();
                         break;
 
