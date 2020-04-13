@@ -31,3 +31,10 @@ D:\School\Project_bravo\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csprojAssem
 D:\School\Project_bravo\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csproj.CoreCompileInputs.cache
 D:\School\Project_bravo\Cinema\CinemaConsole\obj\Debug\CinemaConsole.exe
 D:\School\Project_bravo\Cinema\CinemaConsole\obj\Debug\CinemaConsole.pdb
+C:\Users\sybre\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\bin\Debug\MySql.Data.dll
+C:\Users\sybre\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\bin\Debug\Google.Protobuf.dll
+C:\Users\sybre\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\sybre\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\bin\Debug\Ubiety.Dns.Core.dll
+C:\Users\sybre\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\bin\Debug\Renci.SshNet.dll
+C:\Users\sybre\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\bin\Debug\MySql.Data.xml
+C:\Users\sybre\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csproj.CopyComplete
