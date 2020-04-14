@@ -181,8 +181,7 @@ namespace CinemaConsole.Pages.Restaurant
                     double price = double.Parse(Console.ReadLine());
                     Console.WriteLine(" ");
 
-                    int totalproducts = CD.TotalProducts();
-                    CD.CreateProduct(totalproducts, name, price);
+                    CD.CreateProduct(name, price);
                 }
                 //Calls the removeItem function.
                 else if (operation == "3")
