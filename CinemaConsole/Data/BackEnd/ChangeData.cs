@@ -161,30 +161,89 @@ namespace CinemaConsole.Data.BackEnd
             }
             return TicketExists;
         }
-        
-        public void CreateProduct(int totalproducts, string itemname, double price, string function)
+
+        public void DisplayProducts()
+        {
+            try
+            {
+                Connection.Open();
+                string stringToDisplay = @"SELECT * FROM restaurantitems";
+
+                MySqlCommand command = new MySqlCommand(stringToDisplay, Connection);
+
+                MySqlDataReader dataReader = command.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    Console.WriteLine("[" + dataReader["ItemID"] + "] " + dataReader["ItemName"] + "    €" + dataReader["Price"]);
+                }
+
+                dataReader.Close();
+            }
+            catch (MySqlException ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+
+        }
+
+        public int TotalProducts()
+        {
+            int productsamount = 0;
+            try
+            {
+                Connection.Open();
+                Connection.Open();
+                string stringToRead = @"SELECT ItemID FROM restaurantitems";
+
+                MySqlCommand command = new MySqlCommand(stringToRead, Connection);
+                MySqlDataReader dataReader = command.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    productsamount += 1;
+                }
+
+                dataReader.Close();
+            }
+            catch (MySqlException ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+            return productsamount;
+        }
+
+
+        public void CreateProduct(int totalproducts, string itemname, double price)
         {
             try
             {
                 Connection.Open();
 
-                string stringToInsert = @"INSERT INTO login (ID, ItemName, Price, Functions) VALUES (@ID, @ItemName, @Price, @Functions)";
+                string stringToInsert = @"INSERT INTO restaurantitems (ItemID, ItemName, Price) VALUES (@ItemID, @ItemName, @Price)";
 
                 MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
-                MySqlParameter IDParam = new MySqlParameter("@ID", MySqlDbType.Int32);
+                MySqlParameter ItemIDParam = new MySqlParameter("@ItemID", MySqlDbType.Int32);
                 MySqlParameter ItemNameParam = new MySqlParameter("@ItemName", MySqlDbType.VarChar);
                 MySqlParameter PriceParam = new MySqlParameter("@Price", MySqlDbType.VarChar);
-                MySqlParameter FunctionParam = new MySqlParameter("@Functions", MySqlDbType.VarChar);
 
-                IDParam.Value = totalproducts;
+                ItemIDParam.Value = totalproducts;
                 ItemNameParam.Value = itemname;
                 PriceParam.Value = price;
-                FunctionParam.Value = function;
 
-                command.Parameters.Add(IDParam);
+                command.Parameters.Add(ItemIDParam);
                 command.Parameters.Add(ItemNameParam);
                 command.Parameters.Add(PriceParam);
-                command.Parameters.Add(FunctionParam);
 
                 command.Prepare();
                 command.ExecuteNonQuery();
@@ -211,18 +270,14 @@ namespace CinemaConsole.Data.BackEnd
                     string stringToUpdate = @"UPDATE restaurantitems SET @PlaceType = @NewType WHERE ItemID = @ItemID";
 
                     MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
-                    //Define Default Parameter
                     MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
-                    //Valuate Default Parameter
+
                     ParamID.Value = id;
-                    //Add Default Parameter to Query
                     command.Parameters.Add(ParamID);
 
-                    //Create Variable Parameter
                     MySqlParameter ParamPlaceType = new MySqlParameter("@PlaceType", MySqlDbType.Text);
                     MySqlParameter ParamNewType = new MySqlParameter("@NewType", MySqlDbType.VarChar);
 
-                    //Check which variables you need to get
                     if (name != "")
                     {
                         ParamPlaceType.Value = "ItemName";
@@ -241,14 +296,40 @@ namespace CinemaConsole.Data.BackEnd
                         break;
                     }
 
-                    //Add Variable Parameters to Query
                     command.Parameters.Add(ParamPlaceType);
                     command.Parameters.Add(ParamNewType);
 
-                    //Execute Query
                     command.Prepare();
                     command.ExecuteNonQuery();
                 }
+            }
+            catch (MySqlException ex)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+        public void DeleteProduct(int deleteItem)
+        {
+            try
+            {
+                Connection.Open();
+
+                string stringToDelete = "DELETE FROM restaurantitems WHERE ItemID = @ItemID";
+
+                MySqlCommand command = new MySqlCommand(stringToDelete, Connection);
+                MySqlParameter ItemIDParam = new MySqlParameter("@ItemID", MySqlDbType.Int32);
+
+                ItemIDParam.Value = deleteItem;
+
+                command.Parameters.Add(ItemIDParam);
+                
+                command.Prepare();
+                command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
             {
