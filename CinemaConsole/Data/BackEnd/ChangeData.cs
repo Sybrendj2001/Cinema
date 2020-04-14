@@ -329,109 +329,109 @@ namespace CinemaConsole.Data.BackEnd
         }
 
         public void DeleteProduct(int deleteItem)
-{
-	try
-	{
-		Connection.Open();
-
-		string stringToDelete = "DELETE FROM restaurantitems WHERE ItemID = @ItemID";
-
-		MySqlCommand command = new MySqlCommand(stringToDelete, Connection);
-		MySqlParameter ItemIDParam = new MySqlParameter("@ItemID", MySqlDbType.Int32);
-
-		ItemIDParam.Value = deleteItem;
-
-		command.Parameters.Add(ItemIDParam);
-
-		command.Prepare();
-		command.ExecuteNonQuery();
-	}
-	catch (MySqlException ex)
-	{
-		throw;
-	}
-	finally
-	{
-		Connection.Close();
-	}
-}
-
-
-
-public string checkLoginAndFunction(string username, string password)
-{
-	//if string is empty it means you are not logged in, otherwise you are
-	string function = "";
-	try
-	{
-		Connection.Open();
-		string stringToCheck = @"SELECT * FROM login WHERE username = @uname AND password = @pword";
-
-		MySqlCommand command = new MySqlCommand(stringToCheck, Connection);
-		MySqlParameter ParamUsername = new MySqlParameter("@uname", MySqlDbType.VarChar);
-		MySqlParameter ParamPassword = new MySqlParameter("@pword", MySqlDbType.VarChar);
-
-		ParamUsername.Value = username;
-		ParamPassword.Value = password;
-
-		command.Parameters.Add(ParamUsername);
-		command.Parameters.Add(ParamPassword);
-
-		MySqlDataReader dataReader = command.ExecuteReader();
-
-		while (dataReader.Read())
 		{
-			function = dataReader.GetString("Functions");
+			try
+			{
+				Connection.Open();
+
+				string stringToDelete = "DELETE FROM restaurantitems WHERE ItemID = @ItemID";
+
+				MySqlCommand command = new MySqlCommand(stringToDelete, Connection);
+				MySqlParameter ItemIDParam = new MySqlParameter("@ItemID", MySqlDbType.Int32);
+
+				ItemIDParam.Value = deleteItem;
+
+				command.Parameters.Add(ItemIDParam);
+
+				command.Prepare();
+				command.ExecuteNonQuery();
+			}
+			catch (MySqlException ex)
+			{
+				throw;
+			}
+			finally
+			{
+				Connection.Close();
+			}
 		}
-		dataReader.Close();
-	}
-	catch (Exception)
-	{
 
-		throw;
-	}
-	finally
-	{
-		Connection.Close();
-	}
-	return function;
-}
 
-public void InsertMovie(string name, int year, int mage, int msummary)
-{
-	try
-	{
-		Connection.Open();
-		string stringToInsert = "INSERT INTO Movie (MovieName, MovieYear, MovieMinimumAge, MovieSummary) VALUES (@Name, @Year, @MAge, @MSummary)";
 
-		MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
-		MySqlParameter NameParam = new MySqlParameter("@Name", MySqlDbType.VarChar);
-		MySqlParameter YearParam = new MySqlParameter("@Year", MySqlDbType.Int32);
-		MySqlParameter MAgeParam = new MySqlParameter("@MAge", MySqlDbType.Int32);
-		MySqlParameter MSummaryParam = new MySqlParameter("@MSummary", MySqlDbType.LongText);
+		public string checkLoginAndFunction(string username, string password)
+		{
+			//if string is empty it means you are not logged in, otherwise you are
+			string function = "";
+			try
+			{
+				Connection.Open();
+				string stringToCheck = @"SELECT * FROM login WHERE username = @uname AND password = @pword";
 
-		NameParam.Value = name;
-		YearParam.Value = year;
-		MAgeParam.Value = mage;
-		MSummaryParam.Value = msummary;
+				MySqlCommand command = new MySqlCommand(stringToCheck, Connection);
+				MySqlParameter ParamUsername = new MySqlParameter("@uname", MySqlDbType.VarChar);
+				MySqlParameter ParamPassword = new MySqlParameter("@pword", MySqlDbType.VarChar);
 
-		command.Parameters.Add(NameParam);
-		command.Parameters.Add(YearParam);
-		command.Parameters.Add(MAgeParam);
-		command.Parameters.Add(MSummaryParam);
+				ParamUsername.Value = username;
+				ParamPassword.Value = password;
 
-		command.Prepare();
-		command.ExecuteNonQuery();
-	}
-	catch (Exception)
-	{
+				command.Parameters.Add(ParamUsername);
+				command.Parameters.Add(ParamPassword);
 
-		throw;
-	}
-	finally
-	{
-		Connection.Close();
-	}
-}
+				MySqlDataReader dataReader = command.ExecuteReader();
+
+				while (dataReader.Read())
+				{
+					function = dataReader.GetString("Functions");
+				}
+				dataReader.Close();
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+			finally
+			{
+				Connection.Close();
+			}
+			return function;
+		}
+
+		public void InsertMovie(string name, int year, int mage, int msummary)
+		{
+			try
+			{
+				Connection.Open();
+				string stringToInsert = "INSERT INTO Movie (MovieName, MovieYear, MovieMinimumAge, MovieSummary) VALUES (@Name, @Year, @MAge, @MSummary)";
+
+				MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
+				MySqlParameter NameParam = new MySqlParameter("@Name", MySqlDbType.VarChar);
+				MySqlParameter YearParam = new MySqlParameter("@Year", MySqlDbType.Int32);
+				MySqlParameter MAgeParam = new MySqlParameter("@MAge", MySqlDbType.Int32);
+				MySqlParameter MSummaryParam = new MySqlParameter("@MSummary", MySqlDbType.LongText);
+
+				NameParam.Value = name;
+				YearParam.Value = year;
+				MAgeParam.Value = mage;
+				MSummaryParam.Value = msummary;
+
+				command.Parameters.Add(NameParam);
+				command.Parameters.Add(YearParam);
+				command.Parameters.Add(MAgeParam);
+				command.Parameters.Add(MSummaryParam);
+
+				command.Prepare();
+				command.ExecuteNonQuery();
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+			finally
+			{
+				Connection.Close();
+			}
+		}
     }
 }
