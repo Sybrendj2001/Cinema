@@ -502,6 +502,8 @@ namespace CinemaConsole.Pages.Customer
                                                 int Theatherhall = date.getDateInfo().Item4.getHallInfo().Item2;
                                                 TicketInfo ticket = new TicketInfo(fullname, Information.Item3, AmountXY.Item2, AmountXY.Item3, AmountXY.Item1, 15.00, Date, aMovie.getMovieInfo().Item2, Theatherhall);
 
+
+
                                                 Overview(ticket);
                                                 Console.WriteLine("\nDo you want to confirm the reservation? \n[1] Confirm reservation\n[2] Cancel reservation");
                                                 string confirm = Console.ReadLine();
@@ -512,6 +514,11 @@ namespace CinemaConsole.Pages.Customer
                                                     if (confirm == "1")
                                                     {
                                                         ReservationList.reservationList.Add(ticket);
+
+                                                        ChangeData nt = new ChangeData();
+
+                                                        nt.ReservateTicket(fullname, Information.Item3, ticket.GetTicketInfo().Item1.Item4, aMovie.getMovieInfo().Item1, AmountXY.Item1, AmountXY.Item2, AmountXY.Item3, 1, Theatherhall, 15.00);
+
                                                         Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticket.GetTicketInfo().Item1.Item4);
                                                         Console.WriteLine("\nEnter to go back to the movielist");
                                                         Console.ReadLine();

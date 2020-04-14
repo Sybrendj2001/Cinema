@@ -19,10 +19,10 @@ namespace CinemaConsole.Data.BackEnd
         {
             Initialize();
         }
-
+        
         private void Initialize()
         {
-            string dbstring = "server=localhost;user=root;pwd=admin;database=cinema";
+            string dbstring = "server=localhost;user=root;pwd=mini-cooper;database=cinema";
             Connection = new MySqlConnection(dbstring);
         }
     }

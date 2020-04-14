@@ -64,7 +64,7 @@ namespace CinemaConsole.Pages
                 {
                     ChangeData logincheck = new ChangeData();
                     string checkeddata = logincheck.checkLoginAndFunction(credentials[0], credentials[1]);
-                    if (checkeddata != "")
+                    if (checkeddata != "") 
                     {
                         Function = checkeddata;
                         checkLogin = false;
