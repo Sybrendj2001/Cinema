@@ -340,7 +340,7 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Close();
             }
         }
-    }
+    
 
 
         public string checkLoginAndFunction(string username, string password)
