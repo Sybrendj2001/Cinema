@@ -294,5 +294,53 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Close();
             }
         }
+
+        public void DisplayTickets(string name)
+        {
+            Console.OutputEncoding = Encoding.UTF8;
+            try
+            {
+                Connection.Open();
+                string stringToDisplay = @"SELECT * FROM ticket";
+
+                MySqlCommand command = new MySqlCommand(stringToDisplay, Connection);
+
+                MySqlDataReader dataReader = command.ExecuteReader();
+
+
+
+                while (dataReader.Read())
+                {
+
+
+                    //Search on name
+                    if (dataReader.GetString("Owner") == name)
+                    {
+                        //Customer.Customer.Overview(ticket);
+                        Console.WriteLine("\nTicketnumber: " + dataReader.GetString("TicketCode") + "\nPress enter to go back to the menu");
+                        Console.ReadLine();
+                        break;
+                    }
+
+                    else
+                    {
+                        Console.WriteLine("\nThere were no results found with name: " + name + "\nPress enter to go back to the menu");
+                        Console.ReadLine();
+                        break;
+                    }
+                }
+
+                dataReader.Close();
+            }
+            catch (MySqlException ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
     }
 }

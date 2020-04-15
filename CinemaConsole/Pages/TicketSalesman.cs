@@ -33,6 +33,9 @@ namespace CinemaConsole.Pages.TicketSalesman
         // Ticketsalesman able to search to on customer name or ticketnumber or movie
         private static void Display()
         {
+
+            ChangeData DTicket = new ChangeData();
+
             Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date");
             string SearchOption = Console.ReadLine();
 
@@ -41,30 +44,35 @@ namespace CinemaConsole.Pages.TicketSalesman
                 Console.WriteLine("\nPlease enter the customer full name");
                 string name = Console.ReadLine();
 
+                DTicket.DisplayTickets(name);
+
+
                 // Check if the reservation list is empty or not
-                if (ReservationList.reservationList.Count != 0)
-                {
-                    foreach (TicketInfo ticket in ReservationList.reservationList)
+                    /**if (ReservationList.reservationList.Count != 0)
                     {
-                        //Search on name
-                        if (ticket.GetTicketInfo().Item1.Item1 == name)
-                        {
-                            Customer.Customer.Overview(ticket);
-                            Console.WriteLine("\nTicketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
-                            Console.ReadLine();
-                            break;
-                        }
 
-                        else
-                        {
-                            Console.WriteLine("\nThere were no results found with name: " + name + "\nPress enter to go back to the menu");
-                            Console.ReadLine();
-                            break;
-                        }
-                    }
-                }
 
-                else
+                        foreach (TicketInfo ticket in ReservationList.reservationList)
+                        {
+                            //Search on name
+                            if (ticket.GetTicketInfo().Item1.Item1 == name)
+                            {
+                                Customer.Customer.Overview(ticket);
+                                Console.WriteLine("\nTicketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
+                                Console.ReadLine();
+                                break;
+                            }
+
+                            else
+                            {
+                                Console.WriteLine("\nThere were no results found with name: " + name + "\nPress enter to go back to the menu");
+                                Console.ReadLine();
+                                break;
+                            }
+                        }
+                }**/
+
+            else
                 {
                     Console.WriteLine("\nThere were no results found with name: " + name + "\nPress enter to go back to the menu");
                     Console.ReadLine();
@@ -156,13 +164,13 @@ namespace CinemaConsole.Pages.TicketSalesman
             Console.WriteLine("\nPlease enter the ticketnumber of the reservation you want to remove:");
             string Cticketnumber = Console.ReadLine();
 
+
             foreach (TicketInfo ticket in ReservationList.reservationList)
             {
                 if (ticket.GetTicketInfo().Item1.Item4 == Cticketnumber)
                 {
                     Customer.Customer.Overview(ticket);
                     Console.WriteLine("\nTicketnumber: " + ticket.GetTicketInfo().Item1.Item4);
-
                     while (true)
                     {
                         Console.WriteLine("\nDo you really want to remove this reservation?\n[1] Remove reservation\n[2] Cancel");
