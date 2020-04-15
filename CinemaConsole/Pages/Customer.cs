@@ -358,43 +358,17 @@ namespace CinemaConsole.Pages.Customer
             return CustomerReservateOption;
         }
 
-        public static string GetMovieInfoDB(string MovieID)
+        public static void GetMovieInfoDB(string MovieID)
         {
             ShowData ShowMovieByID = new ShowData();
             ShowMovieByID.ShowMovieByID(MovieID);
-
-            string CustomerReservateOption = "";
-
-            while (true)
-            {
-                Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
-                CustomerReservateOption = Console.ReadLine();
-                Console.WriteLine("");
-
-                if (CustomerReservateOption == "1")
-                {
-                    /*foreach (DateTimeHall date in movie.DateTimeHallsList)
-                    {
-                        Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item2 + "      " + date.getDateInfo().Item3);
-                    }*/
-                    
-                    Console.WriteLine("[exit] Back to menu");
-                    break;
-                }
-
-                else if (CustomerReservateOption == "exit")
-                {
-                    break;
-                }
-            }
-            return CustomerReservateOption;
         }
         public static void display()
         {
             Console.WriteLine("\nMovies:");
 
-            ShowData showMovies = new ShowData();
-            showMovies.ShowMovies();
+            ShowData showMovieInfo = new ShowData();
+            showMovieInfo.ShowMovies();
 
             // check if user wants to go back
             Console.WriteLine("\n[menu] Restaurant Menu");
@@ -467,6 +441,8 @@ namespace CinemaConsole.Pages.Customer
 
         public static void Menu()
         {
+            string whichMovie;
+            string CustomerTimeOption;
             bool running = true;
             while (running)
             {
@@ -486,86 +462,78 @@ namespace CinemaConsole.Pages.Customer
                 {
                     Restaurant.Restaurant.Display();
                 }
+               
+                ShowData ShowMovieByInfo = new ShowData();
 
-                foreach (Movies aMovie in MovieList.movieList)
+                // this will return the movie details for the number you entered
+                whichMovie = ShowMovieByInfo.ShowMovieByID(line);
+
+                Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
+                CustomerTimeOption = Console.ReadLine();
+
+                // this will return the movie times for the movie you entered
+                ShowMovieByInfo.ShowTimesByMovieID(whichMovie, CustomerTimeOption);
+
+                Console.WriteLine("\nPlease enter the number or word that stands before the time you want to reserve or action you want to do");
+                string CustomerReserve = Console.ReadLine();
+                               
+                // hierna moeten de seats uit de database komen
+                
+            /*foreach (DateTimeHall date in aMovie.DateTimeHallsList)
                 {
-                    if (line == aMovie.getMovieInfo().Item1.ToString())
+                    if (CustomerReserve == date.getDateInfo().Item1.ToString())
                     {
-                        string Movieinfo = GetMovieInfoDB(line);
+                        Tuple<int, int, int> AmountXY = SelectSeat(aMovie, date.getDateInfo().Item1);
+                        Break = AmountXY.Item1;
 
-                        if (Movieinfo == "1")
+                        if (AmountXY.Item1 == 0)
                         {
+                            break;
+                        }
+
+                        else
+                        {
+                            Tuple<string, string, string> Information = Name();
+                            string fullname = Information.Item1 + " " + Information.Item2;
+
+                            string Date = date.getDateInfo().Item2 + " " + date.getDateInfo().Item3;
+                            int Theatherhall = date.getDateInfo().Item4.getHallInfo().Item2;
+                            TicketInfo ticket = new TicketInfo(fullname, Information.Item3, AmountXY.Item2, AmountXY.Item3, AmountXY.Item1, 15.00, Date, aMovie.getMovieInfo().Item2, Theatherhall);
+
+                            Overview(ticket);
+                            Console.WriteLine("\nDo you want to confirm the reservation? \n[1] Confirm reservation\n[2] Cancel reservation");
+                            string confirm = Console.ReadLine();
+
                             while (true)
                             {
-                                Console.WriteLine("\nPlease enter the number or word that stands before the time you want to reserve or action you want to do");
-                                string CustomerReserve = Console.ReadLine();
-
-                                if (CustomerReserve == "exit")
+                                //Conform the reservation or cancel it.
+                                if (confirm == "1")
                                 {
+                                    ReservationList.reservationList.Add(ticket);
+                                    Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticket.GetTicketInfo().Item1.Item4);
+                                    Console.WriteLine("\nEnter to go back to the movielist");
+                                    Console.ReadLine();
                                     break;
                                 }
 
-                                else
+                                else if (confirm == "2")
                                 {
-                                    int Break = 0;
-                                    foreach (DateTimeHall date in aMovie.DateTimeHallsList)
-                                    {
-                                        if (CustomerReserve == date.getDateInfo().Item1.ToString())
-                                        {
-                                            Tuple<int, int, int> AmountXY = SelectSeat(aMovie, date.getDateInfo().Item1);
-                                            Break = AmountXY.Item1;
-
-                                            if (AmountXY.Item1 == 0)
-                                            {
-                                                break;
-                                            }
-
-                                            else
-                                            {
-                                                Tuple<string, string, string> Information = Name();
-                                                string fullname = Information.Item1 + " " + Information.Item2;
-
-                                                string Date = date.getDateInfo().Item2 + " " + date.getDateInfo().Item3;
-                                                int Theatherhall = date.getDateInfo().Item4.getHallInfo().Item2;
-                                                TicketInfo ticket = new TicketInfo(fullname, Information.Item3, AmountXY.Item2, AmountXY.Item3, AmountXY.Item1, 15.00, Date, aMovie.getMovieInfo().Item2, Theatherhall);
-
-                                                Overview(ticket);
-                                                Console.WriteLine("\nDo you want to confirm the reservation? \n[1] Confirm reservation\n[2] Cancel reservation");
-                                                string confirm = Console.ReadLine();
-
-                                                while (true)
-                                                {
-                                                    //Conform the reservation or cancel it.
-                                                    if (confirm == "1")
-                                                    {
-                                                        ReservationList.reservationList.Add(ticket);
-                                                        Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticket.GetTicketInfo().Item1.Item4);
-                                                        Console.WriteLine("\nEnter to go back to the movielist");
-                                                        Console.ReadLine();
-                                                        break;
-                                                    }
-
-                                                    else if (confirm == "2")
-                                                    {
-                                                        Cancel(AmountXY.Item1, AmountXY.Item2, AmountXY.Item3, date);
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                            break;
-                                        }
-                                    }
-
-                                    if (Break != 0)
-                                    {
-                                        break;
-                                    }
+                                    Cancel(AmountXY.Item1, AmountXY.Item2, AmountXY.Item3, date);
+                                    break;
                                 }
                             }
                         }
                         break;
                     }
                 }
+
+                if (Break != 0)
+                {
+                    break;
+                }
+                }
+                }*/
+                                
             }
         }
     }

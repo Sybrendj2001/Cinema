@@ -51,40 +51,6 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public void ShowMovies()
-        {
-            try
-            {
-                Connection.Open();
-                string oString = @"SELECT * from movie";
-                MySqlCommand oCmd = new MySqlCommand(oString, Connection);
-
-                // creating the strings 
-                string movieID;
-                string movieName;
-                string movieYear;
-
-                using (MySqlDataReader getMovieInfo = oCmd.ExecuteReader())
-                {
-                    while (getMovieInfo.Read())
-                    {
-                        movieID = getMovieInfo["MovieID"].ToString();
-                        movieName = getMovieInfo["MovieName"].ToString();
-                        movieYear = getMovieInfo["MovieYear"].ToString();
-                        Console.WriteLine("["+ movieID + "] " + movieName + " (" + movieYear + ")");
-                    }
-                }
-            }
-            catch (MySqlException ex)
-            {
-                throw;
-            }
-            finally
-            {
-                Connection.Close();
-            }
-        }
-
         public void UpdateMovie(int id = -1, string name = "", int year = -1, int minimumage = -1, string summary = "")
         {
             try

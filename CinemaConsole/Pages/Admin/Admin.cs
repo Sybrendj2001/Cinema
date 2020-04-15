@@ -313,54 +313,22 @@ namespace CinemaConsole.Pages.Admin
         private static void Display()
         {
             Console.WriteLine("\nMovies:");
-            ChangeData showMovies = new ChangeData();
-            showMovies.ShowMovies();
+            ShowData ShowMovieByInfo = new ShowData();
 
-            Console.WriteLine("\nEnter the number of the movie for details:");
+            ShowMovieByInfo.ShowMovies();
 
             string line = Console.ReadLine();
-            foreach (Movies movie in MovieList.movieList)
-            {
-                if (line == movie.getMovieInfo().Item1.ToString())
-                {
-                    // getMovieInfo returns a number or 'exit'
-                    string Movieinfo = Customer.Customer.GetMovieInfoDB(line);
 
-                    if (Movieinfo == "1")
-                    {
-                        bool k = true;
-                        while (k)
-                        {
-                            Console.WriteLine("\nSelect the number before the time to see the availability");
-                            string CustomerReserve = Console.ReadLine();
+            // this will return the movie details for the number you entered
+            string whichMovie = ShowMovieByInfo.ShowMovieByID(line);
 
-                            if (CustomerReserve == "exit")
-                            {
-                                break;
-                            }
+            Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
+            string CustomerTimeOption = Console.ReadLine();
 
-                            else
-                            {
-                                
-                                foreach (DateTimeHall date in movie.DateTimeHallsList)
-                                {
-                                    if (line == date.getDateInfo().Item1.ToString())
-                                    {
-                                        Customer.Customer.ShowHall(date.getDateInfo().Item1, movie);
-                                        Console.WriteLine("\nPress enter to continue");
-
-                                        // using readline here to wait for an enter
-                                        Console.ReadLine();
-
-                                        k = false;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            // this will return the movie times for the movie you entered
+            ShowMovieByInfo.ShowTimesByMovieID(whichMovie, CustomerTimeOption);
+            Console.WriteLine("\nPress enter to continue");
+            Console.ReadLine();
         }
 
         /// <summary>
