@@ -295,7 +295,7 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public void DisplayTickets(string name)
+        public void DisplayTickets()
         {
             Console.OutputEncoding = Encoding.UTF8;
             try
@@ -311,6 +311,8 @@ namespace CinemaConsole.Data.BackEnd
 
                 while (dataReader.Read())
                 {
+                    Console.WriteLine("\nPlease enter the customer full name");
+                    string name = Console.ReadLine();
 
 
                     //Search on name

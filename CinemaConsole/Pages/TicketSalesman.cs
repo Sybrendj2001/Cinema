@@ -41,42 +41,41 @@ namespace CinemaConsole.Pages.TicketSalesman
 
             if (SearchOption == "1")
             {
-                Console.WriteLine("\nPlease enter the customer full name");
-                string name = Console.ReadLine();
-
-                DTicket.DisplayTickets(name);
+                
+                DTicket.DisplayTickets();
 
 
                 // Check if the reservation list is empty or not
-                    /**if (ReservationList.reservationList.Count != 0)
-                    {
-
-
-                        foreach (TicketInfo ticket in ReservationList.reservationList)
-                        {
-                            //Search on name
-                            if (ticket.GetTicketInfo().Item1.Item1 == name)
-                            {
-                                Customer.Customer.Overview(ticket);
-                                Console.WriteLine("\nTicketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
-                                Console.ReadLine();
-                                break;
-                            }
-
-                            else
-                            {
-                                Console.WriteLine("\nThere were no results found with name: " + name + "\nPress enter to go back to the menu");
-                                Console.ReadLine();
-                                break;
-                            }
-                        }
-                }**/
-
-            else
+                /**if (ReservationList.reservationList.Count != 0)
                 {
-                    Console.WriteLine("\nThere were no results found with name: " + name + "\nPress enter to go back to the menu");
-                    Console.ReadLine();
-                }
+
+
+                    foreach (TicketInfo ticket in ReservationList.reservationList)
+                    {
+                        //Search on name
+                        if (ticket.GetTicketInfo().Item1.Item1 == name)
+                        {
+                            Customer.Customer.Overview(ticket);
+                            Console.WriteLine("\nTicketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
+                            Console.ReadLine();
+                            break;
+                        }
+
+                        else
+                        {
+                            Console.WriteLine("\nThere were no results found with name: " + name + "\nPress enter to go back to the menu");
+                            Console.ReadLine();
+                            break;
+                        }
+                    }
+         else
+            {
+                Console.WriteLine("\nThere were no results found with name: " + name + "\nPress enter to go back to the menu");
+                Console.ReadLine();
+            }
+            }**/
+
+
             }
 
             else if (SearchOption == "2")
