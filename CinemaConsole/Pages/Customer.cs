@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,181 +15,6 @@ namespace CinemaConsole.Pages.Customer
 {
     public class Customer
     {
-        /// <summary>
-        /// Adding some data, so you won't have to create new movies everytime you run the application
-        /// </summary>
-        public static void AddStuff()
-        {
-            Movies movie1 = new Movies("Transformers", 2007, 12, "An ancient struggle between two Cybertronian races, the heroic Autobots and the evil Decepticons, comes to Earth, with a clue to the ultimate power held by a teenager.", "Shia LaBeouf, Megan Fox");
-            MovieList.movieList.Add(movie1);
-
-            DateTimeHall datetimehall1 = new DateTimeHall("04/04/2020", "09:00", 1, movie1);
-            movie1.DateTimeHallsList.Add(datetimehall1);
-            DateTimeHall datetimehall1A = new DateTimeHall("21/06/2020", "12:20", 2, movie1);
-            movie1.DateTimeHallsList.Add(datetimehall1A);
-
-            Movies movie2 = new Movies("Avengers", 2012, 12, "Earth's mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.", "Robert Downey Jr., Chris Evans, Scarlett Johansson");
-            MovieList.movieList.Add(movie2);
-
-            DateTimeHall datetimehall2 = new DateTimeHall("21/05/2020", "12:20", 1, movie2);
-            movie2.DateTimeHallsList.Add(datetimehall2);
-            DateTimeHall datetimehall2A = new DateTimeHall("21/06/2020", "12:20", 3, movie2);
-            movie2.DateTimeHallsList.Add(datetimehall2A);
-
-            Movies movie3 = new Movies("The Dark Knight", 2008, 12, "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.", " Christian Bale, Heath Ledger, Aaron Eckhart");
-            MovieList.movieList.Add(movie3);
-
-            DateTimeHall datetimehall3 = new DateTimeHall("21/06/2020", "12:20", 1, movie3);
-            movie3.DateTimeHallsList.Add(datetimehall3);
-            DateTimeHall datetimehall3A = new DateTimeHall("21/05/2020", "12:20", 2, movie3);
-            movie3.DateTimeHallsList.Add(datetimehall3A);
-        }
-
-        /// <summary>
-        /// seatCheck returns if there is enough room for the chosen number of seats
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="movie"></param>
-        /// <param name="amount"></param>
-        /// <returns></returns>
-        private static bool SeatCheck(int id, Movies movie, int amount)
-        {
-            bool check = false;
-
-            foreach (DateTimeHall time in movie.DateTimeHallsList)
-            {
-                if (time.getDateInfo().Item1 == id)
-                {
-                    //This is the hall of the movie
-                    Seat[][] seat = time.getDateInfo().Item4.getHallInfo().Item1;
-
-                    //this checks if there is enough room for the amount of seats
-                    //If not check remains false else it becomes true
-                    for (int i = 0; i < seat.Length; i++)
-                    {
-                        int count = 0;
-                        for (int j = 0; j < seat[i].Length; j++)
-                        {
-                            if (seat[seat.Length - 1 - i][j].getInfo().Item3)
-                            {
-                                count++;
-                                if (count >= amount)
-                                {
-                                    check = true;
-                                }
-                            }
-                            else
-                            {
-                                count = 0;
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
-            return check;
-        }
-
-        /// <summary>
-        /// Is a function to show the theaterhall
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="movie"></param>
-        public static void ShowHall(int id, Movies movie)
-        {
-            foreach (DateTimeHall time in movie.DateTimeHallsList)
-            {
-                if (time.getDateInfo().Item1 == id)
-                {
-                    //This is the hall of the movie
-                    Seat[][] seat = time.getDateInfo().Item4.getHallInfo().Item1;
-                    string show = "\n";
-
-                    //This for loop gives numbers ontop of the raster
-                    //The difference in spaces is because of the extra number if collum becomes bigger than 9(i > 8) 
-                    for (int i = 0; i < seat[0].Length; i++)
-                    {
-                        if (i > 8)
-                        {
-                            show += (i + 1) + " ";
-                        }
-                        else if (i == 8)
-                        {
-                            show += (i + 1) + " ";
-                        }
-                        else
-                        {
-                            show += (i + 1) + "  ";
-                        }
-                    }
-                    show += "\n";
-                    //If avail of seat(getInfo.Item3) is true then place a O else place a X
-                    for (int i = 0; i < seat.Length; i++)
-                    {
-                        for (int j = 0; j < seat[i].Length; j++)
-                        {
-                            if (seat[i][j].getInfo().Item3)
-                            {
-                                if (j > 8)
-                                {
-                                    show += " O ";
-                                }
-                                else if (j == 8)
-                                {
-                                    show += "O ";
-                                }
-                                else
-                                {
-                                    show += "O  ";
-                                }
-                            }
-
-                            else if (seat[i][j].getInfo().Item2 == "(No Seat)")
-                            {
-                                if (j > 8)
-                                {
-                                    show += "   ";
-                                }
-                                else if (j == 8)
-                                {
-                                    show += "  ";
-                                }
-                                else
-                                {
-                                    show += "   ";
-                                }
-                            }
-                            else
-                            {
-                                if (j > 8)
-                                {
-                                    show += " X ";
-                                }
-                                else if (j == 8)
-                                {
-                                    show += "X ";
-                                }
-                                else
-                                {
-                                    show += "X  ";
-                                }
-                            }
-                        }
-                        show += (seat.Length - i) + "\n";
-                    }
-
-                    show += "\n";
-                    for (int i = 0; i < seat[0].Length; i++)
-                    {
-                        show += "---";
-                    }
-
-                    show += "       (screen)\n";
-                    Console.WriteLine(show);
-                }
-            }
-        }
-
         /// <summary>
         /// let's you choose the place of your seat
         /// </summary>
@@ -270,59 +96,6 @@ namespace CinemaConsole.Pages.Customer
             return Tuple.Create(seatX, seatY);
         }
 
-        /// <summary>
-        /// This starts the process of selecting the amount of seats and the place of the seats
-        /// </summary>
-        /// <param name="movie"></param>
-        /// <param name="id"></param>
-        public static Tuple<int, int, int> SelectSeat(Movies movie, int id)
-        {
-            int amount = 0;
-            bool k = true;
-            while (k)
-            {
-                //gets a number and checks if it is higher than 0 and smaller than 11
-                try
-                {
-                    Console.WriteLine("\nPlease enter how many seats you want. (Maximum of 10 seats)");
-                    amount = Convert.ToInt32(Console.ReadLine());
-                    if (amount > 10 || amount < 1)
-                    {
-                        Console.WriteLine("\nPlease enter a number that is between 0 and 10.");
-                    }
-                    else
-                    {
-                        bool seatCheck = SeatCheck(id, movie, amount);
-
-                        if (seatCheck)
-                        {
-                            ShowHall(id, movie);
-                            Tuple<int, int> XY = ChooseSeat(id, movie, amount);
-                            int X = XY.Item1;
-                            int Y = XY.Item2;
-                            return Tuple.Create(amount, X, Y);
-                        }
-                        else
-                        {
-                            Console.WriteLine("\nThere are not enough seats left. Type [1] if you want to reserve different amount of seats. Else type [2]");
-                            string again = Console.ReadLine();
-                            if (again == "2")
-                            {
-                                return Tuple.Create(0, 0, 0);
-                            }
-                        }
-                    }
-                }
-                //Catches if the user did not use a number
-                catch (FormatException)
-                {
-                    Console.WriteLine("\nPlease enter a number.");
-                }
-            }
-            return Tuple.Create(0, 0, 0);
-
-        }
-
         public static string GetMovieInfo(Movies movie)
         {
             Console.WriteLine("\nMovie selected: " + movie.getMovieInfo().Item2);
@@ -359,13 +132,10 @@ namespace CinemaConsole.Pages.Customer
 
         public static void display()
         {
-            Console.WriteLine("Movies:");
+            Console.WriteLine("\nMovies:");
 
-            // Loop trough all movies currently in the movielist
-            foreach (Movies movie in MovieList.movieList)
-            {
-                Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
-            }
+            ShowData showMovieInfo = new ShowData();
+            showMovieInfo.ShowMovies();
 
             // check if user wants to go back
             Console.WriteLine("\n[menu] Restaurant Menu");
@@ -438,8 +208,201 @@ namespace CinemaConsole.Pages.Customer
             }
         }
 
+
+        public static void reserveSeat(string whichMovie)
+        {
+            AdminData AD = new AdminData();
+            Tuple<List<DateTime>, List<int>, List<int>> date = showTime(whichMovie);
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("\nPlease enter the number or word that stands before the time you want to reserve or action you want to do");
+                    string CustomerReserve = Console.ReadLine();
+                    if (CustomerReserve == "exit")
+                    {
+                        break;
+                    }
+                    else if (Convert.ToInt32(CustomerReserve) > date.Item1.Count || Convert.ToInt32(CustomerReserve) < 1)
+                    {
+                        Console.WriteLine("Please enter a number that is an option");
+                    }
+                    else
+                    {
+                        int amount = 0;
+
+                        string datetime = date.Item1[Convert.ToInt32(CustomerReserve)-1].ToString("yyyy") + "-" + date.Item1[Convert.ToInt32(CustomerReserve)-1].ToString("MM") + "-" + date.Item1[Convert.ToInt32(CustomerReserve)-1].ToString("dd") + " " + date.Item1[Convert.ToInt32(CustomerReserve)-1].ToString("HH") + ":" + date.Item1[Convert.ToInt32(CustomerReserve)-1].ToString("mm");
+
+                        DateTime dt = DateTime.ParseExact(datetime, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+
+                        int HallID = AD.GetHallID(AD.GetDateID(dt, date.Item3[Convert.ToInt32(CustomerReserve)-1]));
+                        Tuple<int, int, int> HallInfo = AD.GetHallInfo(HallID);
+
+                        List<Tuple<double, int, int, string, bool>> seats = AD.GetSeat(HallID);
+
+                        while (true)
+                        {
+                            try
+                            {
+                                Console.WriteLine("\nPlease enter how many seats you want. (Maximum of 10 seats)");
+                                amount = Convert.ToInt32(Console.ReadLine());
+                                if (amount > 10 || amount < 1)
+                                {
+                                    Console.WriteLine("\nPlease enter a number that is between 0 and 10.");
+                                }
+                                else
+                                {
+                                    if (seatCheck(HallInfo, seats, amount))
+                                    {
+                                        showHall(HallInfo, seats);
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("shame");
+                                    }
+                                }
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("\nPlease enter a number.");
+                            }
+                        }
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("\nPlease enter exit or a number that exists.");
+                }
+            }
+        }
+
+        public static void showHall(Tuple<int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats)
+        {
+            string showhall = "";
+            for (int i = 0; i < HallInfo.Item1; i++)
+            {
+                for (int j = 0; j < HallInfo.Item2; j++)
+                {
+                    for (int z = 0; z < seats.Count; z++)
+                    {
+                        if (seats[z].Item2 == i && seats[z].Item3 == j)
+                        {
+                            if (seats[z].Item5)
+                            {
+                                if (j > 8)
+                                {
+                                    showhall += " O ";
+                                }
+                                else if (j == 8)
+                                {
+                                    showhall += "O ";
+                                }
+                                else
+                                {
+                                    showhall += "O  ";
+                                }
+                            }
+                            else if (seats[z].Item4 == "(No Seat)")
+                            {
+                                if (j > 8)
+                                {
+                                    showhall += "   ";
+                                }
+                                else if (j == 8)
+                                {
+                                    showhall += "  ";
+                                }
+                                else
+                                {
+                                    showhall += "   ";
+                                }
+                            }
+                            else
+                            {
+                                if (j > 8)
+                                {
+                                    showhall += " X ";
+                                }
+                                else if (j == 8)
+                                {
+                                    showhall += "X ";
+                                }
+                                else
+                                {
+                                    showhall += "X  ";
+                                }
+                            }
+
+                            break;
+                        }
+                    }
+                }
+                showhall += "\n";
+            }
+
+            Console.WriteLine(showhall);
+        }
+
+        public static bool seatCheck(Tuple<int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats, int amount)
+        {
+            AdminData AD = new AdminData();
+
+            bool free = false;
+            int count = 0;
+
+            for (int i = 0; i < HallInfo.Item1; i++)
+            {
+                for (int j = 0; j < HallInfo.Item2; j++)
+                {
+                    for (int z = 0; z < seats.Count; z++)
+                    {
+                        if (seats[z].Item2 == i && seats[z].Item3 == j)
+                        {
+                            if (seats[z].Item5)
+                            {
+                                count++;
+                                if (count >= amount)
+                                {
+                                    free = true;
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                count = 0;
+                            }
+                        }
+                    }
+                    if (free)
+                    {
+                        break;
+                    }
+                }
+                if (free)
+                {
+                    break;
+                }
+                count = 0;
+            }
+
+            return free;
+        }
+        public static Tuple<List<DateTime>, List<int>, List<int>> showTime(string whichMovie)
+        {
+            AdminData AD = new AdminData();
+            Tuple<List<DateTime>, List<int>, List<int>> times = AD.GetTime(Convert.ToInt32(whichMovie));
+
+            for (int i = 0; i < times.Item1.Count; i++)
+            {
+                Console.WriteLine("[" + (i + 1) + "]" + times.Item1[i].ToString("HH:mm dd/MM/yyyy"));
+            }
+            return times;
+        }
+
         public static void Menu()
         {
+            string whichMovie;
+            string CustomerTimeOption;
             bool running = true;
             while (running)
             {
@@ -460,93 +423,26 @@ namespace CinemaConsole.Pages.Customer
                     Restaurant.Restaurant.Display();
                 }
 
-                foreach (Movies aMovie in MovieList.movieList)
+                ShowData ShowMovieByInfo = new ShowData();
+
+                // this will return the movie details for the number you entered
+                whichMovie = ShowMovieByInfo.ShowMovieByID(line);
+
+                Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
+                while (true)
                 {
-                    if (line == aMovie.getMovieInfo().Item1.ToString())
+                    CustomerTimeOption = Console.ReadLine();
+                    // this will return the movie times for the movie you entered
+                    //ShowMovieByInfo.ShowTimesByMovieID(whichMovie, CustomerTimeOption);
+                    if (CustomerTimeOption == "1")
                     {
-                        string Movieinfo = GetMovieInfo(aMovie);
-
-                        if (Movieinfo == "1")
-                        {
-                            while (true)
-                            {
-                                Console.WriteLine("\nPlease enter the number or word that stands before the time you want to reserve or action you want to do");
-                                string CustomerReserve = Console.ReadLine();
-
-                                if (CustomerReserve == "exit")
-                                {
-                                    break;
-                                }
-
-                                else
-                                {
-                                    int Break = 0;
-                                    foreach (DateTimeHall date in aMovie.DateTimeHallsList)
-                                    {
-                                        if (CustomerReserve == date.getDateInfo().Item1.ToString())
-                                        {
-                                            Tuple<int, int, int> AmountXY = SelectSeat(aMovie, date.getDateInfo().Item1);
-                                            Break = AmountXY.Item1;
-
-                                            if (AmountXY.Item1 == 0)
-                                            {
-                                                break;
-                                            }
-
-                                            else
-                                            {
-                                                Tuple<string, string, string> Information = Name();
-                                                string fullname = Information.Item1 + " " + Information.Item2;
-
-                                                string Date = date.getDateInfo().Item2 + " " + date.getDateInfo().Item3;
-                                                int Theatherhall = date.getDateInfo().Item4.getHallInfo().Item2;
-                                                TicketInfo ticket = new TicketInfo(fullname, Information.Item3, AmountXY.Item2, AmountXY.Item3, AmountXY.Item1, 15.00, Date, aMovie.getMovieInfo().Item2, Theatherhall);
-
-
-
-                                                Overview(ticket);
-                                                Console.WriteLine("\nDo you want to confirm the reservation? \n[1] Confirm reservation\n[2] Cancel reservation");
-                                                string confirm = Console.ReadLine();
-
-                                                while (true)
-                                                {
-                                                    //Conform the reservation or cancel it.
-                                                    if (confirm == "1")
-                                                    {
-                                                        ReservationList.reservationList.Add(ticket);
-
-                                                        ChangeData nt = new ChangeData();
-
-                                                        nt.ReservateTicket(fullname, Information.Item3, ticket.GetTicketInfo().Item1.Item4, aMovie.getMovieInfo().Item1, AmountXY.Item1, AmountXY.Item2, AmountXY.Item3, 1, Theatherhall, 15.00);
-
-                                                        Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticket.GetTicketInfo().Item1.Item4);
-                                                        Console.WriteLine("\nEnter to go back to the movielist");
-                                                        Console.ReadLine();
-                                                        break;
-                                                    }
-
-                                                    else if (confirm == "2")
-                                                    {
-                                                        Cancel(AmountXY.Item1, AmountXY.Item2, AmountXY.Item3, date);
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                            break;
-                                        }
-                                    }
-
-                                    if (Break != 0)
-                                    {
-                                        break;
-                                    }
-                                }
-                            }
-                        }
+                        reserveSeat(whichMovie);
                         break;
                     }
                 }
-            }
+                Console.WriteLine("\nPlease enter the number or word that stands before the time you want to reserve or action you want to do");
+                string CustomerReserve = Console.ReadLine();
+            }     
         }
     }
 }

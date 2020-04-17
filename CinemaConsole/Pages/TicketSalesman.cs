@@ -33,49 +33,14 @@ namespace CinemaConsole.Pages.TicketSalesman
         // Ticketsalesman able to search to on customer name or ticketnumber or movie
         private static void Display()
         {
-
-            ChangeData DTicket = new ChangeData();
+            ShowData DTicket = new ShowData();
 
             Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date");
             string SearchOption = Console.ReadLine();
 
             if (SearchOption == "1")
             {
-                
                 DTicket.DisplayTickets();
-
-
-                // Check if the reservation list is empty or not
-                /**if (ReservationList.reservationList.Count != 0)
-                {
-
-
-                    foreach (TicketInfo ticket in ReservationList.reservationList)
-                    {
-                        //Search on name
-                        if (ticket.GetTicketInfo().Item1.Item1 == name)
-                        {
-                            Customer.Customer.Overview(ticket);
-                            Console.WriteLine("\nTicketnumber: " + ticket.GetTicketInfo().Item1.Item4 + "\nPress enter to go back to the menu");
-                            Console.ReadLine();
-                            break;
-                        }
-
-                        else
-                        {
-                            Console.WriteLine("\nThere were no results found with name: " + name + "\nPress enter to go back to the menu");
-                            Console.ReadLine();
-                            break;
-                        }
-                    }
-         else
-            {
-                Console.WriteLine("\nThere were no results found with name: " + name + "\nPress enter to go back to the menu");
-                Console.ReadLine();
-            }
-            }**/
-
-
             }
 
             else if (SearchOption == "2")
@@ -162,7 +127,6 @@ namespace CinemaConsole.Pages.TicketSalesman
         {
             Console.WriteLine("\nPlease enter the ticketnumber of the reservation you want to remove:");
             string Cticketnumber = Console.ReadLine();
-
 
             foreach (TicketInfo ticket in ReservationList.reservationList)
             {

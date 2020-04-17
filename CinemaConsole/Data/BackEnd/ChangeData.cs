@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MySql.Data;
 using MySql;
 using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace CinemaConsole.Data.BackEnd
 {
@@ -15,7 +16,7 @@ namespace CinemaConsole.Data.BackEnd
         {
             try
             {
-                Connection.Open();  
+                Connection.Open();
 
                 string stringToInsert = @"INSERT INTO login (ID, Username, Password, Functions) VALUES (@ID, @Username, @Password, @Functions)";
 
@@ -133,7 +134,7 @@ namespace CinemaConsole.Data.BackEnd
 
                 ParamticketID.Value = ticketid;
                 command.Parameters.Add(ParamticketID);
-                
+
                 MySqlDataReader dataReader = command.ExecuteReader();
 
                 while (dataReader.Read())
@@ -295,48 +296,38 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public void DisplayTickets()
+
+        public void ShowMovies()
         {
-            Console.OutputEncoding = Encoding.UTF8;
             try
             {
                 Connection.Open();
-                string stringToDisplay = @"SELECT * FROM ticket";
+                string oString = @"SELECT * from movie";
+                MySqlCommand oCmd = new MySqlCommand(oString, Connection);
 
-                MySqlCommand command = new MySqlCommand(stringToDisplay, Connection);
+                // creating the strings 
+                string movieID;
+                string movieName;
+                string movieYear;
 
-                MySqlDataReader dataReader = command.ExecuteReader();
-
-
-
-                while (dataReader.Read())
+                using (MySqlDataReader getMovieInfo = oCmd.ExecuteReader())
                 {
-                    Console.WriteLine("\nPlease enter the customer full name");
-                    string name = Console.ReadLine();
+                    DataTable dataTable = new DataTable();
 
-
-                    //Search on name
-                    if (dataReader.GetString("Owner") == name)
+                    dataTable.Load(getMovieInfo);
+                    foreach (DataRow row in dataTable.Rows)
                     {
-                        //Customer.Customer.Overview(ticket);
-                        Console.WriteLine("\nTicketnumber: " + dataReader.GetString("TicketCode") + "\nPress enter to go back to the menu");
-                        Console.ReadLine();
-                        break;
+                        movieID = row["MovieID"].ToString();
+                        movieName = row["MovieName"].ToString();
+                        movieYear = row["MovieYear"].ToString();
+                        Console.WriteLine("[" + movieID + "] " + movieName + " (" + movieYear + ")");
                     }
-
-                    else
-                    {
-                        Console.WriteLine("\nThere were no results found with name: " + name + "\nPress enter to go back to the menu");
-                        Console.ReadLine();
-                        break;
-                    }
+                    Console.WriteLine("\nEnter the number of the movie for details:");
                 }
 
-                dataReader.Close();
             }
             catch (MySqlException ex)
             {
-
                 throw;
             }
             finally
@@ -346,3 +337,5 @@ namespace CinemaConsole.Data.BackEnd
         }
     }
 }
+
+
