@@ -49,7 +49,7 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public void UpdateMovie(int id = -1, string name = "", int year = -1, int minimumage = -1, string summary = "")
+        public void UpdateMovie(int id, string name = "", int year = -1, int minimumage = -1, string summary = "")
         {
             try
             {
@@ -113,6 +113,7 @@ namespace CinemaConsole.Data.BackEnd
             }
             catch (MySqlException ex)
             {
+                
                 throw;
             }
             finally
@@ -201,7 +202,7 @@ namespace CinemaConsole.Data.BackEnd
             return function;
         }
 
-        public void InsertMovie(string name, int year, int mage, int msummary)
+        public void InsertMovie(string name, int year, int mage, string msummary)
         {
             try
             {
@@ -237,5 +238,26 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Close();
             }
         }
+        /*
+        public void DeleteMovie()
+        {
+            try
+            {
+                Connection.Open();
+                string stringToRemove = "DELETE FROM movie where MovieID = @MID";
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+
+        }*/
     }
 }

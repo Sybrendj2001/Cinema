@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CinemaConsole.Data.BackEnd;
 
 namespace CinemaConsole.Data.Employee
 {
@@ -19,6 +20,8 @@ namespace CinemaConsole.Data.Employee
         private string Msumm { get; set; }
 
         private string Mactors { get; set; }
+
+        private ChangeData Database { get; set; }
         
         public List<DateTimeHall> DateTimeHallsList { get; set; } = new List<DateTimeHall>();
         
@@ -38,6 +41,7 @@ namespace CinemaConsole.Data.Employee
             Msumm = summary;
             Mactors = actors;
             Mid = MovieID();
+            Database = new ChangeData();
         }
         /// <summary>
         /// Creating a public turple to get the movie info so you dont have to touch the private ints and strings
@@ -55,15 +59,22 @@ namespace CinemaConsole.Data.Employee
         }
 
         /// <summary>
-        /// Creating a public turple to set the movie info so you dont have to touch the private ints and strings, this is only for editting movies, not for adding them.
+        /// Creating a public tuple to set the movie info so you dont have to touch the private ints and strings, this is only for editting movies, not for adding them.
         /// </summary>
-        public void setMovieInfo(string name = "" , int year = 0, int age = 0, string sum = "", string actors = "")
+        public void setMovieInfo(string name = "" , int year = -1, int age = -1, string sum = "", string actors = "")
         {
+            Database.UpdateMovie(Mid, name, year, age, sum);
             // only change these if a value is given
-            if (name != "" && year != 0 && age != 0)
+            if (name != "")
             {
                 Mname = name;
+            }
+            if (year != 0)
+            {
                 Myear = year;
+            }
+            if (age != 0)
+            {
                 Mage = age;
             }
 

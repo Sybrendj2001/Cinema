@@ -7,13 +7,16 @@ using CinemaConsole.Pages;
 using CinemaConsole.Pages.Customer;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Data;
+using CinemaConsole.Data.BackEnd;
 
 namespace CinemaConsole.Pages.Admin
 {
     public class Admin : Employee
     {
+        private static ChangeData Database = new ChangeData();
         public Admin()
         {
+
         }
 
         /// <summary>
@@ -36,6 +39,7 @@ namespace CinemaConsole.Pages.Admin
                 string actors = Console.ReadLine();
 
                 Movies movie = new Movies(movieinfo.Item1, movieinfo.Item2, movieinfo.Item3, sum, actors);
+                Database.InsertMovie(movieinfo.Item1, movieinfo.Item2, movieinfo.Item3, sum);
 
                 MovieList.movieList.Add(movie);
 

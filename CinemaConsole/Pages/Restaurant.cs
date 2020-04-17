@@ -89,7 +89,7 @@ namespace CinemaConsole.Pages.Restaurant
                         {
                             Console.WriteLine("\nPlease enter the new price of the product in euro's.");
                             string newName = ProductList.productList[i].getProductInfo().Item2;
-                            double newPrice = double.Parse(Console.ReadLine());
+                            Double newPrice = Double.Parse(Console.ReadLine());
                             Console.WriteLine(" ");
 
                             RemoveItem(productID);
