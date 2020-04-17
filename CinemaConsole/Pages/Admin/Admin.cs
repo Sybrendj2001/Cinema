@@ -8,6 +8,7 @@ using CinemaConsole.Pages.Customer;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Data;
 using CinemaConsole.Data.BackEnd;
+using System.Globalization;
 
 namespace CinemaConsole.Pages.Admin
 {
@@ -92,45 +93,64 @@ namespace CinemaConsole.Pages.Admin
             bool k = true;
             while (k)
             {
-                Console.WriteLine("\nPlease enter a date and time when you want " + movie.getMovieInfo().Item2 + " to play.(12/12/2012 12:20)");
-                string dateTime = Console.ReadLine();
-
-                string[] DateTime = dateTime.Split(' ');
-                string date = DateTime[0];
-                string time = DateTime[1];
-
-                int hall = 1;
-                bool y = true;
-                while (y)
+                try
                 {
-                    Console.WriteLine("\nPlease enter the theaterhall [1],[2] or [3] you want it to play in on " + dateTime);
-                    string SHall = Console.ReadLine();
-                    try
+                    Console.WriteLine("Please enter a date and time when you want " + movie.getMovieInfo().Item2 + " to play.("+ DateTime.Now.ToString("dd/MM/yyyy HH:mm") +")");
+                    string dateTime = Console.ReadLine();
+
+                    DateTime DT = DateTime.ParseExact(dateTime, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+
+                    if (DT < DateTime.Now)
                     {
-                        hall = Convert.ToInt32(SHall);
-                        if (hall > 0 && hall < 4)
+                        Console.WriteLine("\nPlease write a date and time that is not in the past.\n");
+                    }
+                    else {
+                        string[] dt = dateTime.Split(' ');
+                        string date = dt[0];
+                        string time = dt[1];
+
+                        int hall = 1;
+                        bool y = true;
+                        while (y)
                         {
-                            y = false;
+                            Console.WriteLine("Please enter the theaterhall [1],[2] or [3] you want it to play in on " + dateTime);
+                            string SHall = Console.ReadLine();
+                            try
+                            {
+                                hall = Convert.ToInt32(SHall);
+                                if (hall > 0 && hall < 4)
+                                {
+                                    y = false;
+                                }
+                            }
+                            catch
+                            {
+                            }
+                        }
+                        DateTimeHall datetimehall = new DateTimeHall(date, time, hall, movie);
+
+                        movie.DateTimeHallsList.Add(datetimehall);
+                        movie.orderList();
+
+                        Console.WriteLine("Please enter 'add' if you have no more dates or times to fill in or press enter to continue.");
+                        string exit = Console.ReadLine();
+                        if (exit == "add")
+                        {
+                            k = false;
                         }
                     }
-                    catch
-                    {
-                    }
                 }
-                DateTimeHall datetimehall = new DateTimeHall(date, time, hall, movie);
-
-                movie.DateTimeHallsList.Add(datetimehall);
-                movie.orderList();
-
-                Console.WriteLine("\nPlease enter 'add' if you have no more dates or times to fill in or press enter to continue.");
-                string exit = Console.ReadLine();
-                if (exit == "add")
+                catch (IndexOutOfRangeException)
                 {
-                    k = false;
+                    Console.WriteLine("Please write the date and time like in the example.\n");
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Please write the date and time like in the example.\n");
                 }
             }
         }
-
+        
         /// <summary>
         /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll edit the movie.
         /// </summary>

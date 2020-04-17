@@ -209,7 +209,7 @@ namespace CinemaConsole.Pages.TicketSalesman
         {
             while (true)
             {
-                Console.WriteLine("\nPlease input the desired action:\n[1] Search for reservation.\n[2] Add reservation.\n[3] Remove reservation.\n[4] Show movie information\n[5] Exit the program.");
+                Console.WriteLine("\nPlease input the desired action:\n[1] Search for reservation.\n[2] Add reservation.\n[3] Remove reservation.\n[4] Show movie information\n[exit] Exit the program.");
                 string TicketSalesmanOption = Console.ReadLine();
 
                 if (TicketSalesmanOption == "1")
@@ -232,7 +232,7 @@ namespace CinemaConsole.Pages.TicketSalesman
                     MovieInfo();
                 }
 
-                else if (TicketSalesmanOption == "5")
+                else if (TicketSalesmanOption == "exit")
                 {
                     break;
                 }

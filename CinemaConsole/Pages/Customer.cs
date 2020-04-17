@@ -115,7 +115,7 @@ namespace CinemaConsole.Pages.Customer
                 {
                     foreach (DateTimeHall date in movie.DateTimeHallsList)
                     {
-                        Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item2 + "      " + date.getDateInfo().Item3);
+                        Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item3 + "      " + date.getDateInfo().Item2);
                     }
 
                     Console.WriteLine("[exit] Back to menu");
