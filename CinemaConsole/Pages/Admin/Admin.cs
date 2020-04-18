@@ -21,7 +21,7 @@ namespace CinemaConsole.Pages.Admin
         /// <summary>
         /// adding the movie data to the movielist
         /// </summary>
-        private static void Add()
+        /*private static void Add()
         {
             Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13) [exit] Back to menu");
             string tiyeag = Console.ReadLine();
@@ -45,7 +45,7 @@ namespace CinemaConsole.Pages.Admin
                 AddMovieTimes(movie);
                 MovieList.orderList();
             }
-        }
+        }*/
 
         /// <summary>
         /// add a time year age and return the Tuple.
@@ -88,7 +88,7 @@ namespace CinemaConsole.Pages.Admin
         /// <summary>
         /// add a movie time to the given movie.
         /// </summary>
-        private static void AddMovieTimes(Movies movie)
+        /*private static void AddMovieTimes(Movies movie)
         {
             bool k = true;
             while (k)
@@ -149,12 +149,12 @@ namespace CinemaConsole.Pages.Admin
                     Console.WriteLine("Please write the date and time like in the example.\n");
                 }
             }
-        }
+        }*/
         
         /// <summary>
         /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll edit the movie.
         /// </summary>
-        private static void Edit()
+        /*private static void Edit()
         {
             bool k = true;
             while (k)
@@ -239,12 +239,12 @@ namespace CinemaConsole.Pages.Admin
                     }
                 }
             }
-        }
+        }*/
 
         /// <summary>
         /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll remove the movie.
         /// </summary>
-        private static void Remove()
+        /*private static void Remove()
         {
             bool k = true;
             while (k)
@@ -325,7 +325,7 @@ namespace CinemaConsole.Pages.Admin
                     }
                 }
             }
-        }
+        }*/
 
         /// <summary>
         /// Display all the movies by using a foreach loop
@@ -366,15 +366,15 @@ namespace CinemaConsole.Pages.Admin
                 string nummer = Console.ReadLine();
                 if (nummer == "1")
                 {
-                    Add();
+                    //Add();
                 }
                 else if (nummer == "2")
                 {
-                    Edit();
+                    //Edit();
                 }
                 else if (nummer == "3")
                 {
-                    Remove();
+                    //Remove();
                 }
                 else if (nummer == "4")
                 {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CinemaConsole.Data.Employee
-{
+{/*
     public class Seat
     {
         private string SeatName { get; set; }
@@ -31,5 +31,5 @@ namespace CinemaConsole.Data.Employee
         {
             return Tuple.Create(SeatPlace, SeatName, SeatAvail, SeatPrice);
         }
-    }
+    }*/
 }

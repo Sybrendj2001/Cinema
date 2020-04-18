@@ -165,6 +165,7 @@ namespace CinemaConsole.Data.BackEnd
                 string TicketID;
                 string TicketCode;
                 string Owner;
+                string MovieID;
 
                 using (MySqlDataReader getMovieInfo = oCmd.ExecuteReader())
                 {
@@ -172,45 +173,99 @@ namespace CinemaConsole.Data.BackEnd
 
                     dataTable.Load(getMovieInfo);
 
-                    Console.WriteLine("\nPlease enter the customer full name");
-                    string name = Console.ReadLine();
+                    Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date");
+                    string SearchOption = Console.ReadLine();
 
-                    bool isFound = false;
-
-                    while (true)
+                    if (SearchOption == "1")
                     {
-                        foreach (DataRow row in dataTable.Rows)
-                        {
-                            Owner = row["Owner"].ToString();
-                            TicketCode = row["TicketCode"].ToString();
-                            TicketID = row["TicketID"].ToString();
+                        Console.WriteLine("\nPlease enter the customer full name");
+                        string name = Console.ReadLine();
 
-                            if (Owner == name)
+                        bool isFound = false;
+
+                        while (true)
+                        {
+                            foreach (DataRow row in dataTable.Rows)
                             {
-                                isFound = true;
-                                //Customer.Customer.Overview(ticket);
-                                Console.WriteLine("\nTicketnumber: " + TicketCode + "\nPress enter to go back to the menu");
-                                Console.ReadLine();
+                                Owner = row["Owner"].ToString();
+                                TicketCode = row["TicketCode"].ToString();
+                                TicketID = row["TicketID"].ToString();
+                                MovieID = row["MovieID"].ToString();
+
+                                if (Owner == name)
+                                {
+                                    isFound = true;
+                                    Overview(TicketID, MovieID);
+                                    Console.WriteLine("\nTicketnumber: " + TicketCode + "\nPress enter to go back to the menu");
+                                    Console.ReadLine();
+                                    break;
+                                }
+                            }
+
+                            if (isFound)
+                            {
                                 break;
                             }
-                        }
 
-                        if (isFound)
-                        {
-                            break;
-                        }
-
-                        else
-                        {
-                            Console.WriteLine("\nThe name you entered was not found. Please enter again or type [exit] to exit");
-                            name = Console.ReadLine();
-
-                            if(name == "exit")
+                            else
                             {
-                                break;
+                                Console.WriteLine("\nThe name you entered was not found. Please enter again or type [exit] to exit");
+                                name = Console.ReadLine();
+
+                                if (name == "exit")
+                                {
+                                    break;
+                                }
                             }
                         }
                     }
+
+                    else if (SearchOption == "2")
+                    {
+                        Console.WriteLine("\nPlease enter the ticketnumber");
+                        string ticketnumber = Console.ReadLine();
+
+                        bool isFound = false;
+
+                        while (true)
+                        {
+                            foreach (DataRow row in dataTable.Rows)
+                            {
+                                Owner = row["Owner"].ToString();
+                                TicketCode = row["TicketCode"].ToString();
+                                TicketID = row["TicketID"].ToString();
+
+                                if (TicketCode == ticketnumber)
+                                {
+                                    isFound = true;
+                                    
+                                    Console.WriteLine("\nTicketnumber: " + TicketCode + "\nPress enter to go back to the menu");
+                                    Console.ReadLine();
+                                    break;
+                                }
+                            }
+
+                            if (isFound)
+                            {
+                                break;
+                            }
+
+                            else
+                            {
+                                Console.WriteLine("\n\nThere were no results found with ticketnumber: " + ticketnumber + "Please enter again or type [exit] to exit");
+                                string exit = Console.ReadLine();
+
+                                if (exit == "exit")
+                                {
+                                    break;
+                                }
+                            }
+                        }
+
+                    }
+
+                    //!!!! Search option 3 not done yet!!! Need to search on date/time waiting on DateId to covert to date and time
+
                 }
             }
             catch (MySqlException ex)
@@ -222,5 +277,81 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Close();
             }
         }
+
+
+
+
+
+        public void Overview(string TicketID, string MovieID)
+        {
+            string TicketInfo = @"SELECT * FROM ticket";
+            string MovieInfo = @"SELECT * FROM movie";
+
+            // creating the strings 
+            MySqlCommand oCmd = new MySqlCommand(TicketInfo, Connection);
+
+            MySqlCommand oCmd2 = new MySqlCommand(MovieInfo, Connection);
+
+            string movieTitle;
+            string movieYear;
+            string Owner;
+            string Email;
+            string TicketCode;
+            int SeatX;
+            using (MySqlDataReader getMovieInfo = oCmd2.ExecuteReader())
+            {
+                DataTable dataTable2 = new DataTable();
+
+                dataTable2.Load(getMovieInfo);
+
+                foreach (DataRow row in dataTable2.Rows)
+                {
+                    if (MovieID == row["MovieID"].ToString())
+                    {
+                        movieTitle = row["MovieName"].ToString();
+                        movieYear = row["MovieYear"].ToString();
+
+                        Console.WriteLine("\n" + movieTitle + "   " + movieYear);
+                    }
+                }
+            }
+
+            using (MySqlDataReader getMovieInfo = oCmd.ExecuteReader())
+            {
+                DataTable dataTable = new DataTable();
+
+                dataTable.Load(getMovieInfo);
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    if (TicketID == row["TicketID"].ToString())
+                    {
+                        Owner = row["Owner"].ToString();
+                        Email = row["Email"].ToString();
+                        TicketCode = row["TicketCode"].ToString();
+                        SeatX = row["seatX"].;
+
+                        string seats = "";
+
+                        for (int i = SeatX; i < InfoTicket.Item2 + InfoTicket.Item4; i++)
+                        {
+                            seats += "(" + i + "/" + InfoTicket.Item3 + ") ";
+                        }
+
+                        Console.WriteLine("Seats: " + seats);
+
+                        Console.WriteLine(Owner + "    " + Email + "\nTicket number: " + TicketCode);
+                    }
+
+
+                }
+            }
+            
+           
+
+        }
+
+
+
     }
 }

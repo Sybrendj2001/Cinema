@@ -244,7 +244,7 @@ namespace CinemaConsole.Data.BackEnd
             {
                 Connection.Open();
 
-                string stringToInsert = @"INSERT INTO ticket (Owner, Email, TicketCode, MovieID, Amount, seatX, SeatY, DateID, HallID, TotalPrice) VALUES (@Owner, @Email, @TicketCode, @MovieID, @Amount, @seatX, @seatY, @DateID, @HallID, @TotalPrice)";
+                string stringToInsert = @"INSERT INTO ticket (Owner, Email, TicketCode, MovieID, Amount, seatX, seatY, DateID, HallID, TotalPrice) VALUES (@Owner, @Email, @TicketCode, @MovieID, @Amount, @seatX, @seatY, @DateID, @HallID, @TotalPrice)";
 
                 MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
                 //MySqlParameter TicketIDParam = new MySqlParameter("@TicketID", MySqlDbType.Int32);
@@ -295,47 +295,5 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Close();
             }
         }
-
-
-        public void ShowMovies()
-        {
-            try
-            {
-                Connection.Open();
-                string oString = @"SELECT * from movie";
-                MySqlCommand oCmd = new MySqlCommand(oString, Connection);
-
-                // creating the strings 
-                string movieID;
-                string movieName;
-                string movieYear;
-
-                using (MySqlDataReader getMovieInfo = oCmd.ExecuteReader())
-                {
-                    DataTable dataTable = new DataTable();
-
-                    dataTable.Load(getMovieInfo);
-                    foreach (DataRow row in dataTable.Rows)
-                    {
-                        movieID = row["MovieID"].ToString();
-                        movieName = row["MovieName"].ToString();
-                        movieYear = row["MovieYear"].ToString();
-                        Console.WriteLine("[" + movieID + "] " + movieName + " (" + movieYear + ")");
-                    }
-                    Console.WriteLine("\nEnter the number of the movie for details:");
-                }
-
-            }
-            catch (MySqlException ex)
-            {
-                throw;
-            }
-            finally
-            {
-                Connection.Close();
-            }
-        }
     }
 }
-
-

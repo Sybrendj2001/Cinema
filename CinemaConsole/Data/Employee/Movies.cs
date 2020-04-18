@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CinemaConsole.Data.Employee
-{
+{/*
     public class Movies
     {
         private int Mid { get; set; }
@@ -100,5 +100,5 @@ namespace CinemaConsole.Data.Employee
             List<DateTimeHall> orderedList = DateTimeHallsList.OrderBy(dateId => dateId.getDateInfo().Item1).ToList();
             DateTimeHallsList = orderedList;
         }
-    }
+    }*/
 }
