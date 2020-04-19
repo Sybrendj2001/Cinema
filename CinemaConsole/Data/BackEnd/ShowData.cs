@@ -282,14 +282,13 @@ namespace CinemaConsole.Data.BackEnd
 
 
 
-        /*public void Overview(string TicketID, string MovieID)
+        public void Overview(string TicketID, string MovieID)
         {
             string TicketInfo = @"SELECT * FROM ticket";
             string MovieInfo = @"SELECT * FROM movie";
 
             // creating the strings 
             MySqlCommand oCmd = new MySqlCommand(TicketInfo, Connection);
-
             MySqlCommand oCmd2 = new MySqlCommand(MovieInfo, Connection);
 
             string movieTitle;
@@ -298,11 +297,14 @@ namespace CinemaConsole.Data.BackEnd
             string Email;
             string TicketCode;
             int SeatX;
-            using (MySqlDataReader getMovieInfo = oCmd2.ExecuteReader())
+            int SeatY;
+            int amount;
+
+            using (MySqlDataReader getMovieInfo2 = oCmd2.ExecuteReader())
             {
                 DataTable dataTable2 = new DataTable();
 
-                dataTable2.Load(getMovieInfo);
+                dataTable2.Load(getMovieInfo2);
 
                 foreach (DataRow row in dataTable2.Rows)
                 {
@@ -329,29 +331,27 @@ namespace CinemaConsole.Data.BackEnd
                         Owner = row["Owner"].ToString();
                         Email = row["Email"].ToString();
                         TicketCode = row["TicketCode"].ToString();
-                        SeatX = row["seatX"].;
+
+                        SeatX = Convert.ToInt32(row["seatX"]);
+                        SeatY = Convert.ToInt32(row["seatY"]);
+                        amount = Convert.ToInt32(row["amount"]);
 
                         string seats = "";
 
-                        for (int i = SeatX; i < InfoTicket.Item2 + InfoTicket.Item4; i++)
+                        for (int i = SeatX; i < amount + SeatX; i++)
                         {
-                            seats += "(" + i + "/" + InfoTicket.Item3 + ") ";
+                            seats += "(" + i + "/" + SeatY + ") ";
                         }
 
                         Console.WriteLine("Seats: " + seats);
 
                         Console.WriteLine(Owner + "    " + Email + "\nTicket number: " + TicketCode);
+
                     }
 
 
                 }
             }
-            
-           
-
-        }*/
-
-
-
+        }
     }
 }
