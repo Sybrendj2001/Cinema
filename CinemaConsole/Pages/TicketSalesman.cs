@@ -202,7 +202,7 @@ namespace CinemaConsole.Pages.TicketSalesman
 
                             else
                             {
-                                Tuple<Tuple<int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(CustomerReserve, date);
+                                Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(CustomerReserve, date);
 
                                 Customer.Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
                             }

@@ -123,7 +123,7 @@ namespace CinemaConsole.Pages.Customer
             return CustomerReserve;
         }
 
-        public static Tuple<Tuple<int, int, int>, List<Tuple<double, int, int, string, bool>>> hallSeatInfo(string CustomerReserve, Tuple<List<DateTime>, List<int>, List<int>> date)
+        public static Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallSeatInfo(string CustomerReserve, Tuple<List<DateTime>, List<int>, List<int>> date)
         {
             AdminData AD = new AdminData();
 
@@ -132,7 +132,7 @@ namespace CinemaConsole.Pages.Customer
             DateTime dt = DateTime.ParseExact(datetime, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
 
             int HallID = AD.GetHallID(AD.GetDateID(dt, date.Item3[Convert.ToInt32(CustomerReserve) - 1]));
-            Tuple<int, int, int> HallInfo = AD.GetHallInfo(HallID);
+            Tuple<int, int, int, int> HallInfo = AD.GetHallInfo(HallID);
 
             List<Tuple<double, int, int, string, bool>> seats = AD.GetSeat(HallID);
 
@@ -156,7 +156,7 @@ namespace CinemaConsole.Pages.Customer
                 {
                     int amount = 0;
 
-                    Tuple<Tuple<int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = hallSeatInfo(CustomerReserve, date);
+                    Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = hallSeatInfo(CustomerReserve, date);
 
                     while (true)
                     {
@@ -189,7 +189,7 @@ namespace CinemaConsole.Pages.Customer
             }
         }
 
-        public static void showHall(Tuple<int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats)
+        public static void showHall(Tuple<int, int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats)
         {
             string showhall = "";
             for (int i = 0; i < HallInfo.Item1; i++)
@@ -256,7 +256,7 @@ namespace CinemaConsole.Pages.Customer
             Console.WriteLine(showhall);
         }
 
-        public static bool seatCheck(Tuple<int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats, int amount)
+        public static bool seatCheck(Tuple<int, int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats, int amount)
         {
             AdminData AD = new AdminData();
 
@@ -300,6 +300,7 @@ namespace CinemaConsole.Pages.Customer
 
             return free;
         }
+        
         public static Tuple<List<DateTime>, List<int>, List<int>> showTime(string whichMovie)
         {
             AdminData AD = new AdminData();

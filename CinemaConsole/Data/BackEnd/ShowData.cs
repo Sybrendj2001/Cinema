@@ -195,7 +195,7 @@ namespace CinemaConsole.Data.BackEnd
                                 if (Owner == name)
                                 {
                                     isFound = true;
-                                    Overview(TicketID, MovieID);
+                                    //Overview(TicketID, MovieID);
                                     Console.WriteLine("\nTicketnumber: " + TicketCode + "\nPress enter to go back to the menu");
                                     Console.ReadLine();
                                     break;
@@ -282,7 +282,7 @@ namespace CinemaConsole.Data.BackEnd
 
 
 
-        public void Overview(string TicketID, string MovieID)
+        /*public void Overview(string TicketID, string MovieID)
         {
             string TicketInfo = @"SELECT * FROM ticket";
             string MovieInfo = @"SELECT * FROM movie";
@@ -349,7 +349,7 @@ namespace CinemaConsole.Data.BackEnd
             
            
 
-        }
+        }*/
 
 
 
