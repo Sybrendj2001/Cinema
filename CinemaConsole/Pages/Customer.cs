@@ -139,9 +139,16 @@ namespace CinemaConsole.Pages.Customer
             return Tuple.Create(HallInfo, seats);
         }
 
-        public static void reserveSeat(string whichMovie)
+        public static Tuple<int,int,int,int,double> reserveSeat(string whichMovie)
         {
             AdminData AD = new AdminData();
+
+            int DateID = 0;
+            int amount= 0;
+            int seatX = 0;
+            int seatY = 0;
+            double price = 0.0;
+
             Tuple<List<DateTime>, List<int>, List<int>> date = showTime(whichMovie);
             while (true)
             {
@@ -154,8 +161,9 @@ namespace CinemaConsole.Pages.Customer
 
                 else
                 {
-                    int amount = 0;
+                    amount = 0;
 
+                    DateID = date.Item2[Convert.ToInt32(CustomerReserve)-1];
                     Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = hallSeatInfo(CustomerReserve, date);
 
                     while (true)
@@ -173,6 +181,10 @@ namespace CinemaConsole.Pages.Customer
                                 if (seatCheck(hallseatInfo.Item1, hallseatInfo.Item2, amount))
                                 {
                                     showHall(hallseatInfo.Item1, hallseatInfo.Item2);
+                                    Tuple<int, int, double> chosenseats = chooseSeat(hallseatInfo.Item1, hallseatInfo.Item2, amount);
+                                    seatX = chosenseats.Item1;
+                                    seatY = chosenseats.Item2;
+                                    price = chosenseats.Item3;
                                 }
                                 else
                                 {
@@ -187,6 +199,7 @@ namespace CinemaConsole.Pages.Customer
                     }
                 }
             }
+            return Tuple.Create(DateID, amount, seatX, seatY, price);
         }
 
         public static void showHall(Tuple<int, int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats)
@@ -314,6 +327,75 @@ namespace CinemaConsole.Pages.Customer
             return times;
         }
 
+        public static Tuple<int, int, double> chooseSeat(Tuple<int, int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats, int amount)
+        {
+            AdminData AD = new AdminData();
+            int seatX = 0;
+            int seatY = 0;
+            double price = 0.0;
+
+            bool free = true;
+
+            while (true)
+            {
+                Console.WriteLine("Please enter the most left seat you want to reserve like this x/y or type [exit] to leave the reservation. (5/3)");
+                string selected = Console.ReadLine();
+
+                if (selected == "exit")
+                {
+                    free = false;
+                    break;
+                }
+
+                string[] selectedSeat = selected.Split('/');
+
+                try
+                {
+                    seatX = Convert.ToInt32(selectedSeat[0]);
+                    seatY = Convert.ToInt32(selectedSeat[1]);
+
+                    for (int i = 0; i < seats.Count; i++)
+                    {
+                        if ((seatY - 1 == seats[i].Item2) && ((seats[i].Item3 >= seatX - 1) && (seats[i].Item3 < seatX - 1 + amount)) && !seats[i].Item5)
+                        {
+                            free = false;
+                            price = 0.0;
+                            break;
+                        }
+                        if ((seatY - 1 == seats[i].Item2) && ((seats[i].Item3 >= seatX - 1) && (seats[i].Item3 < seatX - 1 + amount)) && seats[i].Item5)
+                        {
+                            price += seats[i].Item1;
+                        }
+                    }
+
+                    if (free)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nThere are not enough seats free from this point.");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("\nPlease enter it like in the example.");
+                }
+                //Catches if the user put in no / and if it is not out of bounce the theaterhall
+                catch (IndexOutOfRangeException)
+                {
+                    Console.WriteLine("\nMake sure your seats are in the theatherhall and it is written like in the example.");
+                }
+            }
+
+            if (free)
+            {
+                AD.switchAvail((seatX - 1), (seatY - 1), HallInfo.Item4, amount, false);
+            }
+
+            return Tuple.Create(seatX, seatY,price);
+        }
+
         public static void Menu()
         {
             string whichMovie;
@@ -351,7 +433,7 @@ namespace CinemaConsole.Pages.Customer
                     //ShowMovieByInfo.ShowTimesByMovieID(whichMovie, CustomerTimeOption);
                     if (CustomerTimeOption == "1")
                     {
-                        reserveSeat(whichMovie);
+                        Tuple<int, int, int, int, double> ticket = reserveSeat(whichMovie);
                         break;
                     }
                 }
