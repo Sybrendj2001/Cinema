@@ -123,7 +123,7 @@ namespace CinemaConsole.Pages.Customer
             return CustomerReserve;
         }
 
-        public static Tuple<Tuple<int, int, int>, List<Tuple<double, int, int, string, bool>>> hallSeatInfo(string CustomerReserve, Tuple<List<DateTime>, List<int>, List<int>> date)
+        public static Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallSeatInfo(string CustomerReserve, Tuple<List<DateTime>, List<int>, List<int>> date)
         {
             AdminData AD = new AdminData();
 
@@ -132,16 +132,26 @@ namespace CinemaConsole.Pages.Customer
             DateTime dt = DateTime.ParseExact(datetime, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
 
             int HallID = AD.GetHallID(AD.GetDateID(dt, date.Item3[Convert.ToInt32(CustomerReserve) - 1]));
-            Tuple<int, int, int> HallInfo = AD.GetHallInfo(HallID);
+            Tuple<int, int, int, int> HallInfo = AD.GetHallInfo(HallID);
 
             List<Tuple<double, int, int, string, bool>> seats = AD.GetSeat(HallID);
 
             return Tuple.Create(HallInfo, seats);
         }
 
-        public static void reserveSeat(string whichMovie)
+        public static Tuple<DateTime,int,int,int,int,Tuple<double,int,int>> reserveSeat(string whichMovie)
         {
             AdminData AD = new AdminData();
+
+            DateTime datetime = DateTime.ParseExact("01/01/1900 01:01", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+            int DateID = 0;
+            int amount= 0;
+            int seatX = 0;
+            int seatY = 0;
+            double price = 0.0;
+            int hall = 0;
+            int HallID = 0;
+
             Tuple<List<DateTime>, List<int>, List<int>> date = showTime(whichMovie);
             while (true)
             {
@@ -154,10 +164,13 @@ namespace CinemaConsole.Pages.Customer
 
                 else
                 {
-                    int amount = 0;
+                    amount = 0;
 
-                    Tuple<Tuple<int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = hallSeatInfo(CustomerReserve, date);
-
+                    DateID = date.Item2[Convert.ToInt32(CustomerReserve)-1];
+                    datetime = date.Item1[Convert.ToInt32(CustomerReserve) - 1];
+                    hall = date.Item3[Convert.ToInt32(CustomerReserve) - 1];
+                    Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = hallSeatInfo(CustomerReserve, date);
+                    HallID = hallseatInfo.Item1.Item4;
                     while (true)
                     {
                         try
@@ -173,6 +186,11 @@ namespace CinemaConsole.Pages.Customer
                                 if (seatCheck(hallseatInfo.Item1, hallseatInfo.Item2, amount))
                                 {
                                     showHall(hallseatInfo.Item1, hallseatInfo.Item2);
+                                    Tuple<int, int, double> chosenseats = chooseSeat(hallseatInfo.Item1, hallseatInfo.Item2, amount);
+                                    seatX = chosenseats.Item1;
+                                    seatY = chosenseats.Item2;
+                                    price = chosenseats.Item3;
+                                    break;
                                 }
                                 else
                                 {
@@ -185,11 +203,13 @@ namespace CinemaConsole.Pages.Customer
                             Console.WriteLine("\nPlease enter a number.");
                         }
                     }
+                    break;
                 }
             }
+            return Tuple.Create(datetime,DateID, amount, seatX, seatY, Tuple.Create(price, hall, HallID));
         }
 
-        public static void showHall(Tuple<int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats)
+        public static void showHall(Tuple<int, int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats)
         {
             string showhall = "";
             for (int i = 0; i < HallInfo.Item1; i++)
@@ -256,7 +276,7 @@ namespace CinemaConsole.Pages.Customer
             Console.WriteLine(showhall);
         }
 
-        public static bool seatCheck(Tuple<int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats, int amount)
+        public static bool seatCheck(Tuple<int, int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats, int amount)
         {
             AdminData AD = new AdminData();
 
@@ -300,6 +320,7 @@ namespace CinemaConsole.Pages.Customer
 
             return free;
         }
+        
         public static Tuple<List<DateTime>, List<int>, List<int>> showTime(string whichMovie)
         {
             AdminData AD = new AdminData();
@@ -313,9 +334,109 @@ namespace CinemaConsole.Pages.Customer
             return times;
         }
 
+        public static Tuple<int, int, double> chooseSeat(Tuple<int, int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats, int amount)
+        {
+            AdminData AD = new AdminData();
+            int seatX = 0;
+            int seatY = 0;
+            double price = 0.0;
+
+            bool free = true;
+
+            while (true)
+            {
+                Console.WriteLine("Please enter the most left seat you want to reserve like this x/y or type [exit] to leave the reservation. (5/3)");
+                string selected = Console.ReadLine();
+
+                if (selected == "exit")
+                {
+                    free = false;
+                    break;
+                }
+
+                string[] selectedSeat = selected.Split('/');
+
+                try
+                {
+                    seatX = Convert.ToInt32(selectedSeat[0]);
+                    seatY = Convert.ToInt32(selectedSeat[1]);
+
+                    for (int i = 0; i < seats.Count; i++)
+                    {
+                        if ((seatY - 1 == seats[i].Item2) && ((seats[i].Item3 >= seatX - 1) && (seats[i].Item3 < seatX - 1 + amount)) && !seats[i].Item5)
+                        {
+                            free = false;
+                            price = 0.0;
+                            break;
+                        }
+                        if ((seatY - 1 == seats[i].Item2) && ((seats[i].Item3 >= seatX - 1) && (seats[i].Item3 < seatX - 1 + amount)) && seats[i].Item5)
+                        {
+                            price += seats[i].Item1;
+                        }
+                    }
+
+                    if (free)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nThere are not enough seats free from this point.");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("\nPlease enter it like in the example.");
+                }
+                //Catches if the user put in no / and if it is not out of bounce the theaterhall
+                catch (IndexOutOfRangeException)
+                {
+                    Console.WriteLine("\nMake sure your seats are in the theatherhall and it is written like in the example.");
+                }
+            }
+
+            if (free)
+            {
+                AD.switchAvail((seatX - 1), (seatY - 1), HallInfo.Item4, amount, false);
+            }
+
+            return Tuple.Create(seatX, seatY,price);
+        }
+
+        public static void overviewCustomer(Tuple<string, string, string> personInfo, Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> ticketInfo, string title, string ticketCode)
+        {
+            Console.WriteLine("\n"+title);
+            string seats = "Seats:";
+            for (int i = ticketInfo.Item4; i < ticketInfo.Item4 + ticketInfo.Item3; i++)
+            {
+                seats += " (" + i + "/" + ticketInfo.Item5 + ")";
+            }
+            Console.WriteLine(seats);
+            Console.WriteLine(personInfo.Item1 + " " + personInfo.Item2 + "  " + personInfo.Item3);
+            
+
+
+        }
+
+        private static string createTicketID(DateTime Time, string MovieName, int X, int Y, int TheatherHall)
+        {
+            //Takes the first 3 letters of the movie and makes them all caps
+            string MovieNameShort = MovieName.Substring(0, 3).ToUpper();
+
+            //Create the movie unique id
+            string MovieTicketData = (Time.ToString("mm")) + (Time.ToString("HH")) + (Time.ToString("dd")) +
+                (Time.ToString("MM")) + (Time.ToString("yyyy")) + MovieNameShort + X + Y + TheatherHall;
+
+            return MovieTicketData;
+        }
+
         public static void Menu()
         {
+            ShowData SD = new ShowData();
+            ChangeData CD = new ChangeData();
+            AdminData AD = new AdminData();
             string whichMovie;
+            string title;
             string CustomerTimeOption;
             bool running = true;
             while (running)
@@ -337,10 +458,12 @@ namespace CinemaConsole.Pages.Customer
                     Restaurant.Restaurant.Display();
                 }
 
-                ShowData ShowMovieByInfo = new ShowData();
+
 
                 // this will return the movie details for the number you entered
-                whichMovie = ShowMovieByInfo.ShowMovieByID(line);
+                Tuple<string,string> showmovieinfo = SD.ShowMovieByID(line);
+                title = showmovieinfo.Item2;
+                whichMovie = showmovieinfo.Item1;
 
                 Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
                 while (true)
@@ -350,12 +473,39 @@ namespace CinemaConsole.Pages.Customer
                     //ShowMovieByInfo.ShowTimesByMovieID(whichMovie, CustomerTimeOption);
                     if (CustomerTimeOption == "1")
                     {
-                        reserveSeat(whichMovie);
+                        Tuple<DateTime ,int, int, int, int, Tuple<double, int,int>> ticket = reserveSeat(whichMovie);
+
+                        if (ticket.Item5 == 0.0)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Tuple<string, string, string> personInfo = Name();
+                            string ticketcode = createTicketID(ticket.Item1, title, ticket.Item4, ticket.Item5, ticket.Item6.Item2);
+                            overviewCustomer(personInfo,ticket,title, ticketcode);
+                            string confirm;
+                            while (true)
+                            {
+                                Console.WriteLine("\nDo you want to confirm the reservation? \n[1] Confirm reservation\n[2] Cancel reservation");
+                                confirm = Console.ReadLine();
+                                if (confirm == "1")
+                                {
+                                    CD.ReserveTicket((personInfo.Item1 + " "+ personInfo.Item2), personInfo.Item3, ticketcode, Convert.ToInt32(whichMovie), ticket.Item3, ticket.Item4, ticket.Item5, ticket.Item2,ticket.Item6.Item2,ticket.Item6.Item1);
+                                    Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticketcode);
+                                    break;
+                                }
+                                else if (confirm == "2")
+                                {
+                                    //cancelseats
+                                    AD.switchAvail((ticket.Item4 - 1), (ticket.Item4 - 1), ticket.Item6.Item3, ticket.Item3, true);
+                                    break;
+                                }
+                            }
+                        }
                         break;
                     }
                 }
-                Console.WriteLine("\nPlease enter the number or word that stands before the time you want to reserve or action you want to do");
-                string CustomerReserve = Console.ReadLine();
             }     
         }
     }

@@ -347,7 +347,7 @@ namespace CinemaConsole.Data.BackEnd
             return seat;
         }
 
-        public Tuple<int, int, int> GetHallInfo(int HallID)
+        public Tuple<int, int, int, int> GetHallInfo(int HallID)
         {
             int row = 0;
             int col = 0;
@@ -385,7 +385,62 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Close();
             }
 
-            return Tuple.Create(row, col, dateID);
+            return Tuple.Create(row, col, dateID, HallID);
+        }
+
+        public void switchAvail(int seatX, int seatY, int hallID, int amount, bool avail)
+        {
+            try
+            {
+                int count = 0;
+                Connection.Open();
+                while (true)
+                {
+                    string stringToUpdate = @"UPDATE seats SET Availability = @Availability WHERE RowSeat = @seatY AND ColumnSeat = @seatX AND HallID = @HallID";
+
+                    MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
+
+                    MySqlParameter availparam = new MySqlParameter("@Availability", MySqlDbType.Bit);
+                    MySqlParameter Yparam = new MySqlParameter("@seatY", MySqlDbType.Int32);
+                    MySqlParameter Xparam = new MySqlParameter("@seatX", MySqlDbType.Int32);
+                    MySqlParameter IDparam = new MySqlParameter("@HallID", MySqlDbType.Int32);
+
+                    if (avail)
+                    {
+                        availparam.Value = 1;
+                    }
+                    else
+                    {
+                        availparam.Value = 0;
+                    }
+
+                    Yparam.Value = seatY;
+                    Xparam.Value = (seatX + count);
+                    IDparam.Value = hallID;
+
+                    command.Parameters.Add(availparam);
+                    command.Parameters.Add(Yparam);
+                    command.Parameters.Add(Xparam);
+                    command.Parameters.Add(IDparam);
+
+                    command.Prepare();
+                    command.ExecuteNonQuery();
+
+                    count++;
+                    if (count >= amount)
+                    {
+                        break;
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
         }
     }
 }

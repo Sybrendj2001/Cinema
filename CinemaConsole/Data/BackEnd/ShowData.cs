@@ -58,7 +58,7 @@ namespace CinemaConsole.Data.BackEnd
         /// Show the extra movie info with the right ID
         /// </summary>
         /// <param name="movieID">given movie id</param>
-        public string ShowMovieByID(string movieID)
+        public Tuple<string,string> ShowMovieByID(string movieID)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace CinemaConsole.Data.BackEnd
                         Console.WriteLine("Summary: " + row["MovieSummary"].ToString());
 
                         // show the times with the id of the movie
-                        return row["MovieID"].ToString();
+                        return Tuple.Create(row["MovieID"].ToString(), row["MovieName"].ToString());
                     }
                 }
             }
@@ -93,7 +93,7 @@ namespace CinemaConsole.Data.BackEnd
             {
                 Connection.Close();
             }
-            return "";
+            return Tuple.Create("","");
         }
         /// <summary>
         /// show the right times for the right movie
@@ -195,7 +195,7 @@ namespace CinemaConsole.Data.BackEnd
                                 if (Owner == name)
                                 {
                                     isFound = true;
-                                    Overview(TicketID, MovieID);
+                                    //Overview(TicketID, MovieID);
                                     Console.WriteLine("\nTicketnumber: " + TicketCode + "\nPress enter to go back to the menu");
                                     Console.ReadLine();
                                     break;
