@@ -279,9 +279,6 @@ namespace CinemaConsole.Data.BackEnd
         }
 
 
-
-
-
         public void Overview(string TicketID, string MovieID)
         {
             string TicketInfo = @"SELECT * FROM ticket";
