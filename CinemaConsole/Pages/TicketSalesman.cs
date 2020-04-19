@@ -180,8 +180,8 @@ namespace CinemaConsole.Pages.TicketSalesman
                 ShowData ShowMovieByInfo = new ShowData();
 
                 // this will return the movie details for the number you entered
-                whichMovie = ShowMovieByInfo.ShowMovieByID(line);
-
+                Tuple<string,string> movieInfo = ShowMovieByInfo.ShowMovieByID(line);
+                whichMovie = movieInfo.Item1;
                 Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
                 while (true)
                 {

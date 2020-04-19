@@ -238,7 +238,7 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public void ReservateTicket(string Owner, string Email, string TicketCode, int MovieID, int Amount, int seatX, int seatY, int DateID, int HallID, double TotalPrice)
+        public void ReserveTicket(string Owner, string Email, string TicketCode, int MovieID, int Amount, int seatX, int seatY, int DateID, int Hall, double TotalPrice)
         {
             try
             {
@@ -268,7 +268,7 @@ namespace CinemaConsole.Data.BackEnd
                 seatXParam.Value = seatX;
                 seatYParam.Value = seatY;
                 DateIDParam.Value = DateID;
-                HallIDParam.Value = HallID;
+                HallIDParam.Value = Hall;
                 TotalPriceParam.Value = TotalPrice;
 
                 //command.Parameters.Add(TicketIDParam);

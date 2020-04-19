@@ -340,7 +340,8 @@ namespace CinemaConsole.Pages.Admin
             string line = Console.ReadLine();
 
             // this will return the movie details for the number you entered
-            string whichMovie = ShowMovieByInfo.ShowMovieByID(line);
+            Tuple<string, string> movieInfo = ShowMovieByInfo.ShowMovieByID(line);
+            string whichMovie = movieInfo.Item1;
 
             Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
             string CustomerTimeOption = Console.ReadLine();
