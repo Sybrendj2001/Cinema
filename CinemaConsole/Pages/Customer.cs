@@ -29,11 +29,11 @@ namespace CinemaConsole.Pages.Customer
 
         private static Tuple<string, string, string> Name()
         {
-            Console.WriteLine("Please enter your first name");
+            Console.WriteLine("\nPlease enter your first name");
             string first_name2 = Console.ReadLine();
             string first_name = first_name2.ToString().ToLower();
 
-            Console.WriteLine("Please enter your last name");
+            Console.WriteLine("\nPlease enter your last name");
             string last_name2 = Console.ReadLine();
             string last_name = last_name2.ToString().ToLower();
 
@@ -506,7 +506,7 @@ namespace CinemaConsole.Pages.Customer
                                 else if (confirm == "2")
                                 {
                                     //cancelseats
-                                    AD.switchAvail((ticket.Item4 - 1), (ticket.Item4 - 1), ticket.Item6.Item3, ticket.Item3, true);
+                                    AD.switchAvail((ticket.Item4 - 1), (ticket.Item5 - 1), ticket.Item6.Item3, ticket.Item3, true);
                                     break;
                                 }
                             }
