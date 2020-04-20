@@ -32,6 +32,7 @@ namespace CinemaConsole.Data.BackEnd
             Builder.SshHostName = "145.24.222.66";
             Builder.SshUserName = "ubuntu-0969499";
             Builder.SshPassword = "885Zta";
+            
 
             // string dbstring = "server=localhost;user=root;pwd=admin;database=cinema";
             Connection = new MySqlConnection(Builder.ConnectionString);

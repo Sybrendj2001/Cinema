@@ -40,7 +40,6 @@ namespace CinemaConsole.Data.BackEnd
             }
             catch (MySqlException ex)
             {
-
                 throw;
             }
             finally
@@ -228,9 +227,12 @@ namespace CinemaConsole.Data.BackEnd
                 command.Prepare();
                 command.ExecuteNonQuery();
             }
-            catch (Exception)
+            catch (MySqlException ex)
             {
-
+                if(ex.Message.Contains("Duplicate"))
+                {
+                    Console.WriteLine("This movie already exists");
+                }
                 throw;
             }
             finally
