@@ -416,6 +416,7 @@ namespace CinemaConsole.Pages.Customer
         public static void overviewCustomer(Tuple<string, string, string> personInfo, Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> ticketInfo, string title, string ticketCode)
         {
             Console.WriteLine("\n"+title);
+            Console.WriteLine(ticketInfo.Item1.ToString("HH:mm dd/MM/yyyy"));
             string seats = "Seats:";
             for (int i = ticketInfo.Item4; i < ticketInfo.Item4 + ticketInfo.Item3; i++)
             {

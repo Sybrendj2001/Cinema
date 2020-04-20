@@ -165,6 +165,8 @@ namespace CinemaConsole.Data.BackEnd
 		public void DisplayProducts()
 		{
 			Console.OutputEncoding = Encoding.UTF8;
+
+			Console.WriteLine("\nMenu:");
 			try
 			{
 				Connection.Open();
@@ -354,8 +356,6 @@ namespace CinemaConsole.Data.BackEnd
 				Connection.Close();
 			}
 		}
-
-
 
 		public string checkLoginAndFunction(string username, string password)
 		{
