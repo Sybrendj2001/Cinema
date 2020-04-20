@@ -24,21 +24,7 @@ namespace CinemaConsole.Data
 			time = TimeInput;
 			hall = new TheatherHalls(HallInput);
 			id = HallID(movie);
-
-			AdminData AD = new AdminData();
 			
-			if (HallInput == 1)
-			{
-				AD.CreateHall(150, 14, 12);
-			}
-			else if (HallInput == 2)
-			{
-				AD.CreateHall(300, 19, 18);
-			}
-			else if (HallInput == 3)
-			{
-				AD.CreateHall(500, 20, 30);
-			}
 		}
 
 		public Tuple<int, string, string, TheatherHalls> getDateInfo()
@@ -77,7 +63,7 @@ namespace CinemaConsole.Data
 			if (hallNumber == 1)
 			{
 				hall = Hall1();
-				Hall1DATA();
+				
 			}
 			else if (hallNumber == 2)
 			{
@@ -250,48 +236,6 @@ namespace CinemaConsole.Data
 			return hall;
 		}
 
-		private void Hall1DATA()
-		{
-			Seat[][] hall = new Seat[14][];
-
-			for (int i = 0; i < 14; i++)
-			{
-				hall[i] = new Seat[12];
-			}
-
-			string SeatName = "";
-			string SeatPlacement = "";
-			bool SeatAvail = false;
-
-			for (int i = 0; i < 14; i++)
-			{
-				for (int j = 0; j < 12; j++)
-				{
-					SeatName = "(row " + (14 - i) + " seat ";
-					SeatAvail = true;
-					if ((i == 0 || i > 11) && (j > 1 && j < 10))
-					{
-						SeatName += (j - 1) + ")";
-					}
-					else if (i > 2 && i < 11)
-					{
-						SeatName += (j + 1) + ")";
-					}
-					else if ((i == 1 || i == 2 || i == 11) && (j > 0 && j < 11))
-					{
-						SeatName += (j) + ")";
-					}
-					else
-					{
-						SeatName = "(No Seat)";
-						SeatAvail = false;
-					}
-
-					AD.CreateSeat(10.00, i,j,1,SeatAvail,SeatName);
-					hall[i][j] = new Seat(SeatName, SeatPlacement, SeatAvail);
-				}
-			}
-		}
 
 		public  Tuple<Seat[][], int> getHallInfo()
 		{

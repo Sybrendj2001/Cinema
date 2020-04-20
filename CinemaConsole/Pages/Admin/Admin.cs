@@ -112,7 +112,7 @@ namespace CinemaConsole.Pages.Admin
                         bool y = true;
                         while (y)
                         {
-                            Console.WriteLine("Please enter the theaterhall [1],[2] or [3] you want it to play in on " + dateTime);
+                            Console.WriteLine("\nPlease enter the theaterhall [1],[2] or [3] you want it to play in on " + dateTime);
                             string SHall = Console.ReadLine();
                             try
                             {
@@ -131,7 +131,7 @@ namespace CinemaConsole.Pages.Admin
                         movie.DateTimeHallsList.Add(datetimehall);
                         movie.orderList();
 
-                        Console.WriteLine("Please enter 'add' if you have no more dates or times to fill in or press enter to continue.");
+                        Console.WriteLine("\nPlease enter 'add' if you have no more dates or times to fill in or press enter to continue.");
                         string exit = Console.ReadLine();
                         if (exit == "add")
                         {
