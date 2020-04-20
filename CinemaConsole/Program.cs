@@ -15,7 +15,7 @@ namespace CinemaConsole
     class Program
     {
         static void Main(string[] args)
-        {
+        { 
             Customer.AddStuff();
             //TicketSalesman.Tickets();
             Restaurant.SomeProducts();
