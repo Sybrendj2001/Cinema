@@ -30,6 +30,10 @@ namespace CinemaConsole.Pages.TicketSalesman
             Console.WriteLine("\nPlease enter the ticketnumber of the reservation you want to remove:");
             string Cticketnumber = Console.ReadLine();
 
+            ChangeData DeleteTicket = new ChangeData();
+            DeleteTicket.DeleteReservation(Cticketnumber);
+
+            /*
             foreach (TicketInfo ticket in ReservationList.reservationList)
             {
                 if (ticket.GetTicketInfo().Item1.Item4 == Cticketnumber)
@@ -63,7 +67,7 @@ namespace CinemaConsole.Pages.TicketSalesman
                     Console.ReadLine();
                     break;
                 }
-            }
+            }*/
         }
 
         // Ticketsalesman able to select a movie and see all the movie informarion.

@@ -271,7 +271,6 @@ namespace CinemaConsole.Data.BackEnd
                                 }
                             }
                         }
-
                     }
 
                     else if (SearchOption == "3")
@@ -299,11 +298,8 @@ namespace CinemaConsole.Data.BackEnd
 
                         dataTable3.Load(getDateInfo);
 
-                        bool a = false;
-                        bool b = false;
                         int movieID = 0;
                         int dateID = 0;
-
 
                         while (true)
                         {
@@ -422,7 +418,7 @@ namespace CinemaConsole.Data.BackEnd
                 {
                     if (DateID == row["DateID"].ToString())
                     {
-                        Datetime = row["DateTime"].ToString();
+                        Datetime = Convert.ToDateTime(row["DateTime"]).ToString("dd/MM/yyyy HH:mm");
                         Hall = row["Hall"].ToString();
 
                         Console.WriteLine(Datetime + "   Hall: " + Hall);

@@ -404,9 +404,8 @@ namespace CinemaConsole.Pages.Customer
         public static void overviewCustomer(Tuple<string, string, string> personInfo, Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> ticketInfo, string title, string ticketCode)
         {
             string totalprice = Convert.ToString(ticketInfo.Item6.Item1);
-            Console.WriteLine("\n"+title);
-            Console.WriteLine(ticketInfo.Item1);
-            Console.WriteLine("Total price: €" + totalprice);
+            string datetime = Convert.ToDateTime(ticketInfo.Item1).ToString("dd/MM/yyyy HH:mm");
+            Console.WriteLine("\n" + title + '\n'+ datetime + "\nTotal price: €" + totalprice);
 
             string seats = "Seats:";
             for (int i = ticketInfo.Item4; i < ticketInfo.Item4 + ticketInfo.Item3; i++)
