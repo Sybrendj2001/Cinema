@@ -120,7 +120,7 @@ namespace CinemaConsole.Pages.TicketSalesman
             {
                 if (ticket.GetTicketInfo().Item1.Item4 == Cticketnumber)
                 {
-                    Customer.Customer.Overview(ticket);
+                    //Customer.Customer.Overview(ticket);
                     Console.WriteLine("\nTicketnumber: " + ticket.GetTicketInfo().Item1.Item4);
                     while (true)
                     {

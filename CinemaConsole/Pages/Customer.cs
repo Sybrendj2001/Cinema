@@ -66,33 +66,6 @@ namespace CinemaConsole.Pages.Customer
             return Tuple.Create(first_name, last_name, email);
         }
 
-        //Overview of the customers information and movie information.You can check all the information before you reserve the tickets.
-        public static void Overview(TicketInfo ticket)
-        {
-            Tuple<Tuple<string, string, string, string>, int, int, int, double, DateTime, int> InfoTicket = ticket.GetTicketInfo();
-
-            Console.WriteLine("\n" + InfoTicket.Item1.Item3 + " " + InfoTicket.Item6.ToString("HH:mm dd/MM/yyyy"));
-
-            string seats = "";
-
-            for (int i = InfoTicket.Item2; i < InfoTicket.Item2 + InfoTicket.Item4; i++)
-            {
-                seats += "(" + i + "/" + InfoTicket.Item3 + ") ";
-            }
-
-            Console.WriteLine("Seats: " + seats);
-            Console.WriteLine(InfoTicket.Item1.Item1 + " " + InfoTicket.Item1.Item2);
-        }
-
-        // Cancel the reservation and make the seats available again.
-        /*private static void Cancel(int amount, int X, int Y, DateTimeHall DTH)
-        {
-            for (int i = X; i < amount + X; i++)
-            {
-                DTH.getDateInfo().Item4.getHallInfo().Item1[Y][i].editAvail();
-            }
-        }*/
-
         public static string selectTime(Tuple<List<DateTime>, List<int>, List<int>> date)
         {
             string CustomerReserve;
@@ -194,7 +167,20 @@ namespace CinemaConsole.Pages.Customer
                                 }
                                 else
                                 {
-                                    Console.WriteLine("shame");
+                                    string seatsamount;
+                                    while (true)
+                                    {
+                                        Console.WriteLine("There are not enough seats left.\n[1] Choose another amount of seats\n[exit] exit to movie list");
+                                        seatsamount = Console.ReadLine();
+                                        if (seatsamount == "1" || seatsamount == "exit")
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    if (seatsamount == "exit")
+                                    {
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -328,7 +314,7 @@ namespace CinemaConsole.Pages.Customer
 
             for (int i = 0; i < times.Item1.Count; i++)
             {
-                Console.WriteLine("[" + (i + 1) + "]" + times.Item1[i].ToString("HH:mm dd/MM/yyyy"));
+                Console.WriteLine("[" + (i + 1) + "] " + times.Item1[i].ToString("HH:mm dd/MM/yyyy"));
             }
             Console.WriteLine("[exit] Exit to movie menu");
             return times;
