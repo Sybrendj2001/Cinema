@@ -314,7 +314,7 @@ namespace CinemaConsole.Pages.Customer
         {
             AdminData AD = new AdminData();
             Tuple<List<DateTime>, List<int>, List<int>> times = AD.GetTime(Convert.ToInt32(whichMovie));
-
+            Console.WriteLine("");
             for (int i = 0; i < times.Item1.Count; i++)
             {
                 Console.WriteLine("[" + (i + 1) + "] " + times.Item1[i].ToString("HH:mm dd/MM/yyyy"));
@@ -466,7 +466,7 @@ namespace CinemaConsole.Pages.Customer
                     }
                     else if (line == "menu")
                     {
-                        Restaurant.Restaurant.Display();
+                        CD.DisplayProducts();
                     }
                     else if (MovieIDs.Contains(Convert.ToInt32(line)))
                     {

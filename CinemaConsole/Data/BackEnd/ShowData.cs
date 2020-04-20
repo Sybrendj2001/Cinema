@@ -98,62 +98,7 @@ namespace CinemaConsole.Data.BackEnd
             }
             return Tuple.Create("","");
         }
-        /// <summary>
-        /// show the right times for the right movie
-        /// </summary>
-        /// <param name="movieID">given movie id</param>
-        /*public void ShowTimesByMovieID(string movieID, string CustomerTimeOption)
-        {
-            while (true)
-            {
-                if (CustomerTimeOption == "1")
-                {
-                    try
-                    {
-                        Connection.Open();
-
-                        string queryDateTime = @"SELECT * from date WHERE movieID = @movieid";
-                        MySqlCommand command = new MySqlCommand(queryDateTime, Connection);
-                        command.Parameters.AddWithValue("@movieid", movieID);
-                        using (MySqlDataReader getDateTimeInfo = command.ExecuteReader())
-                        {
-                            int totalRows = getDateTimeInfo.FieldCount;
-                            DateTime DT;
-                            int dateNumber = 0;
-                            Console.WriteLine("");
-
-                            while (getDateTimeInfo.Read())
-                            {
-                                dateNumber += 1;
-                                DT = getDateTimeInfo["DateTime"];
-                                Console.WriteLine("[" + dateNumber + "] " + DT.ToString("HH:mm dd/MM/yyyy") + "      Theaterhall " + getDateTimeInfo["Hall"]);
-                            }
-
-                            Console.WriteLine("[exit] Back to menu");
-                            break;
-                        }
-                    }
-                    catch (MySqlException ex)
-                    {
-                        throw;
-                    }
-                    finally
-                    {
-                        Connection.Close();
-                    }
-                }
-                else if (CustomerTimeOption == "exit")
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
-                }
-            }
-        }*/
     
-
         public void DisplayTickets()
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -281,10 +226,6 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-
-
-
-
         public void Overview(string TicketID, string MovieID)
         {
             string TicketInfo = @"SELECT * FROM ticket";
@@ -349,10 +290,7 @@ namespace CinemaConsole.Data.BackEnd
                         Console.WriteLine("Seats: " + seats);
 
                         Console.WriteLine(Owner + "    " + Email + "\nTicket number: " + TicketCode);
-
                     }
-
-
                 }
             }
         }
