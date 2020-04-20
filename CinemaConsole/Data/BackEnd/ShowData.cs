@@ -12,7 +12,6 @@ namespace CinemaConsole.Data.BackEnd
 {
     public class ShowData : Connecter
     {
-
         /// <summary>
         /// show all movies from the db
         /// </summary>
@@ -166,6 +165,7 @@ namespace CinemaConsole.Data.BackEnd
                 string TicketCode;
                 string Owner;
                 string MovieID;
+                string DateID;
 
                 using (MySqlDataReader getMovieInfo = oCmd.ExecuteReader())
                 {
@@ -191,12 +191,13 @@ namespace CinemaConsole.Data.BackEnd
                                 TicketCode = row["TicketCode"].ToString();
                                 TicketID = row["TicketID"].ToString();
                                 MovieID = row["MovieID"].ToString();
+                                DateID = row["DateID"].ToString();
 
                                 if (Owner == name)
                                 {
                                     isFound = true;
-                                    //Overview(TicketID, MovieID);
-                                    Console.WriteLine("\nTicketnumber: " + TicketCode + "\nPress enter to go back to the menu");
+                                    Overview(TicketID, MovieID, DateID);
+                                    Console.WriteLine("\nPress enter to go back to the menu");
                                     Console.ReadLine();
                                     break;
                                 }
@@ -234,12 +235,14 @@ namespace CinemaConsole.Data.BackEnd
                                 Owner = row["Owner"].ToString();
                                 TicketCode = row["TicketCode"].ToString();
                                 TicketID = row["TicketID"].ToString();
+                                MovieID = row["MovieID"].ToString();
+                                DateID = row["DateID"].ToString();
 
                                 if (TicketCode == ticketnumber)
                                 {
                                     isFound = true;
-                                    
-                                    Console.WriteLine("\nTicketnumber: " + TicketCode + "\nPress enter to go back to the menu");
+                                    Overview(TicketID, MovieID, DateID);
+                                    Console.WriteLine("\nPress enter to go back to the menu");
                                     Console.ReadLine();
                                     break;
                                 }
@@ -279,14 +282,16 @@ namespace CinemaConsole.Data.BackEnd
         }
 
 
-        public void Overview(string TicketID, string MovieID)
+        public void Overview(string TicketID, string MovieID, string DateID)
         {
             string TicketInfo = @"SELECT * FROM ticket";
             string MovieInfo = @"SELECT * FROM movie";
+            string DateInfo = @"SELECT * FROM date";
 
             // creating the strings 
             MySqlCommand oCmd = new MySqlCommand(TicketInfo, Connection);
             MySqlCommand oCmd2 = new MySqlCommand(MovieInfo, Connection);
+            MySqlCommand oCmd3 = new MySqlCommand(DateInfo, Connection);
 
             string movieTitle;
             string movieYear;
@@ -296,12 +301,15 @@ namespace CinemaConsole.Data.BackEnd
             int SeatX;
             int SeatY;
             int amount;
+            string Datetime;
+            string Hall;
+            double TotalPrice;
 
-            using (MySqlDataReader getMovieInfo2 = oCmd2.ExecuteReader())
+            using (MySqlDataReader getMovieInfo = oCmd2.ExecuteReader())
             {
                 DataTable dataTable2 = new DataTable();
 
-                dataTable2.Load(getMovieInfo2);
+                dataTable2.Load(getMovieInfo);
 
                 foreach (DataRow row in dataTable2.Rows)
                 {
@@ -315,11 +323,29 @@ namespace CinemaConsole.Data.BackEnd
                 }
             }
 
-            using (MySqlDataReader getMovieInfo = oCmd.ExecuteReader())
+            using (MySqlDataReader getDateTimeHallInfo = oCmd3.ExecuteReader())
+            {
+                DataTable dataTable3 = new DataTable();
+
+                dataTable3.Load(getDateTimeHallInfo);
+
+                foreach (DataRow row in dataTable3.Rows)
+                {
+                    if (DateID == row["DateID"].ToString())
+                    {
+                        Datetime = row["DateTime"].ToString();
+                        Hall = row["Hall"].ToString();
+
+                        Console.WriteLine(Datetime + "   Hall: " + Hall);
+                    }
+                }
+            }
+
+            using (MySqlDataReader getTicketInfo = oCmd.ExecuteReader())
             {
                 DataTable dataTable = new DataTable();
 
-                dataTable.Load(getMovieInfo);
+                dataTable.Load(getTicketInfo);
 
                 foreach (DataRow row in dataTable.Rows)
                 {
@@ -328,6 +354,7 @@ namespace CinemaConsole.Data.BackEnd
                         Owner = row["Owner"].ToString();
                         Email = row["Email"].ToString();
                         TicketCode = row["TicketCode"].ToString();
+                        TotalPrice = Convert.ToDouble(row["TotalPrice"]);
 
                         SeatX = Convert.ToInt32(row["seatX"]);
                         SeatY = Convert.ToInt32(row["seatY"]);
@@ -342,11 +369,8 @@ namespace CinemaConsole.Data.BackEnd
 
                         Console.WriteLine("Seats: " + seats);
 
-                        Console.WriteLine(Owner + "    " + Email + "\nTicket number: " + TicketCode);
-
+                        Console.WriteLine(Owner + "    " + Email + "\nTotal price: €" + TotalPrice + "\nTicket number: " + TicketCode);
                     }
-
-
                 }
             }
         }

@@ -405,7 +405,11 @@ namespace CinemaConsole.Pages.Customer
 
         public static void overviewCustomer(Tuple<string, string, string> personInfo, Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> ticketInfo, string title, string ticketCode)
         {
+            string totalprice = Convert.ToString(ticketInfo.Item6.Item1);
             Console.WriteLine("\n"+title);
+            Console.WriteLine(ticketInfo.Item1);
+            Console.WriteLine("Total price: €" + totalprice);
+
             string seats = "Seats:";
             for (int i = ticketInfo.Item4; i < ticketInfo.Item4 + ticketInfo.Item3; i++)
             {
@@ -413,9 +417,6 @@ namespace CinemaConsole.Pages.Customer
             }
             Console.WriteLine(seats);
             Console.WriteLine(personInfo.Item1 + " " + personInfo.Item2 + "  " + personInfo.Item3);
-            
-
-
         }
 
         private static string createTicketID(DateTime Time, string MovieName, int X, int Y, int TheatherHall)
@@ -457,8 +458,6 @@ namespace CinemaConsole.Pages.Customer
                 {
                     Restaurant.Restaurant.Display();
                 }
-
-
 
                 // this will return the movie details for the number you entered
                 Tuple<string,string> showmovieinfo = SD.ShowMovieByID(line);
