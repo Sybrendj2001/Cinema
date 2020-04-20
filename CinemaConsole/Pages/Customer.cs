@@ -25,6 +25,7 @@ namespace CinemaConsole.Pages.Customer
             // check if user wants to go back
             Console.WriteLine("\n[menu] Restaurant Menu");
             Console.WriteLine("\n[exit] Back to the menu.");
+            
             return IDList;
         }
 
@@ -467,16 +468,16 @@ namespace CinemaConsole.Pages.Customer
                     {
                         Restaurant.Restaurant.Display();
                     }
-                    else if (MovieIDs.Contains(Convert.ToInt32(line)));
+                    else if (MovieIDs.Contains(Convert.ToInt32(line)))
                     {
                         // this will return the movie details for the number you entered
                         Tuple<string, string> showmovieinfo = SD.ShowMovieByID(line);
                         title = showmovieinfo.Item2;
                         whichMovie = showmovieinfo.Item1;
 
-                        Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
                         while (true)
                         {
+                            Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
                             CustomerTimeOption = Console.ReadLine();
                             // this will return the movie times for the movie you entered
                             //ShowMovieByInfo.ShowTimesByMovieID(whichMovie, CustomerTimeOption);
@@ -512,6 +513,10 @@ namespace CinemaConsole.Pages.Customer
                                         }
                                     }
                                 }
+                                break;
+                            }
+                            else if(CustomerTimeOption == "exit")
+                            {
                                 break;
                             }
                         }
