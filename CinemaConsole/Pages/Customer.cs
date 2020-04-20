@@ -15,16 +15,17 @@ namespace CinemaConsole.Pages.Customer
 {
     public class Customer
     {
-        public static void display()
+        public static List<int> display()
         {
             Console.WriteLine("\nMovies:");
 
             ShowData showMovieInfo = new ShowData();
-            showMovieInfo.ShowMovies();
+            List<int> IDList = showMovieInfo.ShowMovies();
 
             // check if user wants to go back
             Console.WriteLine("\n[menu] Restaurant Menu");
             Console.WriteLine("\n[exit] Back to the menu.");
+            return IDList;
         }
 
         private static Tuple<string, string, string> Name()
@@ -452,67 +453,73 @@ namespace CinemaConsole.Pages.Customer
                 // convert movielist count to a string
                 Console.WriteLine("\nPlease enter the number or word that stands before the movie you want to reserve or action you want to do.");
 
-                display();
+                List<int> MovieIDs = display();
 
                 string line = Console.ReadLine();
-
-                // check if user wants to go back 
-                if (line == "exit")
+                try
                 {
-                    break;
-                }
-                else if (line == "menu")
-                {
-                    Restaurant.Restaurant.Display();
-                }
-
-
-
-                // this will return the movie details for the number you entered
-                Tuple<string,string> showmovieinfo = SD.ShowMovieByID(line);
-                title = showmovieinfo.Item2;
-                whichMovie = showmovieinfo.Item1;
-
-                Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
-                while (true)
-                {
-                    CustomerTimeOption = Console.ReadLine();
-                    // this will return the movie times for the movie you entered
-                    //ShowMovieByInfo.ShowTimesByMovieID(whichMovie, CustomerTimeOption);
-                    if (CustomerTimeOption == "1")
+                    // check if user wants to go back 
+                    if (line == "exit")
                     {
-                        Tuple<DateTime ,int, int, int, int, Tuple<double, int,int>> ticket = reserveSeat(whichMovie);
-
-                        if (ticket.Item5 == 0.0)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Tuple<string, string, string> personInfo = Name();
-                            string ticketcode = createTicketID(ticket.Item1, title, ticket.Item4, ticket.Item5, ticket.Item6.Item2);
-                            overviewCustomer(personInfo,ticket,title, ticketcode);
-                            string confirm;
-                            while (true)
-                            {
-                                Console.WriteLine("\nDo you want to confirm the reservation? \n[1] Confirm reservation\n[2] Cancel reservation");
-                                confirm = Console.ReadLine();
-                                if (confirm == "1")
-                                {
-                                    CD.ReserveTicket((personInfo.Item1 + " "+ personInfo.Item2), personInfo.Item3, ticketcode, Convert.ToInt32(whichMovie), ticket.Item3, ticket.Item4, ticket.Item5, ticket.Item2,ticket.Item6.Item2,ticket.Item6.Item1);
-                                    Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticketcode);
-                                    break;
-                                }
-                                else if (confirm == "2")
-                                {
-                                    //cancelseats
-                                    AD.switchAvail((ticket.Item4 - 1), (ticket.Item5 - 1), ticket.Item6.Item3, ticket.Item3, true);
-                                    break;
-                                }
-                            }
-                        }
                         break;
                     }
+                    else if (line == "menu")
+                    {
+                        Restaurant.Restaurant.Display();
+                    }
+                    else if (MovieIDs.Contains(Convert.ToInt32(line)));
+                    {
+                        // this will return the movie details for the number you entered
+                        Tuple<string, string> showmovieinfo = SD.ShowMovieByID(line);
+                        title = showmovieinfo.Item2;
+                        whichMovie = showmovieinfo.Item1;
+
+                        Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
+                        while (true)
+                        {
+                            CustomerTimeOption = Console.ReadLine();
+                            // this will return the movie times for the movie you entered
+                            //ShowMovieByInfo.ShowTimesByMovieID(whichMovie, CustomerTimeOption);
+                            if (CustomerTimeOption == "1")
+                            {
+                                Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> ticket = reserveSeat(whichMovie);
+
+                                if (ticket.Item5 == 0.0)
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    Tuple<string, string, string> personInfo = Name();
+                                    string ticketcode = createTicketID(ticket.Item1, title, ticket.Item4, ticket.Item5, ticket.Item6.Item2);
+                                    overviewCustomer(personInfo, ticket, title, ticketcode);
+                                    string confirm;
+                                    while (true)
+                                    {
+                                        Console.WriteLine("\nDo you want to confirm the reservation? \n[1] Confirm reservation\n[2] Cancel reservation");
+                                        confirm = Console.ReadLine();
+                                        if (confirm == "1")
+                                        {
+                                            CD.ReserveTicket((personInfo.Item1 + " " + personInfo.Item2), personInfo.Item3, ticketcode, Convert.ToInt32(whichMovie), ticket.Item3, ticket.Item4, ticket.Item5, ticket.Item2, ticket.Item6.Item2, ticket.Item6.Item1);
+                                            Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticketcode);
+                                            break;
+                                        }
+                                        else if (confirm == "2")
+                                        {
+                                            //cancelseats
+                                            AD.switchAvail((ticket.Item4 - 1), (ticket.Item5 - 1), ticket.Item6.Item3, ticket.Item3, true);
+                                            break;
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("\nPlease enter an option that exists");
                 }
             }     
         }

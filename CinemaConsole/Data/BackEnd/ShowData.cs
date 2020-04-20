@@ -16,10 +16,11 @@ namespace CinemaConsole.Data.BackEnd
         /// <summary>
         /// show all movies from the db
         /// </summary>
-        public void ShowMovies()
+        public List<int> ShowMovies()
         {
             try
             {
+                List<int> MovieIDs = new List<int>();
                 Connection.Open();
                 string oString = @"SELECT * from movie";
                 MySqlCommand oCmd = new MySqlCommand(oString, Connection);
@@ -36,14 +37,16 @@ namespace CinemaConsole.Data.BackEnd
                     dataTable.Load(getMovieInfo);
                     foreach (DataRow row in dataTable.Rows)
                     {
+                        MovieIDs.Add(Convert.ToInt32(row["MovieID"]));
                         movieID = row["MovieID"].ToString();
                         movieName = row["MovieName"].ToString();
                         movieYear = row["MovieYear"].ToString();
                         Console.WriteLine("[" + movieID + "] " + movieName + " (" + movieYear + ")");
                     }
                     Console.WriteLine("\nEnter the number of the movie for details:");
+                    return MovieIDs;
                 }
-
+               
             }
             catch (MySqlException ex)
             {
