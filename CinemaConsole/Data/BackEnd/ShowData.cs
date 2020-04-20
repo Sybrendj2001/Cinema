@@ -7,6 +7,7 @@ using MySql.Data;
 using MySql;
 using MySql.Data.MySqlClient;
 using System.Data;
+using System.Globalization;
 
 namespace CinemaConsole.Data.BackEnd
 {
@@ -157,8 +158,12 @@ namespace CinemaConsole.Data.BackEnd
             {
                 Connection.Open();
                 string TicketInfo = @"SELECT * FROM ticket";
+                string MovieInfo = @"SELECT * FROM movie";
+                string DateInfo = @"SELECT * FROM date";
 
                 MySqlCommand oCmd = new MySqlCommand(TicketInfo, Connection);
+                MySqlCommand oCmd2 = new MySqlCommand(MovieInfo, Connection);
+                MySqlCommand oCmd3 = new MySqlCommand(DateInfo, Connection);
 
                 // creating the strings 
                 string TicketID;
@@ -166,12 +171,14 @@ namespace CinemaConsole.Data.BackEnd
                 string Owner;
                 string MovieID;
                 string DateID;
+                string MovieName;
+                string dateTime;
 
-                using (MySqlDataReader getMovieInfo = oCmd.ExecuteReader())
+                using (MySqlDataReader getTicketInfo = oCmd.ExecuteReader())
                 {
                     DataTable dataTable = new DataTable();
 
-                    dataTable.Load(getMovieInfo);
+                    dataTable.Load(getTicketInfo);
 
                     Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date");
                     string SearchOption = Console.ReadLine();
@@ -267,8 +274,90 @@ namespace CinemaConsole.Data.BackEnd
 
                     }
 
-                    //!!!! Search option 3 not done yet!!! Need to search on date/time waiting on DateId to covert to date and time
+                    else if (SearchOption == "3")
+                    {
+                        bool isFound = false;
 
+                        Console.WriteLine("\nPlease enter the movie");
+                        string movie = Console.ReadLine();
+
+                        Console.WriteLine("\nPlease enter the time (12:00)");
+                        string time = Console.ReadLine();
+
+                        Console.WriteLine("\nPlease enter the date (12/04/2020)");
+                        string date = Console.ReadLine();
+                       
+                        string DT = date + " " + time;
+
+                        MySqlDataReader getMovieInfo = oCmd2.ExecuteReader();
+                        DataTable dataTable2 = new DataTable();
+
+                        dataTable2.Load(getMovieInfo);
+
+                        MySqlDataReader getDateInfo = oCmd3.ExecuteReader();
+                        DataTable dataTable3 = new DataTable();
+
+                        dataTable3.Load(getDateInfo);
+
+                        bool a = false;
+                        bool b = false;
+                        int movieID = 0;
+                        int dateID = 0;
+
+
+                        while (true)
+                        {
+                            foreach (DataRow row in dataTable2.Rows)
+                            {
+                                MovieName = row["MovieName"].ToString();
+
+                                if (movie == MovieName)
+                                {
+                                    movieID = Convert.ToInt32(row["MovieID"]);
+                                    break;
+                                }
+                            }
+
+                            foreach (DataRow row in dataTable3.Rows)
+                            {
+                                string datetime = Convert.ToDateTime(row["DateTime"]).ToString("dd/MM/yyyy HH:mm");
+
+                                if (DT == datetime)
+                                {
+                                    dateID = Convert.ToInt32(row["DateID"]);
+                                    break;
+                                }
+                            }
+
+                            foreach (DataRow row in dataTable.Rows)
+                            {
+                                TicketID = row["TicketID"].ToString();
+                                MovieID = row["MovieID"].ToString();
+                                DateID = row["DateID"].ToString();
+
+                                if (movieID == Convert.ToInt32(row["MovieID"]) && dateID == Convert.ToInt32(row["DateID"]))
+                                {
+                                    Overview(TicketID, MovieID, DateID);
+                                    isFound = true;
+                                    Console.WriteLine("\nPress enter to go back to the menu");
+                                    string exit = Console.ReadLine();
+                                    break;
+                                }
+                            }
+
+                            if (isFound)
+                            {
+                                break;
+                            }
+
+                            else
+                            {
+                                Console.WriteLine("\n\nThere were no results found. Press enter to go back to the menu");
+                                string exit = Console.ReadLine();
+                                break;
+                            }
+                        }
+                    }
                 }
             }
             catch (MySqlException ex)

@@ -29,11 +29,11 @@ namespace CinemaConsole.Pages.Customer
 
         private static Tuple<string, string, string> Name()
         {
-            Console.WriteLine("Please enter your first name");
+            Console.WriteLine("\nPlease enter your first name");
             string first_name2 = Console.ReadLine();
             string first_name = first_name2.ToString().ToLower();
 
-            Console.WriteLine("Please enter your last name");
+            Console.WriteLine("\nPlease enter your last name");
             string last_name2 = Console.ReadLine();
             string last_name = last_name2.ToString().ToLower();
 
@@ -265,14 +265,12 @@ namespace CinemaConsole.Pages.Customer
                                     showhall += "X  ";
                                 }
                             }
-
                             break;
                         }
                     }
                 }
                 showhall += "\n";
             }
-
             Console.WriteLine(showhall);
         }
 
