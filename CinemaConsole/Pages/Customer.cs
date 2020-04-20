@@ -170,7 +170,7 @@ namespace CinemaConsole.Pages.Customer
                                     string seatsamount;
                                     while (true)
                                     {
-                                        Console.WriteLine("There are not enough seats left.\n[1] Choose another amount of seats\n[exit] exit to movie list");
+                                        Console.WriteLine("\nThere are not enough seats left.\n[1] Choose another amount of seats\n[exit] Exit to movie list");
                                         seatsamount = Console.ReadLine();
                                         if (seatsamount == "1" || seatsamount == "exit")
                                         {
@@ -198,6 +198,7 @@ namespace CinemaConsole.Pages.Customer
         public static void showHall(Tuple<int, int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats)
         {
             string showhall = "";
+
             for (int i = 0; i < HallInfo.Item1; i++)
             {
                 for (int j = 0; j < HallInfo.Item2; j++)
@@ -333,6 +334,10 @@ namespace CinemaConsole.Pages.Customer
             {
                 Console.WriteLine("Please enter the most left seat you want to reserve like this x/y or type [exit] to leave the reservation. (5/3)");
                 string selected = Console.ReadLine();
+                
+                free = true;
+                bool exist1 = false;
+                bool exist2 = false;
 
                 if (selected == "exit")
                 {
@@ -347,6 +352,7 @@ namespace CinemaConsole.Pages.Customer
                     seatX = Convert.ToInt32(selectedSeat[0]);
                     seatY = Convert.ToInt32(selectedSeat[1]);
 
+
                     for (int i = 0; i < seats.Count; i++)
                     {
                         if ((seatY - 1 == seats[i].Item2) && ((seats[i].Item3 >= seatX - 1) && (seats[i].Item3 < seatX - 1 + amount)) && !seats[i].Item5)
@@ -359,16 +365,32 @@ namespace CinemaConsole.Pages.Customer
                         {
                             price += seats[i].Item1;
                         }
+                        if(seatY-1 == seats[i].Item2 && seats[i].Item3 == seatX - 1)
+                        {
+                            exist1 = true;
+                        }
+                        if (seatY - 1 == seats[i].Item2 && seats[i].Item3 == seatX +amount- 2)
+                        {
+                            exist2 = true;
+                        }
                     }
 
-                    if (free)
+                    if((exist1 && exist2) || !free)
                     {
-                        break;
+                        if (free)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nThere are not enough seats free from this point.");
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("\nThere are not enough seats free from this point.");
+                        Console.WriteLine("\nMake sure your seats are in the theatherhall");
                     }
+                    
                 }
                 catch (FormatException)
                 {

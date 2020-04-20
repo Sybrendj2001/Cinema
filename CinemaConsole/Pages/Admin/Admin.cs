@@ -348,6 +348,13 @@ namespace CinemaConsole.Pages.Admin
 
             // this will return the movie times for the movie you entered
             //ShowMovieByInfo.ShowTimesByMovieID(whichMovie, CustomerTimeOption);
+            Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.Customer.showTime(whichMovie);
+            string timeSelect = Customer.Customer.selectTime(dates);
+
+            Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(timeSelect,dates);
+
+            Customer.Customer.showHall(hallseatInfo.Item1,hallseatInfo.Item2);
+
             Console.WriteLine("\nPress enter to continue");
             Console.ReadLine();
         }
