@@ -69,13 +69,21 @@ namespace CinemaConsole.Pages.Restaurant
                 //Places the new product in place of the old one afterwards.
                 if (operation == "1")
                 {
-                    Console.WriteLine("\nPlease enter the new name of the product.");
-                    string inputName = Console.ReadLine();
-                    string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
-                    Console.WriteLine(" ");
+                    try
+                    {
+                        Console.WriteLine("\nPlease enter the new name of the product.");
+                        string inputName = Console.ReadLine();
+                        string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
+                        Console.WriteLine(" ");
 
-                    CD.UpdateProduct(productID, newName);
-                    break;
+                        CD.UpdateProduct(productID, newName);
+                        break;
+                    }
+                    catch (FormatException f)
+                    {
+                        Console.WriteLine(" ");
+                        Console.WriteLine("Invalid input detected.");
+                    }
                 }
 
                 //Edits the price of the selected product.
@@ -83,12 +91,20 @@ namespace CinemaConsole.Pages.Restaurant
                 //Places the new product in place of the old one afterwards.
                 else if (operation == "2")
                 {
-                    Console.WriteLine("\nPlease enter the new price of the product in euro's.");
-                    double newPrice = double.Parse(Console.ReadLine());
-                    Console.WriteLine(" ");
+                    try
+                    {
+                        Console.WriteLine("\nPlease enter the new price of the product in euro's.");
+                        double newPrice = double.Parse(Console.ReadLine());
+                        Console.WriteLine(" ");
 
-                    CD.UpdateProduct(productID, "", newPrice);
-                    break;
+                        CD.UpdateProduct(productID, "", newPrice);
+                        break;
+                    }
+                    catch (FormatException f)
+                    {
+                        Console.WriteLine(" ");
+                        Console.WriteLine("Invalid input detected.");
+                    }
                 }
 
                 //Edits both the name and price of the selected product. 
@@ -97,15 +113,23 @@ namespace CinemaConsole.Pages.Restaurant
                 //Also forces the first letter of the name to be upper case.
                 else if (operation == "3")
                 {
-                    Console.WriteLine("\nPlease enter the new name of the product.");
-                    string inputName = Console.ReadLine();
-                    string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
-                    Console.WriteLine("\nPlease enter the new price of the product in euro's.");
-                    double newPrice = double.Parse(Console.ReadLine());
-                    Console.WriteLine(" ");
+                    try
+                    {
+                        Console.WriteLine("\nPlease enter the new name of the product.");
+                        string inputName = Console.ReadLine();
+                        string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
+                        Console.WriteLine("\nPlease enter the new price of the product in euro's.");
+                        double newPrice = double.Parse(Console.ReadLine());
+                        Console.WriteLine(" ");
 
-                    CD.UpdateProduct(productID, newName, newPrice);
-                    break;
+                        CD.UpdateProduct(productID, newName, newPrice);
+                        break;
+                    }
+                    catch (FormatException f)
+                    {
+                        Console.WriteLine(" ");
+                        Console.WriteLine("Invalid input detected.");
+                    }
                 }
 
                 //Exits the currrent menu.
@@ -187,6 +211,7 @@ namespace CinemaConsole.Pages.Restaurant
                     }
                     catch(FormatException f)
                     {
+                        Console.WriteLine(" ");
                         Console.WriteLine("Invalid input detected.");
                     }
                 }
@@ -194,6 +219,7 @@ namespace CinemaConsole.Pages.Restaurant
                 else if (operation == "3")
                 {
                     CD.DisplayProducts();
+
                     //Requests the name of the product to be removed.
                     Console.WriteLine("Please fill in the ID of the product you wish to remove.");
                     int itemID = Int32.Parse(Console.ReadLine());
@@ -204,6 +230,8 @@ namespace CinemaConsole.Pages.Restaurant
                 }
                 else if(operation == "4")
                 {
+                    CD.DisplayProducts();
+
                     //Requests the name of the product to be edited.
                     Console.WriteLine("Please fill in the ID of the product you wish to edit.");
                     int itemID = Int32.Parse(Console.ReadLine());

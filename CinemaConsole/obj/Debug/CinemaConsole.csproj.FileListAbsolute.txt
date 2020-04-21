@@ -53,3 +53,4 @@ C:\Users\mark\Source\Repos\Cinema\CinemaConsole\bin\Debug\Ubiety.Dns.Core.dll
 C:\Users\mark\Source\Repos\Cinema\CinemaConsole\bin\Debug\Renci.SshNet.dll
 C:\Users\mark\Source\Repos\Cinema\CinemaConsole\bin\Debug\MySql.Data.xml
 C:\Users\mark\Source\Repos\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csproj.CopyComplete
+D:\School\Project_bravo\Cinema\CinemaConsole\bin\Debug\System.Data.dll
