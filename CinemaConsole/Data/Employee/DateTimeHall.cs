@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,98 +9,56 @@ using CinemaConsole.Data.Employee;
 
 namespace CinemaConsole.Data
 {
+	public class DateTimeHall
+	{
 
-    public class DateTimeHall
-    {
-		private int id { get; set; }
-		private string date { get; set; }
+		private AdminData AD = new AdminData();
 
-		private string time { get; set; }
-
-		private TheatherHalls hall { get; set; }
-
-		public DateTimeHall(string DateInput, string TimeInput, int HallInput, Movies movie)
+		public DateTimeHall(DateTime DT, int HallInput, string MovieName)
 		{
-			date = DateInput;
-			time = TimeInput;
-			hall = new TheatherHalls(HallInput);
-			id = HallID(movie);
+			string datetime = DT.ToString("yyyy") + "-" + DT.ToString("MM") + "-" + DT.ToString("dd") + " " + DT.ToString("HH") + ":" + DT.ToString("mm");
 
-			AdminData AD = new AdminData();
-			
-			if (HallInput == 1)
-			{
-				AD.CreateHall(150, 14, 12);
-			}
-			else if (HallInput == 2)
-			{
-				AD.CreateHall(300, 19, 18);
-			}
-			else if (HallInput == 3)
-			{
-				AD.CreateHall(500, 20, 30);
-			}
-		}
+			DateTime dt = DateTime.ParseExact(datetime, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
 
-		public Tuple<int, string, string, TheatherHalls> getDateInfo()
-		{
-			return Tuple.Create(id, date, time, hall);
-		}
-		/// <summary>
-		/// Creating a new unique ID and checking for missing ID's
-		/// </summary>
-		private int HallID(Movies movie)
-		{
-			int idd;
-			for (int i = 0; i < movie.DateTimeHallsList.Count; i++)
-			{
-				idd = i + 1;
-				if (movie.DateTimeHallsList[i].getDateInfo().Item1 != idd)
-				{
-					return idd;
-				}
-			}
-			return movie.DateTimeHallsList.Count + 1;
+			AD.CreateDateTime(dt, AD.GetMovieID(MovieName), HallInput);
+
+			int dateID = AD.GetDateID(dt, HallInput);
+			TheatherHalls hall = new TheatherHalls(HallInput, dateID);
 		}
 	}
 
 	public class TheatherHalls
 	{
-		private Seat[][] hall { get; set; }
-		private int HallNumber { get; set; }
-
 		AdminData AD = new AdminData();
 
-		public TheatherHalls(int hallNumber)
+		public TheatherHalls(int hallNumber, int dateID)
 		{
-			HallNumber = hallNumber;
+
 
 			if (hallNumber == 1)
 			{
-				hall = Hall1();
-				Hall1DATA();
+				AD.CreateHall(150, 14, 12, dateID);
+				int hallID = AD.GetHallID(dateID);
+				Hall1(hallID);
 			}
 			else if (hallNumber == 2)
 			{
-				hall = Hall2();
+				AD.CreateHall(300, 19, 18, dateID);
+				int hallID = AD.GetHallID(dateID);
+				Hall2(hallID);
 			}
 			else if (hallNumber == 3)
 			{
-				hall = Hall3();
+				AD.CreateHall(500, 20, 30, dateID);
+				int hallID = AD.GetHallID(dateID);
+				Hall3(hallID);
 			}
 		}
 
-		private Seat[][] Hall1()
+		private void Hall1(int hallID)
 		{
-			Seat[][] hall = new Seat[14][];
-
-			for (int i = 0; i < 14; i++)
-			{
-				hall[i] = new Seat[12];
-			}
 
 			string SeatName = "";
-			string SeatPlacement = "";
 			bool SeatAvail = false;
 
 			for (int i = 0; i < 14; i++)
@@ -107,7 +66,7 @@ namespace CinemaConsole.Data
 				for (int j = 0; j < 12; j++)
 				{
 					SeatName = "(row " + (14 - i) + " seat ";
-					SeatAvail =	true;
+					SeatAvail = true;
 					if ((i == 0 || i > 11) && (j > 1 && j < 10))
 					{
 						SeatName += (j - 1) + ")";
@@ -126,38 +85,26 @@ namespace CinemaConsole.Data
 						SeatAvail = false;
 					}
 
-					SeatPlacement = "(" + j + "," + i + ")";
-					hall[i][j] = new Seat(SeatName, SeatPlacement, SeatAvail);
+					AD.CreateSeat(10.00, i, j, hallID, SeatAvail, SeatName);
 				}
 			}
-
-			return hall;
 		}
 
-		private Seat[][] Hall2()
+		private void Hall2(int hallID)
 		{
-			Seat[][] hall = new Seat[19][];
-
-			for (int i = 0; i < hall.Length; i++)
-			{
-				hall[i] = new Seat[18];
-			}
-
 			string SeatName = "";
-			string SeatPlacement = "";
 			bool SeatAvail = false;
 
-			for (int i = 0; i < hall.Length; i++)
+			for (int i = 0; i < 19; i++)
 			{
-				for(int j = 0; j < hall[i].Length; j++)
+				for (int j = 0; j < 18; j++)
 				{
 					SeatName = "(row " + (19 - i) + " seat ";
-					SeatPlacement = "(" + j + "," + i + ")";
 					SeatAvail = true;
 
 					if ((i == 18 || i == 17) && (j > 2 && j < 15))
 					{
-						SeatName += (j-2) + ")";
+						SeatName += (j - 2) + ")";
 					}
 					else if ((i < 17 && i > 13) && (j > 1 && j < 16))
 					{
@@ -176,38 +123,27 @@ namespace CinemaConsole.Data
 						SeatName = "(No Seat)";
 						SeatAvail = false;
 					}
-					
-					SeatPlacement = "(" + j + "," + i + ")";
-					hall[i][j] = new Seat(SeatName, SeatPlacement, SeatAvail);
+					AD.CreateSeat(10.00, i, j, hallID, SeatAvail, SeatName);
 				}
 			}
-			return hall;
+
 		}
 
-		private Seat[][] Hall3()
+		private void Hall3(int hallID)
 		{
-			Seat[][] hall = new Seat[20][];
-
-			for (int i = 0; i < hall.Length; i++)
-			{
-				hall[i] = new Seat[30];
-			}
-
 			string SeatName = "";
-			string SeatPlacement = "";
 			bool SeatAvail = false;
 
-			for (int i = 0; i < hall.Length; i++)
+			for (int i = 0; i < 20; i++)
 			{
-				for (int j = 0; j < hall[i].Length; j++)
+				for (int j = 0; j < 30; j++)
 				{
 					SeatName = "(row " + (20 - i) + " seat ";
-					SeatPlacement = "(" + j + "," + i + ")";
 					SeatAvail = true;
 
 					if (i == 19 && (j > 7 && j < 22))
 					{
-						SeatName += (j-7) + ")";
+						SeatName += (j - 7) + ")";
 					}
 					else if (i == 18 && (j > 6 && j < 23))
 					{
@@ -242,60 +178,9 @@ namespace CinemaConsole.Data
 						SeatName = "(No Seat)";
 						SeatAvail = false;
 					}
-					
-					SeatPlacement = "(" + j + "," + i + ")";
-					hall[i][j] = new Seat(SeatName, SeatPlacement, SeatAvail);
+					AD.CreateSeat(10.00, i, j, hallID, SeatAvail, SeatName);
 				}
 			}
-			return hall;
-		}
-
-		private void Hall1DATA()
-		{
-			Seat[][] hall = new Seat[14][];
-
-			for (int i = 0; i < 14; i++)
-			{
-				hall[i] = new Seat[12];
-			}
-
-			string SeatName = "";
-			string SeatPlacement = "";
-			bool SeatAvail = false;
-
-			for (int i = 0; i < 14; i++)
-			{
-				for (int j = 0; j < 12; j++)
-				{
-					SeatName = "(row " + (14 - i) + " seat ";
-					SeatAvail = true;
-					if ((i == 0 || i > 11) && (j > 1 && j < 10))
-					{
-						SeatName += (j - 1) + ")";
-					}
-					else if (i > 2 && i < 11)
-					{
-						SeatName += (j + 1) + ")";
-					}
-					else if ((i == 1 || i == 2 || i == 11) && (j > 0 && j < 11))
-					{
-						SeatName += (j) + ")";
-					}
-					else
-					{
-						SeatName = "(No Seat)";
-						SeatAvail = false;
-					}
-
-					AD.CreateSeat(10.00, i,j,1,SeatAvail,SeatName);
-					hall[i][j] = new Seat(SeatName, SeatPlacement, SeatAvail);
-				}
-			}
-		}
-
-		public  Tuple<Seat[][], int> getHallInfo()
-		{
-			return Tuple.Create(hall,HallNumber);
 		}
 	}
 }

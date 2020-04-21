@@ -22,7 +22,7 @@ namespace CinemaConsole.Data.BackEnd
         {
             Initialize();
         }
-
+        
         private void Initialize()
         {
             MySqlConnectionStringBuilder Builder = new MySqlConnectionStringBuilder();
