@@ -21,15 +21,17 @@ namespace CinemaConsole.Pages.Admin
         /// <summary>
         /// adding the movie data to the movielist
         /// </summary>
-        /*private static void Add()
+        private static void Add()
         {
+            ChangeData CD = new ChangeData();
+
             Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13) [exit] Back to menu");
             string tiyeag = Console.ReadLine();
 
             if (tiyeag != "exit")
             {
                 // create a function for adding the movie info 
-                var movieinfo = AddTimeYearAge(tiyeag);
+                Tuple<string, int, int> movieinfo = AddTimeYearAge(tiyeag);
 
                 Console.WriteLine("\nPlease enter a short summary of the movie.");
                 string sum = Console.ReadLine();
@@ -37,22 +39,19 @@ namespace CinemaConsole.Pages.Admin
                 Console.WriteLine("\nPlease give some actors.(Write them like this: Tom Cruise, Brad Pitt)");
                 string actors = Console.ReadLine();
 
-                Movies movie = new Movies(movieinfo.Item1, movieinfo.Item2, movieinfo.Item3, sum, actors);
-
-                MovieList.movieList.Add(movie);
+                CD.InsertMovie(movieinfo.Item1, movieinfo.Item2, movieinfo.Item3, sum, actors);
 
                 // adding the movie times to the given movie
-                AddMovieTimes(movie);
-                MovieList.orderList();
+                addTime(movieinfo.Item1);
             }
-        }*/
+        }
 
         /// <summary>
         /// add a time year age and return the Tuple.
         /// </summary>
         private static Tuple<string, int, int> AddTimeYearAge(string line)
         {
-            string[] TiYeAg = line.Split('/');
+            string[] TiYeAg;
 
             bool TiyeAg = true;
             string titel = "";
@@ -63,10 +62,28 @@ namespace CinemaConsole.Pages.Admin
             {
                 try
                 {
+                    TiYeAg = line.Split('/');
                     titel = TiYeAg[0];
                     year = Convert.ToInt32(TiYeAg[1]);
                     age = Convert.ToInt32(TiYeAg[2]);
-                    TiyeAg = false;
+                    
+                    if(year <= 1800 || year > Convert.ToInt32((DateTime.Now.ToString("yyyy"))))
+                    {
+                        Console.WriteLine("\nPlease enter a release date that is possible. (Between 1801 and "+ DateTime.Now.ToString("yyyy") + ")");
+                        Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
+                        line = Console.ReadLine();
+                    }
+                    else if (age < 0 || age > 99)
+                    {
+                        Console.WriteLine("\nPlease enter a age that is possible. (Between 0 and 99)");
+                        Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
+                        line = Console.ReadLine();
+                    }
+                    else
+                    {
+                        TiyeAg = false;
+                    }
+
                 }
                 catch (FormatException)
                 {
@@ -88,14 +105,14 @@ namespace CinemaConsole.Pages.Admin
         /// <summary>
         /// add a movie time to the given movie.
         /// </summary>
-        /*private static void AddMovieTimes(Movies movie)
+        public static void addTime(string title)
         {
             bool k = true;
             while (k)
             {
                 try
                 {
-                    Console.WriteLine("Please enter a date and time when you want " + movie.getMovieInfo().Item2 + " to play.("+ DateTime.Now.ToString("dd/MM/yyyy HH:mm") +")");
+                    Console.WriteLine("\nPlease enter a date and time when you want " + title + " to play.(" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + ")");
                     string dateTime = Console.ReadLine();
 
                     DateTime DT = DateTime.ParseExact(dateTime, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
@@ -104,11 +121,8 @@ namespace CinemaConsole.Pages.Admin
                     {
                         Console.WriteLine("\nPlease write a date and time that is not in the past.\n");
                     }
-                    else {
-                        string[] dt = dateTime.Split(' ');
-                        string date = dt[0];
-                        string time = dt[1];
-
+                    else
+                    {
                         int hall = 1;
                         bool y = true;
                         while (y)
@@ -127,30 +141,32 @@ namespace CinemaConsole.Pages.Admin
                             {
                             }
                         }
-                        DateTimeHall datetimehall = new DateTimeHall(date, time, hall, movie);
 
-                        movie.DateTimeHallsList.Add(datetimehall);
-                        movie.orderList();
+                        DateTimeHall datetimehall1 = new DateTimeHall(DT, hall, title);
 
-                        Console.WriteLine("Please enter 'add' if you have no more dates or times to fill in or press enter to continue.");
-                        string exit = Console.ReadLine();
-                        if (exit == "add")
+                        while (true)
                         {
-                            k = false;
+                            Console.WriteLine("[add] Add another date and time\n[exit] Exit to menu");
+                            string exit = Console.ReadLine();
+                            if (exit == "exit")
+                            {
+                                k = false;
+                                break;
+                            }
+                            else if (exit == "add")
+                            {
+                                break;
+                            }
                         }
                     }
-                }
-                catch (IndexOutOfRangeException)
-                {
-                    Console.WriteLine("Please write the date and time like in the example.\n");
                 }
                 catch (FormatException)
                 {
                     Console.WriteLine("Please write the date and time like in the example.\n");
                 }
             }
-        }*/
-        
+        }
+
         /// <summary>
         /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll edit the movie.
         /// </summary>
@@ -374,7 +390,7 @@ namespace CinemaConsole.Pages.Admin
                 string nummer = Console.ReadLine();
                 if (nummer == "1")
                 {
-                    //Add();
+                    Add();
                 }
                 else if (nummer == "2")
                 {

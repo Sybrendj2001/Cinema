@@ -396,28 +396,31 @@ namespace CinemaConsole.Data.BackEnd
 			return function;
 		}
 
-		public void InsertMovie(string name, int year, int mage, int msummary)
+		public void InsertMovie(string name, int year, int mage, string msummary, string Actors)
 		{
 			try
 			{
 				Connection.Open();
-				string stringToInsert = "INSERT INTO Movie (MovieName, MovieYear, MovieMinimumAge, MovieSummary) VALUES (@Name, @Year, @MAge, @MSummary)";
+				string stringToInsert = "INSERT INTO Movie (MovieName, MovieYear, MovieMinimumAge, MovieSummary, MovieActors) VALUES (@Name, @Year, @MAge, @MSummary, @MovieActors)";
 
 				MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
 				MySqlParameter NameParam = new MySqlParameter("@Name", MySqlDbType.VarChar);
 				MySqlParameter YearParam = new MySqlParameter("@Year", MySqlDbType.Int32);
 				MySqlParameter MAgeParam = new MySqlParameter("@MAge", MySqlDbType.Int32);
 				MySqlParameter MSummaryParam = new MySqlParameter("@MSummary", MySqlDbType.LongText);
+				MySqlParameter ActorsParam = new MySqlParameter("@MovieActors", MySqlDbType.LongText);
 
 				NameParam.Value = name;
 				YearParam.Value = year;
 				MAgeParam.Value = mage;
 				MSummaryParam.Value = msummary;
+				ActorsParam.Value = Actors;
 
 				command.Parameters.Add(NameParam);
 				command.Parameters.Add(YearParam);
 				command.Parameters.Add(MAgeParam);
 				command.Parameters.Add(MSummaryParam);
+				command.Parameters.Add(ActorsParam);
 
 				command.Prepare();
 				command.ExecuteNonQuery();
