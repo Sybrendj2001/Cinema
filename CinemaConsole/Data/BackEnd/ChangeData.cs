@@ -527,8 +527,9 @@ namespace CinemaConsole.Data.BackEnd
 
                         if (TicketCode == ticketcode)
                         {
-                            DeleteOverview(TicketID, MovieID, DateID);
-                            
+							ShowData DeleteTicket = new ShowData();
+
+							DeleteTicket.Overview(TicketID, MovieID, DateID);
                             break;
                         }
                     }
@@ -543,7 +544,8 @@ namespace CinemaConsole.Data.BackEnd
                 {
                     if (CancelOrDelete == "1")
                     {
-                        TicketCodeParam.Value = ticketcode;
+
+						TicketCodeParam.Value = ticketcode;
 
                         command.Parameters.Add(TicketCodeParam);
 
@@ -559,8 +561,6 @@ namespace CinemaConsole.Data.BackEnd
 
 
 
-
-                
             }
             catch (MySqlException)
             {
@@ -570,102 +570,6 @@ namespace CinemaConsole.Data.BackEnd
             {
                 Connection.Close();
             }
-        }
-
-
-        public void DeleteOverview(string TicketID, string MovieID, string DateID)
-        {
-            
-            string TicketInfo = @"SELECT * FROM ticket";
-            string MovieInfo = @"SELECT * FROM movie";
-            string DateInfo = @"SELECT * FROM date";
-
-            // creating the strings 
-            MySqlCommand oCmd = new MySqlCommand(TicketInfo, Connection);
-            MySqlCommand oCmd2 = new MySqlCommand(MovieInfo, Connection);
-            MySqlCommand oCmd3 = new MySqlCommand(DateInfo, Connection);
-
-            string movieTitle;
-            string movieYear;
-            string Owner;
-            string Email;
-            string TicketCode;
-            int SeatX;
-            int SeatY;
-            int amount;
-            string Datetime;
-            string Hall;
-            double TotalPrice;
-
-            using (MySqlDataReader getMovieInfo = oCmd2.ExecuteReader())
-            {
-                DataTable dataTable2 = new DataTable();
-
-                dataTable2.Load(getMovieInfo);
-
-                foreach (DataRow row in dataTable2.Rows)
-                {
-                    if (MovieID == row["MovieID"].ToString())
-                    {
-                        movieTitle = row["MovieName"].ToString();
-                        movieYear = row["MovieYear"].ToString();
-
-                        Console.WriteLine("\n" + movieTitle + "   " + movieYear);
-                    }
-                }
-            }
-
-            using (MySqlDataReader getDateTimeHallInfo = oCmd3.ExecuteReader())
-            {
-                DataTable dataTable3 = new DataTable();
-
-                dataTable3.Load(getDateTimeHallInfo);
-
-                foreach (DataRow row in dataTable3.Rows)
-                {
-                    if (DateID == row["DateID"].ToString())
-                    {
-                        Datetime = Convert.ToDateTime(row["DateTime"]).ToString("dd/MM/yyyy HH:mm");
-                        Hall = row["Hall"].ToString();
-
-                        Console.WriteLine(Datetime + "   Hall: " + Hall);
-                    }
-                }
-            }
-
-            using (MySqlDataReader getTicketInfo = oCmd.ExecuteReader())
-            {
-                DataTable dataTable = new DataTable();
-
-                dataTable.Load(getTicketInfo);
-
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    if (TicketID == row["TicketID"].ToString())
-                    {
-                        Owner = row["Owner"].ToString();
-                        Email = row["Email"].ToString();
-                        TicketCode = row["TicketCode"].ToString();
-                        TotalPrice = Convert.ToDouble(row["TotalPrice"]);
-
-                        SeatX = Convert.ToInt32(row["seatX"]);
-                        SeatY = Convert.ToInt32(row["seatY"]);
-                        amount = Convert.ToInt32(row["amount"]);
-
-                        string seats = "";
-
-                        for (int i = SeatX; i < amount + SeatX; i++)
-                        {
-                            seats += "(" + i + "/" + SeatY + ") ";
-                        }
-
-                        Console.WriteLine("Seats: " + seats);
-
-                        Console.WriteLine(Owner + "    " + Email + "\nTotal price: €" + TotalPrice + "\nTicket number: " + TicketCode);
-                    }
-                }
-            }
-            
         }
     }
 }
