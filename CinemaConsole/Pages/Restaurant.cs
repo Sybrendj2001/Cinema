@@ -151,7 +151,7 @@ namespace CinemaConsole.Pages.Restaurant
             ChangeData CD = new ChangeData();
             while (true)
             {
-                Console.WriteLine("Please input the desired action: ");
+                Console.WriteLine("\nPlease input the desired action: ");
                 Console.WriteLine("[1] Show current list of products");
                 Console.WriteLine("[2] Add a product to the list");
                 Console.WriteLine("[3] Remove a product from the list");

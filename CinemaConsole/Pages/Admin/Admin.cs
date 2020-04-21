@@ -7,6 +7,7 @@ using CinemaConsole.Pages;
 using CinemaConsole.Pages.Customer;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Data;
+using CinemaConsole.Data.BackEnd;
 using System.Globalization;
 
 namespace CinemaConsole.Pages.Admin
@@ -20,7 +21,7 @@ namespace CinemaConsole.Pages.Admin
         /// <summary>
         /// adding the movie data to the movielist
         /// </summary>
-        private static void Add()
+        /*private static void Add()
         {
             Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13) [exit] Back to menu");
             string tiyeag = Console.ReadLine();
@@ -44,7 +45,7 @@ namespace CinemaConsole.Pages.Admin
                 AddMovieTimes(movie);
                 MovieList.orderList();
             }
-        }
+        }*/
 
         /// <summary>
         /// add a time year age and return the Tuple.
@@ -87,7 +88,7 @@ namespace CinemaConsole.Pages.Admin
         /// <summary>
         /// add a movie time to the given movie.
         /// </summary>
-        private static void AddMovieTimes(Movies movie)
+        /*private static void AddMovieTimes(Movies movie)
         {
             bool k = true;
             while (k)
@@ -148,12 +149,12 @@ namespace CinemaConsole.Pages.Admin
                     Console.WriteLine("Please write the date and time like in the example.\n");
                 }
             }
-        }
+        }*/
         
         /// <summary>
         /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll edit the movie.
         /// </summary>
-        private static void Edit()
+        /*private static void Edit()
         {
             bool k = true;
             while (k)
@@ -238,12 +239,12 @@ namespace CinemaConsole.Pages.Admin
                     }
                 }
             }
-        }
+        }*/
 
         /// <summary>
         /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll remove the movie.
         /// </summary>
-        private static void Remove()
+        /*private static void Remove()
         {
             bool k = true;
             while (k)
@@ -324,7 +325,7 @@ namespace CinemaConsole.Pages.Admin
                     }
                 }
             }
-        }
+        }*/
 
         /// <summary>
         /// Display all the movies by using a foreach loop
@@ -332,57 +333,30 @@ namespace CinemaConsole.Pages.Admin
         private static void Display()
         {
             Console.WriteLine("\nMovies:");
-            // Loop trough all movies currently in the movielist
-            foreach (Movies movie in MovieList.movieList)
-            {
-                Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
-            }
+            ShowData ShowMovieByInfo = new ShowData();
 
-            Console.WriteLine("\nEnter the number of the movie '1' for details':");
+            ShowMovieByInfo.ShowMovies();
 
             string line = Console.ReadLine();
-            foreach (Movies movie in MovieList.movieList)
-            {
-                if (line == movie.getMovieInfo().Item1.ToString())
-                {
-                    // getMovieInfo returns a number or 'exit'
-                    string Movieinfo = Customer.Customer.GetMovieInfo(movie);
 
-                    if (Movieinfo == "1")
-                    {
-                        bool k = true;
-                        while (k)
-                        {
-                            Console.WriteLine("\nSelect the number before the time to see the availability");
-                            string CustomerReserve = Console.ReadLine();
+            // this will return the movie details for the number you entered
+            Tuple<string, string> movieInfo = ShowMovieByInfo.ShowMovieByID(line);
+            string whichMovie = movieInfo.Item1;
 
-                            if (CustomerReserve == "exit")
-                            {
-                                break;
-                            }
+            Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
+            string CustomerTimeOption = Console.ReadLine();
 
-                            else
-                            {
-                                
-                                foreach (DateTimeHall date in movie.DateTimeHallsList)
-                                {
-                                    if (line == date.getDateInfo().Item1.ToString())
-                                    {
-                                        Customer.Customer.ShowHall(date.getDateInfo().Item1, movie);
-                                        Console.WriteLine("\nPress enter to continue");
+            // this will return the movie times for the movie you entered
+            //ShowMovieByInfo.ShowTimesByMovieID(whichMovie, CustomerTimeOption);
+            Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.Customer.showTime(whichMovie);
+            string timeSelect = Customer.Customer.selectTime(dates);
 
-                                        // using readline here to wait for an enter
-                                        Console.ReadLine();
+            Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(timeSelect,dates);
 
-                                        k = false;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            Customer.Customer.showHall(hallseatInfo.Item1,hallseatInfo.Item2);
+
+            Console.WriteLine("\nPress enter to continue");
+            Console.ReadLine();
         }
 
         /// <summary>
@@ -400,15 +374,15 @@ namespace CinemaConsole.Pages.Admin
                 string nummer = Console.ReadLine();
                 if (nummer == "1")
                 {
-                    Add();
+                    //Add();
                 }
                 else if (nummer == "2")
                 {
-                    Edit();
+                    //Edit();
                 }
                 else if (nummer == "3")
                 {
-                    Remove();
+                    //Remove();
                 }
                 else if (nummer == "4")
                 {
