@@ -223,7 +223,6 @@ namespace CinemaConsole.Data.BackEnd
 			return productsamount;
 		}
 
-
 		public void CreateProduct(string itemname, double price)
 		{
 			try

@@ -170,18 +170,25 @@ namespace CinemaConsole.Pages.Restaurant
                 //Calls the addItem function.
                 else if (operation == "2")
                 {
-                    //Requests the name of the product to be added.
-                    Console.WriteLine("Please fill in the name of the product.");
-                    string inputName = Console.ReadLine();
-                    string name = inputName.First().ToString().ToUpper() + inputName.Substring(1);
-                    Console.WriteLine(" ");
+                    try
+                    {
+                        //Requests the name of the product to be added.
+                        Console.WriteLine("Please fill in the name of the product.");
+                        string inputName = Console.ReadLine();
+                        string name = inputName.First().ToString().ToUpper() + inputName.Substring(1);
+                        Console.WriteLine(" ");
 
-                    //Requests the price of the product to be added.
-                    Console.WriteLine("Please fill in the price of the product in euro's.");
-                    double price = double.Parse(Console.ReadLine());
-                    Console.WriteLine(" ");
+                        //Requests the price of the product to be added.
+                        Console.WriteLine("Please fill in the price of the product in euro's.");
+                        double price = double.Parse(Console.ReadLine());
+                        Console.WriteLine(" ");
 
-                    CD.CreateProduct(name, price);
+                        CD.CreateProduct(name, price);
+                    }
+                    catch(FormatException f)
+                    {
+                        Console.WriteLine("Invalid input detected.");
+                    }
                 }
                 //Calls the removeItem function.
                 else if (operation == "3")
