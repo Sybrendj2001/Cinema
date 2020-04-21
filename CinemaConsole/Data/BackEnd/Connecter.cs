@@ -34,10 +34,7 @@ namespace CinemaConsole.Data.BackEnd
             Builder.SshPassphrase = "mysql";
             Builder.Database = "cinema";
             Builder.Port = 3306;
-            
             Builder.SshPort = 12886;
-
-            // string dbstring = "server=localhost;user=root;pwd=admin;database=cinema";
             Connection = new MySqlConnection(Builder.ConnectionString);
         }
     }
