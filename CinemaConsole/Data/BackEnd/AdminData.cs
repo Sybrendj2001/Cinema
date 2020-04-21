@@ -13,7 +13,6 @@ namespace CinemaConsole.Data.BackEnd
 {
     public class AdminData : Connecter
     {
-
         public int GetHallID(int DateID)
         {
             int HallID = -1;

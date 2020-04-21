@@ -32,42 +32,6 @@ namespace CinemaConsole.Pages.TicketSalesman
 
             ChangeData DeleteTicket = new ChangeData();
             DeleteTicket.DeleteReservation(Cticketnumber);
-
-            /*
-            foreach (TicketInfo ticket in ReservationList.reservationList)
-            {
-                if (ticket.GetTicketInfo().Item1.Item4 == Cticketnumber)
-                {
-                    Customer.Customer.Overview(ticket);
-                    Console.WriteLine("\nTicketnumber: " + ticket.GetTicketInfo().Item1.Item4);
-                    while (true)
-                    {
-                        Console.WriteLine("\nDo you really want to remove this reservation?\n[1] Remove reservation\n[2] Cancel");
-                        string Coption = Console.ReadLine();
-
-                        if (Coption == "1")
-                        {
-                            ReservationList.reservationList.Remove(ticket);
-                            Console.WriteLine("\nReservation removed. Press enter to go back to the menu");
-                            Console.ReadLine();
-                            break;
-                        }
-
-                        else if (Coption == "2")
-                        {
-                            break;
-                        }
-                    }
-                    break;
-                }
-                
-                else
-                {
-                    Console.WriteLine("\nThere were no results found with ticketnumber: " + Cticketnumber + "\nPress enter to go back to the menu");
-                    Console.ReadLine();
-                    break;
-                }
-            }*/
         }
 
         // Ticketsalesman able to select a movie and see all the movie informarion.

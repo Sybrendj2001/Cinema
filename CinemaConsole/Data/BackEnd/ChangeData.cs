@@ -223,7 +223,6 @@ namespace CinemaConsole.Data.BackEnd
 			return productsamount;
 		}
 
-
 		public void CreateProduct(string itemname, double price)
 		{
 			try
@@ -355,8 +354,6 @@ namespace CinemaConsole.Data.BackEnd
 				Connection.Close();
 			}
 		}
-
-
 
 		public string checkLoginAndFunction(string username, string password)
 		{
@@ -496,14 +493,19 @@ namespace CinemaConsole.Data.BackEnd
         {
             try
             {
-                Connection.Open();
+				AdminData AD = new AdminData();
+				int seatX = 0;
+				int seatY = 0;
+				int hallID;
+				int amount;
 
-                string stringToDelete = "DELETE FROM ticket WHERE TicketCode = @TicketCode";
+				Connection.Open();
+
+                string stringToDelete = @"DELETE FROM ticket WHERE TicketCode = @TicketCode";
                 string TicketInfo = @"SELECT * FROM ticket";
 
                 MySqlCommand command = new MySqlCommand(stringToDelete, Connection);
                 MySqlParameter TicketCodeParam = new MySqlParameter("@TicketCode", MySqlDbType.String);
-
                 MySqlCommand oCmd = new MySqlCommand(TicketInfo, Connection);
 
                 using (MySqlDataReader getTicketInfo = oCmd.ExecuteReader())
@@ -515,52 +517,66 @@ namespace CinemaConsole.Data.BackEnd
                     string TicketID;
                     string MovieID;
                     string DateID;
+					bool isFound = false;
 
+					while (true)
+					{
+						foreach (DataRow row in dataTable.Rows)
+						{
+							TicketCode = row["TicketCode"].ToString();
+							TicketID = row["TicketID"].ToString();
+							MovieID = row["MovieID"].ToString();
+							DateID = row["DateID"].ToString();
+							hallID = Convert.ToInt32(row["HallID"]);
+							amount = Convert.ToInt32(row["amount"]);
+							seatX = Convert.ToInt32(row["seatX"]);
+							seatY = Convert.ToInt32(row["seatY"]);
 
+							if (TicketCode == ticketcode)
+							{
+								ShowData DeleteTicket = new ShowData();
 
-                    foreach (DataRow row in dataTable.Rows)
-                    {
-                        TicketCode = row["TicketCode"].ToString();
-                        TicketID = row["TicketID"].ToString();
-                        MovieID = row["MovieID"].ToString();
-                        DateID = row["DateID"].ToString();
+								DeleteTicket.Overview(TicketID, MovieID, DateID);
+								isFound = true;
 
-                        if (TicketCode == ticketcode)
-                        {
-							ShowData DeleteTicket = new ShowData();
+								Console.WriteLine("\nDo you really want to remove this reservation?\n[1] Remove reservation\n[2] Cancel");
+								string CancelOrDelete = Console.ReadLine();
 
-							DeleteTicket.Overview(TicketID, MovieID, DateID);
-                            break;
-                        }
-                    }
+								if (CancelOrDelete == "1")
+								{
+									AD.switchAvail((seatX - 1), (seatY - 1), hallID, amount, false);
 
+									TicketCodeParam.Value = ticketcode;
+									command.Parameters.Add(TicketCodeParam);
+									command.Prepare();
+									command.ExecuteNonQuery();
+
+									Console.WriteLine("\nReservation removed. Press enter to go back to the menu");
+									Console.ReadLine();
+									break;
+								}
+
+								else if (CancelOrDelete == "2")
+								{
+									break;
+								}
+								break;
+							}
+						}
+
+						if (isFound)
+						{
+							break;
+						}
+
+						else
+						{
+							Console.WriteLine("\nThere were no results found with ticketnumber: " + ticketcode + "\nPress enter to go back to the menu");
+							Console.ReadLine();
+							break;
+						}
+					}
                 }
-              
-
-                Console.WriteLine("\nDo you really want to remove this reservation?\n[1] Remove reservation\n[2] Cancel");
-                string CancelOrDelete = Console.ReadLine();
-
-                while (true)
-                {
-                    if (CancelOrDelete == "1")
-                    {
-
-						TicketCodeParam.Value = ticketcode;
-
-                        command.Parameters.Add(TicketCodeParam);
-
-                        command.Prepare();
-                        command.ExecuteNonQuery();
-                    }
-
-                    else if (CancelOrDelete == "2")
-                    {
-                        break;
-                    }
-                }
-
-
-
             }
             catch (MySqlException)
             {
