@@ -132,10 +132,10 @@ namespace CinemaConsole.Data.BackEnd
 				MySqlCommand command = new MySqlCommand(stringToCheck, Connection);
 				MySqlParameter ParamticketID = new MySqlParameter("@TicketID", MySqlDbType.VarChar);
 
-				ParamticketID.Value = ticketid;
-				command.Parameters.Add(ParamticketID);
+                ParamticketID.Value = ticketid;
+                command.Parameters.Add(ParamticketID);
 
-				MySqlDataReader dataReader = command.ExecuteReader();
+                MySqlDataReader dataReader = command.ExecuteReader();
 
 				while (dataReader.Read())
 				{
@@ -433,16 +433,15 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public void ReserveTicket(string Owner, string Email, string TicketCode, int MovieID, int Amount, int seatX, int seatY, int DateID, int Hall, double TotalPrice)
+        public void ReserveTicket(string Owner, string Email, string TicketCode, int MovieID, int Amount, int seatX, int seatY, int DateID, int Hall, double TotalPrice, int HallID)
         {
             try
             {
                 Connection.Open();
 
-                string stringToInsert = @"INSERT INTO ticket (Owner, Email, TicketCode, MovieID, Amount, seatX, seatY, DateID, HallID, TotalPrice) VALUES (@Owner, @Email, @TicketCode, @MovieID, @Amount, @seatX, @seatY, @DateID, @HallID, @TotalPrice)";
+                string stringToInsert = @"INSERT INTO ticket (Owner, Email, TicketCode, MovieID, Amount, seatX, seatY, DateID, HallID, TotalPrice, Hall) VALUES (@Owner, @Email, @TicketCode, @MovieID, @Amount, @seatX, @seatY, @DateID, @HallID, @TotalPrice, @Hall)";
 
                 MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
-                //MySqlParameter TicketIDParam = new MySqlParameter("@TicketID", MySqlDbType.Int32);
                 MySqlParameter OwnerParam = new MySqlParameter("@Owner", MySqlDbType.VarChar);
                 MySqlParameter EmailParam = new MySqlParameter("@Email", MySqlDbType.VarChar);
                 MySqlParameter TicketCodeParam = new MySqlParameter("@TicketCode", MySqlDbType.VarChar);
@@ -453,9 +452,11 @@ namespace CinemaConsole.Data.BackEnd
                 MySqlParameter DateIDParam = new MySqlParameter("@DateID", MySqlDbType.Int32);
                 MySqlParameter HallIDParam = new MySqlParameter("@HallID", MySqlDbType.Int32);
                 MySqlParameter TotalPriceParam = new MySqlParameter("@TotalPrice", MySqlDbType.Double);
+				MySqlParameter HallParam = new MySqlParameter("@Hall", MySqlDbType.Int32);
 
-                //TicketIDParam.Value = TicketID;
-                OwnerParam.Value = Owner;
+
+				//TicketIDParam.Value = TicketID;
+				OwnerParam.Value = Owner;
                 EmailParam.Value = Email;
                 TicketCodeParam.Value = TicketCode;
                 MovieIDParam.Value = MovieID;
@@ -463,8 +464,9 @@ namespace CinemaConsole.Data.BackEnd
                 seatXParam.Value = seatX;
                 seatYParam.Value = seatY;
                 DateIDParam.Value = DateID;
-                HallIDParam.Value = Hall;
-                TotalPriceParam.Value = TotalPrice;
+                HallParam.Value = Hall;
+				HallIDParam.Value = HallID;
+				TotalPriceParam.Value = TotalPrice;
 
                 //command.Parameters.Add(TicketIDParam);
                 command.Parameters.Add(OwnerParam);
@@ -477,9 +479,110 @@ namespace CinemaConsole.Data.BackEnd
                 command.Parameters.Add(DateIDParam);
                 command.Parameters.Add(HallIDParam);
                 command.Parameters.Add(TotalPriceParam);
+				command.Parameters.Add(HallParam);
 
-                command.Prepare();
+				command.Prepare();
                 command.ExecuteNonQuery();
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+        public void DeleteReservation(string ticketcode)
+        {
+            try
+            {
+				AdminData AD = new AdminData();
+				int seatX = 0;
+				int seatY = 0;
+				int hallID;
+				int amount;
+
+				Connection.Open();
+
+                string stringToDelete = @"DELETE FROM ticket WHERE TicketCode = @TicketCode";
+                string TicketInfo = @"SELECT * FROM ticket";
+
+                MySqlCommand command = new MySqlCommand(stringToDelete, Connection);
+                MySqlParameter TicketCodeParam = new MySqlParameter("@TicketCode", MySqlDbType.String);
+                MySqlCommand oCmd = new MySqlCommand(TicketInfo, Connection);
+
+                using (MySqlDataReader getTicketInfo = oCmd.ExecuteReader())
+                {
+                    DataTable dataTable = new DataTable();
+
+                    dataTable.Load(getTicketInfo);
+                    string TicketCode;
+                    string TicketID;
+                    string MovieID;
+                    string DateID;
+					bool isFound = false;
+
+					while (true)
+					{
+						foreach (DataRow row in dataTable.Rows)
+						{
+							TicketCode = row["TicketCode"].ToString();
+							TicketID = row["TicketID"].ToString();
+							MovieID = row["MovieID"].ToString();
+							DateID = row["DateID"].ToString();
+							hallID = Convert.ToInt32(row["HallID"]);
+							amount = Convert.ToInt32(row["amount"]);
+							seatX = Convert.ToInt32(row["seatX"]);
+							seatY = Convert.ToInt32(row["seatY"]);
+
+							if (TicketCode == ticketcode)
+							{
+								ShowData DeleteTicket = new ShowData();
+								// Ticket and contact information overview to check if you want to remove the right ticket.
+								DeleteTicket.Overview(TicketID, MovieID, DateID);
+								isFound = true;
+
+								Console.WriteLine("\nDo you really want to remove this reservation?\n[1] Remove reservation\n[2] Cancel");
+								string CancelOrDelete = Console.ReadLine();
+
+								if (CancelOrDelete == "1")
+								{
+									TicketCodeParam.Value = ticketcode;
+									command.Parameters.Add(TicketCodeParam);
+									command.Prepare();
+									command.ExecuteNonQuery();
+									Connection.Close();
+									// This set the seats back to available
+									AD.switchAvail((seatX - 1), (seatY - 1), hallID, amount, true);
+
+									Console.WriteLine("\nReservation removed. Press enter to go back to the menu");
+									Console.ReadLine();
+									break;
+								}
+
+								else if (CancelOrDelete == "2")
+								{
+									break;
+								}
+								break;
+							}
+						}
+
+						if (isFound)
+						{
+							break;
+						}
+
+						else
+						{
+							Console.WriteLine("\nThere were no results found with ticketnumber: " + ticketcode + "\nPress enter to go back to the menu");
+							Console.ReadLine();
+							break;
+						}
+					}
+                }
             }
             catch (MySqlException)
             {
