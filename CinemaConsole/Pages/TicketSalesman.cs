@@ -127,7 +127,7 @@ namespace CinemaConsole.Pages.TicketSalesman
 
                 else if (TicketSalesmanOption == "3")
                 {
-                    //RemoveReservation();
+                    RemoveReservation();
                 }
 
                 if (TicketSalesmanOption == "4")
