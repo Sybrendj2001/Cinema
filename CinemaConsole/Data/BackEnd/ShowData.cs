@@ -99,6 +99,7 @@ namespace CinemaConsole.Data.BackEnd
             return Tuple.Create("","");
         }
     
+        // Search funtion ticketsalesman. Search on name, search on ticketnumber and surch on movie name and date/time
         public void DisplayTickets()
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -128,6 +129,7 @@ namespace CinemaConsole.Data.BackEnd
 
                     dataTable.Load(getTicketInfo);
 
+                    // menu of the three search options
                     Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date");
                     string SearchOption = Console.ReadLine();
 
@@ -135,11 +137,11 @@ namespace CinemaConsole.Data.BackEnd
                     {
                         Console.WriteLine("\nPlease enter the customer full name");
                         string name = Console.ReadLine();
-
                         bool isFound = false;
 
                         while (true)
                         {
+                            // going through the data
                             foreach (DataRow row in dataTable.Rows)
                             {
                                 Owner = row["Owner"].ToString();
@@ -148,11 +150,13 @@ namespace CinemaConsole.Data.BackEnd
                                 MovieID = row["MovieID"].ToString();
                                 DateID = row["DateID"].ToString();
 
+                                // check if there is a match
                                 if (Owner == name)
                                 {
                                     isFound = true;
                                     Connection.Close();
 
+                                    // going to the overview with all the details
                                     Overview(TicketID, MovieID, DateID);
                                     Console.WriteLine("\nPress enter to go back to the menu");
                                     Console.ReadLine();
@@ -187,6 +191,7 @@ namespace CinemaConsole.Data.BackEnd
 
                         while (true)
                         {
+                            // going through the data
                             foreach (DataRow row in dataTable.Rows)
                             {
                                 Owner = row["Owner"].ToString();
@@ -195,11 +200,13 @@ namespace CinemaConsole.Data.BackEnd
                                 MovieID = row["MovieID"].ToString();
                                 DateID = row["DateID"].ToString();
 
+                                // check if there is a match
                                 if (TicketCode == ticketnumber)
                                 {
                                     isFound = true;
                                     Connection.Close();
 
+                                    // going to the overview with all the details
                                     Overview(TicketID, MovieID, DateID);
                                     Console.WriteLine("\nPress enter to go back to the menu");
                                     Console.ReadLine();
@@ -255,6 +262,7 @@ namespace CinemaConsole.Data.BackEnd
 
                         while (true)
                         {
+                            // going through all movie data
                             foreach (DataRow row in dataTable2.Rows)
                             {
                                 MovieName = row["MovieName"].ToString();
@@ -266,6 +274,7 @@ namespace CinemaConsole.Data.BackEnd
                                 }
                             }
 
+                            // going through all the date data
                             foreach (DataRow row in dataTable3.Rows)
                             {
                                 string datetime = Convert.ToDateTime(row["DateTime"]).ToString("dd/MM/yyyy HH:mm");
@@ -277,16 +286,20 @@ namespace CinemaConsole.Data.BackEnd
                                 }
                             }
 
+                            // going through ticket data
                             foreach (DataRow row in dataTable.Rows)
                             {
                                 TicketID = row["TicketID"].ToString();
                                 MovieID = row["MovieID"].ToString();
                                 DateID = row["DateID"].ToString();
 
+                                // going through all the ticket data to see if there is a match between all the given information
                                 if (movieID == Convert.ToInt32(row["MovieID"]) && dateID == Convert.ToInt32(row["DateID"]))
                                 {
                                     isFound = true;
                                     Connection.Close();
+
+                                    // going to the overview with all the details
                                     Overview(TicketID, MovieID, DateID);
                                     Console.WriteLine("\nPress enter to go back to the menu");
                                     string exit = Console.ReadLine();
@@ -319,7 +332,7 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-
+        // Overview of all the information about the customer and the movie they reserved.
         public void Overview(string TicketID, string MovieID, string DateID)
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -330,11 +343,11 @@ namespace CinemaConsole.Data.BackEnd
                 string MovieInfo = @"SELECT * FROM movie";
                 string DateInfo = @"SELECT * FROM date";
 
-                // creating the strings 
                 MySqlCommand oCmd = new MySqlCommand(TicketInfo, Connection);
                 MySqlCommand oCmd2 = new MySqlCommand(MovieInfo, Connection);
                 MySqlCommand oCmd3 = new MySqlCommand(DateInfo, Connection);
-
+                
+                // creating the strings 
                 string movieTitle;
                 string movieYear;
                 string Owner;
@@ -353,6 +366,7 @@ namespace CinemaConsole.Data.BackEnd
 
                     dataTable2.Load(getMovieInfo);
 
+                    // going through movie data
                     foreach (DataRow row in dataTable2.Rows)
                     {
                         if (MovieID == row["MovieID"].ToString())
@@ -371,6 +385,7 @@ namespace CinemaConsole.Data.BackEnd
 
                     dataTable3.Load(getDateTimeHallInfo);
 
+                    // going through date data
                     foreach (DataRow row in dataTable3.Rows)
                     {
                         if (DateID == row["DateID"].ToString())
@@ -389,6 +404,7 @@ namespace CinemaConsole.Data.BackEnd
 
                     dataTable.Load(getTicketInfo);
 
+                    // going through ticket data
                     foreach (DataRow row in dataTable.Rows)
                     {
                         if (TicketID == row["TicketID"].ToString())

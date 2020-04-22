@@ -540,7 +540,7 @@ namespace CinemaConsole.Data.BackEnd
 							if (TicketCode == ticketcode)
 							{
 								ShowData DeleteTicket = new ShowData();
-
+								// Ticket and contact information overview to check if you want to remove the right ticket.
 								DeleteTicket.Overview(TicketID, MovieID, DateID);
 								isFound = true;
 
@@ -554,6 +554,7 @@ namespace CinemaConsole.Data.BackEnd
 									command.Prepare();
 									command.ExecuteNonQuery();
 									Connection.Close();
+									// This set the seats back to available
 									AD.switchAvail((seatX - 1), (seatY - 1), hallID, amount, true);
 
 									Console.WriteLine("\nReservation removed. Press enter to go back to the menu");
