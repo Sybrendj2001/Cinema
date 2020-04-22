@@ -121,7 +121,6 @@ namespace CinemaConsole.Data.BackEnd
                 string MovieID;
                 string DateID;
                 string MovieName;
-                string dateTime;
 
                 using (MySqlDataReader getTicketInfo = oCmd.ExecuteReader())
                 {
@@ -135,7 +134,7 @@ namespace CinemaConsole.Data.BackEnd
 
                     if (SearchOption == "1")
                     {
-                        Console.WriteLine("\nPlease enter the customer full name");
+                        Console.WriteLine("\nPlease enter the customer full name (lowercase)");
                         string name = Console.ReadLine();
                         bool isFound = false;
 
