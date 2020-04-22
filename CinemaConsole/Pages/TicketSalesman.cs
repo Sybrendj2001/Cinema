@@ -25,7 +25,7 @@ namespace CinemaConsole.Pages.TicketSalesman
         }
 
         // This let the ticket salesman remove/cancel reservations. You have to type in the ticketnumber to remove the reservation.
-        public static void RemoveReservation()
+        /*public static void RemoveReservation()
         {
             Console.WriteLine("\nPlease enter the ticketnumber of the reservation you want to remove:");
             string Cticketnumber = Console.ReadLine();
@@ -127,7 +127,7 @@ namespace CinemaConsole.Pages.TicketSalesman
 
                 else if (TicketSalesmanOption == "3")
                 {
-                    RemoveReservation();
+                    //RemoveReservation();
                 }
 
                 if (TicketSalesmanOption == "4")

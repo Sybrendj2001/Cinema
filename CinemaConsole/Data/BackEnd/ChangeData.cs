@@ -165,6 +165,8 @@ namespace CinemaConsole.Data.BackEnd
 		public void DisplayProducts()
 		{
 			Console.OutputEncoding = Encoding.UTF8;
+
+			Console.WriteLine("\nMenu:");
 			try
 			{
 				Connection.Open();
@@ -417,11 +419,11 @@ namespace CinemaConsole.Data.BackEnd
 				command.Parameters.Add(MAgeParam);
 				command.Parameters.Add(MSummaryParam);
 
-                command.Prepare();
-                command.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
+				command.Prepare();
+				command.ExecuteNonQuery();
+			}
+			catch (Exception)
+			{
 
                 throw;
             }
