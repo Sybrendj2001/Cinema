@@ -23,6 +23,7 @@ namespace CinemaConsole.Pages.Admin
         /// </summary>
         private static void Add()
         {
+            ShowData SD = new ShowData();
             ChangeData CD = new ChangeData();
 
             Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13) [exit] Back to menu");
@@ -43,6 +44,9 @@ namespace CinemaConsole.Pages.Admin
 
                 // adding the movie times to the given movie
                 addTime(movieinfo.Item1);
+                SD.ShowMovies();
+                Console.WriteLine("Press enter to continue");
+                Console.ReadLine();
             }
         }
 
@@ -66,10 +70,10 @@ namespace CinemaConsole.Pages.Admin
                     titel = TiYeAg[0];
                     year = Convert.ToInt32(TiYeAg[1]);
                     age = Convert.ToInt32(TiYeAg[2]);
-                    
-                    if(year <= 1800 || year > Convert.ToInt32((DateTime.Now.ToString("yyyy"))))
+
+                    if (year <= 1800 || year > Convert.ToInt32((DateTime.Now.ToString("yyyy"))))
                     {
-                        Console.WriteLine("\nPlease enter a release date that is possible. (Between 1801 and "+ DateTime.Now.ToString("yyyy") + ")");
+                        Console.WriteLine("\nPlease enter a release date that is possible. (Between 1801 and " + DateTime.Now.ToString("yyyy") + ")");
                         Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
                         line = Console.ReadLine();
                     }
@@ -170,92 +174,112 @@ namespace CinemaConsole.Pages.Admin
         /// <summary>
         /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll edit the movie.
         /// </summary>
-        /*private static void Edit()
+        private static void Edit()
         {
-            bool k = true;
-            while (k)
+            ShowData SD = new ShowData();
+            ChangeData CD = new ChangeData();
+            AdminData AD = new AdminData();
+
+            // display movies
+            Console.WriteLine("\nMovies:");
+            List<int> movieIDs = SD.ShowMovies();
+            string ID;
+            //In this loop you get the question for what to do and there are controls on the answers.
+            while (true)
             {
-                Console.WriteLine("\nMovies:");
-                // Loop trough all movies currently in the movielist
-                foreach (Movies movie in MovieList.movieList)
+                try
                 {
-                    Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
-                }
+                    Console.WriteLine("\nEnter the number of the movie you want to edit\n[exit] Go back to the menu.:");
+                    ID = Console.ReadLine();
 
-                // count all movies + 1 for an exit number
-                int moviecount = MovieList.movieList.Count + 1;
-
-                Console.WriteLine("\nEnter the number of the movie you want to edit or enter [exit] to go back.:");
-
-                string line = Console.ReadLine();
-
-                if (line == "exit")
-                {
-                    k = false;
-                }
-
-                foreach (Movies movie in MovieList.movieList)
-                {
-                    // check if number equals movie ID
-                    if (line == movie.getMovieInfo().Item1.ToString())
+                    if (ID == "exit")
                     {
-                        // save line as an int
-                        int number = Int32.Parse(line);
-                        Console.WriteLine("\n[1] If you want to edit an entire movie\n[2] If you only want to add a certain time\n[exit] Back to menu:");
-
-                        // readline again
-                        line = Console.ReadLine();
-
-                        if (line == "1")
-                        {
-                            Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13) or enter 'skip' if you want to skip and keep the original");
-                            string tiyeag = Console.ReadLine();
-
-                            if (tiyeag != "skip")
-                            {
-                                var movieinfo = AddTimeYearAge(tiyeag);
-
-                                // replace original values for new ones
-                                movie.setMovieInfo(movieinfo.Item1, movieinfo.Item2, movieinfo.Item3);
-                            }
-
-                            Console.WriteLine("\nPlease enter a short summary of the movie or enter 'skip' if you want to skip and keep the original");
-                            string sum = Console.ReadLine();
-                            if (sum != "skip")
-                            {
-                                // replace original value for new one
-                                movie.setMovieInfo("", 0, 0, sum);
-                            }
-
-                            Console.WriteLine("\nPlease give some actors (like this: Tom Cruise, Brad Pitt) or enter 'skip' if you want to skip and keep the original");
-                            string actors = Console.ReadLine();
-                            if (actors != "skip")
-                            {
-                                // replace original value for new one
-                                movie.setMovieInfo("", 0, 0, "", actors);
-                            }
-
-                            // i have to break out of the foreach loop, because you cannot modify a loop while you're in it. 
-                            break;
-
-                        }
-                        else if (line == "2")
-                        {
-                            AddMovieTimes(movie);
-                            break;
-                        }
-                        else if (line == "exit")
-                        {
-                            break;
-                        }
+                        break;
+                    }
+                    else if (movieIDs.Contains(Convert.ToInt32(ID)))
+                    {
+                        break;
                     }
                     else
                     {
-                        continue;
+                        Console.WriteLine("\nThe number you enter does not exist");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("\nPlease enter 'exit' or a number that stands before a movie");
+                }
+            }
+
+            try
+            {
+                int movieID = Convert.ToInt32(ID);
+                while (true)
+                {
+                    Console.WriteLine("\n[1] If you want to edit an entire movie\n[2] If you only want to add a certain time\n[exit] Back to menu:");
+
+                    // readline again
+                    string option = Console.ReadLine();
+
+                    if (option == "1")
+                    {
+                        string name = "";
+                        int releaseDate = -1;
+                        int age = -1;
+                        string sum;
+                        string actors;
+
+                        Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13) or enter 'skip' if you want to skip and keep the original");
+                        string tiyeag = Console.ReadLine();
+
+                        if (tiyeag != "skip")
+                        {
+                            Tuple<string, int, int> movieinfo = AddTimeYearAge(tiyeag);
+                            name = movieinfo.Item1;
+                            releaseDate = movieinfo.Item2;
+                            age = movieinfo.Item3;
+                        }
+
+
+                        Console.WriteLine("\nPlease enter a short summary of the movie or enter 'skip' if you want to skip and keep the original");
+                        sum = Console.ReadLine();
+                        if (sum == "skip")
+                        {
+                            sum = "";
+                        }
+
+                        Console.WriteLine("\nPlease give some actors (like this: Tom Cruise, Brad Pitt) or enter 'skip' if you want to skip and keep the original");
+                        actors = Console.ReadLine();
+                        if (actors == "skip")
+                        {
+                            actors = "";
+                        }
+
+                        CD.UpdateMovie(movieID, name, releaseDate, age, sum, actors);
+                        SD.ShowMovieByID(ID);
+                        break;
+                    }
+                    else if (option == "2")
+                    {
+                        addTime(AD.getTitle(movieID));
+                        Customer.Customer.showTime(ID);
+                        break;
+                    }
+                    else if (option == "exit")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please enter an option that exist");
                     }
                 }
             }
-        }*/
+            catch (FormatException)
+            {
+
+            }
+        }     
 
         /// <summary>
         /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll remove the movie.
@@ -351,28 +375,62 @@ namespace CinemaConsole.Pages.Admin
             Console.WriteLine("\nMovies:");
             ShowData ShowMovieByInfo = new ShowData();
 
-            ShowMovieByInfo.ShowMovies();
+            List<int> MovieIDs = ShowMovieByInfo.ShowMovies();
+            
+            Console.WriteLine("\n[exit] Exit to menu");
 
-            string line = Console.ReadLine();
+            while (true)
+            {
+                string line = Console.ReadLine();
 
-            // this will return the movie details for the number you entered
-            Tuple<string, string> movieInfo = ShowMovieByInfo.ShowMovieByID(line);
-            string whichMovie = movieInfo.Item1;
+                if (line == "exit")
+                {
+                    break;
+                }
+                else if (MovieIDs.Contains(Convert.ToInt32(line)))
+                {
+                    // this will return the movie details for the number you entered
+                    Tuple<string, string> movieInfo = ShowMovieByInfo.ShowMovieByID(line);
+                    string whichMovie = movieInfo.Item1;
 
-            Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
-            string CustomerTimeOption = Console.ReadLine();
+                    while (true)
+                    {
+                        Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
+                        string CustomerTimeOption = Console.ReadLine();
+                        if (CustomerTimeOption == "1")
+                        {
+                            // this will return the movie times for the movie you entered
+                            //ShowMovieByInfo.ShowTimesByMovieID(whichMovie, CustomerTimeOption);
+                            Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.Customer.showTime(whichMovie);
+                            string timeSelect = Customer.Customer.selectTime(dates);
 
-            // this will return the movie times for the movie you entered
-            //ShowMovieByInfo.ShowTimesByMovieID(whichMovie, CustomerTimeOption);
-            Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.Customer.showTime(whichMovie);
-            string timeSelect = Customer.Customer.selectTime(dates);
+                            if (timeSelect != "exit")
+                            {
+                                Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(timeSelect, dates);
 
-            Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(timeSelect,dates);
+                                Customer.Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
 
-            Customer.Customer.showHall(hallseatInfo.Item1,hallseatInfo.Item2);
-
-            Console.WriteLine("\nPress enter to continue");
-            Console.ReadLine();
+                                Console.WriteLine("\nPress enter to continue");
+                                Console.ReadLine();
+                            }
+                            break;
+                        }
+                        else if (CustomerTimeOption == "exit")
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nPlease enter an option given");
+                        }
+                    }
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("\nPlease enter an option that is in the menu");
+                }
+            }
         }
 
         /// <summary>
@@ -380,6 +438,7 @@ namespace CinemaConsole.Pages.Admin
         /// </summary>
         public static void Menu()
         {
+            ShowData SD = new ShowData();
             bool k = true;
 
             // test for adding some movies
@@ -394,7 +453,7 @@ namespace CinemaConsole.Pages.Admin
                 }
                 else if (nummer == "2")
                 {
-                    //Edit();
+                    Edit();
                 }
                 else if (nummer == "3")
                 {

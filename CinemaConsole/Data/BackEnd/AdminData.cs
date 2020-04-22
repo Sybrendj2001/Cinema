@@ -14,6 +14,40 @@ namespace CinemaConsole.Data.BackEnd
     public class AdminData : Connecter
     {
 
+        public string getTitle(int MovieID)
+        {
+            string title = "";
+            try
+            {
+                Connection.Open();
+                string IntToCheck = @"SELECT MovieName FROM movie WHERE MovieID = @MovieID";
+
+                MySqlCommand command = new MySqlCommand(IntToCheck, Connection);
+                MySqlParameter MovieIDParam = new MySqlParameter("@MovieID", MySqlDbType.VarChar);
+
+                MovieIDParam.Value = MovieID;
+
+                command.Parameters.Add(MovieIDParam);
+
+                MySqlDataReader dataReader = command.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    title = dataReader.GetString("MovieName");
+                }
+                dataReader.Close();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+            return title;
+        }
+        
         public int GetHallID(int DateID)
         {
             int HallID = -1;

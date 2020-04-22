@@ -319,7 +319,7 @@ namespace CinemaConsole.Pages.Customer
             {
                 Console.WriteLine("[" + (i + 1) + "] " + times.Item1[i].ToString("HH:mm dd/MM/yyyy"));
             }
-            Console.WriteLine("[exit] Exit to movie menu");
+            Console.WriteLine("[exit] Exit to menu");
             return times;
         }
 

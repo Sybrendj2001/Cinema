@@ -43,7 +43,6 @@ namespace CinemaConsole.Data.BackEnd
                         movieYear = row["MovieYear"].ToString();
                         Console.WriteLine("[" + movieID + "] " + movieName + " (" + movieYear + ")");
                     }
-                    Console.WriteLine("\nEnter the number of the movie for details:");
                     return MovieIDs;
                 }
                
