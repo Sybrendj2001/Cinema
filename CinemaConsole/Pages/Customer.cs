@@ -487,7 +487,7 @@ namespace CinemaConsole.Pages.Customer
                                 confirm = Console.ReadLine();
                                 if (confirm == "1")
                                 {
-                                    CD.ReserveTicket((personInfo.Item1 + " "+ personInfo.Item2), personInfo.Item3, ticketcode, Convert.ToInt32(whichMovie), ticket.Item3, ticket.Item4, ticket.Item5, ticket.Item2,ticket.Item6.Item2,ticket.Item6.Item1);
+                                    CD.ReserveTicket((personInfo.Item1 + " "+ personInfo.Item2), personInfo.Item3, ticketcode, Convert.ToInt32(whichMovie), ticket.Item3, ticket.Item4, ticket.Item5, ticket.Item2,ticket.Item6.Item2,ticket.Item6.Item1, ticket.Item6.Item3);
                                     Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticketcode);
                                     break;
                                 }

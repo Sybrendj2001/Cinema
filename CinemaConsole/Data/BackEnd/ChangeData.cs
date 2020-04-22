@@ -431,16 +431,15 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public void ReserveTicket(string Owner, string Email, string TicketCode, int MovieID, int Amount, int seatX, int seatY, int DateID, int Hall, double TotalPrice)
+        public void ReserveTicket(string Owner, string Email, string TicketCode, int MovieID, int Amount, int seatX, int seatY, int DateID, int Hall, double TotalPrice, int HallID)
         {
             try
             {
                 Connection.Open();
 
-                string stringToInsert = @"INSERT INTO ticket (Owner, Email, TicketCode, MovieID, Amount, seatX, seatY, DateID, HallID, TotalPrice) VALUES (@Owner, @Email, @TicketCode, @MovieID, @Amount, @seatX, @seatY, @DateID, @HallID, @TotalPrice)";
+                string stringToInsert = @"INSERT INTO ticket (Owner, Email, TicketCode, MovieID, Amount, seatX, seatY, DateID, HallID, TotalPrice, Hall) VALUES (@Owner, @Email, @TicketCode, @MovieID, @Amount, @seatX, @seatY, @DateID, @HallID, @TotalPrice, @Hall)";
 
                 MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
-                //MySqlParameter TicketIDParam = new MySqlParameter("@TicketID", MySqlDbType.Int32);
                 MySqlParameter OwnerParam = new MySqlParameter("@Owner", MySqlDbType.VarChar);
                 MySqlParameter EmailParam = new MySqlParameter("@Email", MySqlDbType.VarChar);
                 MySqlParameter TicketCodeParam = new MySqlParameter("@TicketCode", MySqlDbType.VarChar);
@@ -451,9 +450,11 @@ namespace CinemaConsole.Data.BackEnd
                 MySqlParameter DateIDParam = new MySqlParameter("@DateID", MySqlDbType.Int32);
                 MySqlParameter HallIDParam = new MySqlParameter("@HallID", MySqlDbType.Int32);
                 MySqlParameter TotalPriceParam = new MySqlParameter("@TotalPrice", MySqlDbType.Double);
+				MySqlParameter HallParam = new MySqlParameter("@Hall", MySqlDbType.Int32);
 
-                //TicketIDParam.Value = TicketID;
-                OwnerParam.Value = Owner;
+
+				//TicketIDParam.Value = TicketID;
+				OwnerParam.Value = Owner;
                 EmailParam.Value = Email;
                 TicketCodeParam.Value = TicketCode;
                 MovieIDParam.Value = MovieID;
@@ -461,8 +462,9 @@ namespace CinemaConsole.Data.BackEnd
                 seatXParam.Value = seatX;
                 seatYParam.Value = seatY;
                 DateIDParam.Value = DateID;
-                HallIDParam.Value = Hall;
-                TotalPriceParam.Value = TotalPrice;
+                HallParam.Value = Hall;
+				HallIDParam.Value = HallID;
+				TotalPriceParam.Value = TotalPrice;
 
                 //command.Parameters.Add(TicketIDParam);
                 command.Parameters.Add(OwnerParam);
@@ -475,8 +477,9 @@ namespace CinemaConsole.Data.BackEnd
                 command.Parameters.Add(DateIDParam);
                 command.Parameters.Add(HallIDParam);
                 command.Parameters.Add(TotalPriceParam);
+				command.Parameters.Add(HallParam);
 
-                command.Prepare();
+				command.Prepare();
                 command.ExecuteNonQuery();
             }
             catch (MySqlException)
@@ -544,12 +547,12 @@ namespace CinemaConsole.Data.BackEnd
 
 								if (CancelOrDelete == "1")
 								{
-									AD.switchAvail((seatX - 1), (seatY - 1), hallID, amount, false);
-
 									TicketCodeParam.Value = ticketcode;
 									command.Parameters.Add(TicketCodeParam);
 									command.Prepare();
 									command.ExecuteNonQuery();
+									Connection.Close();
+									AD.switchAvail((seatX - 1), (seatY - 1), hallID, amount, true);
 
 									Console.WriteLine("\nReservation removed. Press enter to go back to the menu");
 									Console.ReadLine();
