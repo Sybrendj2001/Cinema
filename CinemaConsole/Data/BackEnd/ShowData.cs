@@ -183,14 +183,13 @@ namespace CinemaConsole.Data.BackEnd
                     }
 
                     else if (SearchOption == "2")
-                    {
-                        Console.WriteLine("\nPlease enter the ticketnumber");
-                        string ticketnumber = Console.ReadLine();
-
+                    {                        
                         bool isFound = false;
 
                         while (true)
                         {
+                            Console.WriteLine("\nPlease enter the ticketnumber");
+                            string ticketnumber = Console.ReadLine();
                             // going through the data
                             foreach (DataRow row in dataTable.Rows)
                             {
@@ -213,21 +212,20 @@ namespace CinemaConsole.Data.BackEnd
                                     break;
                                 }
                             }
-
+                            
                             if (isFound)
                             {
                                 break;
                             }
 
+                            else if(ticketnumber == "exit")
+                            {
+                                break;
+                            }
+                        
                             else
                             {
-                                Console.WriteLine("\n\nThere were no results found with ticketnumber: " + ticketnumber + " Please enter again or type [exit] to exit");
-                                string exit = Console.ReadLine();
-
-                                if (exit == "exit")
-                                {
-                                    break;
-                                }
+                                Console.WriteLine("\nThere were no results found with ticketnumber: " + ticketnumber + " Please enter again or type [exit] to exit");
                             }
                         }
                     }
