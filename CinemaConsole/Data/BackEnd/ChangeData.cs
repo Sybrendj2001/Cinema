@@ -208,9 +208,9 @@ namespace CinemaConsole.Data.BackEnd
 
 		public void DisplayProducts()
 		{
+			Console.Clear();
 			Console.OutputEncoding = Encoding.UTF8;
-
-			Console.WriteLine("\nMenu:");
+			Console.WriteLine("Restaurant menu:");
 			try
 			{
 				Connection.Open();
@@ -219,11 +219,10 @@ namespace CinemaConsole.Data.BackEnd
 				MySqlCommand command = new MySqlCommand(stringToDisplay, Connection);
 
 				MySqlDataReader dataReader = command.ExecuteReader();
-
 				while (dataReader.Read())
 				{
 					double test = dataReader.GetDouble("Price");
-					Console.WriteLine("[" + dataReader["ItemID"] + "] " + dataReader["ItemName"] + "    €" + test.ToString("0.00"));
+					Console.WriteLine("(" + dataReader["ItemID"] + ") " + dataReader["ItemName"] + "    €" + test.ToString("0.00"));
 				}
 
 				dataReader.Close();

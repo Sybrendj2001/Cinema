@@ -82,6 +82,7 @@ namespace CinemaConsole.Pages.Customer
                     CustomerReserve = Console.ReadLine();
                     if (CustomerReserve == "exit")
                     {
+                        Console.Clear();
                         break;
                     }
                     else if (Convert.ToInt32(CustomerReserve) >= date.Item1.Count + 1 || Convert.ToInt32(CustomerReserve) < 1)
@@ -137,6 +138,7 @@ namespace CinemaConsole.Pages.Customer
 
                 if (CustomerReserve == "exit")
                 {
+                    Console.Clear();
                     break;
                 }
 
@@ -193,7 +195,7 @@ namespace CinemaConsole.Pages.Customer
                         }
                         catch (FormatException)
                         {
-                            Console.WriteLine("\nPlease enter a number.");
+                            SD.ErrorMessage("\nPlease enter a number.");
                         }
                     }
                     break;
@@ -349,6 +351,7 @@ namespace CinemaConsole.Pages.Customer
 
                 if (selected == "exit")
                 {
+                    Console.Clear();
                     free = false;
                     break;
                 }
@@ -430,9 +433,6 @@ namespace CinemaConsole.Pages.Customer
             }
             Console.WriteLine(seats);
             Console.WriteLine(personInfo.Item1 + " " + personInfo.Item2 + "  " + personInfo.Item3);
-            
-
-
         }
 
         private static string createTicketID(DateTime Time, string MovieName, int X, int Y, int TheatherHall)
@@ -525,6 +525,7 @@ namespace CinemaConsole.Pages.Customer
                             }
                             else if(CustomerTimeOption == "exit")
                             {
+                                Console.Clear();
                                 break;
                             }
                             else

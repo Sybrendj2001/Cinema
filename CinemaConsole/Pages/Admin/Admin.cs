@@ -378,11 +378,10 @@ namespace CinemaConsole.Pages.Admin
         /// </summary>
         private static void Display()
         {
+            Console.Clear();
             Console.WriteLine("\nMovies:");
-            ShowData ShowMovieByInfo = new ShowData();
-
-            List<int> MovieIDs = ShowMovieByInfo.ShowMovies();
-            
+            ShowData SD = new ShowData();
+            List<int> MovieIDs = SD.ShowMovies();
             Console.WriteLine("\n[exit] Exit to menu");
 
             while (true)
@@ -391,49 +390,58 @@ namespace CinemaConsole.Pages.Admin
 
                 if (line == "exit")
                 {
+                    Console.Clear();
                     break;
                 }
-                else if (MovieIDs.Contains(Convert.ToInt32(line)))
+                // extra check because a spacebar crashes the application
+                else if (line != "" && line != " ")
                 {
-                    // this will return the movie details for the number you entered
-                    Tuple<string, string> movieInfo = ShowMovieByInfo.ShowMovieByID(line);
-                    string whichMovie = movieInfo.Item1;
+                    if (MovieIDs.Contains(Convert.ToInt32(line)))
+                    { 
+                        // this will return the movie details for the number you entered
+                        Tuple<string, string> movieInfo = SD.ShowMovieByID(line);
+                        string whichMovie = movieInfo.Item1;
 
-                    while (true)
-                    {
-                        Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
-                        string CustomerTimeOption = Console.ReadLine();
-                        if (CustomerTimeOption == "1")
+                        while (true)
                         {
-                            // this will return the movie times for the movie you entered
-                            Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.Customer.showTime(whichMovie);
-                            string timeSelect = Customer.Customer.selectTime(dates);
-
-                            if (timeSelect != "exit")
+                            Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
+                            string CustomerTimeOption = Console.ReadLine();
+                            if (CustomerTimeOption == "1")
                             {
-                                Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(timeSelect, dates);
+                                // this will return the movie times for the movie you entered
+                                Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.Customer.showTime(whichMovie);
+                                string timeSelect = Customer.Customer.selectTime(dates);
 
-                                Customer.Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
+                                if (timeSelect != "exit")
+                                {
+                                    Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(timeSelect, dates);
 
-                                Console.WriteLine("\nPress enter to continue");
-                                Console.ReadLine();
+                                    Customer.Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
+
+                                    Console.WriteLine("\nPress enter to continue");
+                                    Console.ReadLine();
+                                }
+                                break;
                             }
-                            break;
+                            else if (CustomerTimeOption == "exit")
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                SD.ErrorMessage("\nPlease enter an option that exists");
+                            }
                         }
-                        else if (CustomerTimeOption == "exit")
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("\nPlease enter an option given");
-                        }
+                    }
+                    else
+                    {
+                        SD.ErrorMessage("\nPlease enter an option that exists");
                     }
                     break;
                 }
                 else
                 {
-                    Console.WriteLine("\nPlease enter an option that is in the menu");
+                    SD.ErrorMessage("\nPlease enter an option that exists");
                 }
             }
         }
@@ -446,7 +454,6 @@ namespace CinemaConsole.Pages.Admin
             ShowData SD = new ShowData();
             bool k = true;
 
-            // test for adding some movies
             Console.Clear();
             while (k)
             {
@@ -472,6 +479,10 @@ namespace CinemaConsole.Pages.Admin
                 {
                     k = false;
                     break;
+                }
+                else
+                {
+                    SD.ClearAndErrorMessage("\nPlease enter an option that exists");
                 }
             }
         }
