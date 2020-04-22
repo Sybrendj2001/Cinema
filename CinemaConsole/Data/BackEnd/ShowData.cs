@@ -76,6 +76,7 @@ namespace CinemaConsole.Data.BackEnd
                     dataTable.Load(getMovieInfo);
                     foreach (DataRow row in dataTable.Rows)
                     {
+                        Console.Clear();
                         Console.WriteLine("\nMovie selected: " + row["MovieName"].ToString());
                         Console.WriteLine("Year: " + row["MovieYear"].ToString());
                         Console.WriteLine("Age restriction: " + row["MovieMinimumAge"].ToString() + "+");
@@ -292,6 +293,21 @@ namespace CinemaConsole.Data.BackEnd
                     }
                 }
             }
+        }
+
+        public void ErrorMessage(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ResetColor();
+        }
+
+        public void ClearAndErrorMessage(string message)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
     }
 }
