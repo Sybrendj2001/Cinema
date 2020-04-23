@@ -195,36 +195,6 @@ namespace CinemaConsole.Data.BackEnd
 			}
 		}
 
-		public int TotalProducts()
-		{
-			int productsamount = 0;
-			try
-			{
-				Connection.Open();
-				string stringToRead = @"SELECT ItemID FROM restaurantitems";
-
-				MySqlCommand command = new MySqlCommand(stringToRead, Connection);
-				MySqlDataReader dataReader = command.ExecuteReader();
-
-				while (dataReader.Read())
-				{
-					productsamount += 1;
-				}
-
-				dataReader.Close();
-			}
-			catch (MySqlException ex)
-			{
-
-				throw;
-			}
-			finally
-			{
-				Connection.Close();
-			}
-			return productsamount;
-		}
-
 		public void CreateProduct(string itemname, double price)
 		{
 			try
@@ -245,6 +215,8 @@ namespace CinemaConsole.Data.BackEnd
 
 				command.Prepare();
 				command.ExecuteNonQuery();
+
+				DisplayProducts();
 			}
 			catch (MySqlException ex)
 			{
@@ -281,6 +253,8 @@ namespace CinemaConsole.Data.BackEnd
 
 					command.Prepare();
 					command.ExecuteNonQuery();
+
+					DisplayProducts();
 				}
 
 				else if(name != "" && price == -1)
@@ -299,6 +273,8 @@ namespace CinemaConsole.Data.BackEnd
 
 					command.Prepare();
 					command.ExecuteNonQuery();
+
+					DisplayProducts();
 				}
 
 				else if (name == "" && price != -1)
@@ -317,6 +293,8 @@ namespace CinemaConsole.Data.BackEnd
 
 					command.Prepare();
 					command.ExecuteNonQuery();
+
+					DisplayProducts();
 				}
 			}
             catch (MySqlException ex)
@@ -346,6 +324,8 @@ namespace CinemaConsole.Data.BackEnd
 
 				command.Prepare();
 				command.ExecuteNonQuery();
+
+				DisplayProducts();
 			}
 			catch (MySqlException ex)
 			{

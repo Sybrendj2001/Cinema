@@ -174,7 +174,7 @@ namespace CinemaConsole.Pages.TicketSalesman
                 }
                 else if (line == "menu")
                 {
-                    Restaurant.Restaurant.Display();
+                    //Restaurant.Restaurant.Display();
                 }
 
                 ShowData ShowMovieByInfo = new ShowData();

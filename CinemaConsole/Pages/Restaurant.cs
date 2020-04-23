@@ -17,37 +17,6 @@ namespace CinemaConsole.Pages.Restaurant
 
         }
 
-        //Adds some items to the productlist.
-        //Function is only invoked when logging in.
-        public static void SomeProducts()
-        {
-            Restaurant.AddItem("Cola", 2.50);
-            Restaurant.AddItem("Popcorn", 3.50);
-        }
-
-        //Allows the retailer to add new items to the list of products.
-        //Information on the products consists of the name and price of the product.
-        public static void AddItem(string name, double price)
-        {
-            RestaurantProduct product = new RestaurantProduct(name, price);
-            ProductList.productList.Add(product);
-        }
-
-        //Allows the retailer to remove items from the list of products.
-        //Curently requires you to enter the name of the product.
-        public static void RemoveItem(int delID)
-        {
-            for (int i = 0; i < ProductList.productList.Count; i++)
-            {
-                if (ProductList.productList[i] != null) {
-                    if (ProductList.productList[i].getProductInfo().Item1.Equals(delID))
-                    {
-                        ProductList.productList[i] = null;
-                    }
-                }
-            }
-        }
-
         //Allows the retailer to edit items on the list of products.
         public static void EditItem(int productID)
         {
@@ -65,8 +34,6 @@ namespace CinemaConsole.Pages.Restaurant
                 string operation = Console.ReadLine();
 
                 //Edits the name of the selected product. Also forces the first letter of the name to be upper case.
-                //Does so by creating a new product with the new name and old price, and removing the old product from the list.
-                //Places the new product in place of the old one afterwards.
                 if (operation == "1")
                 {
                     try
@@ -77,6 +44,7 @@ namespace CinemaConsole.Pages.Restaurant
                         Console.WriteLine(" ");
 
                         CD.UpdateProduct(productID, newName);
+                        CD.DisplayProducts();
                         break;
                     }
                     catch (FormatException f)
@@ -87,8 +55,6 @@ namespace CinemaConsole.Pages.Restaurant
                 }
 
                 //Edits the price of the selected product.
-                //Does so by creating a new product with the old name and new price, and removing the old product from the list.
-                //Places the new product in place of the old one afterwards.
                 else if (operation == "2")
                 {
                     try
@@ -98,6 +64,7 @@ namespace CinemaConsole.Pages.Restaurant
                         Console.WriteLine(" ");
 
                         CD.UpdateProduct(productID, "", newPrice);
+                        CD.DisplayProducts();
                         break;
                     }
                     catch (FormatException f)
@@ -108,8 +75,6 @@ namespace CinemaConsole.Pages.Restaurant
                 }
 
                 //Edits both the name and price of the selected product. 
-                //Does so by creating a new product with the new name and old price, and removing the old product from the list.
-                //Places the new product in place of the old one afterwards.
                 //Also forces the first letter of the name to be upper case.
                 else if (operation == "3")
                 {
@@ -123,6 +88,7 @@ namespace CinemaConsole.Pages.Restaurant
                         Console.WriteLine(" ");
 
                         CD.UpdateProduct(productID, newName, newPrice);
+                        CD.DisplayProducts();
                         break;
                     }
                     catch (FormatException f)
@@ -143,30 +109,7 @@ namespace CinemaConsole.Pages.Restaurant
                 {
                     Console.WriteLine("\nInvalid input. Please try again.\n");
                 }
-
-            }
-            
-        }
-
-        //Displays a list of the items within the list of products.
-        public static void Display()
-        {
-            Console.OutputEncoding = Encoding.UTF8;
-            Console.WriteLine("Products:");
-            for(int j = 0; j < ProductList.productList.Count+1; j++)
-            {
-                for (int i = 0; i < ProductList.productList.Count; i++)
-                {
-                    if (ProductList.productList[i] != null)
-                    {
-                        if (j == ProductList.productList[i].getProductInfo().Item1)
-                        {
-                            Console.WriteLine("[" + ProductList.productList[i].getProductInfo().Item1 + "] " + ProductList.productList[i].getProductInfo().Item2 + "    €" + ProductList.productList[i].getProductInfo().Item3.ToString("0.00"));
-                        }
-                    }                    
-                }
-            }
-            Console.WriteLine(" ");
+            }          
         }
 
         //Presents a menu with options to choose from.
