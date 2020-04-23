@@ -261,14 +261,12 @@ namespace CinemaConsole.Pages.Customer
                                     showhall += "X  ";
                                 }
                             }
-
                             break;
                         }
                     }
                 }
                 showhall += "\n";
             }
-
             Console.WriteLine(showhall);
         }
 
@@ -422,10 +420,13 @@ namespace CinemaConsole.Pages.Customer
             return Tuple.Create(seatX, seatY,price);
         }
 
+        //Customer get an overview of all the information about the movie and contact details before booking
         public static void overviewCustomer(Tuple<string, string, string> personInfo, Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> ticketInfo, string title, string ticketCode)
         {
-            Console.WriteLine("\n"+title);
-            Console.WriteLine(ticketInfo.Item1.ToString("HH:mm dd/MM/yyyy"));
+            string totalprice = Convert.ToString(ticketInfo.Item6.Item1);
+            string datetime = Convert.ToDateTime(ticketInfo.Item1).ToString("dd/MM/yyyy HH:mm");
+            Console.WriteLine("\n" + title + '\n'+ datetime + "\nTotal price: €" + totalprice);
+
             string seats = "Seats:";
             for (int i = ticketInfo.Item4; i < ticketInfo.Item4 + ticketInfo.Item3; i++)
             {
@@ -509,7 +510,7 @@ namespace CinemaConsole.Pages.Customer
                                         confirm = Console.ReadLine();
                                         if (confirm == "1")
                                         {
-                                            CD.ReserveTicket((personInfo.Item1 + " " + personInfo.Item2), personInfo.Item3, ticketcode, Convert.ToInt32(whichMovie), ticket.Item3, ticket.Item4, ticket.Item5, ticket.Item2, ticket.Item6.Item2, ticket.Item6.Item1);
+                                            CD.ReserveTicket((personInfo.Item1 + " " + personInfo.Item2), personInfo.Item3, ticketcode, Convert.ToInt32(whichMovie), ticket.Item3, ticket.Item4, ticket.Item5, ticket.Item2, ticket.Item6.Item2, ticket.Item6.Item1, ticket.Item6.Item3);
                                             Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticketcode);
                                             break;
                                         }
