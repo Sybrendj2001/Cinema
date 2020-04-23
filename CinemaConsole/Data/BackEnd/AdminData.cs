@@ -111,7 +111,6 @@ namespace CinemaConsole.Data.BackEnd
             }
             catch (Exception)
             {
-
                 throw;
             }
             finally
@@ -169,11 +168,9 @@ namespace CinemaConsole.Data.BackEnd
                 MySqlParameter DTParam = new MySqlParameter("@DateTime", MySqlDbType.DateTime);
                 MySqlParameter HallParam = new MySqlParameter("@Hall", MySqlDbType.Int32);
 
-
                 MovieIDParam.Value = MovieID;
                 DTParam.Value = DT;
                 HallParam.Value = Hall;
-
 
                 command.Parameters.Add(MovieIDParam);
                 command.Parameters.Add(DTParam);
@@ -181,7 +178,6 @@ namespace CinemaConsole.Data.BackEnd
 
                 command.Prepare();
                 command.ExecuteNonQuery();
-
             }
             catch (MySqlException ex)
             {
@@ -210,7 +206,7 @@ namespace CinemaConsole.Data.BackEnd
                 MySqlParameter RowLengthParam = new MySqlParameter("@RowLength", MySqlDbType.Int32);
                 MySqlParameter ColLengthParam = new MySqlParameter("@ColLength", MySqlDbType.Int32);
                 MySqlParameter DateIDParam = new MySqlParameter("@DateID", MySqlDbType.Int32);
-
+        
 
                 SeatAmountParam.Value = SeatAmount;
                 RowLengthParam.Value = RowLength;
@@ -314,7 +310,6 @@ namespace CinemaConsole.Data.BackEnd
 
                 command.Parameters.Add(MovieIDParam);
 
-
                 MySqlDataReader dataReader = command.ExecuteReader();
 
                 while (dataReader.Read())
@@ -398,7 +393,6 @@ namespace CinemaConsole.Data.BackEnd
                 HallIDParam.Value = HallID;
 
                 command.Parameters.Add(HallIDParam);
-
 
                 MySqlDataReader dataReader = command.ExecuteReader();
 
