@@ -279,11 +279,103 @@ namespace CinemaConsole.Pages.Admin
             {
 
             }
-        }     
+        }
 
         /// <summary>
         /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll remove the movie.
         /// </summary>
+
+
+        private static void Remove()
+        {
+            ShowData SD = new ShowData();
+            AdminData AD = new AdminData();
+            
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("\nMovies:");
+                    List<int> MovieIDs = SD.ShowMovies();
+                    Console.WriteLine("\n[exit] Exit to menu");
+                    Console.WriteLine("\nPlease choose a movie or action you want:");
+                    string choice = Console.ReadLine();
+                    if (choice == "exit")
+                    {
+                        break;
+                    }
+                    else if (MovieIDs.Contains(Convert.ToInt32(choice)))
+                    {
+                        Console.WriteLine("\n[1] Remove the entire movie\n[2] Remove a certain time of the movie");
+                        string choice2 = Console.ReadLine();
+                        if (choice2 == "1")
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Are you sure you want to delete the movie: " + AD.getTitle(Convert.ToInt32(choice)));
+                            Console.WriteLine("[1] Confirm delete [2] Cancel delete");
+                            while (true)
+                            {
+                                string choice3 = Console.ReadLine();
+                                if (choice3 == "1")
+                                {
+                                    AD.DeleteMovie(Convert.ToInt32(choice));
+                                    Console.WriteLine("\nMovies:");
+                                    SD.ShowMovies();
+                                    break;
+                                }
+                                else if (choice3 == "2")
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Please enter a valid option");
+                                }
+                            }
+                        }
+                        else if (choice2 == "2")
+                        {
+                            Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.Customer.showTime(choice);
+                            string choice3 = Customer.Customer.selectTime(dates);
+
+                            Console.WriteLine("Are you sure you want to delete: " + AD.getTitle(Convert.ToInt32(choice)) + "  " + dates.Item1[Convert.ToInt32(choice3)-1].ToString("HH:mm dd/MM/yyyy"));
+                            Console.WriteLine("[1] Confirm delete [2] Cancel delete");
+                            while (true)
+                            {
+                                string choice4 = Console.ReadLine();
+                                if (choice4 == "1")
+                                {
+                                    AD.DeleteTime(dates.Item2[Convert.ToInt32(choice3)-1]);
+                                    Console.WriteLine("\n" + AD.getTitle(Convert.ToInt32(choice)) + ":");
+                                    Customer.Customer.showTime(choice);
+                                    break;
+                                }
+                                else if (choice4 == "2")
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Please enter a valid option");
+                                }
+
+                            }
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nPlease enter a option that stands in the menu");
+                        }
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("\nPlease enter a option that stands in the menu");
+                }
+            }
+        }
+
+
         /*private static void Remove()
         {
             bool k = true;
@@ -457,7 +549,7 @@ namespace CinemaConsole.Pages.Admin
                 }
                 else if (nummer == "3")
                 {
-                    //Remove();
+                    Remove();
                 }
                 else if (nummer == "4")
                 {
