@@ -26,7 +26,7 @@ namespace CinemaConsole.Pages.Admin
             ShowData SD = new ShowData();
             ChangeData CD = new ChangeData();
             Console.Clear();
-            Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13) [exit] Back to menu");
+            Console.WriteLine("\nPlease enter the Titel/year/age restriction. [IronMan/2008/13] [exit] Back to menu");
             string tiyeag = Console.ReadLine();
 
             if (tiyeag != "exit")
@@ -37,16 +37,22 @@ namespace CinemaConsole.Pages.Admin
                 Console.WriteLine("\nPlease enter a short summary of the movie.");
                 string sum = Console.ReadLine();
 
-                Console.WriteLine("\nPlease give some actors.(Write them like this: Tom Cruise, Brad Pitt)");
+                Console.WriteLine("\nPlease give some actors.[Tom Cruise, Brad Pitt]");
                 string actors = Console.ReadLine();
 
                 CD.InsertMovie(movieinfo.Item1, movieinfo.Item2, movieinfo.Item3, sum, actors);
 
                 // adding the movie times to the given movie
                 addTime(movieinfo.Item1);
+                Console.WriteLine("\nMovies:");
                 SD.ShowMovies();
-                Console.WriteLine("Press enter to continue");
+                Console.WriteLine("\nPress enter to continue");
                 Console.ReadLine();
+                Console.Clear();
+            }
+            else if (tiyeag == "exit")
+            {
+                Console.Clear();
             }
         }
 
@@ -137,7 +143,7 @@ namespace CinemaConsole.Pages.Admin
                         Console.Clear();
                         while (y)
                         {
-                            Console.WriteLine("Please enter the theaterhall [1],[2] or [3] you want '" + title +"' to play in on '" + dateTime + "'");
+                            Console.WriteLine("\nPlease enter the theaterhall [1],[2] or [3] you want '" + title +"' to play in on '" + dateTime + "'");
                             string SHall = Console.ReadLine();
                             try
                             {
@@ -153,14 +159,16 @@ namespace CinemaConsole.Pages.Admin
                         }
 
                         DateTimeHall datetimehall1 = new DateTimeHall(DT, hall, title);
+                        Console.Clear();
 
                         while (true)
                         {
-                            Console.WriteLine("[add] To add another date and time for '"+ title +"'\n[exit] Exit to menu");
+                            Console.WriteLine("\n[add] To add another date and time for '"+ title +"'\n[exit] Exit to menu");
                             string exit = Console.ReadLine();
                             if (exit == "exit")
                             {
                                 k = false;
+                                Console.Clear();
                                 break;
                             }
                             else if (exit == "add")
@@ -186,20 +194,23 @@ namespace CinemaConsole.Pages.Admin
             ChangeData CD = new ChangeData();
             AdminData AD = new AdminData();
 
-            // display movies
-            Console.WriteLine("\nMovies:");
-            List<int> movieIDs = SD.ShowMovies();
             string ID;
+
+            Console.Clear();
             //In this loop you get the question for what to do and there are controls on the answers.
             while (true)
             {
                 try
                 {
-                    Console.WriteLine("\nEnter the number of the movie you want to edit\n[exit] Go back to the menu.:");
+                    // display movies
+                    Console.WriteLine("\nMovies:");
+                    List<int> movieIDs = SD.ShowMovies();
+                    Console.WriteLine("\nEnter the number of the movie you want to edit\n[exit] Go back to the menu");
                     ID = Console.ReadLine();
 
                     if (ID == "exit")
                     {
+                        Console.Clear();
                         break;
                     }
                     else if (movieIDs.Contains(Convert.ToInt32(ID)))
@@ -208,20 +219,22 @@ namespace CinemaConsole.Pages.Admin
                     }
                     else
                     {
-                        Console.WriteLine("\nThe number you enter does not exist");
+                        SD.ClearAndErrorMessage("Please enter an option that exist");
                     }
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("\nPlease enter 'exit' or a number that stands before a movie");
+                    SD.ClearAndErrorMessage("\nPlease enter [exit] or a number that stands before a movie");
                 }
             }
 
             try
             {
                 int movieID = Convert.ToInt32(ID);
+                Console.Clear();
                 while (true)
                 {
+                    SD.ShowMovieByID(ID);
                     Console.WriteLine("\n[1] If you want to edit an entire movie\n[2] If you only want to add a certain time\n[exit] Back to menu:");
 
                     // readline again
@@ -235,7 +248,8 @@ namespace CinemaConsole.Pages.Admin
                         string sum;
                         string actors;
 
-                        Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13) or enter 'skip' if you want to skip and keep the original");
+                        Console.Clear();
+                        Console.WriteLine("\nPlease enter the Titel/year/age restriction. [IronMan/2008/13] or enter [skip] if you want to skip and keep the original");
                         string tiyeag = Console.ReadLine();
 
                         if (tiyeag != "skip")
@@ -246,15 +260,16 @@ namespace CinemaConsole.Pages.Admin
                             age = movieinfo.Item3;
                         }
 
-
-                        Console.WriteLine("\nPlease enter a short summary of the movie or enter 'skip' if you want to skip and keep the original");
+                        Console.Clear();
+                        Console.WriteLine("\nPlease enter a short summary of the movie or enter [skip] if you want to skip and keep the original");
                         sum = Console.ReadLine();
                         if (sum == "skip")
                         {
                             sum = "";
                         }
 
-                        Console.WriteLine("\nPlease give some actors (like this: Tom Cruise, Brad Pitt) or enter 'skip' if you want to skip and keep the original");
+                        Console.Clear();
+                        Console.WriteLine("\nPlease give some actors [Tom Cruise, Brad Pitt] or enter [skip] if you want to skip and keep the original");
                         actors = Console.ReadLine();
                         if (actors == "skip")
                         {
@@ -263,21 +278,23 @@ namespace CinemaConsole.Pages.Admin
 
                         CD.UpdateMovie(movieID, name, releaseDate, age, sum, actors);
                         SD.ShowMovieByID(ID);
+                        Console.WriteLine("\nPress enter to continue");
+                        Console.ReadLine();
+                        Console.Clear();
                         break;
                     }
                     else if (option == "2")
                     {
+                        Console.Clear();
                         addTime(AD.getTitle(movieID));
                         Customer.Customer.showTime(ID);
+                        Console.Clear();
                         break;
                     }
                     else if (option == "exit")
                     {
+                        Console.Clear();
                         break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please enter an option that exist");
                     }
                 }
             }
