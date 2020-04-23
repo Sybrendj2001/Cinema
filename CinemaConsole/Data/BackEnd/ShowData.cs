@@ -101,6 +101,7 @@ namespace CinemaConsole.Data.BackEnd
     
         public void DisplayTickets()
         {
+            ShowData SD = new ShowData();
             Console.OutputEncoding = Encoding.UTF8;
             try
             {
@@ -120,96 +121,111 @@ namespace CinemaConsole.Data.BackEnd
                     DataTable dataTable = new DataTable();
 
                     dataTable.Load(getMovieInfo);
-
-                    Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date");
+                    Console.Clear();
+                    Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date\n[exit] To go back to the menu");
                     string SearchOption = Console.ReadLine();
-
-                    if (SearchOption == "1")
+                    while (true)
                     {
-                        Console.WriteLine("\nPlease enter the customer full name");
-                        string name = Console.ReadLine();
-
-                        bool isFound = false;
-
-                        while (true)
+                        if (SearchOption == "1")
                         {
-                            foreach (DataRow row in dataTable.Rows)
-                            {
-                                Owner = row["Owner"].ToString();
-                                TicketCode = row["TicketCode"].ToString();
-                                TicketID = row["TicketID"].ToString();
-                                MovieID = row["MovieID"].ToString();
+                            Console.Clear();
+                            Console.WriteLine("\nPlease enter the customer full name");
+                            string name = Console.ReadLine();
 
-                                if (Owner == name)
+                            bool isFound = false;
+
+                            while (true)
+                            {
+                                foreach (DataRow row in dataTable.Rows)
                                 {
-                                    isFound = true;
-                                    //Overview(TicketID, MovieID);
-                                    Console.WriteLine("\nTicketnumber: " + TicketCode + "\nPress enter to go back to the menu");
-                                    Console.ReadLine();
-                                    break;
+                                    Owner = row["Owner"].ToString();
+                                    TicketCode = row["TicketCode"].ToString();
+                                    TicketID = row["TicketID"].ToString();
+                                    MovieID = row["MovieID"].ToString();
+
+                                    if (Owner == name)
+                                    {
+                                        isFound = true;
+                                        //Overview(TicketID, MovieID);
+                                        Console.WriteLine("\nTicketnumber: " + TicketCode + "\nPress enter to go back to the menu");
+                                        Console.ReadLine();
+                                        break;
+                                    }
                                 }
-                            }
 
-                            if (isFound)
-                            {
-                                break;
-                            }
-
-                            else
-                            {
-                                Console.WriteLine("\nThe name you entered was not found. Please enter again or type [exit] to exit");
-                                name = Console.ReadLine();
-
-                                if (name == "exit")
+                                if (isFound)
                                 {
                                     break;
                                 }
-                            }
-                        }
-                    }
 
-                    else if (SearchOption == "2")
-                    {
-                        Console.WriteLine("\nPlease enter the ticketnumber");
-                        string ticketnumber = Console.ReadLine();
-
-                        bool isFound = false;
-
-                        while (true)
-                        {
-                            foreach (DataRow row in dataTable.Rows)
-                            {
-                                Owner = row["Owner"].ToString();
-                                TicketCode = row["TicketCode"].ToString();
-                                TicketID = row["TicketID"].ToString();
-
-                                if (TicketCode == ticketnumber)
+                                else
                                 {
-                                    isFound = true;
-                                    
-                                    Console.WriteLine("\nTicketnumber: " + TicketCode + "\nPress enter to go back to the menu");
-                                    Console.ReadLine();
-                                    break;
+                                    ErrorMessage("\nThe name you entered was not found. Please enter again or type [exit] to exit");
+                                    name = Console.ReadLine();
+
+                                    if (name == "exit")
+                                    {
+                                        break;
+                                    }
                                 }
                             }
-
-                            if (isFound)
-                            {
-                                break;
-                            }
-
-                            else
-                            {
-                                Console.WriteLine("\n\nThere were no results found with ticketnumber: " + ticketnumber + "Please enter again or type [exit] to exit");
-                                string exit = Console.ReadLine();
-
-                                if (exit == "exit")
-                                {
-                                    break;
-                                }
-                            }
+                            break;
                         }
 
+                        else if (SearchOption == "2")
+                        {
+                            Console.Clear();
+                            Console.WriteLine("\nPlease enter the ticketnumber");
+                            string ticketnumber = Console.ReadLine();
+
+                            bool isFound = false;
+
+                            while (true)
+                            {
+                                foreach (DataRow row in dataTable.Rows)
+                                {
+                                    Owner = row["Owner"].ToString();
+                                    TicketCode = row["TicketCode"].ToString();
+                                    TicketID = row["TicketID"].ToString();
+
+                                    if (TicketCode == ticketnumber)
+                                    {
+                                        isFound = true;
+
+                                        Console.WriteLine("\nTicketnumber: " + TicketCode + "\nPress enter to go back to the menu");
+                                        Console.ReadLine();
+                                        break;
+                                    }
+                                }
+
+                                if (isFound)
+                                {
+                                    break;
+                                }
+
+                                else
+                                {
+                                    ErrorMessage("\nThere were no results found with ticketnumber: " + ticketnumber + ", please enter again or type [exit] to exit");
+                                    string exit = Console.ReadLine();
+
+                                    if (exit == "exit")
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                        else if (SearchOption == "exit")
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            SD.ClearAndErrorMessage("\nPlease enter an option that exists");
+                            Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date\n[exit] To go back to the menu");
+                            SearchOption = Console.ReadLine();
+                        }
                     }
 
                     //!!!! Search option 3 not done yet!!! Need to search on date/time waiting on DateId to covert to date and time

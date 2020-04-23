@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Pages;
+using CinemaConsole.Pages.TicketSalesman;
 using CinemaConsole.Pages.Customer;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Data;
@@ -302,7 +303,7 @@ namespace CinemaConsole.Pages.Admin
             {
 
             }
-        }     
+        }
 
         /// <summary>
         /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll remove the movie.
@@ -395,72 +396,8 @@ namespace CinemaConsole.Pages.Admin
         /// </summary>
         private static void Display()
         {
+            TicketSalesman.TicketSalesman.MovieInfo();
             Console.Clear();
-            Console.WriteLine("\nMovies:");
-            ShowData SD = new ShowData();
-            List<int> MovieIDs = SD.ShowMovies();
-            Console.WriteLine("\n[exit] Exit to menu");
-
-            while (true)
-            {
-                string line = Console.ReadLine();
-
-                if (line == "exit")
-                {
-                    Console.Clear();
-                    break;
-                }
-                // extra check because a spacebar crashes the application
-                else if (line != "" && line != " ")
-                {
-                    if (MovieIDs.Contains(Convert.ToInt32(line)))
-                    { 
-                        // this will return the movie details for the number you entered
-                        Tuple<string, string> movieInfo = SD.ShowMovieByID(line);
-                        string whichMovie = movieInfo.Item1;
-
-                        while (true)
-                        {
-                            Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
-                            string CustomerTimeOption = Console.ReadLine();
-                            if (CustomerTimeOption == "1")
-                            {
-                                // this will return the movie times for the movie you entered
-                                Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.Customer.showTime(whichMovie);
-                                string timeSelect = Customer.Customer.selectTime(dates);
-
-                                if (timeSelect != "exit")
-                                {
-                                    Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(timeSelect, dates);
-
-                                    Customer.Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
-
-                                    Console.WriteLine("\nPress enter to continue");
-                                    Console.ReadLine();
-                                }
-                                break;
-                            }
-                            else if (CustomerTimeOption == "exit")
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                SD.ErrorMessage("\nPlease enter an option that exists");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        SD.ErrorMessage("\nPlease enter an option that exists");
-                    }
-                    break;
-                }
-                else
-                {
-                    SD.ErrorMessage("\nPlease enter an option that exists");
-                }
-            }
         }
 
         /// <summary>
