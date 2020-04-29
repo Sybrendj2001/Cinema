@@ -605,11 +605,13 @@ namespace CinemaConsole.Data.BackEnd
 
 									Console.WriteLine("\nReservation removed. Press enter to go back to the menu");
 									Console.ReadLine();
+									Console.Clear();
 									break;
 								}
 
 								else if (CancelOrDelete == "2")
 								{
+									Console.Clear();
 									break;
 								}
 								break;
@@ -618,13 +620,16 @@ namespace CinemaConsole.Data.BackEnd
 
 						if (isFound)
 						{
+							Console.Clear();
 							break;
 						}
 
 						else
 						{
+							Console.Clear();
 							Console.WriteLine("\nThere were no results found with ticketnumber: " + ticketcode + "\nPress enter to go back to the menu");
 							Console.ReadLine();
+							Console.Clear();
 							break;
 						}
 					}

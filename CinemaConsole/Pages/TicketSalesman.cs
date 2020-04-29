@@ -20,8 +20,8 @@ namespace CinemaConsole.Pages.TicketSalesman
         // Ticketsalesman able to search to on customer name or ticketnumber or movie
         private static void Display()
         {
-            ShowData DTicket = new ShowData();
-            DTicket.DisplayTickets();
+            ShowData SD = new ShowData();
+            SD.DisplayTickets();
         }
 
         // This let the ticket salesman remove/cancel reservations. You have to type in the ticketnumber to remove the reservation.

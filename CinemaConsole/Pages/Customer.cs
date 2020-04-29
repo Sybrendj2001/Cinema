@@ -512,12 +512,14 @@ namespace CinemaConsole.Pages.Customer
                                         {
                                             CD.ReserveTicket((personInfo.Item1 + " " + personInfo.Item2), personInfo.Item3, ticketcode, Convert.ToInt32(whichMovie), ticket.Item3, ticket.Item4, ticket.Item5, ticket.Item2, ticket.Item6.Item2, ticket.Item6.Item1, ticket.Item6.Item3);
                                             Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticketcode);
+                                            Console.Clear();
                                             break;
                                         }
                                         else if (confirm == "2")
                                         {
                                             //Cancel the seats
                                             AD.switchAvail((ticket.Item4 - 1), (ticket.Item5 - 1), ticket.Item6.Item3, ticket.Item3, true);
+                                            Console.Clear();
                                             break;
                                         }
                                     }

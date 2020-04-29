@@ -129,10 +129,12 @@ namespace CinemaConsole.Data.BackEnd
 
                     dataTable.Load(getTicketInfo);
                     Console.Clear();
+                    bool k = true;
+
                     // menu of the three search options
                     Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date\n[exit] To go back to the menu");
                     string SearchOption = Console.ReadLine();
-                    while (true)
+                    while (k)
                     {
                         if (SearchOption == "1")
                         {
@@ -163,12 +165,16 @@ namespace CinemaConsole.Data.BackEnd
                                         Overview(TicketID, MovieID, DateID);
                                         Console.WriteLine("\nPress enter to go back to the menu");
                                         Console.ReadLine();
+                                        // using k to break out of the outer loop
+                                        k = false;
                                         break;
                                     }
                                 }
 
                                 if (isFound)
                                 {
+                                    // using k to break out of the outer loop
+                                    k = false;
                                     break;
                                 }
 
@@ -179,6 +185,8 @@ namespace CinemaConsole.Data.BackEnd
 
                                     if (name == "exit")
                                     {
+                                        // using k to break out of the outer loop
+                                        k = false;
                                         break;
                                     }
                                 }
@@ -189,6 +197,8 @@ namespace CinemaConsole.Data.BackEnd
                         else if (SearchOption == "2")
                         {
                             bool isFound = false;
+                            string line;
+                            Console.Clear();
 
                             while (true)
                             {
@@ -219,23 +229,39 @@ namespace CinemaConsole.Data.BackEnd
 
                                 if (isFound)
                                 {
+                                    Console.Clear();
+                                    // using k to break out of the outer loop
+                                    k = false;
                                     break;
                                 }
 
                                 else if (ticketnumber == "exit")
                                 {
+                                    Console.Clear();
+                                    // using k to break out of the outer loop
+                                    k = false;
                                     break;
                                 }
 
                                 else
                                 {
+                                    Console.Clear();
                                     Console.WriteLine("\nThere were no results found with ticketnumber: " + ticketnumber + " Please enter again or type [exit] to exit");
+                                    line = Console.ReadLine();
+                                    if (line == "exit")
+                                    {
+                                        Console.Clear();
+                                        // using k to break out of the outer loop
+                                        k = false;
+                                        break;
+                                    }
                                 }
                             }
                         }
 
                         else if (SearchOption == "3")
                         {
+                            Console.Clear();
                             bool isFound = false;
 
                             Console.WriteLine("\nPlease enter the movie");
@@ -305,19 +331,27 @@ namespace CinemaConsole.Data.BackEnd
                                         Overview(TicketID, MovieID, DateID);
                                         Console.WriteLine("\nPress enter to go back to the menu");
                                         string exit = Console.ReadLine();
+                                        // using k to break out of the outer loop
+                                        k = false;
                                         break;
                                     }
                                 }
 
                                 if (isFound)
                                 {
+                                    // using k to break out of the outer loop
+                                    k = false;
                                     break;
                                 }
 
                                 else
                                 {
-                                    Console.WriteLine("\n\nThere were no results found. Press enter to go back to the menu");
+                                    Console.Clear();
+                                    Console.WriteLine("\nThere were no results found. Press enter to go back to the menu");
                                     string exit = Console.ReadLine();
+                                    Console.Clear();
+                                    // using k to break out of the outer loop
+                                    k = false;
                                     break;
                                 }
                             }
@@ -338,6 +372,7 @@ namespace CinemaConsole.Data.BackEnd
         // Overview of all the information about the customer and the movie they reserved.
         public void Overview(string TicketID, string MovieID, string DateID)
         {
+            Console.Clear();
             Console.OutputEncoding = Encoding.UTF8;
             try
             {
