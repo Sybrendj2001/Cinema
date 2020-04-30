@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Pages;
+using CinemaConsole.Pages.TicketSalesman;
 using CinemaConsole.Pages.Customer;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Data;
@@ -531,8 +532,8 @@ namespace CinemaConsole.Pages.Admin
         {
             ShowData SD = new ShowData();
             ChangeData CD = new ChangeData();
-
-            Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13) [exit] Back to menu");
+            Console.Clear();
+            Console.WriteLine("\nPlease enter the Titel/year/age restriction. [IronMan/2008/13] [exit] Back to menu");
             string tiyeag = Console.ReadLine();
 
             if (tiyeag != "exit")
@@ -543,16 +544,22 @@ namespace CinemaConsole.Pages.Admin
                 Console.WriteLine("\nPlease enter a short summary of the movie.");
                 string sum = Console.ReadLine();
 
-                Console.WriteLine("\nPlease give some actors.(Write them like this: Tom Cruise, Brad Pitt)");
+                Console.WriteLine("\nPlease give some actors.[Tom Cruise, Brad Pitt]");
                 string actors = Console.ReadLine();
 
                 CD.InsertMovie(movieinfo.Item1, movieinfo.Item2, movieinfo.Item3, sum, actors);
 
                 // adding the movie times to the given movie
                 addTime(movieinfo.Item1);
+                Console.WriteLine("\nMovies:");
                 SD.ShowMovies();
-                Console.WriteLine("Press enter to continue");
+                Console.WriteLine("\nPress enter to continue");
                 Console.ReadLine();
+                Console.Clear();
+            }
+            else if (tiyeag == "exit")
+            {
+                Console.Clear();
             }
         }
 
@@ -561,6 +568,7 @@ namespace CinemaConsole.Pages.Admin
         /// </summary>
         private static Tuple<string, int, int> AddTimeYearAge(string line)
         {
+            ShowData SD = new ShowData();
             string[] TiYeAg;
 
             bool TiyeAg = true;
@@ -579,13 +587,13 @@ namespace CinemaConsole.Pages.Admin
 
                     if (year <= 1800 || year > Convert.ToInt32((DateTime.Now.ToString("yyyy"))))
                     {
-                        Console.WriteLine("\nPlease enter a release date that is possible. (Between 1801 and " + DateTime.Now.ToString("yyyy") + ")");
+                        SD.ClearAndErrorMessage("\nPlease enter a release date that is possible. (Between 1801 and " + DateTime.Now.ToString("yyyy") + ")");
                         Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
                         line = Console.ReadLine();
                     }
                     else if (age < 0 || age > 99)
                     {
-                        Console.WriteLine("\nPlease enter a age that is possible. (Between 0 and 99)");
+                        SD.ClearAndErrorMessage("\nPlease enter a age that is possible. (Between 0 and 99)");
                         Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
                         line = Console.ReadLine();
                     }
@@ -597,13 +605,15 @@ namespace CinemaConsole.Pages.Admin
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("\nEither the year or the age restriction was filled in incorrectly, please try again.\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
+                    SD.ClearAndErrorMessage("\nEither the year or the age restriction was filled in incorrectly, please try again.");
+                    Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
                     line = Console.ReadLine();
                     TiYeAg = line.Split('/');
                 }
                 catch (IndexOutOfRangeException)
                 {
-                    Console.WriteLine("\nYou missed one of the things you need to fill in, please try again.\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
+                    SD.ClearAndErrorMessage("\nYou missed one of the things you need to fill in, please try again.");
+                    Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
                     line = Console.ReadLine();
                     TiYeAg = line.Split('/');
                 }
@@ -617,28 +627,31 @@ namespace CinemaConsole.Pages.Admin
         /// </summary>
         public static void addTime(string title)
         {
+            ShowData SD = new ShowData();
             bool k = true;
+            Console.Clear();
             AdminData AD = new AdminData();
             while (k)
             {
                 try
                 {
-                    Console.WriteLine("\nPlease enter a date and time when you want " + title + " to play.(" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + ")");
+                    Console.WriteLine("\nPlease enter a date and time when you want " + title + " to play. [" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "]");
                     string dateTime = Console.ReadLine();
 
                     DateTime DT = DateTime.ParseExact(dateTime, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
 
                     if (DT < DateTime.Now)
                     {
-                        Console.WriteLine("\nPlease write a date and time that is not in the past.\n");
+                        SD.ClearAndErrorMessage("\nPlease write a date and time that is not in the past.");
                     }
                     else
                     {
                         int hall = 1;
                         bool y = true;
+                        Console.Clear();
                         while (y)
                         {
-                            Console.WriteLine("Please enter the theaterhall [1],[2] or [3] you want it to play in on " + dateTime);
+                            Console.WriteLine("\nPlease enter the theaterhall [1],[2] or [3] you want '" + title +"' to play in on '" + dateTime + "'");
                             string SHall = Console.ReadLine();
                             try
                             {
@@ -654,6 +667,7 @@ namespace CinemaConsole.Pages.Admin
                         }
 
                         DateTimeHall datetimehall1 = new DateTimeHall(DT, hall, title);
+                        Console.Clear();
 
                         while (true)
                         {
@@ -664,10 +678,12 @@ namespace CinemaConsole.Pages.Admin
                             ClearCurrentConsoleLine();
 
                             Console.WriteLine("\n[add] Add another date and time\n[exit] Exit to menu");
+                            Console.WriteLine("\n[add] To add another date and time for '"+ title +"'\n[exit] Exit to menu");
                             string exit = Console.ReadLine();
                             if (exit == "exit")
                             {
                                 k = false;
+                                Console.Clear();
                                 break;
                             }
                             else if (exit == "add")
@@ -679,7 +695,7 @@ namespace CinemaConsole.Pages.Admin
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("Please write the date and time like in the example.\n");
+                    SD.ClearAndErrorMessage("\nPlease write the date and time like in the example.");
                 }
             }
         }
@@ -693,20 +709,23 @@ namespace CinemaConsole.Pages.Admin
             ChangeData CD = new ChangeData();
             AdminData AD = new AdminData();
 
-            // display movies
-            Console.WriteLine("\nMovies:");
-            List<int> movieIDs = SD.ShowMovies();
             string ID;
+
+            Console.Clear();
             //In this loop you get the question for what to do and there are controls on the answers.
             while (true)
             {
                 try
                 {
-                    Console.WriteLine("\nEnter the number of the movie you want to edit\n[exit] Go back to the menu.:");
+                    // display movies
+                    Console.WriteLine("\nMovies:");
+                    List<int> movieIDs = SD.ShowMovies();
+                    Console.WriteLine("\nEnter the number of the movie you want to edit\n[exit] Go back to the menu");
                     ID = Console.ReadLine();
 
                     if (ID == "exit")
                     {
+                        Console.Clear();
                         break;
                     }
                     else if (movieIDs.Contains(Convert.ToInt32(ID)))
@@ -715,20 +734,22 @@ namespace CinemaConsole.Pages.Admin
                     }
                     else
                     {
-                        Console.WriteLine("\nThe number you enter does not exist");
+                        SD.ClearAndErrorMessage("Please enter an option that exist");
                     }
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("\nPlease enter 'exit' or a number that stands before a movie");
+                    SD.ClearAndErrorMessage("\nPlease enter [exit] or a number that stands before a movie");
                 }
             }
 
             try
             {
                 int movieID = Convert.ToInt32(ID);
+                Console.Clear();
                 while (true)
                 {
+                    SD.ShowMovieByID(ID);
                     Console.WriteLine("\n[1] If you want to edit an entire movie\n[2] If you only want to add a certain time\n[exit] Back to menu:");
 
                     // readline again
@@ -742,7 +763,8 @@ namespace CinemaConsole.Pages.Admin
                         string sum;
                         string actors;
 
-                        Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13) or enter 'skip' if you want to skip and keep the original");
+                        Console.Clear();
+                        Console.WriteLine("\nPlease enter the Titel/year/age restriction. [IronMan/2008/13] or enter [skip] if you want to skip and keep the original");
                         string tiyeag = Console.ReadLine();
 
                         if (tiyeag != "skip")
@@ -753,15 +775,16 @@ namespace CinemaConsole.Pages.Admin
                             age = movieinfo.Item3;
                         }
 
-
-                        Console.WriteLine("\nPlease enter a short summary of the movie or enter 'skip' if you want to skip and keep the original");
+                        Console.Clear();
+                        Console.WriteLine("\nPlease enter a short summary of the movie or enter [skip] if you want to skip and keep the original");
                         sum = Console.ReadLine();
                         if (sum == "skip")
                         {
                             sum = "";
                         }
 
-                        Console.WriteLine("\nPlease give some actors (like this: Tom Cruise, Brad Pitt) or enter 'skip' if you want to skip and keep the original");
+                        Console.Clear();
+                        Console.WriteLine("\nPlease give some actors [Tom Cruise, Brad Pitt] or enter [skip] if you want to skip and keep the original");
                         actors = Console.ReadLine();
                         if (actors == "skip")
                         {
@@ -770,21 +793,23 @@ namespace CinemaConsole.Pages.Admin
 
                         CD.UpdateMovie(movieID, name, releaseDate, age, sum, actors);
                         SD.ShowMovieByID(ID);
+                        Console.WriteLine("\nPress enter to continue");
+                        Console.ReadLine();
+                        Console.Clear();
                         break;
                     }
                     else if (option == "2")
                     {
+                        Console.Clear();
                         addTime(AD.getTitle(movieID));
-                        
+                        Customer.Customer.showTime(ID);
+                        Console.Clear();
                         break;
                     }
                     else if (option == "exit")
                     {
+                        Console.Clear();
                         break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please enter an option that exist");
                     }
                 }
             }
@@ -806,6 +831,7 @@ namespace CinemaConsole.Pages.Admin
             {
                 try
                 {
+                    Console.Clear();
                     Console.WriteLine("\nMovies:");
                     List<int> MovieIDs = SD.ShowMovies();
                     Console.WriteLine("\n[exit] Exit to menu");
@@ -813,6 +839,7 @@ namespace CinemaConsole.Pages.Admin
                     string choice = Console.ReadLine();
                     if (choice == "exit")
                     {
+                        Console.Clear();
                         break;
                     }
                     else if (MovieIDs.Contains(Convert.ToInt32(choice)))
@@ -822,7 +849,7 @@ namespace CinemaConsole.Pages.Admin
                         if (choice2 == "1")
                         {
                             Console.Clear();
-                            Console.WriteLine("Are you sure you want to delete the movie: " + AD.getTitle(Convert.ToInt32(choice)));
+                            Console.WriteLine("\nAre you sure you want to delete the movie: " + AD.getTitle(Convert.ToInt32(choice)));
                             Console.WriteLine("[1] Confirm delete [2] Cancel delete");
                             while (true)
                             {
@@ -830,17 +857,21 @@ namespace CinemaConsole.Pages.Admin
                                 if (choice3 == "1")
                                 {
                                     AD.DeleteMovie(Convert.ToInt32(choice));
+                                    Console.Clear();
                                     Console.WriteLine("\nMovies:");
                                     SD.ShowMovies();
                                     break;
                                 }
                                 else if (choice3 == "2")
                                 {
+                                    Console.Clear();
                                     break;
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Please enter a valid option");
+                                    SD.ClearAndErrorMessage("Please enter a valid option");
+                                    Console.WriteLine("\nAre you sure you want to delete the movie: " + AD.getTitle(Convert.ToInt32(choice)));
+                                    Console.WriteLine("[1] Confirm delete [2] Cancel delete");
                                 }
                             }
                         }
@@ -849,7 +880,8 @@ namespace CinemaConsole.Pages.Admin
                             Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.Customer.showTime(choice);
                             string choice3 = Customer.Customer.selectTime(dates);
 
-                            Console.WriteLine("Are you sure you want to delete: " + AD.getTitle(Convert.ToInt32(choice)) + "  " + dates.Item1[Convert.ToInt32(choice3)-1].ToString("HH:mm dd/MM/yyyy"));
+                            Console.Clear();
+                            Console.WriteLine("\nAre you sure you want to delete: " + AD.getTitle(Convert.ToInt32(choice)) + "  " + dates.Item1[Convert.ToInt32(choice3)-1].ToString("HH:mm dd/MM/yyyy"));
                             Console.WriteLine("[1] Confirm delete [2] Cancel delete");
                             while (true)
                             {
@@ -863,11 +895,14 @@ namespace CinemaConsole.Pages.Admin
                                 }
                                 else if (choice4 == "2")
                                 {
+                                    Console.Clear();
                                     break;
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Please enter a valid option");
+                                    SD.ClearAndErrorMessage("Please enter a valid option");
+                                    Console.WriteLine("\nAre you sure you want to delete: " + AD.getTitle(Convert.ToInt32(choice)) + "  " + dates.Item1[Convert.ToInt32(choice3) - 1].ToString("HH:mm dd/MM/yyyy"));
+                                    Console.WriteLine("[1] Confirm delete [2] Cancel delete");
                                 }
 
                             }
@@ -891,72 +926,8 @@ namespace CinemaConsole.Pages.Admin
         /// </summary>
         private static void Display()
         {
-            Console.WriteLine("\nMovies:");
-            ShowData ShowMovieByInfo = new ShowData();
-
-            List<int> MovieIDs = ShowMovieByInfo.ShowMovies();
-            
-            Console.WriteLine("\n[exit] Exit to menu");
-
-            while (true)
-            {
-                string line = Console.ReadLine();
-                try
-                {
-                    if (line == "exit")
-                    {
-                        break;
-                    }
-                    else if (MovieIDs.Contains(Convert.ToInt32(line)))
-                    {
-                        // this will return the movie details for the number you entered
-                        Tuple<string, string> movieInfo = ShowMovieByInfo.ShowMovieByID(line);
-                        string whichMovie = movieInfo.Item1;
-
-                        while (true)
-                        {
-                            Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
-                            string CustomerTimeOption = Console.ReadLine();
-                            if (CustomerTimeOption == "1")
-                            {
-                                // this will return the movie times for the movie you entered
-                                //ShowMovieByInfo.ShowTimesByMovieID(whichMovie, CustomerTimeOption);
-                                Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.Customer.showTime(whichMovie);
-                                string timeSelect = Customer.Customer.selectTime(dates);
-
-                                if (timeSelect != "exit")
-                                {
-                                    Tuple<Tuple<int, int, int, int, double, double, double>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(timeSelect, dates);
-
-                                    Customer.Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
-
-                                    Console.WriteLine("\nPress enter to continue");
-                                    Console.ReadLine();
-                                }
-                                break;
-                            }
-                            else if (CustomerTimeOption == "exit")
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                Console.WriteLine("\nPlease enter an option given");
-                            }
-                        }
-                        break;
-                    }
-
-                    else
-                    {
-                        Console.WriteLine("\nPlease enter an option that is in the menu");
-                    }
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("\nPlease enter an option that is in the menu");
-                }
-            }
+            TicketSalesman.TicketSalesman.MovieInfo();
+            Console.Clear();
         }
 
         /// <summary>
@@ -967,8 +938,7 @@ namespace CinemaConsole.Pages.Admin
             ShowData SD = new ShowData();
             bool k = true;
 
-            // test for adding some movies
-
+            Console.Clear();
             while (k)
             {
                 Console.WriteLine("\nPlease enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Edit a movie or add a time\n[3] Remove a movie.\n[4] Show all the movies.\n[5] Edit hall prices\n[exit] Back to the menu.");
@@ -997,6 +967,10 @@ namespace CinemaConsole.Pages.Admin
                 {
                     k = false;
                     break;
+                }
+                else
+                {
+                    SD.ClearAndErrorMessage("\nPlease enter an option that exists");
                 }
             }
         }

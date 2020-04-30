@@ -12,11 +12,6 @@ namespace CinemaConsole.Pages.Restaurant
 {
     public class Restaurant : Employee
     {
-        public Restaurant()
-        {
-
-        }
-
         //Adds some items to the productlist.
         //Function is only invoked when logging in.
         public static void SomeProducts()
@@ -149,6 +144,7 @@ namespace CinemaConsole.Pages.Restaurant
         public static void Menu()
         {
             ChangeData CD = new ChangeData();
+            Console.Clear();
             while (true)
             {
                 Console.WriteLine("\nPlease input the desired action: ");
@@ -170,6 +166,7 @@ namespace CinemaConsole.Pages.Restaurant
                 //Calls the addItem function.
                 else if (operation == "2")
                 {
+                    Console.Clear();
                     //Requests the name of the product to be added.
                     Console.WriteLine("Please fill in the name of the product.");
                     string inputName = Console.ReadLine();
