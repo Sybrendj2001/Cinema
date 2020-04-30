@@ -319,6 +319,7 @@ namespace CinemaConsole.Pages.Admin
             {
                 try
                 {
+                    Console.Clear();
                     Console.WriteLine("\nMovies:");
                     List<int> MovieIDs = SD.ShowMovies();
                     Console.WriteLine("\n[exit] Exit to menu");
@@ -326,6 +327,7 @@ namespace CinemaConsole.Pages.Admin
                     string choice = Console.ReadLine();
                     if (choice == "exit")
                     {
+                        Console.Clear();
                         break;
                     }
                     else if (MovieIDs.Contains(Convert.ToInt32(choice)))
@@ -335,7 +337,7 @@ namespace CinemaConsole.Pages.Admin
                         if (choice2 == "1")
                         {
                             Console.Clear();
-                            Console.WriteLine("Are you sure you want to delete the movie: " + AD.getTitle(Convert.ToInt32(choice)));
+                            Console.WriteLine("\nAre you sure you want to delete the movie: " + AD.getTitle(Convert.ToInt32(choice)));
                             Console.WriteLine("[1] Confirm delete [2] Cancel delete");
                             while (true)
                             {
@@ -343,17 +345,21 @@ namespace CinemaConsole.Pages.Admin
                                 if (choice3 == "1")
                                 {
                                     AD.DeleteMovie(Convert.ToInt32(choice));
+                                    Console.Clear();
                                     Console.WriteLine("\nMovies:");
                                     SD.ShowMovies();
                                     break;
                                 }
                                 else if (choice3 == "2")
                                 {
+                                    Console.Clear();
                                     break;
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Please enter a valid option");
+                                    SD.ClearAndErrorMessage("Please enter a valid option");
+                                    Console.WriteLine("\nAre you sure you want to delete the movie: " + AD.getTitle(Convert.ToInt32(choice)));
+                                    Console.WriteLine("[1] Confirm delete [2] Cancel delete");
                                 }
                             }
                         }
@@ -362,7 +368,8 @@ namespace CinemaConsole.Pages.Admin
                             Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.Customer.showTime(choice);
                             string choice3 = Customer.Customer.selectTime(dates);
 
-                            Console.WriteLine("Are you sure you want to delete: " + AD.getTitle(Convert.ToInt32(choice)) + "  " + dates.Item1[Convert.ToInt32(choice3)-1].ToString("HH:mm dd/MM/yyyy"));
+                            Console.Clear();
+                            Console.WriteLine("\nAre you sure you want to delete: " + AD.getTitle(Convert.ToInt32(choice)) + "  " + dates.Item1[Convert.ToInt32(choice3)-1].ToString("HH:mm dd/MM/yyyy"));
                             Console.WriteLine("[1] Confirm delete [2] Cancel delete");
                             while (true)
                             {
@@ -376,11 +383,14 @@ namespace CinemaConsole.Pages.Admin
                                 }
                                 else if (choice4 == "2")
                                 {
+                                    Console.Clear();
                                     break;
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Please enter a valid option");
+                                    SD.ClearAndErrorMessage("Please enter a valid option");
+                                    Console.WriteLine("\nAre you sure you want to delete: " + AD.getTitle(Convert.ToInt32(choice)) + "  " + dates.Item1[Convert.ToInt32(choice3) - 1].ToString("HH:mm dd/MM/yyyy"));
+                                    Console.WriteLine("[1] Confirm delete [2] Cancel delete");
                                 }
 
                             }
