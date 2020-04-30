@@ -18,6 +18,512 @@ namespace CinemaConsole.Pages.Admin
         {
         }
 
+        private static void ShowHallPriceDistribution(int hall)
+        {
+            if (hall == 1)
+            {
+                for (int i = 0; i < 14; i++)
+                {
+                    for (int j = 0; j < 12; j++)
+                    {
+                        //Gives the right colors
+                        if ((j == 5 || j == 6) && (i > 4 && i < 9))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                        }
+                        else if ((j == 5 || j == 6) && (i > 2 && i < 11))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else if ((j == 4 || j == 7) && (i > 3 && i < 10))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else if ((j == 3 || j == 8) && (i > 4 && i < 9))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        }
+
+                        //Makes the hall
+                        if ((i == 0 || i > 11) && (j > 1 && j < 10))
+                        {
+                            if (j > 8)
+                            {
+                                Console.Write(" O ");
+                            }
+                            else if (j == 8)
+                            {
+                                Console.Write("O ");
+                            }
+                            else
+                            {
+                                Console.Write("O  ");
+                            }
+                        }
+                        else if (i > 2 && i < 11)
+                        {
+                            if (j > 8)
+                            {
+                                Console.Write(" O ");
+                            }
+                            else if (j == 8)
+                            {
+                                Console.Write("O ");
+                            }
+                            else
+                            {
+                                Console.Write("O  ");
+                            }
+                        }
+                        else if ((i == 1 || i == 2 || i == 11) && (j > 0 && j < 11))
+                        {
+                            if (j > 8)
+                            {
+                                Console.Write(" O ");
+                            }
+                            else if (j == 8)
+                            {
+                                Console.Write("O ");
+                            }
+                            else
+                            {
+                                Console.Write("O  ");
+                            }
+                        }
+                        else
+                        {
+                            if (j == 8)
+                            {
+                                Console.Write("  ");
+                            }
+                            else
+                            {
+                                Console.Write("   ");
+                            }
+                        }
+                        Console.ResetColor();
+                    }
+                    Console.Write("\n");
+                }
+            }
+            else if (hall == 2)
+            {
+                for (int i = 0; i < 19; i++)
+                {
+                    for (int j = 0; j < 18; j++)
+                    {
+                        //Gives the right colors
+                        if ((j == 8 || j == 9) && (i > 4 && i < 13))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                        }
+                        else if ((j == 7 || j == 10) && (i > 5 && i < 12))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                        }
+                        else if ((j == 6 || j == 11) && (i > 6 && i < 11))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                        }
+                        else if ((j > 5 && j < 12) && (i > 0 && i < 16))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else if ((j == 5 || j == 12) && (i > 1 && i < 14))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else if ((j == 4 || j == 13) && (i > 3 && i < 13))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else if ((j == 3 || j == 14) && (i > 5 && i < 12))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else if ((j == 2 || j == 15) && (i > 7 && i < 11))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        }
+
+                        //Makes the hall
+                        if ((i == 18 || i == 17) && (j > 2 && j < 15))
+                        {
+                            if (j > 8)
+                            {
+                                Console.Write(" O ");
+                            }
+                            else if (j == 8)
+                            {
+                                Console.Write("O ");
+                            }
+                            else
+                            {
+                                Console.Write("O  ");
+                            }
+                        }
+                        else if ((i < 17 && i > 13) && (j > 1 && j < 16))
+                        {
+                            if (j > 8)
+                            {
+                                Console.Write(" O ");
+                            }
+                            else if (j == 8)
+                            {
+                                Console.Write("O ");
+                            }
+                            else
+                            {
+                                Console.Write("O  ");
+                            }
+                        }
+                        else if ((i < 6 || (i > 10 && i < 14)) && (j > 0 && j < 17))
+                        {
+                            if (j > 8)
+                            {
+                                Console.Write(" O ");
+                            }
+                            else if (j == 8)
+                            {
+                                Console.Write("O ");
+                            }
+                            else
+                            {
+                                Console.Write("O  ");
+                            }
+                        }
+                        else if (i > 5 && i < 11)
+                        {
+                            if (j > 8)
+                            {
+                                Console.Write(" O ");
+                            }
+                            else if (j == 8)
+                            {
+                                Console.Write("O ");
+                            }
+                            else
+                            {
+                                Console.Write("O  ");
+                            }
+                        }
+                        else
+                        {
+                            if (j == 8)
+                            {
+                                Console.Write("  ");
+                            }
+                            else
+                            {
+                                Console.Write("   ");
+                            }
+                        }
+                        Console.ResetColor();
+                    }
+                    Console.Write("\n");
+                }
+            }
+            else if (hall == 3)
+            {
+                for (int i = 0; i < 20; i++)
+                {
+                    for (int j = 0; j < 30; j++)
+                    {
+                        //Gives the right colors
+                        if ((j > 12 && j < 17) && (i > 3 && i < 13))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                        }
+                        else if ((j == 12 || j == 17) && (i > 4 && i < 12))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                        }
+                        else if ((j == 11 || j == 18) && (i > 5 && i < 12))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                        }
+                        else if ((j > 11 && j < 18) && (i > 0 && i < 17))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else if ((j == 10 || j == 11 || j == 18 || j == 19) && (i > 0 && i < 16))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else if ((j == 9 || j == 20) && (i > 0 && i < 15))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else if ((j == 8 || j == 21) && (i > 1 && i < 14))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else if ((j == 7 || j == 22) && (i > 3 && i < 12))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else if ((j == 6 || j == 23) && (i > 5 && i < 11))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else if ((j == 5 || j == 24) && (i > 7 && i < 10))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        }
+
+                        //Makes the hall
+                        if (i == 19 && (j > 7 && j < 22))
+                        {
+                            if (j > 8)
+                            {
+                                Console.Write(" O ");
+                            }
+                            else if (j == 8)
+                            {
+                                Console.Write("O ");
+                            }
+                            else
+                            {
+                                Console.Write("O  ");
+                            }
+                        }
+                        else if (i == 18 && (j > 6 && j < 23))
+                        {
+                            if (j > 8)
+                            {
+                                Console.Write(" O ");
+                            }
+                            else if (j == 8)
+                            {
+                                Console.Write("O ");
+                            }
+                            else
+                            {
+                                Console.Write("O  ");
+                            }
+                        }
+                        else if (i == 17 && (j > 4 && j < 25))
+                        {
+                            if (j > 8)
+                            {
+                                Console.Write(" O ");
+                            }
+                            else if (j == 8)
+                            {
+                                Console.Write("O ");
+                            }
+                            else
+                            {
+                                Console.Write("O  ");
+                            }
+                        }
+                        else if (i == 0 && (j > 3 && j < 26))
+                        {
+                            if (j > 8)
+                            {
+                                Console.Write(" O ");
+                            }
+                            else if (j == 8)
+                            {
+                                Console.Write("O ");
+                            }
+                            else
+                            {
+                                Console.Write("O  ");
+                            }
+                        }
+                        else if ((i == 16 || i == 15 || (i < 5 && i > 0)) && (j > 2 && j < 27))
+                        {
+                            if (j > 8)
+                            {
+                                Console.Write(" O ");
+                            }
+                            else if (j == 8)
+                            {
+                                Console.Write("O ");
+                            }
+                            else
+                            {
+                                Console.Write("O  ");
+                            }
+                        }
+                        else if ((i == 14 || i == 13 || i == 5) && (j > 1 && j < 28))
+                        {
+                            if (j > 8)
+                            {
+                                Console.Write(" O ");
+                            }
+                            else if (j == 8)
+                            {
+                                Console.Write("O ");
+                            }
+                            else
+                            {
+                                Console.Write("O  ");
+                            }
+                        }
+                        else if ((i == 12 || i == 6) && (j > 0 && j < 29))
+                        {
+                            if (j > 8)
+                            {
+                                Console.Write(" O ");
+                            }
+                            else if (j == 8)
+                            {
+                                Console.Write("O ");
+                            }
+                            else
+                            {
+                                Console.Write("O  ");
+                            }
+                        }
+                        else if (i > 6 && i < 12)
+                        {
+                            if (j > 8)
+                            {
+                                Console.Write(" O ");
+                            }
+                            else if (j == 8)
+                            {
+                                Console.Write("O ");
+                            }
+                            else
+                            {
+                                Console.Write("O  ");
+                            }
+                        }
+                        else
+                        {
+                            if (j == 8)
+                            {
+                                Console.Write("  ");
+                            }
+                            else
+                            {
+                                Console.Write("   ");
+                            }
+                        }
+                        Console.ResetColor();
+                    }
+                    Console.Write("\n");
+                }
+            }
+        }
+
+        private static void editPrice()
+        {
+            AdminData AD = new AdminData();
+            while (true)
+            {
+                Console.WriteLine("\nIn what hall would like to edit a price: [1]  [2]  [3]\n[exit] Exit to menu");
+                string choice = Console.ReadLine();
+
+                try
+                {
+                    if (choice == "exit")
+                    {
+                        break;
+                    }
+                    else if (Convert.ToInt32(choice) > 0 && Convert.ToInt32(choice) < 4)
+                    {
+                        ShowHallPriceDistribution(Convert.ToInt32(choice));
+                        Tuple<double, double, double> prices = AD.getPrices(Convert.ToInt32(choice));
+
+                        Console.WriteLine("\nWhich area would you like to change the prize of");
+
+                        Console.OutputEncoding = Encoding.UTF8;
+                        
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.Write("[1] €" + prices.Item1.ToString("0.00"));
+                        Console.ResetColor();
+
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.Write("\n[2] €" + prices.Item2.ToString("0.00"));
+                        Console.ResetColor();
+
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write("\n[3] €" + prices.Item3.ToString("0.00"));
+                        Console.ResetColor();
+
+                        Console.WriteLine("\n[exit] Back");
+
+                        while (true)
+                        {
+                            string choice2 = Console.ReadLine();
+                            try
+                            {
+                                if (choice2 == "exit")
+                                {
+                                    break;
+                                }
+                                else if (Convert.ToInt32(choice2) > 0 && Convert.ToInt32(choice2) < 4)
+                                {
+                                    AD.UpdatePrice(Convert.ToInt32(choice), Convert.ToInt32(choice2));
+                                    Tuple<double, double, double> pricesUpdated = AD.getPrices(Convert.ToInt32(choice));
+
+                                    Console.WriteLine("Which area would you like to change the prize of\n");
+
+                                    Console.OutputEncoding = Encoding.UTF8;
+
+                                    Console.ForegroundColor = ConsoleColor.Blue;
+                                    Console.Write("\n[1] €" + pricesUpdated.Item1.ToString("0.00"));
+                                    Console.ResetColor();
+
+                                    Console.ForegroundColor = ConsoleColor.Cyan;
+                                    Console.Write("\n[2] €" + pricesUpdated.Item2.ToString("0.00"));
+                                    Console.ResetColor();
+
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    Console.Write("\n[3] €" + pricesUpdated.Item3.ToString("0.00"));
+                                    Console.ResetColor();
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Please enter a option that is available");
+                                }
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Please enter a option that is available");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nPlease enter a option that is available\n");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("\nPlease enter a option that is available\n");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Deletes the line the curser is on
+        /// </summary>
+        public static void ClearCurrentConsoleLine()
+        {
+            int currentLineCursor = Console.CursorTop;
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, currentLineCursor);
+        }
+
         /// <summary>
         /// adding the movie data to the movielist
         /// </summary>
@@ -112,6 +618,7 @@ namespace CinemaConsole.Pages.Admin
         public static void addTime(string title)
         {
             bool k = true;
+            AdminData AD = new AdminData();
             while (k)
             {
                 try
@@ -150,7 +657,13 @@ namespace CinemaConsole.Pages.Admin
 
                         while (true)
                         {
-                            Console.WriteLine("[add] Add another date and time\n[exit] Exit to menu");
+                            Customer.Customer.showTime(AD.GetMovieID(title).ToString());
+                            
+                            //delete the last line writen
+                            Console.SetCursorPosition(0, Console.CursorTop - 1);
+                            ClearCurrentConsoleLine();
+
+                            Console.WriteLine("\n[add] Add another date and time\n[exit] Exit to menu");
                             string exit = Console.ReadLine();
                             if (exit == "exit")
                             {
@@ -262,7 +775,7 @@ namespace CinemaConsole.Pages.Admin
                     else if (option == "2")
                     {
                         addTime(AD.getTitle(movieID));
-                        Customer.Customer.showTime(ID);
+                        
                         break;
                     }
                     else if (option == "exit")
@@ -282,10 +795,8 @@ namespace CinemaConsole.Pages.Admin
         }
 
         /// <summary>
-        /// Display all the movies with a foreach loop, afterwards placing an ID in front of the movie to make it selectable, when selecting the ID, it'll remove the movie.
+        /// Delete the entire movie or just a time of a movie
         /// </summary>
-
-
         private static void Remove()
         {
             ShowData SD = new ShowData();
@@ -375,90 +886,6 @@ namespace CinemaConsole.Pages.Admin
             }
         }
 
-
-        /*private static void Remove()
-        {
-            bool k = true;
-            while (k)
-            {
-                Console.WriteLine("\nMovies:");
-                // Loop trough all movies currently in the movielist
-                foreach (Movies movie in MovieList.movieList)
-                {
-                    Console.WriteLine("[" + movie.getMovieInfo().Item1 + "]   " + movie.getMovieInfo().Item2 + " (" + movie.getMovieInfo().Item3 + ")");
-                }
-
-                // count all movies + 1 for an exit number
-                int moviecount = MovieList.movieList.Count + 1;
-
-                Console.WriteLine("\nEnter the number of the movie you want to remove or enter [exit] to go back:");
-
-                string line = Console.ReadLine();
-
-                if (line == "exit")
-                {
-                    k = false;
-                }
-
-                foreach (Movies movie in MovieList.movieList)
-                {
-                    // check if number equals movie ID
-                    if (line == movie.getMovieInfo().Item1.ToString())
-                    {
-                        // save line as an int
-                        int number = Int32.Parse(line);
-                        Console.WriteLine("\n[1] If you want to remove the entire movie \n[2] If you only want to remove a certain time\n[exit] Back to overview:");
-
-                        // readline again
-                        line = Console.ReadLine();
-
-                        if (line == "1")
-                        {
-                            // remove movie if id is the same as user input
-                            MovieList.movieList.RemoveAll(movie1 => movie1.getMovieInfo().Item1 == (number));
-                            Console.WriteLine("\nYou removed " + movie.getMovieInfo().Item2);
-
-                            Console.WriteLine("\nPress enter to continue");
-
-                            // using readline here to wait for an enter
-                            Console.ReadLine();
-
-                            // i have to break out of the foreach loop, because you cannot modify a loop while you're in it. 
-                            break;
-                        }
-                        else if (line == "2")
-                        {
-                            Console.WriteLine("\nSelect the time you want to remove:");
-                            foreach (DateTimeHall date in movie.DateTimeHallsList)
-                            {
-                                Console.WriteLine("[" + date.getDateInfo().Item1 + "] " + date.getDateInfo().Item2 + "      " + date.getDateInfo().Item3);
-                            }
-
-                            // make an int of the input
-                            int time = int.Parse(Console.ReadLine());
-                            movie.DateTimeHallsList.RemoveAll(movie1 => movie1.getDateInfo().Item1 == (time));
-
-                            Console.WriteLine("\nPress enter to continue");
-
-                            // using readline here to wait for an enter
-                            Console.ReadLine();
-
-                            // i have to break out of the foreach loop, because you cannot modify a loop while you're in it. 
-                            break;
-                        }
-                        else if (line == "exit")
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-            }
-        }*/
-
         /// <summary>
         /// Display all the movies by using a foreach loop
         /// </summary>
@@ -474,51 +901,58 @@ namespace CinemaConsole.Pages.Admin
             while (true)
             {
                 string line = Console.ReadLine();
-
-                if (line == "exit")
+                try
                 {
-                    break;
-                }
-                else if (MovieIDs.Contains(Convert.ToInt32(line)))
-                {
-                    // this will return the movie details for the number you entered
-                    Tuple<string, string> movieInfo = ShowMovieByInfo.ShowMovieByID(line);
-                    string whichMovie = movieInfo.Item1;
-
-                    while (true)
+                    if (line == "exit")
                     {
-                        Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
-                        string CustomerTimeOption = Console.ReadLine();
-                        if (CustomerTimeOption == "1")
-                        {
-                            // this will return the movie times for the movie you entered
-                            //ShowMovieByInfo.ShowTimesByMovieID(whichMovie, CustomerTimeOption);
-                            Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.Customer.showTime(whichMovie);
-                            string timeSelect = Customer.Customer.selectTime(dates);
-
-                            if (timeSelect != "exit")
-                            {
-                                Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(timeSelect, dates);
-
-                                Customer.Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
-
-                                Console.WriteLine("\nPress enter to continue");
-                                Console.ReadLine();
-                            }
-                            break;
-                        }
-                        else if (CustomerTimeOption == "exit")
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("\nPlease enter an option given");
-                        }
+                        break;
                     }
-                    break;
+                    else if (MovieIDs.Contains(Convert.ToInt32(line)))
+                    {
+                        // this will return the movie details for the number you entered
+                        Tuple<string, string> movieInfo = ShowMovieByInfo.ShowMovieByID(line);
+                        string whichMovie = movieInfo.Item1;
+
+                        while (true)
+                        {
+                            Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
+                            string CustomerTimeOption = Console.ReadLine();
+                            if (CustomerTimeOption == "1")
+                            {
+                                // this will return the movie times for the movie you entered
+                                //ShowMovieByInfo.ShowTimesByMovieID(whichMovie, CustomerTimeOption);
+                                Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.Customer.showTime(whichMovie);
+                                string timeSelect = Customer.Customer.selectTime(dates);
+
+                                if (timeSelect != "exit")
+                                {
+                                    Tuple<Tuple<int, int, int, int, double, double, double>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(timeSelect, dates);
+
+                                    Customer.Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
+
+                                    Console.WriteLine("\nPress enter to continue");
+                                    Console.ReadLine();
+                                }
+                                break;
+                            }
+                            else if (CustomerTimeOption == "exit")
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("\nPlease enter an option given");
+                            }
+                        }
+                        break;
+                    }
+
+                    else
+                    {
+                        Console.WriteLine("\nPlease enter an option that is in the menu");
+                    }
                 }
-                else
+                catch (FormatException)
                 {
                     Console.WriteLine("\nPlease enter an option that is in the menu");
                 }
@@ -537,7 +971,7 @@ namespace CinemaConsole.Pages.Admin
 
             while (k)
             {
-                Console.WriteLine("\nPlease enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Edit a movie or add a time\n[3] Remove a movie.\n[4] Show all the movies.\n[exit] Back to the menu.");
+                Console.WriteLine("\nPlease enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Edit a movie or add a time\n[3] Remove a movie.\n[4] Show all the movies.\n[5] Edit hall prices\n[exit] Back to the menu.");
                 string nummer = Console.ReadLine();
                 if (nummer == "1")
                 {
@@ -554,6 +988,10 @@ namespace CinemaConsole.Pages.Admin
                 else if (nummer == "4")
                 {
                     Display();
+                }
+                else if (nummer == "5")
+                {
+                    editPrice();
                 }
                 else if (nummer == "exit")
                 {
