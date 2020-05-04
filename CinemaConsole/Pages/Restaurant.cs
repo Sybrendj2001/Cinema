@@ -37,6 +37,7 @@ namespace CinemaConsole.Pages.Restaurant
                 //Edits the name of the selected product. Also forces the first letter of the name to be upper case.
                 if (operation == "1")
                 {
+                    Console.Clear();
                     try
                     {
                         Console.WriteLine("\nPlease enter the new name of the product.");
@@ -58,6 +59,7 @@ namespace CinemaConsole.Pages.Restaurant
                 //Edits the price of the selected product.
                 else if (operation == "2")
                 {
+                    Console.Clear();
                     try
                     {
                         Console.WriteLine("\nPlease enter the new price of the product in euro's.");
@@ -79,6 +81,7 @@ namespace CinemaConsole.Pages.Restaurant
                 //Also forces the first letter of the name to be upper case.
                 else if (operation == "3")
                 {
+                    Console.Clear();
                     try
                     {
                         Console.WriteLine("\nPlease enter the new name of the product.");
@@ -144,6 +147,7 @@ namespace CinemaConsole.Pages.Restaurant
                 //Calls the addItem function.
                 else if (operation == "2")
                 {
+                    Console.Clear();
                     try
                     {
                         //Requests the name of the product to be added.
@@ -170,26 +174,41 @@ namespace CinemaConsole.Pages.Restaurant
                 {
                     Console.Clear();
                     CD.DisplayProducts();
+                    try
+                    {
+                        //Requests the ID of the product to be removed.
+                        Console.WriteLine("Please fill in the ID of the product you wish to remove.");
+                        int itemID = Int32.Parse(Console.ReadLine());
+                        Console.WriteLine(" ");
 
-                    //Requests the name of the product to be removed.
-                    Console.WriteLine("Please fill in the ID of the product you wish to remove.");
-                    int itemID = Int32.Parse(Console.ReadLine());
-                    Console.WriteLine(" ");
-
-                    //Calls the removeItem function and enters the name of the product given earlier.
-                    CD.DeleteProduct(itemID);
+                        //Calls the removeItem function and enters the name of the product given earlier.
+                        CD.DeleteProduct(itemID);
+                    }
+                    catch (FormatException f)
+                    {
+                        Console.WriteLine(" ");
+                        Console.WriteLine("Invalid input detected.");
+                    }
                 }
                 else if(operation == "4")
                 {
                     Console.Clear();
                     CD.DisplayProducts();
-                    //Requests the name of the product to be edited.
-                    Console.WriteLine("\nPlease fill in the ID of the product you wish to edit.");
-                    int itemID = Int32.Parse(Console.ReadLine());
-                    Console.WriteLine(" ");
+                    try
+                    {
+                        //Requests the name of the product to be edited.
+                        Console.WriteLine("\nPlease fill in the ID of the product you wish to edit.");
+                        int itemID = Int32.Parse(Console.ReadLine());
+                        Console.WriteLine(" ");
 
-                    //Calls the editItem function and enters the ID of the product given earlier.
-                    EditItem(itemID);
+                        //Calls the editItem function and enters the ID of the product given earlier.
+                        EditItem(itemID);
+                    }
+                    catch (FormatException f)
+                    {
+                        Console.WriteLine(" ");
+                        Console.WriteLine("Invalid input detected.");
+                    }
                 }
                 //Exits out of this menu.
                 else if (operation == "exit")
