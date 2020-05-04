@@ -499,20 +499,20 @@ namespace CinemaConsole.Pages.Customer
                                 }
                                 else
                                 {
+                                    Console.Clear();
                                     Tuple<string, string, string> personInfo = Name();
                                     string ticketcode = createTicketID(ticket.Item1, title, ticket.Item4, ticket.Item5, ticket.Item6.Item2);
                                     overviewCustomer(personInfo, ticket, title, ticketcode);
                                     string confirm;
-                                    Console.Clear();
                                     while (true)
                                     {
                                         Console.WriteLine("\nDo you want to confirm the reservation? \n[1] Confirm reservation\n[2] Cancel reservation");
                                         confirm = Console.ReadLine();
                                         if (confirm == "1")
                                         {
+                                            Console.Clear();
                                             CD.ReserveTicket((personInfo.Item1 + " " + personInfo.Item2), personInfo.Item3, ticketcode, Convert.ToInt32(whichMovie), ticket.Item3, ticket.Item4, ticket.Item5, ticket.Item2, ticket.Item6.Item2, ticket.Item6.Item1, ticket.Item6.Item3);
                                             Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticketcode);
-                                            Console.Clear();
                                             break;
                                         }
                                         else if (confirm == "2")
