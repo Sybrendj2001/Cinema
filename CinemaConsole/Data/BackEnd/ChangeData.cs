@@ -206,6 +206,7 @@ namespace CinemaConsole.Data.BackEnd
 			return TicketExists;
 		}
 
+		//Only used when a display function is called individueally.
 		public void DisplayProducts()
 		{
 			Console.Clear();
@@ -238,6 +239,7 @@ namespace CinemaConsole.Data.BackEnd
 			}
 		}
 
+		//Called from within another function. Lacks any connection.open() and connection.Close() functions.
 		public void DisplayProduct()
 		{
 			Console.Clear();

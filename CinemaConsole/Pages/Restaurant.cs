@@ -58,8 +58,9 @@ namespace CinemaConsole.Pages.Restaurant
                     }
                     catch (FormatException f)
                     {
-                        Console.WriteLine(" ");
-                        Console.WriteLine("Invalid input detected.");
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again. \nPress [enter] to continue.");
+                        Console.ReadLine();
+                        Console.Clear();
                     }
                 }
 
@@ -79,8 +80,9 @@ namespace CinemaConsole.Pages.Restaurant
                     }
                     catch (FormatException f)
                     {
-                        Console.WriteLine(" ");
-                        Console.WriteLine("Invalid input detected.");
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again. \nPress [enter] to continue.");
+                        Console.ReadLine();
+                        Console.Clear();
                     }
                 }
 
@@ -104,8 +106,9 @@ namespace CinemaConsole.Pages.Restaurant
                     }
                     catch (FormatException f)
                     {
-                        Console.WriteLine(" ");
-                        Console.WriteLine("Invalid input detected.");
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again. \nPress [enter] to continue.");
+                        Console.ReadLine();
+                        Console.Clear();
                     }
                 }
 
@@ -119,7 +122,9 @@ namespace CinemaConsole.Pages.Restaurant
                 //Gives out a warning message when invalid input is detected.
                 else
                 {
-                    SD.ClearAndErrorMessage("\nInvalid input. Please try again.\n");
+                    SD.ClearAndErrorMessage("Invalid Input. Please try again. \nPress [enter] to continue.");
+                    Console.ReadLine();
+                    Console.Clear();
                 }
 
             }
@@ -172,8 +177,9 @@ namespace CinemaConsole.Pages.Restaurant
                     }
                     catch(FormatException f)
                     {
-                        Console.WriteLine(" ");
-                        Console.WriteLine("Invalid input detected.");
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again. \nPress [enter] to continue.");
+                        Console.ReadLine();
+                        Console.Clear();
                     }
                 }
                 //Calls the removeItem function.
@@ -193,8 +199,9 @@ namespace CinemaConsole.Pages.Restaurant
                     }
                     catch (FormatException f)
                     {
-                        Console.WriteLine(" ");
-                        Console.WriteLine("Invalid input detected.");
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again. \nPress [enter] to continue.");
+                        Console.ReadLine();
+                        Console.Clear();
                     }
                 }
                 else if(operation == "4")
@@ -213,8 +220,9 @@ namespace CinemaConsole.Pages.Restaurant
                     }
                     catch (FormatException f)
                     {
-                        Console.WriteLine(" ");
-                        Console.WriteLine("Invalid input detected.");
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again. \nPress [enter] to continue.");
+                        Console.ReadLine();
+                        Console.Clear();
                     }
                 }
                 //Exits out of this menu.
@@ -226,7 +234,9 @@ namespace CinemaConsole.Pages.Restaurant
                 //Display error message when input is considered invalid.
                 else
                 {
-                    SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                    SD.ClearAndErrorMessage("Invalid Input. Please try again. \nPress [enter] to continue.");
+                    Console.ReadLine();
+                    Console.Clear();
                 }
             }
         }
