@@ -21,7 +21,8 @@ namespace CinemaConsole.Pages.Restaurant
         public static void EditItem(int productID)
         {
             ChangeData CD = new ChangeData();
-
+            ShowData SD = new ShowData();
+            Console.Clear();
             while (true)
             {
                 Console.WriteLine("Please select which part you wish to edit:");
@@ -101,21 +102,26 @@ namespace CinemaConsole.Pages.Restaurant
                 //Exits the currrent menu.
                 else if (operation == "exit")
                 {
+                    Console.Clear();
                     break;
                 }
 
                 //Gives out a warning message when invalid input is detected.
                 else
                 {
-                    Console.WriteLine("\nInvalid input. Please try again.\n");
+                    SD.ClearAndErrorMessage("\nInvalid input. Please try again.\n");
                 }
-            }          
+
+            }
+            
         }
 
         //Presents a menu with options to choose from.
         public static void Menu()
         {
             ChangeData CD = new ChangeData();
+            ShowData SD = new ShowData();
+            Console.Clear();
             while (true)
             {
                 Console.WriteLine("\nPlease input the desired action: ");
@@ -132,6 +138,7 @@ namespace CinemaConsole.Pages.Restaurant
                 //Calls the Display function.
                 if (operation == "1")
                 {
+                    Console.Clear();
                     CD.DisplayProducts();
                 }
                 //Calls the addItem function.
@@ -161,6 +168,7 @@ namespace CinemaConsole.Pages.Restaurant
                 //Calls the removeItem function.
                 else if (operation == "3")
                 {
+                    Console.Clear();
                     CD.DisplayProducts();
 
                     //Requests the name of the product to be removed.
@@ -173,10 +181,10 @@ namespace CinemaConsole.Pages.Restaurant
                 }
                 else if(operation == "4")
                 {
+                    Console.Clear();
                     CD.DisplayProducts();
-
                     //Requests the name of the product to be edited.
-                    Console.WriteLine("Please fill in the ID of the product you wish to edit.");
+                    Console.WriteLine("\nPlease fill in the ID of the product you wish to edit.");
                     int itemID = Int32.Parse(Console.ReadLine());
                     Console.WriteLine(" ");
 
@@ -186,13 +194,13 @@ namespace CinemaConsole.Pages.Restaurant
                 //Exits out of this menu.
                 else if (operation == "exit")
                 {
+                    Console.Clear();
                     break;
                 }
                 //Display error message when input is considered invalid.
                 else
                 {
-                    Console.WriteLine("Invalid Input. Please try again.");
-                    Console.WriteLine(" ");
+                    SD.ClearAndErrorMessage("Invalid Input. Please try again.");
                 }
             }
         }
