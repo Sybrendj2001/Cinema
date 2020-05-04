@@ -378,7 +378,12 @@ namespace CinemaConsole.Pages.Admin
                                 {
                                     AD.DeleteTime(dates.Item2[Convert.ToInt32(choice3)-1]);
                                     Console.WriteLine("\n" + AD.getTitle(Convert.ToInt32(choice)) + ":");
+                                    Console.Clear();
+                                    Console.WriteLine("\nMovie times:");
                                     Customer.Customer.showTime(choice);
+                                    Console.WriteLine("\nPress enter to continue");
+                                    Console.ReadLine();
+                                    Console.Clear();
                                     break;
                                 }
                                 else if (choice4 == "2")
