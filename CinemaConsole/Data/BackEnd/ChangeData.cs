@@ -238,6 +238,33 @@ namespace CinemaConsole.Data.BackEnd
 			}
 		}
 
+		public void DisplayProduct()
+		{
+			Console.Clear();
+			Console.OutputEncoding = Encoding.UTF8;
+			Console.WriteLine("Restaurant menu:");
+			try
+			{
+				string stringToDisplay = @"SELECT * FROM restaurantitems";
+
+				MySqlCommand command = new MySqlCommand(stringToDisplay, Connection);
+
+				MySqlDataReader dataReader = command.ExecuteReader();
+				while (dataReader.Read())
+				{
+					double test = dataReader.GetDouble("Price");
+					Console.WriteLine("(" + dataReader["ItemID"] + ") " + dataReader["ItemName"] + "    €" + test.ToString("0.00"));
+				}
+
+				dataReader.Close();
+			}
+			catch (MySqlException ex)
+			{
+
+				throw;
+			}
+		}
+
 		public void CreateProduct(string itemname, double price)
 		{
 			try
@@ -259,7 +286,7 @@ namespace CinemaConsole.Data.BackEnd
 				command.Prepare();
 				command.ExecuteNonQuery();
 
-				DisplayProducts();
+				DisplayProduct();
 			}
 			catch (MySqlException ex)
 			{
@@ -297,7 +324,7 @@ namespace CinemaConsole.Data.BackEnd
 					command.Prepare();
 					command.ExecuteNonQuery();
 
-					DisplayProducts();
+					DisplayProduct();
 				}
 
 				else if(name != "" && price == -1)
@@ -317,7 +344,7 @@ namespace CinemaConsole.Data.BackEnd
 					command.Prepare();
 					command.ExecuteNonQuery();
 
-					DisplayProducts();
+					DisplayProduct();
 				}
 
 				else if (name == "" && price != -1)
@@ -337,7 +364,7 @@ namespace CinemaConsole.Data.BackEnd
 					command.Prepare();
 					command.ExecuteNonQuery();
 
-					DisplayProducts();
+					DisplayProduct();
 				}
 			}
             catch (MySqlException ex)
@@ -368,7 +395,7 @@ namespace CinemaConsole.Data.BackEnd
 				command.Prepare();
 				command.ExecuteNonQuery();
 
-				DisplayProducts();
+				DisplayProduct();
 			}
 			catch (MySqlException ex)
 			{

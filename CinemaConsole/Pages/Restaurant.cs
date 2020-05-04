@@ -40,14 +40,21 @@ namespace CinemaConsole.Pages.Restaurant
                     Console.Clear();
                     try
                     {
-                        Console.WriteLine("\nPlease enter the new name of the product.");
+                        Console.WriteLine("\nPlease enter the new name of the product. If you wish to return to the menu, please enter [exit] instead.");
                         string inputName = Console.ReadLine();
                         string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
                         Console.WriteLine(" ");
+                        if (newName == "exit")
+                        {
+                            break;
+                        }
+                        else
+                        {
 
-                        CD.UpdateProduct(productID, newName);
-                        CD.DisplayProducts();
-                        break;
+                            CD.UpdateProduct(productID, newName);
+                            CD.DisplayProducts();
+                            break;
+                        }
                     }
                     catch (FormatException f)
                     {
