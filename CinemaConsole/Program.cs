@@ -17,7 +17,6 @@ namespace CinemaConsole
         static void Main(string[] args)
         {
             //TicketSalesman.Tickets();
-            Restaurant.SomeProducts();
             bool Running = true;
             string pageToBe = "";
             string toDo = "";

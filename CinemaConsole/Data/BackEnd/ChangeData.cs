@@ -206,6 +206,7 @@ namespace CinemaConsole.Data.BackEnd
 			return TicketExists;
 		}
 
+		//Only used when a display function is called individueally.
 		public void DisplayProducts()
 		{
 			Console.Clear();
@@ -238,20 +239,23 @@ namespace CinemaConsole.Data.BackEnd
 			}
 		}
 
-		public int TotalProducts()
+		//Called from within another function. Lacks any connection.open() and connection.Close() functions.
+		public void DisplayProduct()
 		{
-			int productsamount = 0;
+			Console.Clear();
+			Console.OutputEncoding = Encoding.UTF8;
+			Console.WriteLine("Restaurant menu:");
 			try
 			{
-				Connection.Open();
-				string stringToRead = @"SELECT ItemID FROM restaurantitems";
+				string stringToDisplay = @"SELECT * FROM restaurantitems";
 
-				MySqlCommand command = new MySqlCommand(stringToRead, Connection);
+				MySqlCommand command = new MySqlCommand(stringToDisplay, Connection);
+
 				MySqlDataReader dataReader = command.ExecuteReader();
-
 				while (dataReader.Read())
 				{
-					productsamount += 1;
+					double test = dataReader.GetDouble("Price");
+					Console.WriteLine("(" + dataReader["ItemID"] + ") " + dataReader["ItemName"] + "    €" + test.ToString("0.00"));
 				}
 
 				dataReader.Close();
@@ -261,11 +265,6 @@ namespace CinemaConsole.Data.BackEnd
 
 				throw;
 			}
-			finally
-			{
-				Connection.Close();
-			}
-			return productsamount;
 		}
 
 		public void CreateProduct(string itemname, double price)
@@ -288,6 +287,8 @@ namespace CinemaConsole.Data.BackEnd
 
 				command.Prepare();
 				command.ExecuteNonQuery();
+
+				DisplayProduct();
 			}
 			catch (MySqlException ex)
 			{
@@ -324,6 +325,8 @@ namespace CinemaConsole.Data.BackEnd
 
 					command.Prepare();
 					command.ExecuteNonQuery();
+
+					DisplayProduct();
 				}
 
 				else if(name != "" && price == -1)
@@ -342,6 +345,8 @@ namespace CinemaConsole.Data.BackEnd
 
 					command.Prepare();
 					command.ExecuteNonQuery();
+
+					DisplayProduct();
 				}
 
 				else if (name == "" && price != -1)
@@ -360,6 +365,8 @@ namespace CinemaConsole.Data.BackEnd
 
 					command.Prepare();
 					command.ExecuteNonQuery();
+
+					DisplayProduct();
 				}
 			}
             catch (MySqlException ex)
@@ -389,6 +396,8 @@ namespace CinemaConsole.Data.BackEnd
 
 				command.Prepare();
 				command.ExecuteNonQuery();
+
+				DisplayProduct();
 			}
 			catch (MySqlException ex)
 			{

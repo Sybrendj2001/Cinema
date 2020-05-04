@@ -12,20 +12,9 @@ namespace CinemaConsole.Pages.Restaurant
 {
     public class Restaurant : Employee
     {
-        //Adds some items to the productlist.
-        //Function is only invoked when logging in.
-        public static void SomeProducts()
+        public Restaurant()
         {
-            Restaurant.AddItem("Cola", 2.50);
-            Restaurant.AddItem("Popcorn", 3.50);
-        }
 
-        //Allows the retailer to add new items to the list of products.
-        //Information on the products consists of the name and price of the product.
-        public static void AddItem(string name, double price)
-        {
-            RestaurantProduct product = new RestaurantProduct(name, price);
-            ProductList.productList.Add(product);
         }
 
         //Allows the retailer to edit items on the list of products.
@@ -46,53 +35,83 @@ namespace CinemaConsole.Pages.Restaurant
                 string operation = Console.ReadLine();
 
                 //Edits the name of the selected product. Also forces the first letter of the name to be upper case.
-                //Does so by creating a new product with the new name and old price, and removing the old product from the list.
-                //Places the new product in place of the old one afterwards.
                 if (operation == "1")
                 {
                     Console.Clear();
-                    Console.WriteLine("\nPlease enter the new name of the product.");
-                    string inputName = Console.ReadLine();
-                    string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
-                    Console.WriteLine(" ");
-
-                    CD.UpdateProduct(productID, newName);
-                    Console.Clear();
-                    break;
+                    try
+                    {
+                        Console.WriteLine("\nPlease enter the new name of the product. If you wish to return to the menu, please enter [exit] instead.");
+                        string inputName = Console.ReadLine();
+                        string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
+                        Console.WriteLine(" ");
+                        if (newName == "Exit")
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            CD.UpdateProduct(productID, newName);
+                            CD.DisplayProducts();
+                            break;
+                        }
+                    }
+                    catch (FormatException f)
+                    {
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                        Console.WriteLine("Press[enter] to continue.");
+                        Console.ReadLine();
+                        Console.Clear();
+                    }
                 }
 
                 //Edits the price of the selected product.
-                //Does so by creating a new product with the old name and new price, and removing the old product from the list.
-                //Places the new product in place of the old one afterwards.
                 else if (operation == "2")
                 {
                     Console.Clear();
-                    Console.WriteLine("\nPlease enter the new price of the product in euro's.");
-                    double newPrice = double.Parse(Console.ReadLine());
-                    Console.WriteLine(" ");
+                    try
+                    {
+                        Console.WriteLine("\nPlease enter the new price of the product in euro's.");
+                        double newPrice = double.Parse(Console.ReadLine());
+                        Console.WriteLine(" ");
 
-                    CD.UpdateProduct(productID, "", newPrice);
-                    Console.Clear();
-                    break;
+                        CD.UpdateProduct(productID, "", newPrice);
+                        CD.DisplayProducts();
+                        break;
+                    }
+                    catch (FormatException f)
+                    {
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                        Console.WriteLine("Press[enter] to continue.");
+                        Console.ReadLine();
+                        Console.Clear();
+                    }
                 }
 
                 //Edits both the name and price of the selected product. 
-                //Does so by creating a new product with the new name and old price, and removing the old product from the list.
-                //Places the new product in place of the old one afterwards.
                 //Also forces the first letter of the name to be upper case.
                 else if (operation == "3")
                 {
                     Console.Clear();
-                    Console.WriteLine("\nPlease enter the new name of the product.");
-                    string inputName = Console.ReadLine();
-                    string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
-                    Console.WriteLine("\nPlease enter the new price of the product in euro's.");
-                    double newPrice = double.Parse(Console.ReadLine());
-                    Console.WriteLine(" ");
+                    try
+                    {
+                        Console.WriteLine("\nPlease enter the new name of the product.");
+                        string inputName = Console.ReadLine();
+                        string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
+                        Console.WriteLine("\nPlease enter the new price of the product in euro's.");
+                        double newPrice = double.Parse(Console.ReadLine());
+                        Console.WriteLine(" ");
 
-                    CD.UpdateProduct(productID, newName, newPrice);
-                    Console.Clear();
-                    break;
+                        CD.UpdateProduct(productID, newName, newPrice);
+                        CD.DisplayProducts();
+                        break;
+                    }
+                    catch (FormatException f)
+                    {
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                        Console.WriteLine("Press[enter] to continue.");
+                        Console.ReadLine();
+                        Console.Clear();
+                    }
                 }
 
                 //Exits the currrent menu.
@@ -105,7 +124,10 @@ namespace CinemaConsole.Pages.Restaurant
                 //Gives out a warning message when invalid input is detected.
                 else
                 {
-                    SD.ClearAndErrorMessage("\nInvalid input. Please try again.\n");
+                    SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                    Console.WriteLine("Press[enter] to continue.");
+                    Console.ReadLine();
+                    Console.Clear();
                 }
 
             }
@@ -141,43 +163,73 @@ namespace CinemaConsole.Pages.Restaurant
                 else if (operation == "2")
                 {
                     Console.Clear();
-                    //Requests the name of the product to be added.
-                    Console.WriteLine("Please fill in the name of the product.");
-                    string inputName = Console.ReadLine();
-                    string name = inputName.First().ToString().ToUpper() + inputName.Substring(1);
-                    Console.WriteLine(" ");
+                    try
+                    {
+                        //Requests the name of the product to be added.
+                        Console.WriteLine("Please fill in the name of the product.");
+                        string inputName = Console.ReadLine();
+                        string name = inputName.First().ToString().ToUpper() + inputName.Substring(1);
+                        Console.WriteLine(" ");
 
-                    //Requests the price of the product to be added.
-                    Console.WriteLine("Please fill in the price of the product in euro's.");
-                    double price = double.Parse(Console.ReadLine());
-                    Console.WriteLine(" ");
+                        //Requests the price of the product to be added.
+                        Console.WriteLine("Please fill in the price of the product in euro's.");
+                        double price = double.Parse(Console.ReadLine());
+                        Console.WriteLine(" ");
 
-                    CD.CreateProduct(name, price);
+                        CD.CreateProduct(name, price);
+                    }
+                    catch(FormatException f)
+                    {
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                        Console.WriteLine("Press[enter] to continue.");
+                        Console.ReadLine();
+                        Console.Clear();
+                    }
                 }
                 //Calls the removeItem function.
                 else if (operation == "3")
                 {
                     Console.Clear();
                     CD.DisplayProducts();
-                    //Requests the name of the product to be removed.
-                    Console.WriteLine("Please fill in the ID of the product you wish to remove.");
-                    int itemID = Int32.Parse(Console.ReadLine());
-                    Console.WriteLine(" ");
+                    try
+                    {
+                        //Requests the ID of the product to be removed.
+                        Console.WriteLine("Please fill in the ID of the product you wish to remove.");
+                        int itemID = Int32.Parse(Console.ReadLine());
+                        Console.WriteLine(" ");
 
-                    //Calls the removeItem function and enters the name of the product given earlier.
-                    CD.DeleteProduct(itemID);
+                        //Calls the removeItem function and enters the name of the product given earlier.
+                        CD.DeleteProduct(itemID);
+                    }
+                    catch (FormatException f)
+                    {
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                        Console.WriteLine("Press[enter] to continue.");
+                        Console.ReadLine();
+                        Console.Clear();
+                    }
                 }
                 else if(operation == "4")
                 {
                     Console.Clear();
                     CD.DisplayProducts();
-                    //Requests the name of the product to be edited.
-                    Console.WriteLine("\nPlease fill in the ID of the product you wish to edit.");
-                    int itemID = Int32.Parse(Console.ReadLine());
-                    Console.WriteLine(" ");
+                    try
+                    {
+                        //Requests the name of the product to be edited.
+                        Console.WriteLine("\nPlease fill in the ID of the product you wish to edit.");
+                        int itemID = Int32.Parse(Console.ReadLine());
+                        Console.WriteLine(" ");
 
-                    //Calls the editItem function and enters the ID of the product given earlier.
-                    EditItem(itemID);
+                        //Calls the editItem function and enters the ID of the product given earlier.
+                        EditItem(itemID);
+                    }
+                    catch (FormatException f)
+                    {
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                        Console.WriteLine("Press[enter] to continue.");
+                        Console.ReadLine();
+                        Console.Clear();
+                    }
                 }
                 //Exits out of this menu.
                 else if (operation == "exit")
@@ -189,6 +241,9 @@ namespace CinemaConsole.Pages.Restaurant
                 else
                 {
                     SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                    Console.WriteLine("Press[enter] to continue.");
+                    Console.ReadLine();
+                    Console.Clear();
                 }
             }
         }
