@@ -44,13 +44,12 @@ namespace CinemaConsole.Pages.Restaurant
                         string inputName = Console.ReadLine();
                         string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
                         Console.WriteLine(" ");
-                        if (newName == "exit")
+                        if (newName == "Exit")
                         {
                             break;
                         }
                         else
                         {
-
                             CD.UpdateProduct(productID, newName);
                             CD.DisplayProducts();
                             break;
