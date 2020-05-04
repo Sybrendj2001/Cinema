@@ -58,7 +58,8 @@ namespace CinemaConsole.Pages.Restaurant
                     }
                     catch (FormatException f)
                     {
-                        SD.ClearAndErrorMessage("Invalid Input. Please try again. \nPress [enter] to continue.");
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                        Console.WriteLine("Press[enter] to continue.");
                         Console.ReadLine();
                         Console.Clear();
                     }
@@ -80,7 +81,8 @@ namespace CinemaConsole.Pages.Restaurant
                     }
                     catch (FormatException f)
                     {
-                        SD.ClearAndErrorMessage("Invalid Input. Please try again. \nPress [enter] to continue.");
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                        Console.WriteLine("Press[enter] to continue.");
                         Console.ReadLine();
                         Console.Clear();
                     }
@@ -106,7 +108,8 @@ namespace CinemaConsole.Pages.Restaurant
                     }
                     catch (FormatException f)
                     {
-                        SD.ClearAndErrorMessage("Invalid Input. Please try again. \nPress [enter] to continue.");
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                        Console.WriteLine("Press[enter] to continue.");
                         Console.ReadLine();
                         Console.Clear();
                     }
@@ -122,7 +125,8 @@ namespace CinemaConsole.Pages.Restaurant
                 //Gives out a warning message when invalid input is detected.
                 else
                 {
-                    SD.ClearAndErrorMessage("Invalid Input. Please try again. \nPress [enter] to continue.");
+                    SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                    Console.WriteLine("Press[enter] to continue.");
                     Console.ReadLine();
                     Console.Clear();
                 }
@@ -177,7 +181,8 @@ namespace CinemaConsole.Pages.Restaurant
                     }
                     catch(FormatException f)
                     {
-                        SD.ClearAndErrorMessage("Invalid Input. Please try again. \nPress [enter] to continue.");
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                        Console.WriteLine("Press[enter] to continue.");
                         Console.ReadLine();
                         Console.Clear();
                     }
@@ -199,7 +204,8 @@ namespace CinemaConsole.Pages.Restaurant
                     }
                     catch (FormatException f)
                     {
-                        SD.ClearAndErrorMessage("Invalid Input. Please try again. \nPress [enter] to continue.");
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                        Console.WriteLine("Press[enter] to continue.");
                         Console.ReadLine();
                         Console.Clear();
                     }
@@ -220,7 +226,8 @@ namespace CinemaConsole.Pages.Restaurant
                     }
                     catch (FormatException f)
                     {
-                        SD.ClearAndErrorMessage("Invalid Input. Please try again. \nPress [enter] to continue.");
+                        SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                        Console.WriteLine("Press[enter] to continue.");
                         Console.ReadLine();
                         Console.Clear();
                     }
@@ -234,7 +241,8 @@ namespace CinemaConsole.Pages.Restaurant
                 //Display error message when input is considered invalid.
                 else
                 {
-                    SD.ClearAndErrorMessage("Invalid Input. Please try again. \nPress [enter] to continue.");
+                    SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                    Console.WriteLine("Press[enter] to continue.");
                     Console.ReadLine();
                     Console.Clear();
                 }
