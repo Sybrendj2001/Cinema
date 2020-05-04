@@ -836,6 +836,8 @@ namespace CinemaConsole.Data.BackEnd
 
         public void UpdatePrice(int hall, int circle)
         {
+            ShowData SD = new ShowData();
+
             try
             {
                 Connection.Open();
@@ -859,7 +861,8 @@ namespace CinemaConsole.Data.BackEnd
                     }
                     catch (FormatException)
                     {
-                        Console.WriteLine("\nThe price was not put in correctly. Please write it down like in the example (7.50)");
+                        SD.ErrorMessage("\nThe price was not put in correctly.");
+                        Console.WriteLine("Please write it down like in the example(7.50)");
                     }
                 }
 

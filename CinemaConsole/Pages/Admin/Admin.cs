@@ -21,6 +21,7 @@ namespace CinemaConsole.Pages.Admin
 
         private static void ShowHallPriceDistribution(int hall)
         {
+            Console.WriteLine("\nHall " + hall + ":\n");
             if (hall == 1)
             {
                 for (int i = 0; i < 14; i++)
@@ -426,11 +427,14 @@ namespace CinemaConsole.Pages.Admin
         private static void editPrice()
         {
             AdminData AD = new AdminData();
+            ShowData SD = new ShowData();
+            Console.Clear();
+
             while (true)
             {
                 Console.WriteLine("\nIn what hall would like to edit a price: [1]  [2]  [3]\n[exit] Exit to menu");
                 string choice = Console.ReadLine();
-
+                Console.Clear();
                 try
                 {
                     if (choice == "exit")
@@ -439,29 +443,30 @@ namespace CinemaConsole.Pages.Admin
                     }
                     else if (Convert.ToInt32(choice) > 0 && Convert.ToInt32(choice) < 4)
                     {
-                        ShowHallPriceDistribution(Convert.ToInt32(choice));
-                        Tuple<double, double, double> prices = AD.getPrices(Convert.ToInt32(choice));
-
-                        Console.WriteLine("\nWhich area would you like to change the prize of");
-
-                        Console.OutputEncoding = Encoding.UTF8;
-                        
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.Write("[1] €" + prices.Item1.ToString("0.00"));
-                        Console.ResetColor();
-
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        Console.Write("\n[2] €" + prices.Item2.ToString("0.00"));
-                        Console.ResetColor();
-
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.Write("\n[3] €" + prices.Item3.ToString("0.00"));
-                        Console.ResetColor();
-
-                        Console.WriteLine("\n[exit] Back");
-
                         while (true)
                         {
+                            ShowHallPriceDistribution(Convert.ToInt32(choice));
+                            Tuple<double, double, double> prices = AD.getPrices(Convert.ToInt32(choice));
+
+                            Console.WriteLine("\nWhich area would you like to change the prize of");
+
+                            Console.OutputEncoding = Encoding.UTF8;
+                        
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.Write("[1] €" + prices.Item1.ToString("0.00"));
+                            Console.ResetColor();
+
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                            Console.Write("\n[2] €" + prices.Item2.ToString("0.00"));
+                            Console.ResetColor();
+
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.Write("\n[3] €" + prices.Item3.ToString("0.00"));
+                            Console.ResetColor();
+
+                            Console.WriteLine("\n[exit] Back");
+
+                        
                             string choice2 = Console.ReadLine();
                             try
                             {
@@ -473,8 +478,6 @@ namespace CinemaConsole.Pages.Admin
                                 {
                                     AD.UpdatePrice(Convert.ToInt32(choice), Convert.ToInt32(choice2));
                                     Tuple<double, double, double> pricesUpdated = AD.getPrices(Convert.ToInt32(choice));
-
-                                    Console.WriteLine("Which area would you like to change the prize of\n");
 
                                     Console.OutputEncoding = Encoding.UTF8;
 
@@ -493,23 +496,23 @@ namespace CinemaConsole.Pages.Admin
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Please enter a option that is available");
+                                    SD.ClearAndErrorMessage("Please enter a option that is available");
                                 }
                             }
                             catch (FormatException)
                             {
-                                Console.WriteLine("Please enter a option that is available");
+                                SD.ClearAndErrorMessage("Please enter a option that is available");
                             }
                         }
                     }
                     else
                     {
-                        Console.WriteLine("\nPlease enter a option that is available\n");
+                        SD.ClearAndErrorMessage("\nPlease enter a option that is available\n");
                     }
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("\nPlease enter a option that is available\n");
+                    SD.ClearAndErrorMessage("\nPlease enter a option that is available\n");
                 }
             }
         }

@@ -87,7 +87,7 @@ namespace CinemaConsole.Pages.TicketSalesman
                                 {
                                     Console.Clear();
                                     Console.WriteLine("");
-                                    Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(timeSelect, dates);
+                                    Tuple<Tuple<int, int, int, int, double, double, double>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(timeSelect, dates);
 
                                     Customer.Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
 
