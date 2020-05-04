@@ -46,10 +46,12 @@ namespace CinemaConsole.Pages
 
         public void Menu()
         {
+            ShowData SD = new ShowData();
             bool checkLogin = true;
+            Console.Clear();
             while (checkLogin == true)
             {
-                Console.WriteLine("\nGive your credentials:(username - password) or enter [exit] to return to the menu");
+                Console.WriteLine("\nGive your credentials: [username<space>password] or enter [exit] to return to the menu");
                 string login = Console.ReadLine();
                 if (login == "exit")
                 {
@@ -58,7 +60,7 @@ namespace CinemaConsole.Pages
                 string[] credentials = login.Split(' ');
                 if (credentials.Length != 2)
                 {
-                    Console.WriteLine("\nYour credentials are not in the right format. (username - password)");
+                    SD.ClearAndErrorMessage("\nYour credentials are not in the right format. [username<space>password]");
                 }
                 else
                 {
@@ -71,7 +73,7 @@ namespace CinemaConsole.Pages
                     }
                     else
                     {
-                        Console.WriteLine("\nWrong Username/Password");
+                        SD.ClearAndErrorMessage("\nWrong Username/Password");
                     }
                 }
             }

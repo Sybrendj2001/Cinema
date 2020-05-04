@@ -49,7 +49,7 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-		public void UpdateMovie(int id = -1, string name = "", int year = -1, int minimumage = -1, string summary = "")
+		public void UpdateMovie(int id, string name = "", int year = -1, int minimumage = -1, string summary = "", string actors = "")
 		{
 			try
 			{
@@ -57,58 +57,102 @@ namespace CinemaConsole.Data.BackEnd
 				bool updating = true;
 				while (updating)
 				{
-					string stringToUpdate = @"UPDATE movie SET @PlaceType = @NewType WHERE MovieID = @MovieID";
 
-					MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
-					//Define Default Parameter
 					MySqlParameter ParamID = new MySqlParameter("@MovieID", MySqlDbType.Int32);
-					//Valuate Default Parameter
 					ParamID.Value = id;
-					//Add Default Parameter to Query
-					command.Parameters.Add(ParamID);
 
-					//Create Variable Parameter
-					MySqlParameter ParamPlaceType = new MySqlParameter("@PlaceType", MySqlDbType.Text);
-					MySqlParameter ParamNewType = new MySqlParameter("@NewType", MySqlDbType.VarChar);
 
 					//Check which variables you need to get
 					if (name != "")
 					{
-						ParamPlaceType.Value = "MovieName";
-						ParamNewType.Value = name;
+						string UpdateName = @"UPDATE movie SET MovieName = @NewType WHERE MovieID = @MovieID";
+
+						MySqlCommand commandName = new MySqlCommand(UpdateName, Connection);
+						MySqlParameter NameParam = new MySqlParameter("@NewType", MySqlDbType.VarChar);
+						
+						NameParam.Value = name;
+
+						commandName.Parameters.Add(ParamID);
+						commandName.Parameters.Add(NameParam);
+
+						commandName.Prepare();
+						commandName.ExecuteNonQuery();
+
 						name = "";
 					}
 					else if (year != -1)
 					{
-						ParamPlaceType.Value = "MovieYear";
-						ParamNewType.Value = year;
+						string UpdateYear = @"UPDATE movie SET MovieYear = @NewType WHERE MovieID = @MovieID";
+
+						MySqlCommand commandYear = new MySqlCommand(UpdateYear, Connection);
+						MySqlParameter YearParam = new MySqlParameter("@NewType", MySqlDbType.Int32);
+
+						YearParam.Value = year;
+
+						commandYear.Parameters.Add(ParamID);
+						commandYear.Parameters.Add(YearParam);
+
+						commandYear.Prepare();
+						commandYear.ExecuteNonQuery();
+
 						year = -1;
 					}
 					else if (minimumage != -1)
 					{
-						ParamPlaceType.Value = "MovieMinimumAge";
-						ParamNewType.Value = minimumage;
+						string UpdateAge = @"UPDATE movie SET MovieMinimumAge = @NewType WHERE MovieID = @MovieID";
+
+						MySqlCommand commandAge = new MySqlCommand(UpdateAge, Connection);
+						MySqlParameter AgeParam = new MySqlParameter("@NewType", MySqlDbType.Int32);
+
+						AgeParam.Value = minimumage;
+
+						commandAge.Parameters.Add(ParamID);
+						commandAge.Parameters.Add(AgeParam);
+
+						commandAge.Prepare();
+						commandAge.ExecuteNonQuery();
+
 						minimumage = -1;
 					}
 					else if (summary != "")
 					{
-						ParamPlaceType.Value = "MovieSummary";
-						ParamNewType.Value = summary;
+						string UpdateSum = @"UPDATE movie SET MovieSummary = @NewType WHERE MovieID = @MovieID";
+
+						MySqlCommand commandSum = new MySqlCommand(UpdateSum, Connection);
+						MySqlParameter SumParam = new MySqlParameter("@NewType", MySqlDbType.VarChar);
+
+						SumParam.Value = summary;
+
+						commandSum.Parameters.Add(ParamID);
+						commandSum.Parameters.Add(SumParam);
+
+						commandSum.Prepare();
+						commandSum.ExecuteNonQuery();
+
 						summary = "";
+					}
+					else if (actors != "")
+					{
+						string UpdateActors = @"UPDATE movie SET MovieActors = @NewType WHERE MovieID = @MovieID";
+
+						MySqlCommand commandActor = new MySqlCommand(UpdateActors, Connection);
+						MySqlParameter ActorsParam = new MySqlParameter("@NewType", MySqlDbType.VarChar);
+
+						ActorsParam.Value = actors;
+
+						commandActor.Parameters.Add(ParamID);
+						commandActor.Parameters.Add(ActorsParam);
+
+						commandActor.Prepare();
+						commandActor.ExecuteNonQuery();
+
+						actors = "";
 					}
 					else
 					{
 						updating = false;
 						break;
 					}
-
-					//Add Variable Parameters to Query
-					command.Parameters.Add(ParamPlaceType);
-					command.Parameters.Add(ParamNewType);
-
-					//Execute Query
-					command.Prepare();
-					command.ExecuteNonQuery();
 				}
 			}
 			catch (MySqlException ex)
@@ -164,9 +208,9 @@ namespace CinemaConsole.Data.BackEnd
 
 		public void DisplayProducts()
 		{
+			Console.Clear();
 			Console.OutputEncoding = Encoding.UTF8;
-
-			Console.WriteLine("\nMenu:");
+			Console.WriteLine("Restaurant menu:");
 			try
 			{
 				Connection.Open();
@@ -175,11 +219,10 @@ namespace CinemaConsole.Data.BackEnd
 				MySqlCommand command = new MySqlCommand(stringToDisplay, Connection);
 
 				MySqlDataReader dataReader = command.ExecuteReader();
-
 				while (dataReader.Read())
 				{
 					double test = dataReader.GetDouble("Price");
-					Console.WriteLine("[" + dataReader["ItemID"] + "] " + dataReader["ItemName"] + "    €" + test.ToString("0.00"));
+					Console.WriteLine("(" + dataReader["ItemID"] + ") " + dataReader["ItemName"] + "    €" + test.ToString("0.00"));
 				}
 
 				dataReader.Close();
@@ -396,28 +439,31 @@ namespace CinemaConsole.Data.BackEnd
 			return function;
 		}
 
-		public void InsertMovie(string name, int year, int mage, int msummary)
+		public void InsertMovie(string name, int year, int mage, string msummary, string Actors)
 		{
 			try
 			{
 				Connection.Open();
-				string stringToInsert = "INSERT INTO Movie (MovieName, MovieYear, MovieMinimumAge, MovieSummary) VALUES (@Name, @Year, @MAge, @MSummary)";
+				string stringToInsert = "INSERT INTO Movie (MovieName, MovieYear, MovieMinimumAge, MovieSummary, MovieActors) VALUES (@Name, @Year, @MAge, @MSummary, @MovieActors)";
 
 				MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
 				MySqlParameter NameParam = new MySqlParameter("@Name", MySqlDbType.VarChar);
 				MySqlParameter YearParam = new MySqlParameter("@Year", MySqlDbType.Int32);
 				MySqlParameter MAgeParam = new MySqlParameter("@MAge", MySqlDbType.Int32);
 				MySqlParameter MSummaryParam = new MySqlParameter("@MSummary", MySqlDbType.LongText);
+				MySqlParameter ActorsParam = new MySqlParameter("@MovieActors", MySqlDbType.LongText);
 
 				NameParam.Value = name;
 				YearParam.Value = year;
 				MAgeParam.Value = mage;
 				MSummaryParam.Value = msummary;
+				ActorsParam.Value = Actors;
 
 				command.Parameters.Add(NameParam);
 				command.Parameters.Add(YearParam);
 				command.Parameters.Add(MAgeParam);
 				command.Parameters.Add(MSummaryParam);
+				command.Parameters.Add(ActorsParam);
 
 				command.Prepare();
 				command.ExecuteNonQuery();
@@ -559,11 +605,13 @@ namespace CinemaConsole.Data.BackEnd
 
 									Console.WriteLine("\nReservation removed. Press enter to go back to the menu");
 									Console.ReadLine();
+									Console.Clear();
 									break;
 								}
 
 								else if (CancelOrDelete == "2")
 								{
+									Console.Clear();
 									break;
 								}
 								break;
@@ -572,13 +620,16 @@ namespace CinemaConsole.Data.BackEnd
 
 						if (isFound)
 						{
+							Console.Clear();
 							break;
 						}
 
 						else
 						{
+							Console.Clear();
 							Console.WriteLine("\nThere were no results found with ticketnumber: " + ticketcode + "\nPress enter to go back to the menu");
 							Console.ReadLine();
+							Console.Clear();
 							break;
 						}
 					}
