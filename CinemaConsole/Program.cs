@@ -16,6 +16,8 @@ namespace CinemaConsole
     {
         static void Main(string[] args)
         {
+            AdminData AD = new AdminData();
+            AD.DeletepastTimes();
             //TicketSalesman.Tickets();
             bool Running = true;
             string pageToBe = "";

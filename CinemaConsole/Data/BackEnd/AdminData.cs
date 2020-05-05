@@ -48,7 +48,36 @@ namespace CinemaConsole.Data.BackEnd
             }
             return title;
         }
-        
+
+        public int GetHallIDConnectless(int DateID)
+        {
+            int HallID = -1;
+            try
+            {
+                string IntToCheck = @"SELECT HallID FROM hall WHERE DateID = @DateID";
+
+                MySqlCommand command = new MySqlCommand(IntToCheck, Connection);
+                MySqlParameter DateIDParam = new MySqlParameter("@DateID", MySqlDbType.VarChar);
+
+                DateIDParam.Value = DateID;
+
+                command.Parameters.Add(DateIDParam);
+
+                MySqlDataReader dataReader = command.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    HallID = dataReader.GetInt32("HallID");
+                }
+                dataReader.Close();
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            return HallID;
+        }
+
         public int GetHallID(int DateID)
         {
             int HallID = -1;
@@ -251,31 +280,38 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public void CreateHall(int SeatAmount, int RowLength, int ColLength, int DateID)
+        public void CreateHall(int SeatAmount, int RowLength, int ColLength, int DateID, double InnerCircle, double MiddleCircle, double OuterCircle)
         {
             try
             {
                 Connection.Open();
 
-                string stringToInsert = @"INSERT INTO hall (SeatsAmount, RowLength, ColLength, DateID) VALUES (@SeatAmount, @RowLength, @ColLength, @DateID)";
+                string stringToInsert = @"INSERT INTO hall (SeatsAmount, RowLength, ColLength, DateID, InnerCircle, MiddleCircle, OuterCircle) VALUES (@SeatAmount, @RowLength, @ColLength, @DateID, @InnerCircle, @MiddleCircle, @OuterCircle)";
 
                 MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
                 MySqlParameter SeatAmountParam = new MySqlParameter("@SeatAmount", MySqlDbType.Int32);
                 MySqlParameter RowLengthParam = new MySqlParameter("@RowLength", MySqlDbType.Int32);
                 MySqlParameter ColLengthParam = new MySqlParameter("@ColLength", MySqlDbType.Int32);
                 MySqlParameter DateIDParam = new MySqlParameter("@DateID", MySqlDbType.Int32);
-        
+                MySqlParameter InnerParam = new MySqlParameter("@InnerCircle", MySqlDbType.Double);
+                MySqlParameter MiddleParam = new MySqlParameter("@MiddleCircle", MySqlDbType.Double);
+                MySqlParameter OuterParam = new MySqlParameter("@OuterCircle", MySqlDbType.Double);
 
                 SeatAmountParam.Value = SeatAmount;
                 RowLengthParam.Value = RowLength;
                 ColLengthParam.Value = ColLength;
                 DateIDParam.Value = DateID;
-
+                InnerParam.Value = InnerCircle;
+                MiddleParam.Value = MiddleCircle;
+                OuterParam.Value = OuterCircle;
 
                 command.Parameters.Add(SeatAmountParam);
                 command.Parameters.Add(RowLengthParam);
                 command.Parameters.Add(ColLengthParam);
                 command.Parameters.Add(DateIDParam);
+                command.Parameters.Add(InnerParam);
+                command.Parameters.Add(MiddleParam);
+                command.Parameters.Add(OuterParam);
 
                 command.Prepare();
                 command.ExecuteNonQuery();
@@ -434,11 +470,14 @@ namespace CinemaConsole.Data.BackEnd
             return seat;
         }
 
-        public Tuple<int, int, int, int> GetHallInfo(int HallID)
+        public Tuple<int, int, int, int, double, double, double> GetHallInfo(int HallID)
         {
             int row = 0;
             int col = 0;
             int dateID = 0;
+            double inner = 0;
+            double middle = 0;
+            double outer = 0;
 
             try
             {
@@ -459,6 +498,9 @@ namespace CinemaConsole.Data.BackEnd
                     row = dataReader.GetInt32("RowLength");
                     col = dataReader.GetInt32("ColLength");
                     dateID = dataReader.GetInt32("DateID");
+                    inner = dataReader.GetDouble("InnerCircle");
+                    middle = dataReader.GetDouble("MiddleCircle");
+                    outer = dataReader.GetDouble("OuterCircle");
                 }
                 dataReader.Close();
             }
@@ -471,7 +513,7 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Close();
             }
 
-            return Tuple.Create(row, col, dateID, HallID);
+            return Tuple.Create(row, col, dateID, HallID, inner, middle, outer);
         }
 
         public void switchAvail(int seatX, int seatY, int hallID, int amount, bool avail)
@@ -659,6 +701,215 @@ namespace CinemaConsole.Data.BackEnd
 
                 commandSeat.Prepare();
                 commandSeat.ExecuteNonQuery();
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+        public void DeletepastTimes()
+        {
+            try
+            {
+                List<int> DateIDs = new List<int>();
+                Connection.Open();
+
+                string StringtoRead = @"SELECT DateID, DateTime FROM date";
+
+                MySqlCommand commandRead = new MySqlCommand(StringtoRead, Connection);
+
+                MySqlDataReader dataReader = commandRead.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    if (dataReader.GetDateTime("DateTime") < DateTime.Now)
+                    {
+                        DateIDs.Add(dataReader.GetInt32("DateID"));
+                    }
+                }
+                dataReader.Close();
+
+                int hallID;
+
+                for (int i = 0; i < DateIDs.Count; i++)
+                {
+                    hallID = GetHallIDConnectless(DateIDs[i]);
+
+                    MySqlParameter dateIDParam = new MySqlParameter("@ID", MySqlDbType.Int32);
+                    dateIDParam.Value = DateIDs[i];
+
+                    //Delete date with DateID
+                    string DeleteDate = @"DELETE FROM date WHERE DateID = @ID";
+                    MySqlCommand commandDate = new MySqlCommand(DeleteDate, Connection);
+
+                    commandDate.Parameters.Add(dateIDParam);
+
+                    commandDate.Prepare();
+                    commandDate.ExecuteNonQuery();
+
+                    //Delete hall with DateID
+                    string DeleteHall = @"DELETE FROM hall WHERE DateID = @ID";
+                    MySqlCommand commandhall = new MySqlCommand(DeleteHall, Connection);
+
+                    commandhall.Parameters.Add(dateIDParam);
+
+                    commandhall.Prepare();
+                    commandhall.ExecuteNonQuery();
+
+                    //Delete tickets with dateID
+                    string DeleteTicket = @"DELETE FROM ticket WHERE DateID = @ID";
+                    MySqlCommand commandTicket = new MySqlCommand(DeleteTicket, Connection);
+
+                    commandTicket.Parameters.Add(dateIDParam);
+
+                    commandTicket.Prepare();
+                    commandTicket.ExecuteNonQuery();
+
+                    //Delete seats met hallID
+                    string DeleteSeat = @"DELETE FROM seats WHERE HallID = @ID";
+
+                    MySqlCommand commandSeat = new MySqlCommand(DeleteSeat, Connection);
+                    MySqlParameter hallIDParam = new MySqlParameter("@ID", MySqlDbType.Int32);
+
+                    hallIDParam.Value = hallID;
+
+                    commandSeat.Parameters.Add(hallIDParam);
+
+                    commandSeat.Prepare();
+                    commandSeat.ExecuteNonQuery();
+                }
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+        public Tuple<double, double, double> getPrices(int hall)
+        {
+            double InnerCircle = 0.0;
+            double MiddleCircle = 0.0;
+            double OuterCircle = 0.0;
+
+            try
+            {
+                Connection.Open();
+
+                string StringtoRead = @"SELECT * FROM prices WHERE Hall = @hall";
+
+                MySqlCommand command = new MySqlCommand(StringtoRead, Connection);
+                MySqlParameter hallParam = new MySqlParameter("@hall", MySqlDbType.Int32);
+
+                hallParam.Value = hall;
+
+                command.Parameters.Add(hallParam);
+
+                MySqlDataReader dataReader = command.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    InnerCircle = dataReader.GetDouble("InnerCircle");
+                    MiddleCircle = dataReader.GetDouble("MiddleCircle");
+                    OuterCircle = dataReader.GetDouble("OuterCircle");
+                }
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+
+            return Tuple.Create(InnerCircle, MiddleCircle, OuterCircle);
+        }
+
+        public void UpdatePrice(int hall, int circle)
+        {
+            ShowData SD = new ShowData();
+
+            try
+            {
+                Connection.Open();
+
+                double price = 0.0;
+                Console.WriteLine("\nPlease give the price you want. And write it down like in the example (7.50)");
+                while (true)
+                {
+                    try
+                    {
+                        string priceString = Console.ReadLine();
+                        price = Convert.ToDouble(priceString);
+                        if (price > 0.0)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nPlease enter a price above 0.00 (7.50)");
+                        }
+                    }
+                    catch (FormatException)
+                    {
+                        SD.ErrorMessage("\nThe price was not put in correctly.");
+                        Console.WriteLine("Please write it down like in the example(7.50)");
+                    }
+                }
+
+                MySqlParameter priceParam = new MySqlParameter("@price", MySqlDbType.Double);
+                MySqlParameter hallParam = new MySqlParameter("@hall", MySqlDbType.Int32);
+
+                priceParam.Value = price;
+                hallParam.Value = hall;
+
+                if (circle == 1) 
+                {
+                    string StringtoUpdate = @"UPDATE prices SET InnerCircle = @price WHERE Hall = @hall";
+
+                    MySqlCommand command = new MySqlCommand(StringtoUpdate, Connection);
+                    
+                    command.Parameters.Add(priceParam);
+                    command.Parameters.Add(hallParam);
+
+                    command.Prepare();
+                    command.ExecuteNonQuery();
+                }
+                else if (circle == 2)
+                {
+                    string StringtoUpdate = @"UPDATE prices SET MiddleCircle = @price WHERE Hall = @hall";
+
+                    MySqlCommand command = new MySqlCommand(StringtoUpdate, Connection);
+
+                    command.Parameters.Add(priceParam);
+                    command.Parameters.Add(hallParam);
+
+                    command.Prepare();
+                    command.ExecuteNonQuery();
+                }
+                else if (circle == 3)
+                {
+                    string StringtoUpdate = @"UPDATE prices SET OuterCircle = @price WHERE Hall = @hall";
+
+                    MySqlCommand command = new MySqlCommand(StringtoUpdate, Connection);
+
+                    command.Parameters.Add(priceParam);
+                    command.Parameters.Add(hallParam);
+
+                    command.Prepare();
+                    command.ExecuteNonQuery();
+                }
+
+
             }
             catch (MySqlException)
             {

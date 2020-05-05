@@ -102,7 +102,7 @@ namespace CinemaConsole.Pages.Customer
             return CustomerReserve;
         }
 
-        public static Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallSeatInfo(string CustomerReserve, Tuple<List<DateTime>, List<int>, List<int>> date)
+        public static Tuple<Tuple<int, int, int, int, double, double, double>, List<Tuple<double, int, int, string, bool>>> hallSeatInfo(string CustomerReserve, Tuple<List<DateTime>, List<int>, List<int>> date)
         {
             AdminData AD = new AdminData();
 
@@ -111,7 +111,7 @@ namespace CinemaConsole.Pages.Customer
             DateTime dt = DateTime.ParseExact(datetime, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
 
             int HallID = AD.GetHallID(AD.GetDateID(dt, date.Item3[Convert.ToInt32(CustomerReserve) - 1]));
-            Tuple<int, int, int, int> HallInfo = AD.GetHallInfo(HallID);
+            Tuple<int, int, int, int, double, double, double> HallInfo = AD.GetHallInfo(HallID);
 
             List<Tuple<double, int, int, string, bool>> seats = AD.GetSeat(HallID);
 
@@ -149,7 +149,7 @@ namespace CinemaConsole.Pages.Customer
                     DateID = date.Item2[Convert.ToInt32(CustomerReserve)-1];
                     datetime = date.Item1[Convert.ToInt32(CustomerReserve) - 1];
                     hall = date.Item3[Convert.ToInt32(CustomerReserve) - 1];
-                    Tuple<Tuple<int, int, int, int>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = hallSeatInfo(CustomerReserve, date);
+                    Tuple<Tuple<int, int, int, int, double, double, double>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = hallSeatInfo(CustomerReserve, date);
                     HallID = hallseatInfo.Item1.Item4;
                     Console.Clear();
                     while (true)
@@ -204,10 +204,51 @@ namespace CinemaConsole.Pages.Customer
             return Tuple.Create(datetime,DateID, amount, seatX, seatY, Tuple.Create(price, hall, HallID));
         }
 
-        public static void showHall(Tuple<int, int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats)
+        public static void showHall(Tuple<int, int, int, int, double, double, double> HallInfo, List<Tuple<double, int, int, string, bool>> seats)
         {
-            string showhall = "";
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.WriteLine("\nLegend:");
+            
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("O");
+            Console.ResetColor();
+            Console.Write(" - €" + HallInfo.Item5.ToString("0.00") + "\n");
+            
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("O");
+            Console.ResetColor();
+            Console.Write(" - €" + HallInfo.Item6.ToString("0.00") + "\n");
+            
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("O");
+            Console.ResetColor();
+            Console.Write(" - €" + HallInfo.Item7.ToString("0.00") + "\n");
+            
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("X");
+            Console.ResetColor();
+            Console.Write(" - Reserved Seat\n");
 
+            string XasNumbers = "\n";
+            
+            for (int i = 0; i < HallInfo.Item2; i++)
+            {
+                if (i > 8)
+                {
+                    XasNumbers += (i+1) +" ";
+                }
+                else if (i == 8)
+                {
+                    XasNumbers += (i+1) + "  ";
+                }
+                else
+                {
+                    XasNumbers += (i+1) + "  ";
+                }
+            }
+            XasNumbers += "\n";
+            Console.WriteLine(XasNumbers);
+            
             for (int i = 0; i < HallInfo.Item1; i++)
             {
                 for (int j = 0; j < HallInfo.Item2; j++)
@@ -218,59 +259,85 @@ namespace CinemaConsole.Pages.Customer
                         {
                             if (seats[z].Item5)
                             {
+                                if (seats[z].Item1 == HallInfo.Item5)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                }
+                                else if (seats[z].Item1 == HallInfo.Item6)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Cyan;
+                                }
+                                else if(seats[z].Item1 == HallInfo.Item7)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                }
+
                                 if (j > 8)
                                 {
-                                    showhall += " O ";
+                                    Console.Write(" O ");
                                 }
                                 else if (j == 8)
                                 {
-                                    showhall += "O ";
+                                    Console.Write("O ");
                                 }
                                 else
                                 {
-                                    showhall += "O  ";
+                                    Console.Write("O  ");
                                 }
+                                Console.ResetColor();
                             }
                             else if (seats[z].Item4 == "(No Seat)")
                             {
                                 if (j > 8)
                                 {
-                                    showhall += "   ";
+                                    Console.Write("   ");
                                 }
                                 else if (j == 8)
                                 {
-                                    showhall += "  ";
+                                    Console.Write("  ");
                                 }
                                 else
                                 {
-                                    showhall += "   ";
+                                    Console.Write("   ");
                                 }
                             }
                             else
                             {
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 if (j > 8)
                                 {
-                                    showhall += " X ";
+                                    Console.Write(" X ");
                                 }
                                 else if (j == 8)
                                 {
-                                    showhall += "X ";
+                                    Console.Write("X ");
                                 }
                                 else
                                 {
-                                    showhall += "X  ";
+                                    Console.Write("X  ");
                                 }
+                                Console.ResetColor();
                             }
                             break;
                         }
                     }
                 }
-                showhall += "\n";
+                Console.Write("  " + (HallInfo.Item1 - i));
+                Console.Write("\n");
             }
-            Console.WriteLine(showhall);
+
+            string screen = "";
+            screen += "\n";
+            for (int i = 0; i < HallInfo.Item2; i++)
+            {
+                screen += "---";
+            }
+
+            screen += "       (screen)\n";
+            Console.WriteLine(screen);
         }
 
-        public static bool seatCheck(Tuple<int, int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats, int amount)
+        public static bool seatCheck(Tuple<int, int, int, int, double, double, double> HallInfo, List<Tuple<double, int, int, string, bool>> seats, int amount)
         {
             AdminData AD = new AdminData();
 
@@ -328,7 +395,7 @@ namespace CinemaConsole.Pages.Customer
             return times;
         }
 
-        public static Tuple<int, int, double> chooseSeat(Tuple<int, int, int, int> HallInfo, List<Tuple<double, int, int, string, bool>> seats, int amount)
+        public static Tuple<int, int, double> chooseSeat(Tuple<int, int, int, int, double, double, double> HallInfo, List<Tuple<double, int, int, string, bool>> seats, int amount)
         {
             ShowData SD = new ShowData();
             AdminData AD = new AdminData();
@@ -358,8 +425,9 @@ namespace CinemaConsole.Pages.Customer
 
                 try
                 {
+                    
                     seatX = Convert.ToInt32(selectedSeat[0]);
-                    seatY = Convert.ToInt32(selectedSeat[1]);
+                    seatY = HallInfo.Item1 - Convert.ToInt32(selectedSeat[1]) + 1;
 
 
                     for (int i = 0; i < seats.Count; i++)
@@ -368,17 +436,17 @@ namespace CinemaConsole.Pages.Customer
                         {
                             free = false;
                             price = 0.0;
-                            break;
+                            //break;
                         }
                         if ((seatY - 1 == seats[i].Item2) && ((seats[i].Item3 >= seatX - 1) && (seats[i].Item3 < seatX - 1 + amount)) && seats[i].Item5)
                         {
                             price += seats[i].Item1;
                         }
-                        if(seatY-1 == seats[i].Item2 && seats[i].Item3 == seatX - 1)
+                        if(seatY-1 == seats[i].Item2 && seats[i].Item3 == seatX - 1 && seats[i].Item4 != "(No Seat)")
                         {
                             exist1 = true;
                         }
-                        if (seatY - 1 == seats[i].Item2 && seats[i].Item3 == seatX +amount- 2)
+                        if (seatY - 1 == seats[i].Item2 && seats[i].Item3 == seatX +amount- 2 && seats[i].Item4 != "(No Seat)")
                         {
                             exist2 = true;
                         }
@@ -389,6 +457,10 @@ namespace CinemaConsole.Pages.Customer
                         if (free)
                         {
                             break;
+                        }
+                        else if (!exist1 || !exist2)
+                        {
+                            Console.WriteLine("\nMake sure your seats are in the theatherhall");
                         }
                         else
                         {
@@ -423,14 +495,29 @@ namespace CinemaConsole.Pages.Customer
         //Customer get an overview of all the information about the movie and contact details before booking
         public static void overviewCustomer(Tuple<string, string, string> personInfo, Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> ticketInfo, string title, string ticketCode)
         {
-            string totalprice = Convert.ToString(ticketInfo.Item6.Item1);
+            string totalprice = ticketInfo.Item6.Item1.ToString("0.00");
             string datetime = Convert.ToDateTime(ticketInfo.Item1).ToString("dd/MM/yyyy HH:mm");
             Console.WriteLine("\n" + title + '\n'+ datetime + "\nTotal price: €" + totalprice);
+
+            int Y = 0;
+
+            if (ticketInfo.Item6.Item2 == 1)
+            {
+                Y = 14 - ticketInfo.Item5 + 1;
+            }
+            else if (ticketInfo.Item6.Item2 == 2)
+            {
+                Y = 19 - ticketInfo.Item5 + 1;
+            }
+            else if (ticketInfo.Item6.Item2 == 3)
+            {
+                Y = 20 - ticketInfo.Item5 + 1;
+            }
 
             string seats = "Seats:";
             for (int i = ticketInfo.Item4; i < ticketInfo.Item4 + ticketInfo.Item3; i++)
             {
-                seats += " (" + i + "/" + ticketInfo.Item5 + ")";
+                seats += " (" + i + "/" + Y + ")";
             }
             Console.WriteLine(seats);
             Console.WriteLine(personInfo.Item1 + " " + personInfo.Item2 + "  " + personInfo.Item3);
