@@ -843,7 +843,7 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Open();
 
                 double price = 0.0;
-                Console.WriteLine("Please give the price you want. And write it down like in the example (7.50)");
+                Console.WriteLine("\nPlease give the price you want. And write it down like in the example (7.50)");
                 while (true)
                 {
                     try

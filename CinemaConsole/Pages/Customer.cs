@@ -209,7 +209,7 @@ namespace CinemaConsole.Pages.Customer
             Console.OutputEncoding = Encoding.UTF8;
             Console.WriteLine("\nLegend:");
             
-            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("O");
             Console.ResetColor();
             Console.Write(" - €" + HallInfo.Item5.ToString("0.00") + "\n");
@@ -261,7 +261,7 @@ namespace CinemaConsole.Pages.Customer
                             {
                                 if (seats[z].Item1 == HallInfo.Item5)
                                 {
-                                    Console.ForegroundColor = ConsoleColor.Blue;
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
                                 }
                                 else if (seats[z].Item1 == HallInfo.Item6)
                                 {
@@ -495,14 +495,29 @@ namespace CinemaConsole.Pages.Customer
         //Customer get an overview of all the information about the movie and contact details before booking
         public static void overviewCustomer(Tuple<string, string, string> personInfo, Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> ticketInfo, string title, string ticketCode)
         {
-            string totalprice = Convert.ToString(ticketInfo.Item6.Item1);
+            string totalprice = ticketInfo.Item6.Item1.ToString("0.00");
             string datetime = Convert.ToDateTime(ticketInfo.Item1).ToString("dd/MM/yyyy HH:mm");
             Console.WriteLine("\n" + title + '\n'+ datetime + "\nTotal price: €" + totalprice);
+
+            int Y = 0;
+
+            if (ticketInfo.Item6.Item2 == 1)
+            {
+                Y = 14 - ticketInfo.Item5 + 1;
+            }
+            else if (ticketInfo.Item6.Item2 == 2)
+            {
+                Y = 19 - ticketInfo.Item5 + 1;
+            }
+            else if (ticketInfo.Item6.Item2 == 3)
+            {
+                Y = 20 - ticketInfo.Item5 + 1;
+            }
 
             string seats = "Seats:";
             for (int i = ticketInfo.Item4; i < ticketInfo.Item4 + ticketInfo.Item3; i++)
             {
-                seats += " (" + i + "/" + ticketInfo.Item5 + ")";
+                seats += " (" + i + "/" + Y + ")";
             }
             Console.WriteLine(seats);
             Console.WriteLine(personInfo.Item1 + " " + personInfo.Item2 + "  " + personInfo.Item3);

@@ -31,7 +31,7 @@ namespace CinemaConsole.Pages.Admin
                         //Gives the right colors
                         if ((j == 5 || j == 6) && (i > 4 && i < 9))
                         {
-                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.ForegroundColor = ConsoleColor.Yellow;
                         }
                         else if ((j == 5 || j == 6) && (i > 2 && i < 11))
                         {
@@ -121,15 +121,15 @@ namespace CinemaConsole.Pages.Admin
                         //Gives the right colors
                         if ((j == 8 || j == 9) && (i > 4 && i < 13))
                         {
-                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.ForegroundColor = ConsoleColor.Yellow;
                         }
                         else if ((j == 7 || j == 10) && (i > 5 && i < 12))
                         {
-                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.ForegroundColor = ConsoleColor.Yellow;
                         }
                         else if ((j == 6 || j == 11) && (i > 6 && i < 11))
                         {
-                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.ForegroundColor = ConsoleColor.Yellow;
                         }
                         else if ((j > 5 && j < 12) && (i > 0 && i < 16))
                         {
@@ -242,15 +242,15 @@ namespace CinemaConsole.Pages.Admin
                         //Gives the right colors
                         if ((j > 12 && j < 17) && (i > 3 && i < 13))
                         {
-                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.ForegroundColor = ConsoleColor.Yellow;
                         }
                         else if ((j == 12 || j == 17) && (i > 4 && i < 12))
                         {
-                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.ForegroundColor = ConsoleColor.Yellow;
                         }
                         else if ((j == 11 || j == 18) && (i > 5 && i < 12))
                         {
-                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.ForegroundColor = ConsoleColor.Yellow;
                         }
                         else if ((j > 11 && j < 18) && (i > 0 && i < 17))
                         {
@@ -452,7 +452,7 @@ namespace CinemaConsole.Pages.Admin
 
                             Console.OutputEncoding = Encoding.UTF8;
                         
-                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.ForegroundColor = ConsoleColor.Yellow;
                             Console.Write("[1] €" + prices.Item1.ToString("0.00"));
                             Console.ResetColor();
 
@@ -472,16 +472,18 @@ namespace CinemaConsole.Pages.Admin
                             {
                                 if (choice2 == "exit")
                                 {
+                                    Console.Clear();
                                     break;
                                 }
                                 else if (Convert.ToInt32(choice2) > 0 && Convert.ToInt32(choice2) < 4)
                                 {
                                     AD.UpdatePrice(Convert.ToInt32(choice), Convert.ToInt32(choice2));
+                                    Console.Clear();
                                     Tuple<double, double, double> pricesUpdated = AD.getPrices(Convert.ToInt32(choice));
 
                                     Console.OutputEncoding = Encoding.UTF8;
 
-                                    Console.ForegroundColor = ConsoleColor.Blue;
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
                                     Console.Write("\n[1] €" + pricesUpdated.Item1.ToString("0.00"));
                                     Console.ResetColor();
 
@@ -492,6 +494,10 @@ namespace CinemaConsole.Pages.Admin
                                     Console.ForegroundColor = ConsoleColor.Green;
                                     Console.Write("\n[3] €" + pricesUpdated.Item3.ToString("0.00"));
                                     Console.ResetColor();
+
+                                    Console.WriteLine("\nPress enter to continue");
+                                    Console.ReadLine();
+                                    Console.Clear();
                                     break;
                                 }
                                 else
