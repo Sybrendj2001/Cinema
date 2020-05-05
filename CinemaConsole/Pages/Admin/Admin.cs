@@ -495,7 +495,7 @@ namespace CinemaConsole.Pages.Admin
                                     Console.Write("\n[3] €" + pricesUpdated.Item3.ToString("0.00"));
                                     Console.ResetColor();
 
-                                    Console.WriteLine("\nPress enter to continue");
+                                    Console.WriteLine("\n\nPress enter to continue");
                                     Console.ReadLine();
                                     Console.Clear();
                                     break;
