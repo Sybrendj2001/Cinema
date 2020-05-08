@@ -686,7 +686,7 @@ namespace CinemaConsole.Pages.Admin
                             Console.SetCursorPosition(0, Console.CursorTop - 1);
                             ClearCurrentConsoleLine();
 
-                            Console.WriteLine("\n[add] Add another date and time\n[exit] Exit to menu");
+                            //Console.WriteLine("\n[add] Add another date and time\n[exit] Exit to menu");
                             Console.WriteLine("\n[add] To add another date and time for '"+ title +"'\n[exit] Exit to menu");
                             string exit = Console.ReadLine();
                             if (exit == "exit")
