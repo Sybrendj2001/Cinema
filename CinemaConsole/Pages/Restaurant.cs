@@ -70,7 +70,7 @@ namespace CinemaConsole.Pages.Restaurant
                     Console.Clear();
                     try
                     {
-                        Console.WriteLine("\nPlease enter the new price of the product in euro's.");
+                        Console.WriteLine("\nPlease enter the new price of the product in euro's. Example: (5,00).");
                         double newPrice = double.Parse(Console.ReadLine());
                         Console.WriteLine(" ");
 
@@ -97,7 +97,7 @@ namespace CinemaConsole.Pages.Restaurant
                         Console.WriteLine("\nPlease enter the new name of the product.");
                         string inputName = Console.ReadLine();
                         string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
-                        Console.WriteLine("\nPlease enter the new price of the product in euro's.");
+                        Console.WriteLine("\nPlease enter the new price of the product in euro's. Example: (5,00)");
                         double newPrice = double.Parse(Console.ReadLine());
                         Console.WriteLine(" ");
 
@@ -181,7 +181,7 @@ namespace CinemaConsole.Pages.Restaurant
                                 Console.WriteLine(" ");
 
                                 //Requests the price of the product to be added.
-                                Console.WriteLine("Please fill in the price of the product in euro's or write [exit] to go back to the menu.");
+                                Console.WriteLine("Please fill in the price of the product in euro's (Example: 5,00) or write [exit] to go back to the menu.");
                                 string inputPrice = Console.ReadLine();
                                 if (inputPrice == "exit")
                                 {
@@ -225,13 +225,19 @@ namespace CinemaConsole.Pages.Restaurant
                             }
                             else
                             {
-                                //Requests the ID of the product to be removed.
-                                int itemID = Int32.Parse(input);
-                                Console.WriteLine(" ");
+                                Console.Clear();
+                                CD.DisplayProducts();
+                                SD.ErrorMessage($"\nAre you sure you wish to remove the item with ID {input}? [yes/no] This cannot be undone!");
+                                string response = Console.ReadLine().ToLower();
+                                if(response == "yes")
+                                {
+                                    int itemID = Int32.Parse(input);
+                                    Console.WriteLine(" ");
 
-                                //Calls the removeItem function and enters the name of the product given earlier.
-                                CD.DeleteProduct(itemID);
-                                break;
+                                    //Calls the removeItem function and enters the name of the product given earlier.
+                                    CD.DeleteProduct(itemID);
+                                    break;
+                                }                                
                             }
                         }
                         catch (FormatException f)

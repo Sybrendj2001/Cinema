@@ -61,3 +61,4 @@ C:\Users\sybre\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\bin\Debug\Renci.Ss
 C:\Users\sybre\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\bin\Debug\MySql.Data.xml
 C:\Users\sybre\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\obj\Debug\CinemaConsole.csproj.CopyComplete
 C:\Users\sybre\Source\Repos\Sybrendj2001\Cinema\CinemaConsole\bin\Debug\System.Data.dll
+D:\School\Project_bravo\Cinema\CinemaConsole\bin\Debug\System.Data.dll
