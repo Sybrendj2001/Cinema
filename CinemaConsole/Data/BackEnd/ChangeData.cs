@@ -306,77 +306,115 @@ namespace CinemaConsole.Data.BackEnd
 			try
 			{
 				Connection.Open();
-				if (name != "" && price != -1)
+				bool productExists = false;
+				try
 				{
-					string stringToUpdate = @"UPDATE restaurantitems SET ItemName = @NewName, Price = @NewPrice WHERE ItemID = @ItemID";
-
-					MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
+					string stringToRead = @"SELECT * FROM restaurantitems WHERE ItemID = @ItemID";
 					MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
-					MySqlParameter ParamNewName = new MySqlParameter("@NewName", MySqlDbType.VarChar);
-					MySqlParameter ParamNewPrice = new MySqlParameter("@NewPrice", MySqlDbType.Double);
 
+					MySqlCommand command = new MySqlCommand(stringToRead, Connection);
 					ParamID.Value = id;
-					ParamNewName.Value = name;
-					ParamNewPrice.Value = price;
-
-					command.Parameters.Add(ParamNewName);
-					command.Parameters.Add(ParamNewPrice);
 					command.Parameters.Add(ParamID);
 
-					command.Prepare();
-					command.ExecuteNonQuery();
+					MySqlDataReader dataReader = command.ExecuteReader();
+					while (dataReader.Read())
+					{
+						int productCheck = dataReader.GetInt32("COUNT(*)");
+						if (productCheck == 1)
+						{
+							productExists = true;
+							dataReader.Close();
+						}
+						else
+						{
+							productExists = false;
+						}
+					}
+				}
+				catch (MySqlException ex)
+				{
 
-					DisplayProduct();
+					throw;
 				}
 
-				else if(name != "" && price == -1)
+				if (productExists == true)
 				{
-					string stringToUpdate = @"UPDATE restaurantitems SET ItemName = @NewName WHERE ItemID = @ItemID";
+					if (name != "" && price != -1)
+					{
+						string stringToUpdate = @"UPDATE restaurantitems SET ItemName = @NewName, Price = @NewPrice WHERE ItemID = @ItemID";
 
-					MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
-					MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
-					MySqlParameter ParamNewName = new MySqlParameter("@NewName", MySqlDbType.VarChar);
+						MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
+						MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
+						MySqlParameter ParamNewName = new MySqlParameter("@NewName", MySqlDbType.VarChar);
+						MySqlParameter ParamNewPrice = new MySqlParameter("@NewPrice", MySqlDbType.Double);
 
-					ParamID.Value = id;
-					ParamNewName.Value = name;
+						ParamID.Value = id;
+						ParamNewName.Value = name;
+						ParamNewPrice.Value = price;
 
-					command.Parameters.Add(ParamNewName);
-					command.Parameters.Add(ParamID);
+						command.Parameters.Add(ParamNewName);
+						command.Parameters.Add(ParamNewPrice);
+						command.Parameters.Add(ParamID);
 
-					command.Prepare();
-					command.ExecuteNonQuery();
+						command.Prepare();
+						command.ExecuteNonQuery();
 
-					DisplayProduct();
+						DisplayProduct();
+					}
+
+					else if (name != "" && price == -1)
+					{
+						string stringToUpdate = @"UPDATE restaurantitems SET ItemName = @NewName WHERE ItemID = @ItemID";
+
+						MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
+						MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
+						MySqlParameter ParamNewName = new MySqlParameter("@NewName", MySqlDbType.VarChar);
+
+						ParamID.Value = id;
+						ParamNewName.Value = name;
+
+						command.Parameters.Add(ParamNewName);
+						command.Parameters.Add(ParamID);
+
+						command.Prepare();
+						command.ExecuteNonQuery();
+
+						DisplayProduct();
+					}
+
+					else if (name == "" && price != -1)
+					{
+						string stringToUpdate = @"UPDATE restaurantitems SET Price = @NewPrice WHERE ItemID = @ItemID";
+
+						MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
+						MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
+						MySqlParameter ParamNewPrice = new MySqlParameter("@NewPrice", MySqlDbType.Double);
+
+						ParamID.Value = id;
+						ParamNewPrice.Value = price;
+
+						command.Parameters.Add(ParamNewPrice);
+						command.Parameters.Add(ParamID);
+
+						command.Prepare();
+						command.ExecuteNonQuery();
+
+						DisplayProduct();
+					}
 				}
-
-				else if (name == "" && price != -1)
+				else
 				{
-					string stringToUpdate = @"UPDATE restaurantitems SET Price = @NewPrice WHERE ItemID = @ItemID";
-
-					MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
-					MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
-					MySqlParameter ParamNewPrice = new MySqlParameter("@NewPrice", MySqlDbType.Double);
-
-					ParamID.Value = id;
-					ParamNewPrice.Value = price;
-
-					command.Parameters.Add(ParamNewPrice);
-					command.Parameters.Add(ParamID);
-
-					command.Prepare();
-					command.ExecuteNonQuery();
-
-					DisplayProduct();
+					Console.WriteLine("ID does not exist. Please try again.");
 				}
 			}
-            catch (MySqlException ex)
-            {
-                throw;
-            }
-            finally
-            {
-                Connection.Close();
-            }
+			catch (MySqlException ex)
+			{
+				throw;
+			}
+			finally
+			{
+				Connection.Close();
+			}	
         }
 
         public void DeleteProduct(int deleteItem)
