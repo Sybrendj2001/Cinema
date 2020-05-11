@@ -140,6 +140,7 @@ namespace CinemaConsole.Pages.Restaurant
             ChangeData CD = new ChangeData();
             ShowData SD = new ShowData();
             Console.Clear();
+            CD.DisplayProducts();
             while (true)
             {
                 Console.WriteLine("\nPlease input the desired action: ");
@@ -147,6 +148,7 @@ namespace CinemaConsole.Pages.Restaurant
                 Console.WriteLine("[2] Add a product to the list");
                 Console.WriteLine("[3] Remove a product from the list");
                 Console.WriteLine("[4] Edit an item on the list.");
+                Console.WriteLine("[5] Show the amount of movie reservations.");
                 Console.WriteLine("[exit] Exit the menu");
 
                 //Requests input and executes functions depending on the choice.
@@ -170,7 +172,7 @@ namespace CinemaConsole.Pages.Restaurant
                             //Requests the name of the product to be added.
                             Console.WriteLine("Please fill in the name of the product or write [exit] to go back to the menu.");
                             string inputName = Console.ReadLine();
-                            if(inputName == "exit")
+                            if (inputName == "exit")
                             {
                                 Console.Clear();
                                 break;
@@ -195,8 +197,8 @@ namespace CinemaConsole.Pages.Restaurant
 
                                     CD.CreateProduct(name, price);
                                     break;
-                                }                                
-                            }                            
+                                }
+                            }
                         }
                         catch (FormatException f)
                         {
@@ -249,37 +251,58 @@ namespace CinemaConsole.Pages.Restaurant
                         }
                     }
                 }
+
+                //Calls the EditItem function.
                 else if(operation == "4")
                 {
                     Console.Clear();
                     CD.DisplayProducts();
-                    try
+                    while (true)
                     {
-                        //Requests the name of the product to be edited.
-                        Console.WriteLine("\nPlease fill in the ID of the product you wish to edit or write [exit] to go back to the menu.");
-                        string input = Console.ReadLine();
-                        if (input == "exit")
+                        try
                         {
-                            Console.Clear();
-                            break;
-                        }
-                        else
-                        {
-                            int itemID = Int32.Parse(input);
-                            Console.WriteLine(" ");
+                            //Requests the name of the product to be edited.
+                            Console.WriteLine("\nPlease fill in the ID of the product you wish to edit or write [exit] to go back to the menu.");
+                            string input = Console.ReadLine();
+                            if (input == "exit")
+                            {
+                                Console.Clear();
+                                break;
+                            }
+                            else
+                            {
+                                if (CD.checkIfPExists(Int32.Parse(input)))
+                                {
+                                    int itemID = Int32.Parse(input);
+                                    Console.WriteLine(" ");
 
-                            //Calls the editItem function and enters the ID of the product given earlier.
-                            EditItem(itemID);
-                            break;
-                        }                        
+                                    //Calls the editItem function and enters the ID of the product given earlier.
+                                    EditItem(itemID);
+                                    break;
+                                }
+                                else
+                                {
+                                    SD.ClearAndErrorMessage("ID does not exist. Please try again.");
+                                    Console.WriteLine("Press[enter] to continue.");
+                                    Console.ReadLine();
+                                    Console.Clear();
+                                }
+                            }
+                        }
+                        catch (FormatException f)
+                        {
+                            SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                            Console.WriteLine("Press[enter] to continue.");
+                            Console.ReadLine();
+                            Console.Clear();
+                        }
                     }
-                    catch (FormatException f)
-                    {
-                        SD.ClearAndErrorMessage("Invalid Input. Please try again.");
-                        Console.WriteLine("Press[enter] to continue.");
-                        Console.ReadLine();
-                        Console.Clear();
-                    }
+                }
+
+                else if(operation == "5")
+                {
+                    Console.Clear();
+                    CD.ReservationAmount();
                 }
                 //Exits out of this menu.
                 else if (operation == "exit")

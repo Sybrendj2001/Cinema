@@ -306,105 +306,67 @@ namespace CinemaConsole.Data.BackEnd
 			try
 			{
 				Connection.Open();
-				bool productExists = false;
-				try
+				if (name != "" && price != -1)
 				{
-					string stringToRead = @"SELECT * FROM restaurantitems WHERE ItemID = @ItemID";
-					MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
+					string stringToUpdate = @"UPDATE restaurantitems SET ItemName = @NewName, Price = @NewPrice WHERE ItemID = @ItemID";
 
-					MySqlCommand command = new MySqlCommand(stringToRead, Connection);
+					MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
+					MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
+					MySqlParameter ParamNewName = new MySqlParameter("@NewName", MySqlDbType.VarChar);
+					MySqlParameter ParamNewPrice = new MySqlParameter("@NewPrice", MySqlDbType.Double);
+
 					ParamID.Value = id;
+					ParamNewName.Value = name;
+					ParamNewPrice.Value = price;
+
+					command.Parameters.Add(ParamNewName);
+					command.Parameters.Add(ParamNewPrice);
 					command.Parameters.Add(ParamID);
 
-					MySqlDataReader dataReader = command.ExecuteReader();
-					while (dataReader.Read())
-					{
-						int productCheck = dataReader.GetInt32("COUNT(*)");
-						if (productCheck == 1)
-						{
-							productExists = true;
-							dataReader.Close();
-						}
-						else
-						{
-							productExists = false;
-						}
-					}
-				}
-				catch (MySqlException ex)
-				{
+					command.Prepare();
+					command.ExecuteNonQuery();
 
-					throw;
+					DisplayProduct();
 				}
 
-				if (productExists == true)
+				else if (name != "" && price == -1)
 				{
-					if (name != "" && price != -1)
-					{
-						string stringToUpdate = @"UPDATE restaurantitems SET ItemName = @NewName, Price = @NewPrice WHERE ItemID = @ItemID";
+					string stringToUpdate = @"UPDATE restaurantitems SET ItemName = @NewName WHERE ItemID = @ItemID";
 
-						MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
-						MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
-						MySqlParameter ParamNewName = new MySqlParameter("@NewName", MySqlDbType.VarChar);
-						MySqlParameter ParamNewPrice = new MySqlParameter("@NewPrice", MySqlDbType.Double);
+					MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
+					MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
+					MySqlParameter ParamNewName = new MySqlParameter("@NewName", MySqlDbType.VarChar);
 
-						ParamID.Value = id;
-						ParamNewName.Value = name;
-						ParamNewPrice.Value = price;
+					ParamID.Value = id;
+					ParamNewName.Value = name;
 
-						command.Parameters.Add(ParamNewName);
-						command.Parameters.Add(ParamNewPrice);
-						command.Parameters.Add(ParamID);
+					command.Parameters.Add(ParamNewName);
+					command.Parameters.Add(ParamID);
 
-						command.Prepare();
-						command.ExecuteNonQuery();
+					command.Prepare();
+					command.ExecuteNonQuery();
 
-						DisplayProduct();
-					}
-
-					else if (name != "" && price == -1)
-					{
-						string stringToUpdate = @"UPDATE restaurantitems SET ItemName = @NewName WHERE ItemID = @ItemID";
-
-						MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
-						MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
-						MySqlParameter ParamNewName = new MySqlParameter("@NewName", MySqlDbType.VarChar);
-
-						ParamID.Value = id;
-						ParamNewName.Value = name;
-
-						command.Parameters.Add(ParamNewName);
-						command.Parameters.Add(ParamID);
-
-						command.Prepare();
-						command.ExecuteNonQuery();
-
-						DisplayProduct();
-					}
-
-					else if (name == "" && price != -1)
-					{
-						string stringToUpdate = @"UPDATE restaurantitems SET Price = @NewPrice WHERE ItemID = @ItemID";
-
-						MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
-						MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
-						MySqlParameter ParamNewPrice = new MySqlParameter("@NewPrice", MySqlDbType.Double);
-
-						ParamID.Value = id;
-						ParamNewPrice.Value = price;
-
-						command.Parameters.Add(ParamNewPrice);
-						command.Parameters.Add(ParamID);
-
-						command.Prepare();
-						command.ExecuteNonQuery();
-
-						DisplayProduct();
-					}
+					DisplayProduct();
 				}
-				else
+
+				else if (name == "" && price != -1)
 				{
-					Console.WriteLine("ID does not exist. Please try again.");
+					string stringToUpdate = @"UPDATE restaurantitems SET Price = @NewPrice WHERE ItemID = @ItemID";
+
+					MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
+					MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
+					MySqlParameter ParamNewPrice = new MySqlParameter("@NewPrice", MySqlDbType.Double);
+
+					ParamID.Value = id;
+					ParamNewPrice.Value = price;
+
+					command.Parameters.Add(ParamNewPrice);
+					command.Parameters.Add(ParamID);
+
+					command.Prepare();
+					command.ExecuteNonQuery();
+
+					DisplayProduct();
 				}
 			}
 			catch (MySqlException ex)
@@ -692,5 +654,88 @@ namespace CinemaConsole.Data.BackEnd
             }
 
         }
+
+		public void ReservationAmount()
+		{
+			try
+			{
+				Connection.Open();
+				int amount = 0;
+
+				string AddToTicketAmount = @"SELECT * FROM ticket";				
+
+				MySqlCommand command = new MySqlCommand(AddToTicketAmount, Connection);
+
+				MySqlDataReader dataReader = command.ExecuteReader();
+				while (dataReader.Read())
+				{
+					amount += dataReader.GetInt32("amount");
+				}
+
+				dataReader.Close();
+
+				Console.Write($"\nThere are currently reservations for ");
+
+				Console.ForegroundColor = ConsoleColor.Green;
+				Console.Write($"{amount}");
+				Console.ResetColor();
+
+				Console.Write(" people.\n");
+
+				Console.WriteLine("Press [enter] to continue.");
+				Console.ReadLine();
+				Console.Clear();
+			}
+			catch (MySqlException ex)
+			{
+				throw;
+			}
+			finally
+			{
+				Connection.Close();
+			}
+		}
+
+		public bool checkIfPExists(int ItemID)
+		{
+			List<int> ProductIDs = new List<int>();
+			ProductIDs.Clear();
+
+			try
+			{
+				Connection.Open();
+				string IntToCheck = @"SELECT * FROM restaurantitems";
+
+				MySqlCommand command = new MySqlCommand(IntToCheck, Connection);
+
+				MySqlDataReader dataReader = command.ExecuteReader();
+				while (dataReader.Read())
+				{
+					int test = dataReader.GetInt32("ItemID");
+					ProductIDs.Add(test);
+				}
+				dataReader.Close();
+
+				if (ProductIDs.Contains(ItemID) == true)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			catch (MySqlException ex)
+			{
+				throw;
+			}
+			finally
+			{
+				Connection.Close();
+			}
+
+			//door ID column lopen zoals bij reservation amount en dan elke item in een list gooien.
+			//Daarna checken of de ID in de list zit. Zo ja, dan gaat ie in restaurant door naar edit. Zo nee geeft ie een error.
+		}
     }
 }
