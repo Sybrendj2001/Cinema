@@ -10,11 +10,13 @@ using CinemaConsole.Data.Employee;
 using CinemaConsole.Data;
 using CinemaConsole.Data.BackEnd;
 using System.Globalization;
+using CinemaConsole.Data.BackEnd;
 
 namespace CinemaConsole.Pages.Admin
 {
     public class Admin : Employee
     {
+        private static ChangeData Database = new ChangeData();
         public Admin()
         {
         }
