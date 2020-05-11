@@ -26,15 +26,11 @@ namespace CinemaConsole.Data.BackEnd
         private void Initialize()
         {
             MySqlConnectionStringBuilder Builder = new MySqlConnectionStringBuilder();
-            Builder.UserID = "root";
-            Builder.Password = "admin";
-            Builder.Server = "127.0.0.1";
-            Builder.SshHostName = "145.24.222.66";
-            Builder.SshHostName = "mysql";
-            Builder.SshPassphrase = "mysql";
-            Builder.Database = "cinema";
+            Builder.UserID = "cloginv3";
+            Builder.Password = "Coockiedough";
+            Builder.Server = "145.24.222.149";
+            Builder.Database = "Cinema";
             Builder.Port = 3306;
-            Builder.SshPort = 12886;
             Connection = new MySqlConnection(Builder.ConnectionString);
         }
     }
