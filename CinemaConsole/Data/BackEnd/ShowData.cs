@@ -60,7 +60,7 @@ namespace CinemaConsole.Data.BackEnd
         /// Show the extra movie info with the right ID
         /// </summary>
         /// <param name="movieID">given movie id</param>
-        public Tuple<string,string> ShowMovieByID(string movieID)
+        public Tuple<string,string,string> ShowMovieByID(string movieID)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace CinemaConsole.Data.BackEnd
                         Console.WriteLine("Summary: " + row["MovieSummary"].ToString());
 
                         // show the times with the id of the movie
-                        return Tuple.Create(row["MovieID"].ToString(), row["MovieName"].ToString());
+                        return Tuple.Create(row["MovieID"].ToString(), row["MovieName"].ToString(), row["MovieMinimumAge"].ToString());
                     }
                 }
             }
@@ -96,7 +96,7 @@ namespace CinemaConsole.Data.BackEnd
             {
                 Connection.Close();
             }
-            return Tuple.Create("","");
+            return Tuple.Create("","","");
         }
     
         // Search funtion ticketsalesman. Search on name, search on ticketnumber and surch on movie name and date/time
