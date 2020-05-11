@@ -49,78 +49,121 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public void UpdateMovie(int id, string name = "", int year = -1, int minimumage = -1, string summary = "")
-        {
-            try
-            {
-                Connection.Open();
-                bool updating = true;
-                while (updating)
-                {
-                    string stringToUpdate = @"UPDATE movie SET @PlaceType = @NewType WHERE MovieID = @MovieID";
+		public void UpdateMovie(int id, string name = "", int year = -1, int minimumage = -1, string summary = "", string actors = "")
+		{
+			try
+			{
+				Connection.Open();
+				bool updating = true;
+				while (updating)
+				{
 
-					MySqlCommand command = new MySqlCommand(stringToUpdate, Connection);
-					//Define Default Parameter
 					MySqlParameter ParamID = new MySqlParameter("@MovieID", MySqlDbType.Int32);
-					//Valuate Default Parameter
 					ParamID.Value = id;
-					//Add Default Parameter to Query
-					command.Parameters.Add(ParamID);
 
-					//Create Variable Parameter
-					MySqlParameter ParamPlaceType = new MySqlParameter("@PlaceType", MySqlDbType.Text);
-					MySqlParameter ParamNewType = new MySqlParameter("@NewType", MySqlDbType.VarChar);
 
 					//Check which variables you need to get
 					if (name != "")
 					{
-						ParamPlaceType.Value = "MovieName";
-						ParamNewType.Value = name;
+						string UpdateName = @"UPDATE movie SET MovieName = @NewType WHERE MovieID = @MovieID";
+
+						MySqlCommand commandName = new MySqlCommand(UpdateName, Connection);
+						MySqlParameter NameParam = new MySqlParameter("@NewType", MySqlDbType.VarChar);
+						
+						NameParam.Value = name;
+
+						commandName.Parameters.Add(ParamID);
+						commandName.Parameters.Add(NameParam);
+
+						commandName.Prepare();
+						commandName.ExecuteNonQuery();
+
 						name = "";
 					}
 					else if (year != -1)
 					{
-						ParamPlaceType.Value = "MovieYear";
-						ParamNewType.Value = year;
+						string UpdateYear = @"UPDATE movie SET MovieYear = @NewType WHERE MovieID = @MovieID";
+
+						MySqlCommand commandYear = new MySqlCommand(UpdateYear, Connection);
+						MySqlParameter YearParam = new MySqlParameter("@NewType", MySqlDbType.Int32);
+
+						YearParam.Value = year;
+
+						commandYear.Parameters.Add(ParamID);
+						commandYear.Parameters.Add(YearParam);
+
+						commandYear.Prepare();
+						commandYear.ExecuteNonQuery();
+
 						year = -1;
 					}
 					else if (minimumage != -1)
 					{
-						ParamPlaceType.Value = "MovieMinimumAge";
-						ParamNewType.Value = minimumage;
+						string UpdateAge = @"UPDATE movie SET MovieMinimumAge = @NewType WHERE MovieID = @MovieID";
+
+						MySqlCommand commandAge = new MySqlCommand(UpdateAge, Connection);
+						MySqlParameter AgeParam = new MySqlParameter("@NewType", MySqlDbType.Int32);
+
+						AgeParam.Value = minimumage;
+
+						commandAge.Parameters.Add(ParamID);
+						commandAge.Parameters.Add(AgeParam);
+
+						commandAge.Prepare();
+						commandAge.ExecuteNonQuery();
+
 						minimumage = -1;
 					}
 					else if (summary != "")
 					{
-						ParamPlaceType.Value = "MovieSummary";
-						ParamNewType.Value = summary;
+						string UpdateSum = @"UPDATE movie SET MovieSummary = @NewType WHERE MovieID = @MovieID";
+
+						MySqlCommand commandSum = new MySqlCommand(UpdateSum, Connection);
+						MySqlParameter SumParam = new MySqlParameter("@NewType", MySqlDbType.VarChar);
+
+						SumParam.Value = summary;
+
+						commandSum.Parameters.Add(ParamID);
+						commandSum.Parameters.Add(SumParam);
+
+						commandSum.Prepare();
+						commandSum.ExecuteNonQuery();
+
 						summary = "";
+					}
+					else if (actors != "")
+					{
+						string UpdateActors = @"UPDATE movie SET MovieActors = @NewType WHERE MovieID = @MovieID";
+
+						MySqlCommand commandActor = new MySqlCommand(UpdateActors, Connection);
+						MySqlParameter ActorsParam = new MySqlParameter("@NewType", MySqlDbType.VarChar);
+
+						ActorsParam.Value = actors;
+
+						commandActor.Parameters.Add(ParamID);
+						commandActor.Parameters.Add(ActorsParam);
+
+						commandActor.Prepare();
+						commandActor.ExecuteNonQuery();
+
+						actors = "";
 					}
 					else
 					{
 						updating = false;
 						break;
 					}
-
-					//Add Variable Parameters to Query
-					command.Parameters.Add(ParamPlaceType);
-					command.Parameters.Add(ParamNewType);
-
-                    //Execute Query
-                    command.Prepare();
-                    command.ExecuteNonQuery();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                
-                throw;
-            }
-            finally
-            {
-                Connection.Close();
-            }
-        }
+				}
+			}
+			catch (MySqlException ex)
+			{
+				throw;
+			}
+			finally
+			{
+				Connection.Close();
+			}
+		}
 
 		public bool CheckTicket(string ticketid)
 		{
@@ -133,10 +176,10 @@ namespace CinemaConsole.Data.BackEnd
 				MySqlCommand command = new MySqlCommand(stringToCheck, Connection);
 				MySqlParameter ParamticketID = new MySqlParameter("@TicketID", MySqlDbType.VarChar);
 
-				ParamticketID.Value = ticketid;
-				command.Parameters.Add(ParamticketID);
+                ParamticketID.Value = ticketid;
+                command.Parameters.Add(ParamticketID);
 
-				MySqlDataReader dataReader = command.ExecuteReader();
+                MySqlDataReader dataReader = command.ExecuteReader();
 
 				while (dataReader.Read())
 				{
@@ -163,11 +206,12 @@ namespace CinemaConsole.Data.BackEnd
 			return TicketExists;
 		}
 
+		//Only used when a display function is called individueally.
 		public void DisplayProducts()
 		{
+			Console.Clear();
 			Console.OutputEncoding = Encoding.UTF8;
-
-			Console.WriteLine("\nMenu:");
+			Console.WriteLine("Restaurant menu:");
 			try
 			{
 				Connection.Open();
@@ -176,11 +220,10 @@ namespace CinemaConsole.Data.BackEnd
 				MySqlCommand command = new MySqlCommand(stringToDisplay, Connection);
 
 				MySqlDataReader dataReader = command.ExecuteReader();
-
 				while (dataReader.Read())
 				{
 					double test = dataReader.GetDouble("Price");
-					Console.WriteLine("[" + dataReader["ItemID"] + "] " + dataReader["ItemName"] + "    €" + test.ToString("0.00"));
+					Console.WriteLine("(" + dataReader["ItemID"] + ") " + dataReader["ItemName"] + "    €" + test.ToString("0.00"));
 				}
 
 				dataReader.Close();
@@ -196,20 +239,23 @@ namespace CinemaConsole.Data.BackEnd
 			}
 		}
 
-		public int TotalProducts()
+		//Called from within another function. Lacks any connection.open() and connection.Close() functions.
+		public void DisplayProduct()
 		{
-			int productsamount = 0;
+			Console.Clear();
+			Console.OutputEncoding = Encoding.UTF8;
+			Console.WriteLine("Restaurant menu:");
 			try
 			{
-				Connection.Open();
-				string stringToRead = @"SELECT ItemID FROM restaurantitems";
+				string stringToDisplay = @"SELECT * FROM restaurantitems";
 
-				MySqlCommand command = new MySqlCommand(stringToRead, Connection);
+				MySqlCommand command = new MySqlCommand(stringToDisplay, Connection);
+
 				MySqlDataReader dataReader = command.ExecuteReader();
-
 				while (dataReader.Read())
 				{
-					productsamount += 1;
+					double test = dataReader.GetDouble("Price");
+					Console.WriteLine("(" + dataReader["ItemID"] + ") " + dataReader["ItemName"] + "    €" + test.ToString("0.00"));
 				}
 
 				dataReader.Close();
@@ -219,11 +265,6 @@ namespace CinemaConsole.Data.BackEnd
 
 				throw;
 			}
-			finally
-			{
-				Connection.Close();
-			}
-			return productsamount;
 		}
 
 		public void CreateProduct(string itemname, double price)
@@ -246,6 +287,8 @@ namespace CinemaConsole.Data.BackEnd
 
 				command.Prepare();
 				command.ExecuteNonQuery();
+
+				DisplayProduct();
 			}
 			catch (MySqlException ex)
 			{
@@ -282,6 +325,8 @@ namespace CinemaConsole.Data.BackEnd
 
 					command.Prepare();
 					command.ExecuteNonQuery();
+
+					DisplayProduct();
 				}
 
 				else if(name != "" && price == -1)
@@ -300,6 +345,8 @@ namespace CinemaConsole.Data.BackEnd
 
 					command.Prepare();
 					command.ExecuteNonQuery();
+
+					DisplayProduct();
 				}
 
 				else if (name == "" && price != -1)
@@ -318,6 +365,8 @@ namespace CinemaConsole.Data.BackEnd
 
 					command.Prepare();
 					command.ExecuteNonQuery();
+
+					DisplayProduct();
 				}
 			}
             catch (MySqlException ex)
@@ -347,6 +396,8 @@ namespace CinemaConsole.Data.BackEnd
 
 				command.Prepare();
 				command.ExecuteNonQuery();
+
+				DisplayProduct();
 			}
 			catch (MySqlException ex)
 			{
@@ -397,28 +448,31 @@ namespace CinemaConsole.Data.BackEnd
 			return function;
 		}
 
-        public void InsertMovie(string name, int year, int mage, string msummary)
-        {
-            try
-            {
-                Connection.Open();
-                string stringToInsert = "INSERT INTO Movie (MovieName, MovieYear, MovieMinimumAge, MovieSummary) VALUES (@Name, @Year, @MAge, @MSummary)";
+		public void InsertMovie(string name, int year, int mage, string msummary, string Actors)
+		{
+			try
+			{
+				Connection.Open();
+				string stringToInsert = "INSERT INTO Movie (MovieName, MovieYear, MovieMinimumAge, MovieSummary, MovieActors) VALUES (@Name, @Year, @MAge, @MSummary, @MovieActors)";
 
 				MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
 				MySqlParameter NameParam = new MySqlParameter("@Name", MySqlDbType.VarChar);
 				MySqlParameter YearParam = new MySqlParameter("@Year", MySqlDbType.Int32);
 				MySqlParameter MAgeParam = new MySqlParameter("@MAge", MySqlDbType.Int32);
 				MySqlParameter MSummaryParam = new MySqlParameter("@MSummary", MySqlDbType.LongText);
+				MySqlParameter ActorsParam = new MySqlParameter("@MovieActors", MySqlDbType.LongText);
 
 				NameParam.Value = name;
 				YearParam.Value = year;
 				MAgeParam.Value = mage;
 				MSummaryParam.Value = msummary;
+				ActorsParam.Value = Actors;
 
 				command.Parameters.Add(NameParam);
 				command.Parameters.Add(YearParam);
 				command.Parameters.Add(MAgeParam);
 				command.Parameters.Add(MSummaryParam);
+				command.Parameters.Add(ActorsParam);
 
 				command.Prepare();
 				command.ExecuteNonQuery();
@@ -434,16 +488,15 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public void ReserveTicket(string Owner, string Email, string TicketCode, int MovieID, int Amount, int seatX, int seatY, int DateID, int Hall, double TotalPrice)
+        public void ReserveTicket(string Owner, string Email, string TicketCode, int MovieID, int Amount, int seatX, int seatY, int DateID, int Hall, double TotalPrice, int HallID)
         {
             try
             {
                 Connection.Open();
 
-                string stringToInsert = @"INSERT INTO ticket (Owner, Email, TicketCode, MovieID, Amount, seatX, seatY, DateID, HallID, TotalPrice) VALUES (@Owner, @Email, @TicketCode, @MovieID, @Amount, @seatX, @seatY, @DateID, @HallID, @TotalPrice)";
+                string stringToInsert = @"INSERT INTO ticket (Owner, Email, TicketCode, MovieID, Amount, seatX, seatY, DateID, HallID, TotalPrice, Hall) VALUES (@Owner, @Email, @TicketCode, @MovieID, @Amount, @seatX, @seatY, @DateID, @HallID, @TotalPrice, @Hall)";
 
                 MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
-                //MySqlParameter TicketIDParam = new MySqlParameter("@TicketID", MySqlDbType.Int32);
                 MySqlParameter OwnerParam = new MySqlParameter("@Owner", MySqlDbType.VarChar);
                 MySqlParameter EmailParam = new MySqlParameter("@Email", MySqlDbType.VarChar);
                 MySqlParameter TicketCodeParam = new MySqlParameter("@TicketCode", MySqlDbType.VarChar);
@@ -454,9 +507,11 @@ namespace CinemaConsole.Data.BackEnd
                 MySqlParameter DateIDParam = new MySqlParameter("@DateID", MySqlDbType.Int32);
                 MySqlParameter HallIDParam = new MySqlParameter("@HallID", MySqlDbType.Int32);
                 MySqlParameter TotalPriceParam = new MySqlParameter("@TotalPrice", MySqlDbType.Double);
+				MySqlParameter HallParam = new MySqlParameter("@Hall", MySqlDbType.Int32);
 
-                //TicketIDParam.Value = TicketID;
-                OwnerParam.Value = Owner;
+
+				//TicketIDParam.Value = TicketID;
+				OwnerParam.Value = Owner;
                 EmailParam.Value = Email;
                 TicketCodeParam.Value = TicketCode;
                 MovieIDParam.Value = MovieID;
@@ -464,8 +519,9 @@ namespace CinemaConsole.Data.BackEnd
                 seatXParam.Value = seatX;
                 seatYParam.Value = seatY;
                 DateIDParam.Value = DateID;
-                HallIDParam.Value = Hall;
-                TotalPriceParam.Value = TotalPrice;
+                HallParam.Value = Hall;
+				HallIDParam.Value = HallID;
+				TotalPriceParam.Value = TotalPrice;
 
                 //command.Parameters.Add(TicketIDParam);
                 command.Parameters.Add(OwnerParam);
@@ -478,9 +534,115 @@ namespace CinemaConsole.Data.BackEnd
                 command.Parameters.Add(DateIDParam);
                 command.Parameters.Add(HallIDParam);
                 command.Parameters.Add(TotalPriceParam);
+				command.Parameters.Add(HallParam);
 
-                command.Prepare();
+				command.Prepare();
                 command.ExecuteNonQuery();
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+        public void DeleteReservation(string ticketcode)
+        {
+            try
+            {
+				AdminData AD = new AdminData();
+				int seatX = 0;
+				int seatY = 0;
+				int hallID;
+				int amount;
+
+				Connection.Open();
+
+                string stringToDelete = @"DELETE FROM ticket WHERE TicketCode = @TicketCode";
+                string TicketInfo = @"SELECT * FROM ticket";
+
+                MySqlCommand command = new MySqlCommand(stringToDelete, Connection);
+                MySqlParameter TicketCodeParam = new MySqlParameter("@TicketCode", MySqlDbType.String);
+                MySqlCommand oCmd = new MySqlCommand(TicketInfo, Connection);
+
+                using (MySqlDataReader getTicketInfo = oCmd.ExecuteReader())
+                {
+                    DataTable dataTable = new DataTable();
+
+                    dataTable.Load(getTicketInfo);
+                    string TicketCode;
+                    string TicketID;
+                    string MovieID;
+                    string DateID;
+					bool isFound = false;
+
+					while (true)
+					{
+						foreach (DataRow row in dataTable.Rows)
+						{
+							TicketCode = row["TicketCode"].ToString();
+							TicketID = row["TicketID"].ToString();
+							MovieID = row["MovieID"].ToString();
+							DateID = row["DateID"].ToString();
+							hallID = Convert.ToInt32(row["HallID"]);
+							amount = Convert.ToInt32(row["amount"]);
+							seatX = Convert.ToInt32(row["seatX"]);
+							seatY = Convert.ToInt32(row["seatY"]);
+
+							if (TicketCode == ticketcode)
+							{
+								ShowData DeleteTicket = new ShowData();
+								// Ticket and contact information overview to check if you want to remove the right ticket.
+								DeleteTicket.Overview(TicketID, MovieID, DateID);
+								isFound = true;
+
+								Console.WriteLine("\nDo you really want to remove this reservation?\n[1] Remove reservation\n[2] Cancel");
+								string CancelOrDelete = Console.ReadLine();
+
+								if (CancelOrDelete == "1")
+								{
+									TicketCodeParam.Value = ticketcode;
+									command.Parameters.Add(TicketCodeParam);
+									command.Prepare();
+									command.ExecuteNonQuery();
+									Connection.Close();
+									// This set the seats back to available
+									AD.switchAvail((seatX - 1), (seatY - 1), hallID, amount, true);
+
+									Console.WriteLine("\nReservation removed. Press enter to go back to the menu");
+									Console.ReadLine();
+									Console.Clear();
+									break;
+								}
+
+								else if (CancelOrDelete == "2")
+								{
+									Console.Clear();
+									break;
+								}
+								break;
+							}
+						}
+
+						if (isFound)
+						{
+							Console.Clear();
+							break;
+						}
+
+						else
+						{
+							Console.Clear();
+							Console.WriteLine("\nThere were no results found with ticketnumber: " + ticketcode + "\nPress enter to go back to the menu");
+							Console.ReadLine();
+							Console.Clear();
+							break;
+						}
+					}
+                }
             }
             catch (MySqlException)
             {

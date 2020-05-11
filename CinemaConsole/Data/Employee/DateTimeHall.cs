@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Data.BackEnd;
@@ -30,26 +31,29 @@ namespace CinemaConsole.Data
 	public class TheatherHalls
 	{
 		AdminData AD = new AdminData();
+		
+		private Tuple<double, double, double> prices { get; set; }
 
 		public TheatherHalls(int hallNumber, int dateID)
 		{
 
+			prices = AD.getPrices(hallNumber);
 
 			if (hallNumber == 1)
 			{
-				AD.CreateHall(150, 14, 12, dateID);
+				AD.CreateHall(150, 14, 12, dateID,prices.Item1,prices.Item2,prices.Item3);
 				int hallID = AD.GetHallID(dateID);
 				Hall1(hallID);
 			}
 			else if (hallNumber == 2)
 			{
-				AD.CreateHall(300, 19, 18, dateID);
+				AD.CreateHall(300, 19, 18, dateID, prices.Item1, prices.Item2, prices.Item3);
 				int hallID = AD.GetHallID(dateID);
 				Hall2(hallID);
 			}
 			else if (hallNumber == 3)
 			{
-				AD.CreateHall(500, 20, 30, dateID);
+				AD.CreateHall(500, 20, 30, dateID, prices.Item1, prices.Item2, prices.Item3);
 				int hallID = AD.GetHallID(dateID);
 				Hall3(hallID);
 			}
@@ -57,9 +61,9 @@ namespace CinemaConsole.Data
 
 		private void Hall1(int hallID)
 		{
-
 			string SeatName = "";
 			bool SeatAvail = false;
+			double price = 10.00;
 
 			for (int i = 0; i < 14; i++)
 			{
@@ -85,7 +89,28 @@ namespace CinemaConsole.Data
 						SeatAvail = false;
 					}
 
-					AD.CreateSeat(10.00, i, j, hallID, SeatAvail, SeatName);
+					//Give the right prices to the rigth seats
+					if((j == 5 || j == 6)&& (i > 4 && i < 9))
+					{
+						price = prices.Item1;
+					}
+					else if ((j == 5 || j == 6) && (i > 2 && i < 11))
+					{
+						price = prices.Item2;
+					}
+					else if ((j == 4 || j == 7) && (i > 3 && i < 10))
+					{
+						price = prices.Item2;
+					}
+					else if ((j == 3 || j == 8) && (i > 4 && i < 9))
+					{
+						price = prices.Item2;
+					}
+					else
+					{
+						price = prices.Item3;
+					}
+					AD.CreateSeat(price, i, j, hallID, SeatAvail, SeatName);
 				}
 			}
 		}
@@ -94,6 +119,7 @@ namespace CinemaConsole.Data
 		{
 			string SeatName = "";
 			bool SeatAvail = false;
+			double price = 0.0;
 
 			for (int i = 0; i < 19; i++)
 			{
@@ -123,7 +149,8 @@ namespace CinemaConsole.Data
 						SeatName = "(No Seat)";
 						SeatAvail = false;
 					}
-					AD.CreateSeat(10.00, i, j, hallID, SeatAvail, SeatName);
+					price = Price2(i,j);
+					AD.CreateSeat(price, i, j, hallID, SeatAvail, SeatName);
 				}
 			}
 
@@ -133,6 +160,7 @@ namespace CinemaConsole.Data
 		{
 			string SeatName = "";
 			bool SeatAvail = false;
+			double price = 0.0;
 
 			for (int i = 0; i < 20; i++)
 			{
@@ -178,9 +206,105 @@ namespace CinemaConsole.Data
 						SeatName = "(No Seat)";
 						SeatAvail = false;
 					}
-					AD.CreateSeat(10.00, i, j, hallID, SeatAvail, SeatName);
+					price = Price3(i, j);
+					
+					AD.CreateSeat(price, i, j, hallID, SeatAvail, SeatName);
 				}
 			}
+		}
+
+		private double Price2(int i, int j)
+		{
+			double price = 0.0;
+			if ((j == 8 || j == 9) && (i> 4 && i < 13))
+			{
+				price = prices.Item1;
+			}
+			else if ((j == 7 || j == 10) && (i > 5 && i < 12))
+			{
+				price = prices.Item1;
+			}
+			else if ((j == 6 || j == 11) && (i > 6 && i < 11))
+			{
+				price = prices.Item1;
+			}
+			else if ((j > 5 && j < 12) && (i > 0 && i < 16))
+			{
+				price = prices.Item2;
+			}
+			else if ((j == 5 || j == 12) && (i > 1 && i < 14))
+			{
+				price = prices.Item2;
+			}
+			else if ((j == 4 || j == 13) && (i > 3 && i < 13))
+			{
+				price = prices.Item2;
+			}
+			else if ((j == 3 || j == 14) && (i > 5 && i < 12))
+			{
+				price = prices.Item2;
+			}
+			else if ((j == 2 || j == 15) && (i > 7 && i < 11))
+			{
+				price = prices.Item2;
+			}
+			else
+			{
+				price = prices.Item3;
+			}
+			return price;
+		}
+
+		private double Price3(int i, int j)
+		{
+			double price = 0.0;
+
+			if ((j > 12 && j < 17)&&(i > 3 && i < 13))
+			{
+				price = prices.Item1;
+			}
+			else if ((j == 12 || j == 17) && (i > 4 && i < 12))
+			{
+				price = prices.Item1;
+			}
+			else if ((j == 11 || j == 18) && (i > 5 && i < 12))
+			{
+				price = prices.Item1;
+			}
+			else if ((j > 11 && j < 18) && (i > 0 && i < 17))
+			{
+				price = prices.Item2;
+			}
+			else if ((j == 10 || j == 11 || j == 18 || j == 19) && (i > 0 && i < 16))
+			{
+				price = prices.Item2;
+			}
+			else if ((j == 9 || j == 20) && (i > 0 && i < 15))
+			{
+				price = prices.Item2;
+			}
+			else if ((j == 8 || j == 21) && (i > 1 && i < 14))
+			{
+				price = prices.Item2;
+			}
+			else if ((j == 7 || j == 22) && (i > 3 && i < 12))
+			{
+				price = prices.Item2;
+			}
+			else if ((j == 6 || j == 23) && (i > 5 && i < 11))
+			{
+				price = prices.Item2;
+			}
+			else if ((j == 5 || j == 24) && (i > 7 && i < 10))
+			{
+				price = prices.Item2;
+			}
+			else
+			{
+				price = prices.Item3;
+			}
+
+			return price;
 		}
 	}
 }
