@@ -636,7 +636,7 @@ namespace CinemaConsole.Pages.Customer
                                 // If you're under 12 you can take someone who is 18 years or older with you
                                 if (int.Parse(movieAgeQualification) <= 12)
                                 {
-                                    Console.WriteLine("\nYou're not old enough for this movie \nYou can only go if you take someone who is 18 years or older with you\n\nPress enter to continue");
+                                    Console.WriteLine("\nYou're not old enough for this movie \nYou can only go if you take someone who is 18 years or older with you\nPlease make sure the person of 18 years or older reservers the tickets\n\nPress enter to continue");
                                 }
                                 else
                                 {
