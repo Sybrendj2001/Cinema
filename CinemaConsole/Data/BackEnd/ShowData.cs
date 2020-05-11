@@ -357,6 +357,11 @@ namespace CinemaConsole.Data.BackEnd
                                 }
                             }
                         }
+                        else if(SearchOption == "exit")
+                        {
+                            Console.Clear();
+                            break;
+                        }
                     }
                 }
             }
