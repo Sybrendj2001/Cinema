@@ -935,10 +935,37 @@ namespace CinemaConsole.Pages.Admin
             }
         }
 
-        /// <summary>
-        /// Display all the movies by using a foreach loop
-        /// </summary>
-        private static void Display()
+        private static void Revenue()
+        {
+            while (true)
+            {
+                try
+                {
+                    Console.Clear();
+                    Console.WriteLine("Please enter an option:\n[1] Show total year revenue\n[2] Show monthly revenue\n[exit] Back to the menu\n");
+                    string option = Console.ReadLine();
+
+                    if(option == "1")
+                    {
+
+                    }
+                    else if (option == "exit")
+                    {
+                        Console.Clear();
+                        break;
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("\nPlease enter an option that stands in the menu");
+                }
+            }
+        }
+
+            /// <summary>
+            /// Display all the movies by using a foreach loop
+            /// </summary>
+            private static void Display()
         {
             TicketSalesman.TicketSalesman.MovieInfo();
             Console.Clear();
@@ -955,7 +982,7 @@ namespace CinemaConsole.Pages.Admin
             Console.Clear();
             while (k)
             {
-                Console.WriteLine("\nPlease enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Edit a movie or add a time\n[3] Remove a movie.\n[4] Show all the movies.\n[5] Edit hall prices\n[exit] Back to the menu.");
+                Console.WriteLine("\nPlease enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Edit a movie or add a time\n[3] Remove a movie.\n[4] Show all the movies.\n[5] Edit hall prices\n[6] Show revenue\n[exit] Back to the menu.");
                 string nummer = Console.ReadLine();
                 if (nummer == "1")
                 {
@@ -976,6 +1003,10 @@ namespace CinemaConsole.Pages.Admin
                 else if (nummer == "5")
                 {
                     editPrice();
+                }
+                else if (nummer == "6")
+                {
+                    Revenue();
                 }
                 else if (nummer == "exit")
                 {

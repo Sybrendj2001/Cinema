@@ -140,7 +140,8 @@ namespace CinemaConsole.Data.BackEnd
                         {
                             Console.Clear();
                             Console.WriteLine("\nPlease enter the customer full name");
-                            string name = Console.ReadLine();
+                            string name2 = Console.ReadLine();
+                            string name = name2.ToString().ToLower();
 
                             bool isFound = false;
 
