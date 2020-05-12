@@ -229,7 +229,9 @@ namespace CinemaConsole.Pages.Restaurant
                                 int itemID = Int32.Parse(input);
                                 Console.Clear();
                                 CD.DisplayProducts();
-                                SD.ErrorMessage($"\nAre you sure you wish to remove the item with ID {input}? [yes/no] This cannot be undone!");
+                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                Console.Write($"\nAre you sure you wish to remove the item with ID {input}? [yes/no] This cannot be undone!");
+                                Console.ResetColor();
                                 string response = Console.ReadLine().ToLower();
                                 if (response == "yes" || response == "y")
                                 {                                    
