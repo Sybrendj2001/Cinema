@@ -561,7 +561,7 @@ namespace CinemaConsole.Pages.Customer
                 Console.Write(" - ");
                 Console.Write("Choose seat(s)");
                 Console.Write(" - ");
-                Console.Write("Person information");
+                Console.Write("Personal information");
                 Console.Write(" - ");
                 Console.Write("Overview");
                 Console.Write(" - ");
@@ -575,9 +575,11 @@ namespace CinemaConsole.Pages.Customer
                 Console.Write("Choose seat(s)");
                 Console.ResetColor();
                 Console.Write(" - ");
-                Console.Write("Person information");
+                Console.Write("Personal information");
                 Console.Write(" - ");
-                Console.Write("Overview\n");
+                Console.Write("Overview");
+                Console.Write(" - ");
+                Console.Write("Ticket\n\n");
             }
             else if (place == 3)
             {
@@ -586,7 +588,7 @@ namespace CinemaConsole.Pages.Customer
                 Console.Write("Choose seat(s)");
                 Console.Write(" - ");
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("Person information");
+                Console.Write("Personal information");
                 Console.ResetColor();
                 Console.Write(" - ");
                 Console.Write("Overview");
@@ -599,7 +601,7 @@ namespace CinemaConsole.Pages.Customer
                 Console.Write(" - ");
                 Console.Write("Choose seat(s)");
                 Console.Write(" - ");
-                Console.Write("Person information");
+                Console.Write("Personal information");
                 Console.Write(" - ");
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("Overview");
@@ -613,7 +615,7 @@ namespace CinemaConsole.Pages.Customer
                 Console.Write(" - ");
                 Console.Write("Choose seat(s)");
                 Console.Write(" - ");
-                Console.Write("Person information");
+                Console.Write("Personal information");
                 Console.Write(" - ");
                 Console.Write("Overview");
                 Console.Write(" - ");
