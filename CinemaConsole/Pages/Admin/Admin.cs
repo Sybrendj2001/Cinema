@@ -1066,7 +1066,8 @@ namespace CinemaConsole.Pages.Admin
                                     {
                                         //Get the price it has to change into
                                         double price = 0.0;
-                                        Console.WriteLine("\nPlease give the price you want. And write it down like in the example (e.g. 7.50)");
+                                        double example = 10.50;
+                                        Console.WriteLine("\nPlease give the price you want. And write it down like in the example (e.g. "+ example.ToString("0.00") +")");
                                         while (true)
                                         {
                                             try
@@ -1079,13 +1080,13 @@ namespace CinemaConsole.Pages.Admin
                                                 }
                                                 else
                                                 {
-                                                    Console.WriteLine("\nPlease enter a price above 0.00 (7.50)");
+                                                    Console.WriteLine("\nPlease enter a price above 0.00 (e.g. " + example.ToString("0.00") + ")");
                                                 }
                                             }
                                             catch (FormatException)
                                             {
                                                 SD.ErrorMessage("\nThe price was not put in correctly.");
-                                                Console.WriteLine("Please write it down like in the example(7.50)");
+                                                Console.WriteLine("Please write it down like in the example(e.g. " + example.ToString("0.00") + ")");
                                             }
                                         }
                                         //change the price in seats and hall
