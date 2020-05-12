@@ -32,6 +32,9 @@ namespace CinemaConsole.Data.BackEnd
             Builder.Database = "Cinema";
             Builder.Port = 3306;
             Connection = new MySqlConnection(Builder.ConnectionString);
+            string dbstring = "server=localhost;user=root;pwd=admin;database=cinema";
+            Connection = new MySqlConnection(dbstring);
+            
         }
     }
 }
