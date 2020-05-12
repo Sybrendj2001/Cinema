@@ -398,6 +398,7 @@ namespace CinemaConsole.Data.BackEnd
 				command.ExecuteNonQuery();
 
 				DisplayProduct();
+
 			}
 			catch (MySqlException ex)
 			{

@@ -228,27 +228,44 @@ namespace CinemaConsole.Pages.Restaurant
                             {
                                 int itemID = Int32.Parse(input);
                                 Console.Clear();
-                                CD.DisplayProducts();
-                                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                Console.Write($"\nAre you sure you wish to remove the item with ID {input}? [yes/no] This cannot be undone!");
-                                Console.ResetColor();
-                                string response = Console.ReadLine().ToLower();
-                                if (response == "yes" || response == "y")
-                                {                                    
-                                    CD.DeleteProduct(itemID);
-                                    break;
-                                }
-                                else if(response == "no" || response == "n")
+                                
+                                if (CD.checkIfPExists(itemID))
                                 {
+                                    CD.DisplayProducts();
+                                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                    Console.Write($"\nAre you sure you wish to remove the item with ID {input}? This cannot be undone!\n");
+                                    Console.ResetColor();
+                                    Console.WriteLine("[1] Yes");
+                                    Console.WriteLine("[2] No");
+                                    string response = Console.ReadLine();
+                                    if (response == "1")
+                                    {
+                                        CD.DeleteProduct(itemID);
+                                        Console.Clear();
+                                        break;
+                                    }
+                                    else if (response == "2")
+                                    {
 
+                                    }
+                                    else
+                                    {
+                                        SD.ClearAndErrorMessage("\nInvalid Input. Please try again.");
+                                        Console.WriteLine("Press [enter] to continue.");
+                                        Console.ReadLine();
+                                        Console.Clear();
+                                    }
                                 }
                                 else
                                 {
-                                    SD.ClearAndErrorMessage("\nInvalid Input. Please try again.");
-                                    Console.WriteLine("Press [enter] to continue.");
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.Write("\nThe given ID does not exist. Please check the ID and try again.");
+                                    Console.ResetColor();
+                                    Console.WriteLine("\nPress [enter] to continue.");
                                     Console.ReadLine();
                                     Console.Clear();
                                 }
+                                
                             }
                         }
                         catch (FormatException f)
