@@ -711,7 +711,7 @@ namespace CinemaConsole.Pages.Admin
         /// <summary>
         /// add year as a string and return an int.
         /// </summary>
-        private static int EditYear(string yearString)
+        private static int EditYear(string yearString, string MovieID)
         {
             ShowData SD = new ShowData();
             int year = 0;
@@ -727,7 +727,8 @@ namespace CinemaConsole.Pages.Admin
                         if (year <= 1800 || year > Convert.ToInt32((DateTime.Now.ToString("yyyy"))))
                         {
                             SD.ClearAndErrorMessage("\nPlease enter a release date that is possible. (Between 1801 and " + DateTime.Now.ToString("yyyy") + ")");
-                            Console.WriteLine("\nPlease enter the release year. [2020] or enter [skip] if you want to skip and keep the original");
+                            SD.ShowMovieInfoPartlyByID(MovieID, 2);
+                            Console.WriteLine("Please enter the release year. [2020] or enter [skip] if you want to skip and keep the original");
                             yearString = Console.ReadLine();
                         }
                         else
@@ -739,7 +740,8 @@ namespace CinemaConsole.Pages.Admin
                     catch (FormatException)
                     {
                         SD.ClearAndErrorMessage("\nThe year was filled in incorrectly, please try again.");
-                        Console.WriteLine("\nPlease enter the release year. [2020] or enter [skip] if you want to skip and keep the original ");
+                        SD.ShowMovieInfoPartlyByID(MovieID, 2);
+                        Console.WriteLine("Please enter the release year. [2020] or enter [skip] if you want to skip and keep the original ");
                         yearString = Console.ReadLine();
                     }
                 }
@@ -755,7 +757,7 @@ namespace CinemaConsole.Pages.Admin
         /// <summary>
         /// add age as a string and return an int.
         /// </summary>
-        private static int EditAge(string ageString)
+        private static int EditAge(string ageString, string MovieID)
         {
             ShowData SD = new ShowData();
             int age = 0;
@@ -772,7 +774,8 @@ namespace CinemaConsole.Pages.Admin
                         if (age < 0 || age > 99)
                         {
                             SD.ClearAndErrorMessage("\nPlease enter a age that is possible. (Between 0 and 99)");
-                            Console.WriteLine("\nPlease enter the age restriction. [12] or enter [skip] if you want to skip and keep the original");
+                            SD.ShowMovieInfoPartlyByID(MovieID, 3);
+                            Console.WriteLine("Please enter the age restriction. [12] or enter [skip] if you want to skip and keep the original");
                             ageString = Console.ReadLine();
                         }
                         else
@@ -784,6 +787,7 @@ namespace CinemaConsole.Pages.Admin
                     catch (FormatException)
                     {
                         SD.ClearAndErrorMessage("\nThe age restriction was filled in incorrectly, please try again.");
+                        SD.ShowMovieInfoPartlyByID(MovieID, 3);
                         Console.WriteLine("\nPlease enter the age restriction. [12] or enter [skip] if you want to skip and keep the original");
                         ageString = Console.ReadLine();
                     }
@@ -961,7 +965,7 @@ namespace CinemaConsole.Pages.Admin
                             releaseDate = -1; ;
                         }
 
-                        releaseDate = EditYear(releaseDateString);
+                        releaseDate = EditYear(releaseDateString, ID);
 
                         Console.Clear();
                         SD.ShowMovieInfoPartlyByID(ID, 3);
@@ -973,7 +977,7 @@ namespace CinemaConsole.Pages.Admin
                             age = -1;
                         }
 
-                        age = EditAge(ageString);
+                        age = EditAge(ageString, ID);
 
                         Console.Clear();
                         SD.ShowMovieInfoPartlyByID(ID, 4);
