@@ -597,7 +597,6 @@ namespace CinemaConsole.Pages.Customer
 
             return MovieTicketData;
         }
-
         public static void Menu()
         {
             Console.Clear();
@@ -606,6 +605,8 @@ namespace CinemaConsole.Pages.Customer
             AdminData AD = new AdminData();
             string whichMovie;
             string title;
+            string CustomerAge;
+            string movieAgeQualification;
             string CustomerTimeOption;
             bool running = true;
             while (running)
@@ -630,18 +631,24 @@ namespace CinemaConsole.Pages.Customer
                     else if (MovieIDs.Contains(Convert.ToInt32(line)))
                     {
                         // this will return the movie details for the number you entered
-                        Tuple<string, string> showmovieinfo = SD.ShowMovieByID(line);
+                        Tuple<string, string,string> showmovieinfo = SD.ShowMovieByID(line);
                         title = showmovieinfo.Item2;
                         whichMovie = showmovieinfo.Item1;
+                        movieAgeQualification = showmovieinfo.Item3;
 
                         while (true)
                         {
-                            Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
-                            CustomerTimeOption = Console.ReadLine();
-                            // this will return the movie times for the movie you entered
-                            if (CustomerTimeOption == "1")
+                            Console.WriteLine("\nAre you over " + movieAgeQualification + " years old?");
+                            Console.WriteLine("[1] Yes\n[2] No");
+                            CustomerAge = Console.ReadLine();
+                            if (CustomerAge == "1")
                             {
-                                Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> ticket = reserveSeat(whichMovie);
+                                Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
+                                CustomerTimeOption = Console.ReadLine();
+                                // this will return the movie times for the movie you entered
+                                if (CustomerTimeOption == "1")
+                                {
+                                    Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> ticket = reserveSeat(whichMovie);
 
                                 if (ticket.Item5 == 0.0)
                                 {
@@ -694,6 +701,61 @@ namespace CinemaConsole.Pages.Customer
                             }
                             else if(CustomerTimeOption == "exit")
                             {
+                                    if (ticket.Item5 == 0.0)
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        Console.Clear();
+                                        Tuple<string, string, string> personInfo = Name();
+                                        string ticketcode = createTicketID(ticket.Item1, title, ticket.Item4, ticket.Item5, ticket.Item6.Item2);
+                                        overviewCustomer(personInfo, ticket, title, ticketcode);
+                                        string confirm;
+                                        while (true)
+                                        {
+                                            Console.WriteLine("\nDo you want to confirm the reservation? \n[1] Confirm reservation\n[2] Cancel reservation");
+                                            confirm = Console.ReadLine();
+                                            if (confirm == "1")
+                                            {
+                                                Console.Clear();
+                                                CD.ReserveTicket((personInfo.Item1 + " " + personInfo.Item2), personInfo.Item3, ticketcode, Convert.ToInt32(whichMovie), ticket.Item3, ticket.Item4, ticket.Item5, ticket.Item2, ticket.Item6.Item2, ticket.Item6.Item1, ticket.Item6.Item3);
+                                                Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticketcode);
+                                                break;
+                                            }
+                                            else if (confirm == "2")
+                                            {
+                                                //Cancel the seats
+                                                AD.switchAvail((ticket.Item4 - 1), (ticket.Item5 - 1), ticket.Item6.Item3, ticket.Item3, true);
+                                                Console.Clear();
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
+                                else if (CustomerTimeOption == "exit")
+                                {
+                                    Console.Clear();
+                                    break;
+                                }
+                                else
+                                {
+                                    SD.ErrorMessage("\nPlease enter an option that exists");
+                                }
+                            }
+                            else if (CustomerAge == "2")
+                            {
+                                // If you're under 12 you can take someone who is 18 years or older with you
+                                if (int.Parse(movieAgeQualification) <= 12)
+                                {
+                                    Console.WriteLine("\nYou're not old enough for this movie \nYou can only go if you take someone who is 18 years or older with you\nPlease make sure the person of 18 years or older reservers the tickets\n\nPress enter to continue");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("\nYou're not old enough for this movie\nPress enter to continue");
+                                }
+                                Console.ReadLine();
                                 Console.Clear();
                                 break;
                             }
