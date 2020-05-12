@@ -652,6 +652,7 @@ namespace CinemaConsole.Data.BackEnd
             {
                 Connection.Close();
             }
+
         }
     }
 }

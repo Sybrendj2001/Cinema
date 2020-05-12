@@ -10,24 +10,9 @@ namespace CinemaConsole.Pages
 {
     public class Login
     {
-        List<Profiles> profiles = new List<Profiles>()
-        {
-            {new Profiles("retailer","retailer","retailer") },
-            {new Profiles("admin","admin","admin") },
-            {new Profiles("retailer","retailer","retailer") },
-            {new Profiles("ticketsalesman","ticketsalesman","ticketSalesman") },
-            {new Profiles("admin","admin","admin") }
-        };
-
         private string Username { get; set; }
 
         private string Password { get; set; }
-
-        private int ErrorCode = 0;
-
-        private int ProfilePlace = 0;
-
-        public string ErrorMessage;
 
         public string Function = "";
 
@@ -36,12 +21,6 @@ namespace CinemaConsole.Pages
         public Login()
         {
 
-        }
-
-        private void register(string username, string password)
-        {
-            Username = username;
-            Password = password;
         }
 
         public void Menu()
@@ -78,19 +57,6 @@ namespace CinemaConsole.Pages
                 }
             }
 
-        }
-
-        private string getErrorMessage(int id)
-        {
-            switch (id)
-            {
-                case 0:
-                    return "There is nothing wrong";
-                case 1:
-                    return "Wrong Username or Password. \n Check for misspels";
-                default:
-                    return "There is nothing wrong";
-            }
         }
     }
 }
