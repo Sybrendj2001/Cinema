@@ -71,7 +71,7 @@ namespace CinemaConsole.Pages.Restaurant
                     try
                     {
                         double example = 5.50;
-                        Console.WriteLine("\nPlease enter the new price of the product in euro's.Example: (" + example.ToString("0,00") + ")");
+                        Console.WriteLine("\nPlease enter the new price of the product in euro's.Example: (" + example.ToString("0.00") + ")");
                         double newPrice = double.Parse(Console.ReadLine());
                         Console.WriteLine(" ");
 
@@ -185,7 +185,7 @@ namespace CinemaConsole.Pages.Restaurant
                                 double example = 5.50;
 
                                 //Requests the price of the product to be added.
-                                Console.WriteLine("Please fill in the price of the product in euro's (Example: (" + example.ToString("0.00") + ")) or write [exit] to go back to the menu.");
+                                Console.WriteLine("Please fill in the price of the product in euro's (Example: " + example.ToString("0.00") + ") or write [exit] to go back to the menu.");
                                 string inputPrice = Console.ReadLine();
                                 if (inputPrice == "exit")
                                 {
