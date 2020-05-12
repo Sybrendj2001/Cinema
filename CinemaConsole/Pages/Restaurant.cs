@@ -81,7 +81,7 @@ namespace CinemaConsole.Pages.Restaurant
                     catch (FormatException f)
                     {
                         SD.ClearAndErrorMessage("Invalid Input. Please try again.");
-                        Console.WriteLine("Press[enter] to continue.");
+                        Console.WriteLine("Press [enter] to continue.");
                         Console.ReadLine();
                         Console.Clear();
                     }
@@ -282,11 +282,11 @@ namespace CinemaConsole.Pages.Restaurant
                 else if(operation == "4")
                 {
                     Console.Clear();
-                    CD.DisplayProducts();
                     while (true)
                     {
                         try
                         {
+                            CD.DisplayProducts();
                             //Requests the name of the product to be edited.
                             Console.WriteLine("\nPlease fill in the ID of the product you wish to edit or write [exit] to go back to the menu.");
                             string input = Console.ReadLine();
@@ -308,8 +308,8 @@ namespace CinemaConsole.Pages.Restaurant
                                 }
                                 else
                                 {
-                                    SD.ClearAndErrorMessage("ID does not exist. Please try again.");
-                                    Console.WriteLine("Press[enter] to continue.");
+                                    SD.ClearAndErrorMessage("\nID does not exist. Please try again.");
+                                    Console.WriteLine("Press [enter] to continue.");
                                     Console.ReadLine();
                                     Console.Clear();
                                 }
