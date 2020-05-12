@@ -550,7 +550,7 @@ namespace CinemaConsole.Pages.Admin
 
             while (true)
             {
-                Console.WriteLine("\nPlease enter the titel. [Iron Man] or enter [exit] to go back to the menu");
+                Console.WriteLine("\nPlease enter the titel. (Iron Man) or enter [exit] to go back to the menu");
                 name = Console.ReadLine();
                 if (name == "exit")
                 {
@@ -558,7 +558,7 @@ namespace CinemaConsole.Pages.Admin
                 }
 
                 Console.Clear();
-                Console.WriteLine("\nPlease enter the release year. [2020]  or enter [exit] to go back to the menu");
+                Console.WriteLine("\nPlease enter the release year. (2020)  or enter [exit] to go back to the menu");
                 releaseDateString = Console.ReadLine();
                 if (releaseDateString == "exit")
                 {
@@ -574,7 +574,7 @@ namespace CinemaConsole.Pages.Admin
                 }
 
                 Console.Clear();
-                Console.WriteLine("\nPlease enter the age restriction. [12] or enter [exit] to go back to the menu");
+                Console.WriteLine("\nPlease enter the age restriction. (12) or enter [exit] to go back to the menu");
                 ageString = Console.ReadLine();
                 if (ageString == "exit")
                 {
@@ -598,7 +598,7 @@ namespace CinemaConsole.Pages.Admin
                 }
 
                 Console.Clear();
-                Console.WriteLine("\nPlease give some actors.[Tom Cruise, Brad Pitt] or enter [exit] to go back to the menu");
+                Console.WriteLine("\nPlease give some actors.(Tom Cruise, Brad Pitt) or enter [exit] to go back to the menu");
                 string actors = Console.ReadLine();
                 if (actors == "exit")
                 {
