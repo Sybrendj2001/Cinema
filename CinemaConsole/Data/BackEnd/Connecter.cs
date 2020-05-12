@@ -25,6 +25,7 @@ namespace CinemaConsole.Data.BackEnd
         
         private void Initialize()
         {
+            /*
             MySqlConnectionStringBuilder Builder = new MySqlConnectionStringBuilder();
             Builder.UserID = "cloginv3";
             Builder.Password = "Coockiedough";
@@ -32,6 +33,10 @@ namespace CinemaConsole.Data.BackEnd
             Builder.Database = "Cinema";
             Builder.Port = 3306;
             Connection = new MySqlConnection(Builder.ConnectionString);
+            */
+
+            string dbstring = "server=localhost;user=root;pwd=admin;database=cinema";
+            Connection = new MySqlConnection(dbstring);
         }
     }
 }

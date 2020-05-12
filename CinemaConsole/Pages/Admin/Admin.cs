@@ -11,6 +11,7 @@ using CinemaConsole.Data;
 using CinemaConsole.Data.BackEnd;
 using System.Globalization;
 using CinemaConsole.Data.BackEnd;
+using System.Dynamic;
 
 namespace CinemaConsole.Pages.Admin
 {
@@ -483,6 +484,8 @@ namespace CinemaConsole.Pages.Admin
                                     Console.Clear();
                                     Tuple<double, double, double> pricesUpdated = AD.getPrices(Convert.ToInt32(choice));
 
+                                    ShowHallPriceDistribution(Convert.ToInt32(choice));
+
                                     Console.OutputEncoding = Encoding.UTF8;
 
                                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -761,7 +764,7 @@ namespace CinemaConsole.Pages.Admin
                 while (true)
                 {
                     SD.ShowMovieByID(ID);
-                    Console.WriteLine("\n[1] If you want to edit an entire movie\n[2] If you only want to add a certain time\n[exit] Back to menu:");
+                    Console.WriteLine("\n[1] If you want to edit an entire movie\n[2] If you only want to add a certain time\n[3] If you want to change the price at a specific time\n[exit] Back to menu:");
 
                     // readline again
                     string option = Console.ReadLine();
@@ -817,10 +820,109 @@ namespace CinemaConsole.Pages.Admin
                         Console.Clear();
                         break;
                     }
+                    else if (option == "3")
+                    {
+                        Tuple<List<DateTime>, List<int>, List<int>> date = Customer.Customer.showTime(ID);
+                        while (true)
+                        {
+                            string choice = Customer.Customer.selectTime(date);
+
+                            if (choice == "exit")
+                            {
+                                Console.Clear();
+                                break;
+                            }
+                            else
+                            {
+                                Tuple<Tuple<int, int, int, int, double, double, double>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(choice, date);
+
+                                //showhall with prices
+                                Console.Clear();
+                                Customer.Customer.showHall(hallseatInfo.Item1,hallseatInfo.Item2);
+                                //select which price to change
+                                Console.WriteLine("\nWhich area would you like to change the prize of");
+
+                                Console.OutputEncoding = Encoding.UTF8;
+
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.Write("[1] €" + hallseatInfo.Item1.Item5.ToString("0.00"));
+                                Console.ResetColor();
+
+                                Console.ForegroundColor = ConsoleColor.Cyan;
+                                Console.Write("\n[2] €" + hallseatInfo.Item1.Item6.ToString("0.00"));
+                                Console.ResetColor();
+
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.Write("\n[3] €" + hallseatInfo.Item1.Item7.ToString("0.00"));
+                                Console.ResetColor();
+
+                                Console.WriteLine("\n[exit] Back");
+
+
+                                string choice2 = Console.ReadLine();
+                                try
+                                {
+                                    if (choice2 == "exit")
+                                    {
+                                        Console.Clear();
+                                        break;
+                                    }
+                                    else if (Convert.ToInt32(choice2) > 0 && Convert.ToInt32(choice2) < 4)
+                                    {
+                                        //Get the price it has to change into
+                                        double price = 0.0;
+                                        Console.WriteLine("\nPlease give the price you want. And write it down like in the example (e.g. 7.50)");
+                                        while (true)
+                                        {
+                                            try
+                                            {
+                                                string priceString = Console.ReadLine();
+                                                price = Convert.ToDouble(priceString);
+                                                if (price > 0.0)
+                                                {
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine("\nPlease enter a price above 0.00 (7.50)");
+                                                }
+                                            }
+                                            catch (FormatException)
+                                            {
+                                                SD.ErrorMessage("\nThe price was not put in correctly.");
+                                                Console.WriteLine("Please write it down like in the example(7.50)");
+                                            }
+                                        }
+                                        //change the price in seats and hall
+                                        AD.UpdatePriceSeatHall(hallseatInfo.Item1.Item4, price, Convert.ToInt32(choice2), date.Item3[Convert.ToInt32(choice)-1]);
+                                        //show hall with prices to see the changes
+                                        Console.Clear();
+                                        hallseatInfo = Customer.Customer.hallSeatInfo(choice, date);
+                                        Customer.Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
+                                        Console.WriteLine("Press enter to continue");
+                                        Console.ReadLine();
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        SD.ClearAndErrorMessage("Please enter a option that is available");
+                                    }
+                                }
+                                catch (FormatException)
+                                {
+                                    SD.ClearAndErrorMessage("Please enter a option that is available");
+                                }
+                            }
+                        }
+                    }
                     else if (option == "exit")
                     {
                         Console.Clear();
                         break;
+                    }
+                    else
+                    {
+                        SD.ClearAndErrorMessage("\nPlease enter an option that exist");
                     }
                 }
             }
@@ -957,7 +1059,7 @@ namespace CinemaConsole.Pages.Admin
             Console.Clear();
             while (k)
             {
-                Console.WriteLine("\nPlease enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Edit a movie or add a time\n[3] Remove a movie.\n[4] Show all the movies.\n[5] Edit hall prices\n[exit] Back to the menu.");
+                Console.WriteLine("\nPlease enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Edit a movie, add a time or change the price of a movie at a certain time\n[3] Remove a movie.\n[4] Show all the movies.\n[5] Edit hall prices\n[exit] Back to the menu.");
                 string nummer = Console.ReadLine();
                 if (nummer == "1")
                 {

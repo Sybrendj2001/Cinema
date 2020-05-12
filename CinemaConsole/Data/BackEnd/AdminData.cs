@@ -843,7 +843,7 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Open();
 
                 double price = 0.0;
-                Console.WriteLine("\nPlease give the price you want. And write it down like in the example (7.50)");
+                Console.WriteLine("\nPlease give the price you want. And write it down like in the example (e.g. 7.50)");
                 while (true)
                 {
                     try
@@ -918,6 +918,338 @@ namespace CinemaConsole.Data.BackEnd
             finally
             {
                 Connection.Close();
+            }
+        }
+
+        public void UpdatePriceSeatHall(int HallID, double price, int circle, int hall)
+        {
+            Connection.Open();
+            try
+            {
+                UpdatePriceSeat(HallID, price, circle, hall);
+
+                string StringtoUpdate = "";
+
+                if (circle == 1)
+                {
+                    StringtoUpdate = @"UPDATE hall SET InnerCircle = @price WHERE HallID = @HallID";
+                }
+                else if(circle == 2)
+                {
+                    StringtoUpdate = @"UPDATE hall SET MiddleCircle = @price WHERE HallID = @HallID";
+                }
+                else
+                {
+                    StringtoUpdate = @"UPDATE hall SET OuterCircle = @price WHERE HallID = @HallID";
+                }
+
+                MySqlCommand command = new MySqlCommand(StringtoUpdate, Connection);
+
+                MySqlParameter priceParam = new MySqlParameter("@price", MySqlDbType.Double);
+                MySqlParameter hallIDParam = new MySqlParameter("@HallID", MySqlDbType.Int32);
+
+                priceParam.Value = price;
+                hallIDParam.Value = HallID;
+
+                command.Parameters.Add(priceParam);
+                command.Parameters.Add(hallIDParam);
+
+                command.Prepare();
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+        public void UpdatePriceSeat(int HallID, double price, int circle, int hall)
+        {
+            try
+            {
+                string StringtoUpdate = @"UPDATE seats SET Price = @price WHERE RowSeat = @RowSeat AND ColumnSeat = @ColumnSeat AND HallID = @HallID";
+
+                MySqlParameter priceParam = new MySqlParameter("@price", MySqlDbType.Double);
+                MySqlParameter hallIDParam = new MySqlParameter("@HallID", MySqlDbType.Int32);
+
+                priceParam.Value = price;
+                hallIDParam.Value = HallID;
+
+                if (hall == 1)
+                {
+                    for (int i = 0; i < 14; i++)
+                    {
+                        for (int j = 0; j < 12; j++)
+                        {
+
+                            MySqlCommand command = new MySqlCommand(StringtoUpdate, Connection);
+
+                            MySqlParameter rowParam = new MySqlParameter("@RowSeat",MySqlDbType.Int32);
+                            MySqlParameter colParam = new MySqlParameter("@ColumnSeat", MySqlDbType.Int32);
+
+                            rowParam.Value = i;
+                            colParam.Value = j;
+
+                            command.Parameters.Add(priceParam);
+                            command.Parameters.Add(hallIDParam);
+                            command.Parameters.Add(rowParam);
+                            command.Parameters.Add(colParam);
+
+                            if ((j == 5 || j == 6) && (i > 4 && i < 9))
+                            {
+                                if(circle == 1)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 5 || j == 6) && (i > 2 && i < 11))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 4 || j == 7) && (i > 3 && i < 10))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 3 || j == 8) && (i > 4 && i < 9))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else
+                            {
+                                if (circle == 3)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (hall == 2)
+                {
+                    for (int i = 0; i < 19; i++)
+                    {
+                        for (int j = 0; j < 18; j++)
+                        {
+                            MySqlCommand command = new MySqlCommand(StringtoUpdate, Connection);
+
+                            MySqlParameter rowParam = new MySqlParameter("@RowSeat", MySqlDbType.Int32);
+                            MySqlParameter colParam = new MySqlParameter("@ColumnSeat", MySqlDbType.Int32);
+
+                            rowParam.Value = i;
+                            colParam.Value = j;
+
+                            command.Parameters.Add(priceParam);
+                            command.Parameters.Add(hallIDParam);
+                            command.Parameters.Add(rowParam);
+                            command.Parameters.Add(colParam);
+
+                            if ((j == 8 || j == 9) && (i > 4 && i < 13))
+                            {
+                                if (circle == 1)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 7 || j == 10) && (i > 5 && i < 12))
+                            {
+                                if (circle == 1)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 6 || j == 11) && (i > 6 && i < 11))
+                            {
+                                if (circle == 1)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j > 5 && j < 12) && (i > 0 && i < 16))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 5 || j == 12) && (i > 1 && i < 14))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 4 || j == 13) && (i > 3 && i < 13))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 3 || j == 14) && (i > 5 && i < 12))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 2 || j == 15) && (i > 7 && i < 11))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else
+                            {
+                                if (circle == 3)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (hall == 3)
+                {
+                    for (int i = 0; i < 20; i++)
+                    {
+                        for (int j = 0; j < 30; j++)
+                        {
+                            MySqlCommand command = new MySqlCommand(StringtoUpdate, Connection);
+
+                            MySqlParameter rowParam = new MySqlParameter("@RowSeat", MySqlDbType.Int32);
+                            MySqlParameter colParam = new MySqlParameter("@ColumnSeat", MySqlDbType.Int32);
+
+                            rowParam.Value = i;
+                            colParam.Value = j;
+
+                            command.Parameters.Add(priceParam);
+                            command.Parameters.Add(hallIDParam);
+                            command.Parameters.Add(rowParam);
+                            command.Parameters.Add(colParam);
+
+                            if ((j > 12 && j < 17) && (i > 3 && i < 13))
+                            {
+                                if (circle == 1)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 12 || j == 17) && (i > 4 && i < 12))
+                            {
+                                if (circle == 1)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 11 || j == 18) && (i > 5 && i < 12))
+                            {
+                                if (circle == 1)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j > 11 && j < 18) && (i > 0 && i < 17))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 10 || j == 11 || j == 18 || j == 19) && (i > 0 && i < 16))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 9 || j == 20) && (i > 0 && i < 15))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 8 || j == 21) && (i > 1 && i < 14))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 7 || j == 22) && (i > 3 && i < 12))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 6 || j == 23) && (i > 5 && i < 11))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 5 || j == 24) && (i > 7 && i < 10))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else
+                            {
+                                if (circle == 3)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException)
+            {
+                throw;
             }
         }
     }
