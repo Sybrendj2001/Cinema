@@ -98,9 +98,57 @@ namespace CinemaConsole.Data.BackEnd
             }
             return Tuple.Create("","","");
         }
-    
-        // Search funtion ticketsalesman. Search on name, search on ticketnumber and surch on movie name and date/time
-        public void DisplayTickets()
+        /// <summary>
+        /// Show the extra movie info with the right ID
+        /// </summary>
+        /// <param name="movieID">given movie id</param>
+        /// <param name="option">select 1 = title, 2 = year, 3 = age, 4 = actors, 5 = summary</param>
+        public void ShowMovieInfoPartlyByID(string movieID, int option)
+        {
+            try
+            {
+                Connection.Open();
+                string oString = @"SELECT * from movie WHERE MovieID = @id";
+                MySqlCommand oCmd = new MySqlCommand(oString, Connection);
+                oCmd.Parameters.AddWithValue("@id", movieID);
+
+                using (MySqlDataReader getMovieInfo = oCmd.ExecuteReader())
+                {
+                    while (getMovieInfo.Read())
+                    {
+                        switch(option)
+                        {
+                            case 1:
+                                Console.WriteLine("\nCurrent movie title: " + getMovieInfo["MovieName"].ToString());
+                                break;
+                            case 2:
+                                Console.WriteLine("\nCurrent year: " + getMovieInfo["MovieYear"].ToString());
+                                break;
+                            case 3:
+                                Console.WriteLine("\nCurrent age restriction: " + getMovieInfo["MovieMinimumAge"].ToString());
+                                break;
+                            case 4:
+                                Console.WriteLine("\nCurrent actors: " + getMovieInfo["MovieActors"].ToString());
+                                break;
+                            case 5:
+                                Console.WriteLine("\nCurrent summary: " + getMovieInfo["MovieSummary"].ToString());
+                                break;
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+            // Search funtion ticketsalesman. Search on name, search on ticketnumber and surch on movie name and date/time
+            public void DisplayTickets()
         {
             ShowData SD = new ShowData();
             Console.OutputEncoding = Encoding.UTF8;

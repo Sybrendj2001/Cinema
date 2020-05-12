@@ -943,7 +943,8 @@ namespace CinemaConsole.Pages.Admin
 
                         Console.Clear();
 
-                        Console.WriteLine("\nPlease enter the titel. [Iron Man] or enter [skip] if you want to skip and keep the original");
+                        SD.ShowMovieInfoPartlyByID(ID, 1);
+                        Console.WriteLine("Please enter the titel. [Iron Man] or enter [skip] if you want to skip and keep the original");
                         name = Console.ReadLine();
                         if (name == "skip")
                         {
@@ -951,7 +952,8 @@ namespace CinemaConsole.Pages.Admin
                         }
 
                         Console.Clear();
-                        Console.WriteLine("\nPlease enter the release year. [2020] or enter [skip] if you want to skip and keep the original");
+                        SD.ShowMovieInfoPartlyByID(ID, 2);
+                        Console.WriteLine("Please enter the release year. [2020] or enter [skip] if you want to skip and keep the original");
                         releaseDateString = Console.ReadLine();
 
                         if (releaseDateString == "skip")
@@ -962,7 +964,8 @@ namespace CinemaConsole.Pages.Admin
                         releaseDate = EditYear(releaseDateString);
 
                         Console.Clear();
-                        Console.WriteLine("\nPlease enter the age restriction. [12] or enter [skip] if you want to skip and keep the original");
+                        SD.ShowMovieInfoPartlyByID(ID, 3);
+                        Console.WriteLine("Please enter the age restriction. [12] or enter [skip] if you want to skip and keep the original");
                         ageString = Console.ReadLine();
 
                         if (ageString == "skip")
@@ -973,7 +976,8 @@ namespace CinemaConsole.Pages.Admin
                         age = EditAge(ageString);
 
                         Console.Clear();
-                        Console.WriteLine("\nPlease enter a short summary of the movie or enter [skip] if you want to skip and keep the original");
+                        SD.ShowMovieInfoPartlyByID(ID, 4);
+                        Console.WriteLine("Please enter a short summary of the movie or enter [skip] if you want to skip and keep the original");
                         sum = Console.ReadLine();
                         if (sum == "skip")
                         {
@@ -981,7 +985,8 @@ namespace CinemaConsole.Pages.Admin
                         }
 
                         Console.Clear();
-                        Console.WriteLine("\nPlease give some actors [Tom Cruise, Brad Pitt] or enter [skip] if you want to skip and keep the original");
+                        SD.ShowMovieInfoPartlyByID(ID, 5);
+                        Console.WriteLine("Please give some actors [Tom Cruise, Brad Pitt] or enter [skip] if you want to skip and keep the original");
                         actors = Console.ReadLine();
                         if (actors == "skip")
                         {
