@@ -647,7 +647,7 @@ namespace CinemaConsole.Pages.Customer
                             }
                             else
                             {
-                                SD.ClearAndErrorMessage("Please enter an option that exists");
+                                SD.ErrorMessage("\nPlease enter an option that exists");
                             }
                         }
                     }
