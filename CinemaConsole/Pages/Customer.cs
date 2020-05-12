@@ -11,7 +11,7 @@ using CinemaConsole.Data.Employee;
 using CinemaConsole.Pages.Restaurant;
 
 
-namespace CinemaConsole.Pages.Customer
+namespace CinemaConsole.Pages
 {
     public class Customer
     {

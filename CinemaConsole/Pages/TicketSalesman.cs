@@ -80,16 +80,16 @@ namespace CinemaConsole.Pages.TicketSalesman
                             if (CustomerTimeOption == "1")
                             {
                                 // this will return the movie times for the movie you entered
-                                Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.Customer.showTime(whichMovie);
-                                string timeSelect = Customer.Customer.selectTime(dates);
+                                Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.showTime(whichMovie);
+                                string timeSelect = Customer.selectTime(dates);
 
                                 if (timeSelect != "exit")
                                 {
                                     Console.Clear();
                                     Console.WriteLine("");
-                                    Tuple<Tuple<int, int, int, int, double, double, double>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(timeSelect, dates);
+                                    Tuple<Tuple<int, int, int, int, double, double, double>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.hallSeatInfo(timeSelect, dates);
 
-                                    Customer.Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
+                                    Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
 
                                     Console.WriteLine("\nPress enter to continue");
                                     Console.ReadLine();
@@ -124,7 +124,7 @@ namespace CinemaConsole.Pages.TicketSalesman
         // put in the amount of tickets, put in the contact information of the customer.
         public static void AddReservation()
         {
-            Customer.Customer.Menu();
+            Customer.Menu();
         }
 
         // Menu with the options for the ticket salesman to choose from.

@@ -268,6 +268,7 @@ namespace CinemaConsole.Data.BackEnd
             }
             catch (MySqlException ex)
             {
+                
                 if (ex.Message.Contains("Duplicate"))
                 {
                     Console.WriteLine("You already have a movie on this time in this hall");

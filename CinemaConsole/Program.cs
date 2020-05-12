@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Pages.Admin;
-using CinemaConsole.Pages.Customer;
+using CinemaConsole.Pages;
 using CinemaConsole.Pages.Restaurant;
 using CinemaConsole.Pages.TicketSalesman;
 using CinemaConsole.Pages;
