@@ -453,7 +453,7 @@ namespace CinemaConsole.Pages.Admin
                             Console.WriteLine("\nWhich area would you like to change the prize of");
 
                             Console.OutputEncoding = Encoding.UTF8;
-                        
+
                             Console.ForegroundColor = ConsoleColor.Yellow;
                             Console.Write("[1] €" + prices.Item1.ToString("0.00"));
                             Console.ResetColor();
@@ -468,7 +468,7 @@ namespace CinemaConsole.Pages.Admin
 
                             Console.WriteLine("\n[exit] Back");
 
-                        
+
                             string choice2 = Console.ReadLine();
                             try
                             {
@@ -543,94 +543,263 @@ namespace CinemaConsole.Pages.Admin
         {
             ShowData SD = new ShowData();
             ChangeData CD = new ChangeData();
+            string name;
+            string releaseDateString;
+            string ageString;
             Console.Clear();
-            Console.WriteLine("\nPlease enter the Titel/year/age restriction. [IronMan/2008/13] [exit] Back to menu");
-            string tiyeag = Console.ReadLine();
 
-            if (tiyeag != "exit")
+            while (true)
             {
-                // create a function for adding the movie info 
-                Tuple<string, int, int> movieinfo = AddTimeYearAge(tiyeag);
+                Console.WriteLine("\nPlease enter the titel. (Iron Man) or enter [exit] to go back to the menu");
+                name = Console.ReadLine();
+                if (name == "exit")
+                {
+                    break;
+                }
 
-                Console.WriteLine("\nPlease enter a short summary of the movie.");
+                Console.Clear();
+                Console.WriteLine("\nPlease enter the release year. (2020)  or enter [exit] to go back to the menu");
+                releaseDateString = Console.ReadLine();
+                if (releaseDateString == "exit")
+                {
+                    break;
+                }
+
+                int releaseDate = AddYear(releaseDateString);
+
+                // if age returns a 0 the user typed exit so it should break;
+                if (releaseDate == 0)
+                {
+                    break;
+                }
+
+                Console.Clear();
+                Console.WriteLine("\nPlease enter the age restriction. (12) or enter [exit] to go back to the menu");
+                ageString = Console.ReadLine();
+                if (ageString == "exit")
+                {
+                    break;
+                }
+
+                int age = AddAge(ageString);
+
+                // if age returns a 0 the user typed exit so it should break;
+                if (age == 0)
+                {
+                    break;
+                }
+
+                Console.Clear();
+                Console.WriteLine("\nPlease enter a short summary of the movie or enter [exit] to go back to the menu");
                 string sum = Console.ReadLine();
+                if (sum == "exit")
+                {
+                    break;
+                }
 
-                Console.WriteLine("\nPlease give some actors.[Tom Cruise, Brad Pitt]");
+                Console.Clear();
+                Console.WriteLine("\nPlease give some actors.(Tom Cruise, Brad Pitt) or enter [exit] to go back to the menu");
                 string actors = Console.ReadLine();
+                if (actors == "exit")
+                {
+                    break;
+                }
 
-                CD.InsertMovie(movieinfo.Item1, movieinfo.Item2, movieinfo.Item3, sum, actors);
+                CD.InsertMovie(name, releaseDate, age, sum, actors);
 
                 // adding the movie times to the given movie
-                addTime(movieinfo.Item1);
+                addTime(name);
                 Console.WriteLine("\nMovies:");
                 SD.ShowMovies();
                 Console.WriteLine("\nPress enter to continue");
                 Console.ReadLine();
-                Console.Clear();
+                break;
             }
-            else if (tiyeag == "exit")
-            {
-                Console.Clear();
-            }
+            Console.Clear();
+
         }
 
         /// <summary>
-        /// add a time year age and return the Tuple.
+        /// add year as a string and return an int.
         /// </summary>
-        private static Tuple<string, int, int> AddTimeYearAge(string line)
+        private static int AddYear(string yearString)
         {
             ShowData SD = new ShowData();
-            string[] TiYeAg;
-
-            bool TiyeAg = true;
-            string titel = "";
             int year = 0;
+
+            while (true)
+            {
+                if (yearString != "exit")
+                {
+                    try
+                    {
+                        year = Convert.ToInt32(yearString);
+
+                        if (year <= 1800 || year > Convert.ToInt32((DateTime.Now.ToString("yyyy"))))
+                        {
+                            SD.ClearAndErrorMessage("\nPlease enter a release date that is possible. (Between 1801 and " + DateTime.Now.ToString("yyyy") + ")");
+                            Console.WriteLine("\nPlease enter the release year. (2020)  or enter [exit] to go back to the menu");
+                            yearString = Console.ReadLine();
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+                    }
+                    catch (FormatException)
+                    {
+                        SD.ClearAndErrorMessage("\nThe year was filled in incorrectly, please try again.");
+                        Console.WriteLine("\nPlease enter the release year. (2020)  or enter [exit] to go back to the menu");
+                        yearString = Console.ReadLine();
+                    }
+                }
+                else
+                {
+                    year = 0;
+                    break;
+                }
+            }
+            return year;
+        }
+        /// <summary>
+        /// add age as a string and return an int.
+        /// </summary>
+        private static int AddAge(string ageString)
+        {
+            ShowData SD = new ShowData();
             int age = 0;
 
-            while (TiyeAg)
+            while (true)
             {
-                try
+                if (ageString != "exit")
                 {
-                    TiYeAg = line.Split('/');
-                    titel = TiYeAg[0];
-                    year = Convert.ToInt32(TiYeAg[1]);
-                    age = Convert.ToInt32(TiYeAg[2]);
+                    try
+                    {
 
-                    if (year <= 1800 || year > Convert.ToInt32((DateTime.Now.ToString("yyyy"))))
-                    {
-                        SD.ClearAndErrorMessage("\nPlease enter a release date that is possible. (Between 1801 and " + DateTime.Now.ToString("yyyy") + ")");
-                        Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
-                        line = Console.ReadLine();
-                    }
-                    else if (age < 0 || age > 99)
-                    {
-                        SD.ClearAndErrorMessage("\nPlease enter a age that is possible. (Between 0 and 99)");
-                        Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
-                        line = Console.ReadLine();
-                    }
-                    else
-                    {
-                        TiyeAg = false;
-                    }
+                        age = Convert.ToInt32(ageString);
 
+                        if (age < 0 || age > 99)
+                        {
+                            SD.ClearAndErrorMessage("\nPlease enter a age that is possible. (Between 0 and 99)");
+                            Console.WriteLine("\nPlease enter the age restriction. (12) or enter [exit] to go back to the menu");
+                            ageString = Console.ReadLine();
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+                    }
+                    catch (FormatException)
+                    {
+                        SD.ClearAndErrorMessage("\nThe age restriction was filled in incorrectly, please try again.");
+                        Console.WriteLine("\nPlease enter the age restriction. (12) or enter [exit] to go back to the menu");
+                        ageString = Console.ReadLine();
+                    }
                 }
-                catch (FormatException)
+                else
                 {
-                    SD.ClearAndErrorMessage("\nEither the year or the age restriction was filled in incorrectly, please try again.");
-                    Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
-                    line = Console.ReadLine();
-                    TiYeAg = line.Split('/');
-                }
-                catch (IndexOutOfRangeException)
-                {
-                    SD.ClearAndErrorMessage("\nYou missed one of the things you need to fill in, please try again.");
-                    Console.WriteLine("\nPlease enter the Titel/year/age restriction. (IronMan/2008/13)");
-                    line = Console.ReadLine();
-                    TiYeAg = line.Split('/');
+                    age = 0;
+                    break;
                 }
             }
 
-            return Tuple.Create(titel, year, age);
+            return age;
+        }
+
+        /// <summary>
+        /// add year as a string and return an int.
+        /// </summary>
+        private static int EditYear(string yearString, string MovieID)
+        {
+            ShowData SD = new ShowData();
+            int year = 0;
+
+            while (true)
+            {
+                if (yearString != "skip")
+                {
+                    try
+                    {
+                        year = Convert.ToInt32(yearString);
+
+                        if (year <= 1800 || year > Convert.ToInt32((DateTime.Now.ToString("yyyy"))))
+                        {
+                            SD.ClearAndErrorMessage("\nPlease enter a release date that is possible. (Between 1801 and " + DateTime.Now.ToString("yyyy") + ")");
+                            SD.ShowMovieInfoPartlyByID(MovieID, 2);
+                            Console.WriteLine("Please enter the release year. (2020) or enter [skip] if you want to skip and keep the original");
+                            yearString = Console.ReadLine();
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+                    }
+                    catch (FormatException)
+                    {
+                        SD.ClearAndErrorMessage("\nThe year was filled in incorrectly, please try again.");
+                        SD.ShowMovieInfoPartlyByID(MovieID, 2);
+                        Console.WriteLine("Please enter the release year. (2020) or enter [skip] if you want to skip and keep the original ");
+                        yearString = Console.ReadLine();
+                    }
+                }
+                else
+                {
+                    year = -1;
+                    break;
+                }
+            }
+            return year;
+        }
+
+        /// <summary>
+        /// add age as a string and return an int.
+        /// </summary>
+        private static int EditAge(string ageString, string MovieID)
+        {
+            ShowData SD = new ShowData();
+            int age = 0;
+
+            while (true)
+            {
+                if (ageString != "skip")
+                {
+                    try
+                    {
+
+                        age = Convert.ToInt32(ageString);
+
+                        if (age < 0 || age > 99)
+                        {
+                            SD.ClearAndErrorMessage("\nPlease enter a age that is possible. (Between 0 and 99)");
+                            SD.ShowMovieInfoPartlyByID(MovieID, 3);
+                            Console.WriteLine("Please enter the age restriction. (12) or enter [skip] if you want to skip and keep the original");
+                            ageString = Console.ReadLine();
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+                    }
+                    catch (FormatException)
+                    {
+                        SD.ClearAndErrorMessage("\nThe age restriction was filled in incorrectly, please try again.");
+                        SD.ShowMovieInfoPartlyByID(MovieID, 3);
+                        Console.WriteLine("\nPlease enter the age restriction. (12) or enter [skip] if you want to skip and keep the original");
+                        ageString = Console.ReadLine();
+                    }
+                }
+                else
+                {
+                    age = -1;
+                    break;
+                }
+            }
+
+            return age;
         }
 
         /// <summary>
@@ -662,7 +831,7 @@ namespace CinemaConsole.Pages.Admin
                         Console.Clear();
                         while (y)
                         {
-                            Console.WriteLine("\nPlease enter the theaterhall [1],[2] or [3] you want '" + title +"' to play in on '" + dateTime + "'");
+                            Console.WriteLine("\nPlease enter the theaterhall [1],[2] or [3] you want '" + title + "' to play in on '" + dateTime + "'");
                             string SHall = Console.ReadLine();
                             try
                             {
@@ -683,13 +852,13 @@ namespace CinemaConsole.Pages.Admin
                         while (true)
                         {
                             Customer.Customer.showTime(AD.GetMovieID(title).ToString());
-                            
+
                             //delete the last line writen
                             Console.SetCursorPosition(0, Console.CursorTop - 1);
                             ClearCurrentConsoleLine();
 
                             Console.WriteLine("\n[add] Add another date and time\n[exit] Exit to menu");
-                            Console.WriteLine("\n[add] To add another date and time for '"+ title +"'\n[exit] Exit to menu");
+                            Console.WriteLine("\n[add] To add another date and time for '" + title + "'\n[exit] Exit to menu");
                             string exit = Console.ReadLine();
                             if (exit == "exit")
                             {
@@ -769,25 +938,50 @@ namespace CinemaConsole.Pages.Admin
                     if (option == "1")
                     {
                         string name = "";
+                        string releaseDateString;
                         int releaseDate = -1;
+                        string ageString;
                         int age = -1;
                         string sum;
                         string actors;
 
                         Console.Clear();
-                        Console.WriteLine("\nPlease enter the Titel/year/age restriction. [IronMan/2008/13] or enter [skip] if you want to skip and keep the original");
-                        string tiyeag = Console.ReadLine();
 
-                        if (tiyeag != "skip")
+                        SD.ShowMovieInfoPartlyByID(ID, 1);
+                        Console.WriteLine("Please enter the titel. (Iron Man) or enter [skip] if you want to skip and keep the original");
+                        name = Console.ReadLine();
+                        if (name == "skip")
                         {
-                            Tuple<string, int, int> movieinfo = AddTimeYearAge(tiyeag);
-                            name = movieinfo.Item1;
-                            releaseDate = movieinfo.Item2;
-                            age = movieinfo.Item3;
+                            name = "";
                         }
 
                         Console.Clear();
-                        Console.WriteLine("\nPlease enter a short summary of the movie or enter [skip] if you want to skip and keep the original");
+                        SD.ShowMovieInfoPartlyByID(ID, 2);
+                        Console.WriteLine("Please enter the release year. (2020) or enter [skip] if you want to skip and keep the original");
+                        releaseDateString = Console.ReadLine();
+
+                        if (releaseDateString == "skip")
+                        {
+                            releaseDate = -1; ;
+                        }
+
+                        releaseDate = EditYear(releaseDateString, ID);
+
+                        Console.Clear();
+                        SD.ShowMovieInfoPartlyByID(ID, 3);
+                        Console.WriteLine("Please enter the age restriction. (12) or enter [skip] if you want to skip and keep the original");
+                        ageString = Console.ReadLine();
+
+                        if (ageString == "skip")
+                        {
+                            age = -1;
+                        }
+
+                        age = EditAge(ageString, ID);
+
+                        Console.Clear();
+                        SD.ShowMovieInfoPartlyByID(ID, 4);
+                        Console.WriteLine("Please enter a short summary of the movie or enter [skip] if you want to skip and keep the original");
                         sum = Console.ReadLine();
                         if (sum == "skip")
                         {
@@ -795,7 +989,8 @@ namespace CinemaConsole.Pages.Admin
                         }
 
                         Console.Clear();
-                        Console.WriteLine("\nPlease give some actors [Tom Cruise, Brad Pitt] or enter [skip] if you want to skip and keep the original");
+                        SD.ShowMovieInfoPartlyByID(ID, 5);
+                        Console.WriteLine("Please give some actors (Tom Cruise, Brad Pitt) or enter [skip] if you want to skip and keep the original");
                         actors = Console.ReadLine();
                         if (actors == "skip")
                         {
@@ -837,7 +1032,7 @@ namespace CinemaConsole.Pages.Admin
         {
             ShowData SD = new ShowData();
             AdminData AD = new AdminData();
-            
+
             while (true)
             {
                 try
@@ -892,14 +1087,14 @@ namespace CinemaConsole.Pages.Admin
                             string choice3 = Customer.Customer.selectTime(dates);
 
                             Console.Clear();
-                            Console.WriteLine("\nAre you sure you want to delete: " + AD.getTitle(Convert.ToInt32(choice)) + "  " + dates.Item1[Convert.ToInt32(choice3)-1].ToString("HH:mm dd/MM/yyyy"));
+                            Console.WriteLine("\nAre you sure you want to delete: " + AD.getTitle(Convert.ToInt32(choice)) + "  " + dates.Item1[Convert.ToInt32(choice3) - 1].ToString("HH:mm dd/MM/yyyy"));
                             Console.WriteLine("[1] Confirm delete [2] Cancel delete");
                             while (true)
                             {
                                 string choice4 = Console.ReadLine();
                                 if (choice4 == "1")
                                 {
-                                    AD.DeleteTime(dates.Item2[Convert.ToInt32(choice3)-1]);
+                                    AD.DeleteTime(dates.Item2[Convert.ToInt32(choice3) - 1]);
                                     Console.WriteLine("\n" + AD.getTitle(Convert.ToInt32(choice)) + ":");
                                     Console.Clear();
                                     Console.WriteLine("\nMovie times:");
