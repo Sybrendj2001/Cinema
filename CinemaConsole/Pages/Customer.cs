@@ -632,7 +632,6 @@ namespace CinemaConsole.Pages.Customer
                             }
                             else if (CustomerAge == "2")
                             {
-                                Console.Clear();
                                 // If you're under 12 you can take someone who is 18 years or older with you
                                 if (int.Parse(movieAgeQualification) <= 12)
                                 {

@@ -638,7 +638,7 @@ namespace CinemaConsole.Pages.Admin
                         if (year <= 1800 || year > Convert.ToInt32((DateTime.Now.ToString("yyyy"))))
                         {
                             SD.ClearAndErrorMessage("\nPlease enter a release date that is possible. (Between 1801 and " + DateTime.Now.ToString("yyyy") + ")");
-                            Console.WriteLine("\nPlease enter the release year. [2020]  or enter [exit] to go back to the menu");
+                            Console.WriteLine("\nPlease enter the release year. (2020)  or enter [exit] to go back to the menu");
                             yearString = Console.ReadLine();
                         }
                         else
@@ -650,7 +650,7 @@ namespace CinemaConsole.Pages.Admin
                     catch (FormatException)
                     {
                         SD.ClearAndErrorMessage("\nThe year was filled in incorrectly, please try again.");
-                        Console.WriteLine("\nPlease enter the release year. [2020]  or enter [exit] to go back to the menu");
+                        Console.WriteLine("\nPlease enter the release year. (2020)  or enter [exit] to go back to the menu");
                         yearString = Console.ReadLine();
                     }
                 }
@@ -682,7 +682,7 @@ namespace CinemaConsole.Pages.Admin
                         if (age < 0 || age > 99)
                         {
                             SD.ClearAndErrorMessage("\nPlease enter a age that is possible. (Between 0 and 99)");
-                            Console.WriteLine("\nPlease enter the age restriction. [12] or enter [exit] to go back to the menu");
+                            Console.WriteLine("\nPlease enter the age restriction. (12) or enter [exit] to go back to the menu");
                             ageString = Console.ReadLine();
                         }
                         else
@@ -694,7 +694,7 @@ namespace CinemaConsole.Pages.Admin
                     catch (FormatException)
                     {
                         SD.ClearAndErrorMessage("\nThe age restriction was filled in incorrectly, please try again.");
-                        Console.WriteLine("\nPlease enter the age restriction. [12] or enter [exit] to go back to the menu");
+                        Console.WriteLine("\nPlease enter the age restriction. (12) or enter [exit] to go back to the menu");
                         ageString = Console.ReadLine();
                     }
                 }
@@ -728,7 +728,7 @@ namespace CinemaConsole.Pages.Admin
                         {
                             SD.ClearAndErrorMessage("\nPlease enter a release date that is possible. (Between 1801 and " + DateTime.Now.ToString("yyyy") + ")");
                             SD.ShowMovieInfoPartlyByID(MovieID, 2);
-                            Console.WriteLine("Please enter the release year. [2020] or enter [skip] if you want to skip and keep the original");
+                            Console.WriteLine("Please enter the release year. (2020) or enter [skip] if you want to skip and keep the original");
                             yearString = Console.ReadLine();
                         }
                         else
@@ -741,7 +741,7 @@ namespace CinemaConsole.Pages.Admin
                     {
                         SD.ClearAndErrorMessage("\nThe year was filled in incorrectly, please try again.");
                         SD.ShowMovieInfoPartlyByID(MovieID, 2);
-                        Console.WriteLine("Please enter the release year. [2020] or enter [skip] if you want to skip and keep the original ");
+                        Console.WriteLine("Please enter the release year. (2020) or enter [skip] if you want to skip and keep the original ");
                         yearString = Console.ReadLine();
                     }
                 }
@@ -775,7 +775,7 @@ namespace CinemaConsole.Pages.Admin
                         {
                             SD.ClearAndErrorMessage("\nPlease enter a age that is possible. (Between 0 and 99)");
                             SD.ShowMovieInfoPartlyByID(MovieID, 3);
-                            Console.WriteLine("Please enter the age restriction. [12] or enter [skip] if you want to skip and keep the original");
+                            Console.WriteLine("Please enter the age restriction. (12) or enter [skip] if you want to skip and keep the original");
                             ageString = Console.ReadLine();
                         }
                         else
@@ -788,7 +788,7 @@ namespace CinemaConsole.Pages.Admin
                     {
                         SD.ClearAndErrorMessage("\nThe age restriction was filled in incorrectly, please try again.");
                         SD.ShowMovieInfoPartlyByID(MovieID, 3);
-                        Console.WriteLine("\nPlease enter the age restriction. [12] or enter [skip] if you want to skip and keep the original");
+                        Console.WriteLine("\nPlease enter the age restriction. (12) or enter [skip] if you want to skip and keep the original");
                         ageString = Console.ReadLine();
                     }
                 }
@@ -948,7 +948,7 @@ namespace CinemaConsole.Pages.Admin
                         Console.Clear();
 
                         SD.ShowMovieInfoPartlyByID(ID, 1);
-                        Console.WriteLine("Please enter the titel. [Iron Man] or enter [skip] if you want to skip and keep the original");
+                        Console.WriteLine("Please enter the titel. (Iron Man) or enter [skip] if you want to skip and keep the original");
                         name = Console.ReadLine();
                         if (name == "skip")
                         {
@@ -957,7 +957,7 @@ namespace CinemaConsole.Pages.Admin
 
                         Console.Clear();
                         SD.ShowMovieInfoPartlyByID(ID, 2);
-                        Console.WriteLine("Please enter the release year. [2020] or enter [skip] if you want to skip and keep the original");
+                        Console.WriteLine("Please enter the release year. (2020) or enter [skip] if you want to skip and keep the original");
                         releaseDateString = Console.ReadLine();
 
                         if (releaseDateString == "skip")
@@ -969,7 +969,7 @@ namespace CinemaConsole.Pages.Admin
 
                         Console.Clear();
                         SD.ShowMovieInfoPartlyByID(ID, 3);
-                        Console.WriteLine("Please enter the age restriction. [12] or enter [skip] if you want to skip and keep the original");
+                        Console.WriteLine("Please enter the age restriction. (12) or enter [skip] if you want to skip and keep the original");
                         ageString = Console.ReadLine();
 
                         if (ageString == "skip")
@@ -990,7 +990,7 @@ namespace CinemaConsole.Pages.Admin
 
                         Console.Clear();
                         SD.ShowMovieInfoPartlyByID(ID, 5);
-                        Console.WriteLine("Please give some actors [Tom Cruise, Brad Pitt] or enter [skip] if you want to skip and keep the original");
+                        Console.WriteLine("Please give some actors (Tom Cruise, Brad Pitt) or enter [skip] if you want to skip and keep the original");
                         actors = Console.ReadLine();
                         if (actors == "skip")
                         {
