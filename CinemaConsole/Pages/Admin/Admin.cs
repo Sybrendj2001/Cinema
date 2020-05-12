@@ -566,7 +566,7 @@ namespace CinemaConsole.Pages.Admin
                 CD.InsertMovie(movieinfo.Item1, movieinfo.Item2, movieinfo.Item3, sum, actors, duration, genre);
 
                 // adding the movie times to the given movie
-                addTime(movieinfo.Item1);
+                addTime(movieinfo.Item1, movieinfo.Item2);
                 Console.WriteLine("\nMovies:");
                 SD.ShowMovies();
                 Console.WriteLine("\nPress enter to continue");
@@ -641,7 +641,7 @@ namespace CinemaConsole.Pages.Admin
         /// <summary>
         /// add a movie time to the given movie.
         /// </summary>
-        public static void addTime(string title, int id = -1)
+        public static void addTime(string title, int id)
         {
             ChangeData CD = new ChangeData();
             ShowData SD = new ShowData();
