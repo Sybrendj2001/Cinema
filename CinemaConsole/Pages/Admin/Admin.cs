@@ -610,10 +610,12 @@ namespace CinemaConsole.Pages.Admin
                 Console.WriteLine("\nPlease enter the movie genre");
                 string genre = Console.ReadLine();
 
-                CD.InsertMovie(movieinfo.Item1, movieinfo.Item2, movieinfo.Item3, sum, actors, duration, genre);
+                CD.InsertMovie(name, releaseDate, age, sum, actors, duration, genre);
+
+
 
                 // adding the movie times to the given movie
-                addTime(movieinfo.Item1, movieinfo.Item2);
+                addTime(name);
                 Console.WriteLine("\nMovies:");
                 SD.ShowMovies();
                 Console.WriteLine("\nPress enter to continue");
@@ -810,7 +812,7 @@ namespace CinemaConsole.Pages.Admin
         /// <summary>
         /// add a movie time to the given movie.
         /// </summary>
-        public static void addTime(string title, int id)
+        public static void addTime(string title, int id = -1)
         {
             ChangeData CD = new ChangeData();
             ShowData SD = new ShowData();
