@@ -613,7 +613,7 @@ namespace CinemaConsole.Pages.Admin
                 CD.InsertMovie(name, releaseDate, age, sum, actors, duration, genre);
 
 
-
+                
                 // adding the movie times to the given movie
                 addTime(name);
                 Console.WriteLine("\nMovies:");
