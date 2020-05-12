@@ -140,7 +140,6 @@ namespace CinemaConsole.Pages.Restaurant
             ChangeData CD = new ChangeData();
             ShowData SD = new ShowData();
             Console.Clear();
-            CD.DisplayProducts();
             while (true)
             {
                 Console.WriteLine("\nPlease input the desired action: ");
@@ -227,25 +226,33 @@ namespace CinemaConsole.Pages.Restaurant
                             }
                             else
                             {
+                                int itemID = Int32.Parse(input);
                                 Console.Clear();
                                 CD.DisplayProducts();
                                 SD.ErrorMessage($"\nAre you sure you wish to remove the item with ID {input}? [yes/no] This cannot be undone!");
                                 string response = Console.ReadLine().ToLower();
-                                if(response == "yes")
-                                {
-                                    int itemID = Int32.Parse(input);
-                                    Console.WriteLine(" ");
-
-                                    //Calls the removeItem function and enters the name of the product given earlier.
+                                if (response == "yes" || response == "y")
+                                {                                    
                                     CD.DeleteProduct(itemID);
                                     break;
-                                }                                
+                                }
+                                else if(response == "no" || response == "n")
+                                {
+
+                                }
+                                else
+                                {
+                                    SD.ClearAndErrorMessage("\nInvalid Input. Please try again.");
+                                    Console.WriteLine("Press [enter] to continue.");
+                                    Console.ReadLine();
+                                    Console.Clear();
+                                }
                             }
                         }
                         catch (FormatException f)
                         {
-                            SD.ClearAndErrorMessage("Invalid Input. Please try again.");
-                            Console.WriteLine("Press[enter] to continue.");
+                            SD.ClearAndErrorMessage("\nInvalid Input. Please try again.");
+                            Console.WriteLine("Press [enter] to continue.");
                             Console.ReadLine();
                             Console.Clear();
                         }
