@@ -34,17 +34,7 @@ namespace CinemaConsole.Pages.Customer
             ShowData SD = new ShowData();
             Console.Clear();
 
-            Console.Write("\nChoose time");
-            Console.Write(" - ");
-            Console.Write("Choose seat(s)");
-            Console.Write(" - ");
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write("Person information");
-            Console.ResetColor();
-            Console.Write(" - ");
-            Console.Write("Overview");
-            Console.Write(" - ");
-            Console.Write("Ticket\n");
+            ProgressBalk(3);
 
             Console.WriteLine("\nPlease enter your first name");
             string first_name2 = Console.ReadLine();
@@ -169,18 +159,7 @@ namespace CinemaConsole.Pages.Customer
                     {
                         try
                         {
-                            
-                            Console.Write("Choose time");
-                            Console.Write(" - ");
-                            Console.ForegroundColor = ConsoleColor.DarkYellow;
-                            Console.Write("Choose seat(s)");
-                            Console.ResetColor();
-                            Console.Write(" - ");
-                            Console.Write("Person information");
-                            Console.Write(" - ");
-                            Console.Write("Overview");
-                            Console.Write(" - ");
-                            Console.Write("Ticket\n");
+                            ProgressBalk(2);
 
                             Console.WriteLine("\nPlease enter how many seats you want. (Maximum of 10 seats)");
                             amount = Convert.ToInt32(Console.ReadLine());
@@ -194,15 +173,7 @@ namespace CinemaConsole.Pages.Customer
                                 {
                                     Console.Clear();
 
-                                    Console.Write("Choose time");
-                                    Console.Write(" - ");
-                                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                    Console.Write("Choose seat(s)");
-                                    Console.ResetColor();
-                                    Console.Write(" - ");
-                                    Console.Write("Person information");
-                                    Console.Write(" - ");
-                                    Console.Write("Overview\n");
+                                    ProgressBalk(2);
 
                                     showHall(hallseatInfo.Item1, hallseatInfo.Item2);
                                     Tuple<int, int, double> chosenseats = chooseSeat(hallseatInfo.Item1, hallseatInfo.Item2, amount);
@@ -424,17 +395,8 @@ namespace CinemaConsole.Pages.Customer
             AdminData AD = new AdminData();
             Tuple<List<DateTime>, List<int>, List<int>> times = AD.GetTime(Convert.ToInt32(whichMovie));
             Console.WriteLine("");
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write("Choose time");
-            Console.ResetColor();
-            Console.Write(" - ");
-            Console.Write("Choose seat(s)");
-            Console.Write(" - ");
-            Console.Write("Person information");
-            Console.Write(" - ");
-            Console.Write("Overview");
-            Console.Write(" - ");
-            Console.Write("Ticket\n\n");
+
+            ProgressBalk(1);
 
             for (int i = 0; i < times.Item1.Count; i++)
             {
@@ -548,17 +510,8 @@ namespace CinemaConsole.Pages.Customer
             string totalprice = ticketInfo.Item6.Item1.ToString("0.00");
             string datetime = Convert.ToDateTime(ticketInfo.Item1).ToString("dd/MM/yyyy HH:mm");
 
-            Console.Write("\nChoose time");
-            Console.Write(" - ");
-            Console.Write("Choose seat(s)");
-            Console.Write(" - ");
-            Console.Write("Person information");
-            Console.Write(" - ");
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write("Overview");
-            Console.ResetColor();
-            Console.Write(" - ");
-            Console.Write("Ticket\n");
+
+            ProgressBalk(4);
 
             Console.WriteLine("\n" + title + '\n'+ datetime + "\nTotal price: €" + totalprice);
 
@@ -597,6 +550,79 @@ namespace CinemaConsole.Pages.Customer
 
             return MovieTicketData;
         }
+
+        private static void ProgressBalk(int place)
+        {
+            if(place == 1)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Choose time");
+                Console.ResetColor();
+                Console.Write(" - ");
+                Console.Write("Choose seat(s)");
+                Console.Write(" - ");
+                Console.Write("Person information");
+                Console.Write(" - ");
+                Console.Write("Overview");
+                Console.Write(" - ");
+                Console.Write("Ticket\n\n");
+            }
+            else if(place == 2)
+            {
+                Console.Write("Choose time");
+                Console.Write(" - ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Choose seat(s)");
+                Console.ResetColor();
+                Console.Write(" - ");
+                Console.Write("Person information");
+                Console.Write(" - ");
+                Console.Write("Overview\n");
+            }
+            else if (place == 3)
+            {
+                Console.Write("\nChoose time");
+                Console.Write(" - ");
+                Console.Write("Choose seat(s)");
+                Console.Write(" - ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Person information");
+                Console.ResetColor();
+                Console.Write(" - ");
+                Console.Write("Overview");
+                Console.Write(" - ");
+                Console.Write("Ticket\n");
+            }
+            else if (place == 4)
+            {
+                Console.Write("\nChoose time");
+                Console.Write(" - ");
+                Console.Write("Choose seat(s)");
+                Console.Write(" - ");
+                Console.Write("Person information");
+                Console.Write(" - ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Overview");
+                Console.ResetColor();
+                Console.Write(" - ");
+                Console.Write("Ticket\n");
+            }
+            else if (place == 5)
+            {
+                Console.Write("\nChoose time");
+                Console.Write(" - ");
+                Console.Write("Choose seat(s)");
+                Console.Write(" - ");
+                Console.Write("Person information");
+                Console.Write(" - ");
+                Console.Write("Overview");
+                Console.Write(" - ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Ticket\n");
+                Console.ResetColor();
+            }
+        }
+
         public static void Menu()
         {
             Console.Clear();
@@ -631,7 +657,7 @@ namespace CinemaConsole.Pages.Customer
                     else if (MovieIDs.Contains(Convert.ToInt32(line)))
                     {
                         // this will return the movie details for the number you entered
-                        Tuple<string, string,string> showmovieinfo = SD.ShowMovieByID(line);
+                        Tuple<string, string, string> showmovieinfo = SD.ShowMovieByID(line);
                         title = showmovieinfo.Item2;
                         whichMovie = showmovieinfo.Item1;
                         movieAgeQualification = showmovieinfo.Item3;
@@ -650,57 +676,6 @@ namespace CinemaConsole.Pages.Customer
                                 {
                                     Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> ticket = reserveSeat(whichMovie);
 
-                                if (ticket.Item5 == 0.0)
-                                {
-                                    break;
-                                }
-                                else
-                                {
-                                    Console.Clear();
-                                    Tuple<string, string, string> personInfo = Name();
-                                    string ticketcode = createTicketID(ticket.Item1, title, ticket.Item4, ticket.Item5, ticket.Item6.Item2);
-                                    overviewCustomer(personInfo, ticket, title, ticketcode);
-                                    string confirm;
-                                    while (true)
-                                    {
-                                        Console.WriteLine("\nDo you want to confirm the reservation? \n[1] Confirm reservation\n[2] Cancel reservation");
-                                        confirm = Console.ReadLine();
-                                        if (confirm == "1")
-                                        {
-                                            Console.Clear();
-
-                                            Console.Write("\nChoose time");
-                                            Console.Write(" - ");
-                                            Console.Write("Choose seat(s)");
-                                            Console.Write(" - ");
-                                            Console.Write("Person information");
-                                            Console.Write(" - ");
-                                            Console.Write("Overview");
-                                            Console.Write(" - ");
-                                            Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                            Console.Write("Ticket\n");
-                                            Console.ResetColor();
-
-                                            CD.ReserveTicket((personInfo.Item1 + " " + personInfo.Item2), personInfo.Item3, ticketcode, Convert.ToInt32(whichMovie), ticket.Item3, ticket.Item4, ticket.Item5, ticket.Item2, ticket.Item6.Item2, ticket.Item6.Item1, ticket.Item6.Item3);
-                                            Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticketcode);
-                                            Console.WriteLine("\nPress enter to continue");
-                                            Console.ReadLine();
-                                            Console.Clear();
-                                            break;
-                                        }
-                                        else if (confirm == "2")
-                                        {
-                                            //Cancel the seats
-                                            AD.switchAvail((ticket.Item4 - 1), (ticket.Item5 - 1), ticket.Item6.Item3, ticket.Item3, true);
-                                            Console.Clear();
-                                            break;
-                                        }
-                                    }
-                                }
-                                break;
-                            }
-                            else if(CustomerTimeOption == "exit")
-                            {
                                     if (ticket.Item5 == 0.0)
                                     {
                                         break;
@@ -719,8 +694,14 @@ namespace CinemaConsole.Pages.Customer
                                             if (confirm == "1")
                                             {
                                                 Console.Clear();
+
+                                                ProgressBalk(5);
+
                                                 CD.ReserveTicket((personInfo.Item1 + " " + personInfo.Item2), personInfo.Item3, ticketcode, Convert.ToInt32(whichMovie), ticket.Item3, ticket.Item4, ticket.Item5, ticket.Item2, ticket.Item6.Item2, ticket.Item6.Item1, ticket.Item6.Item3);
                                                 Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticketcode);
+                                                Console.WriteLine("\nPress enter to continue");
+                                                Console.ReadLine();
+                                                Console.Clear();
                                                 break;
                                             }
                                             else if (confirm == "2")
@@ -756,18 +737,12 @@ namespace CinemaConsole.Pages.Customer
                                     Console.WriteLine("\nYou're not old enough for this movie\nPress enter to continue");
                                 }
                                 Console.ReadLine();
-                                Console.Clear();
-                                break;
                             }
                             else
                             {
-                                SD.ErrorMessage("\nPlease enter an option that exists");
+                                SD.ClearAndErrorMessage("\nPlease enter an option that exists");
                             }
                         }
-                    }
-                    else
-                    {
-                        SD.ClearAndErrorMessage("\nPlease enter an option that exists");
                     }
                 }
                 catch (FormatException)
