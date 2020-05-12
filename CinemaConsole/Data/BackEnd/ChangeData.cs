@@ -453,7 +453,7 @@ namespace CinemaConsole.Data.BackEnd
 			try
 			{
 				Connection.Open();
-				string stringToInsert = "INSERT INTO Movie (MovieName, MovieYear, MovieMinimumAge, MovieSummary, MovieActors, MovieDuration, MovieGenre) " +
+				string stringToInsert = "INSERT INTO movie (MovieName, MovieYear, MovieMinimumAge, MovieSummary, MovieActors, MovieDuration, MovieGenre) " +
 					"VALUES (@Name, @Year, @MAge, @MSummary, @MovieActors, @MovieDuration, @MovieGenre)";
 
 				MySqlCommand command = new MySqlCommand(stringToInsert, Connection);

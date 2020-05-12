@@ -604,9 +604,11 @@ namespace CinemaConsole.Pages.Admin
                     break;
                 }
 
+                Console.Clear();
                 Console.WriteLine("\nPlease enter the movie duration in minutes");
                 int duration = Convert.ToInt32(Console.ReadLine());
 
+                Console.Clear();
                 Console.WriteLine("\nPlease enter the movie genre");
                 string genre = Console.ReadLine();
 
