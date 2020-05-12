@@ -70,7 +70,8 @@ namespace CinemaConsole.Pages.Restaurant
                     Console.Clear();
                     try
                     {
-                        Console.WriteLine("\nPlease enter the new price of the product in euro's. Example: (5,00).");
+                        double example = 5.50;
+                        Console.WriteLine("\nPlease enter the new price of the product in euro's.Example: (" + example.ToString("0,00") + ")");
                         double newPrice = double.Parse(Console.ReadLine());
                         Console.WriteLine(" ");
 
@@ -97,7 +98,8 @@ namespace CinemaConsole.Pages.Restaurant
                         Console.WriteLine("\nPlease enter the new name of the product.");
                         string inputName = Console.ReadLine();
                         string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
-                        Console.WriteLine("\nPlease enter the new price of the product in euro's. Example: (5,00)");
+                        double example = 5.50;
+                        Console.WriteLine($"\nPlease enter the new price of the product in euro's. Example: (" + example.ToString("0.00") + ")");
                         double newPrice = double.Parse(Console.ReadLine());
                         Console.WriteLine(" ");
 
@@ -180,9 +182,10 @@ namespace CinemaConsole.Pages.Restaurant
                             {
                                 string name = inputName.First().ToString().ToUpper() + inputName.Substring(1);
                                 Console.WriteLine(" ");
+                                double example = 5.50;
 
                                 //Requests the price of the product to be added.
-                                Console.WriteLine("Please fill in the price of the product in euro's (Example: 5,00) or write [exit] to go back to the menu.");
+                                Console.WriteLine("Please fill in the price of the product in euro's (Example: (" + example.ToString("0.00") + ")) or write [exit] to go back to the menu.");
                                 string inputPrice = Console.ReadLine();
                                 if (inputPrice == "exit")
                                 {
