@@ -937,17 +937,74 @@ namespace CinemaConsole.Pages.Admin
 
         private static void Revenue()
         {
+            Console.OutputEncoding = Encoding.UTF8;
+
             while (true)
             {
                 try
                 {
                     Console.Clear();
-                    Console.WriteLine("Please enter an option:\n[1] Show total year revenue\n[2] Show monthly revenue\n[exit] Back to the menu\n");
+                    Console.WriteLine("Please enter an option:\n[1] Show total year revenue\n[2] Show monthly revenue\n[exit] Back to the menu");
                     string option = Console.ReadLine();
 
-                    if(option == "1")
+                    if (option == "1")
                     {
+                        bool isFound = true;
+                        while (isFound)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Please enter a year you would like to see (2020)");
+                            string selectedYear2 = Console.ReadLine();
+                            int selectedYear = Convert.ToInt32(selectedYear2);
 
+                            AdminData AD = new AdminData();
+                            Tuple<bool, double> TotalRev = AD.GetYearRevenue(selectedYear);
+                            Console.Clear();
+                            if (TotalRev.Item1 == true)
+                            {
+                                isFound = false;
+                                Console.WriteLine("Total revenue of " + selectedYear2 + "     €" + TotalRev.Item2.ToString("0.00") + "\nPress enter to go back to the menu");
+                                Console.ReadLine();
+                                break;
+                            }
+                            else if (TotalRev.Item1 == false)
+                            {
+                                Console.WriteLine("There was no revenue found in " + selectedYear + "\nPress enter to go back to the menu");
+                                Console.ReadLine();
+                            }
+                        }
+                    }                    
+                    else if(option == "2")
+                    {
+                        bool isFound = true;
+                        while (isFound)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Please enter a month you would like to see (5) for may");
+                            string selectedMonth2 = Console.ReadLine();
+                            int selectedMonth = Convert.ToInt32(selectedMonth2);
+                            Console.Clear();
+                            Console.WriteLine("Please enter a year you would like to see (2020)");
+                            string selectedYear2 = Console.ReadLine();
+                            int selectedYear = Convert.ToInt32(selectedYear2);
+
+
+                            AdminData AD = new AdminData();
+                            Tuple<bool, double> TotalRev = AD.GetMonthRevenue(selectedMonth, selectedYear);
+                            Console.Clear();
+                            if (TotalRev.Item1 == true)
+                            {
+                                isFound = false;
+                                Console.WriteLine("Total revenue of " + selectedMonth2 +"/"+ selectedYear + "     €" + TotalRev.Item2.ToString("0.00") + "\nPress enter to go back to the menu");
+                                Console.ReadLine();
+                                break;
+                            }
+                            else if (TotalRev.Item1 == false)
+                            {
+                                Console.WriteLine("There was no revenue found in this month/year: " + selectedMonth + "/" + selectedYear + "\nPress enter to go back to the menu");
+                                Console.ReadLine();
+                            }
+                        }
                     }
                     else if (option == "exit")
                     {
@@ -962,10 +1019,45 @@ namespace CinemaConsole.Pages.Admin
             }
         }
 
+        public static void UpdateRevenue(string ticketcode)
+        {
+            AdminData AD = new AdminData();
+            Tuple<double, DateTime> PriceDate = AD.GetDatePrice(ticketcode);
+
+            double Price = PriceDate.Item1;
+
+            string MonthMM = Convert.ToDateTime(PriceDate.Item2).ToString("MM");
+            int Month = Convert.ToInt32(MonthMM);
+
+            string Yearyyyy = Convert.ToDateTime(PriceDate.Item2).ToString("yyyy");
+            int Year = Convert.ToInt32(Yearyyyy);
+
+            Tuple<bool, bool> MonthYearexist = AD.EditCreateRev(Month, Year);
+            
+            if (MonthYearexist.Item1 == true)
+            {
+                AD.UpdateRevenueMonth(Month, Year, Price);
+            }
+            else if (MonthYearexist.Item1 == false)
+            {
+                AD.RevenueMonth(Month, Year, Price);
+            }
+            
+            if (MonthYearexist.Item2 == true)
+            {
+                AD.UpdateRevenueYear(Year, Price);
+            }
+            else if (MonthYearexist.Item2 == false)
+            {
+                AD.RevenueYear(Year, Price);
+            }
+        }
+         
+
             /// <summary>
             /// Display all the movies by using a foreach loop
             /// </summary>
-            private static void Display()
+        private static void Display()
         {
             TicketSalesman.TicketSalesman.MovieInfo();
             Console.Clear();

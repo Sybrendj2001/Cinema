@@ -9,6 +9,7 @@ using CinemaConsole.Data;
 using CinemaConsole.Data.BackEnd;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Pages.Restaurant;
+using CinemaConsole.Pages.Admin;
 
 
 namespace CinemaConsole.Pages.Customer
@@ -600,6 +601,8 @@ namespace CinemaConsole.Pages.Customer
                                             Console.Clear();
                                             CD.ReserveTicket((personInfo.Item1 + " " + personInfo.Item2), personInfo.Item3, ticketcode, Convert.ToInt32(whichMovie), ticket.Item3, ticket.Item4, ticket.Item5, ticket.Item2, ticket.Item6.Item2, ticket.Item6.Item1, ticket.Item6.Item3);
                                             Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticketcode);
+                                            string person = personInfo.Item1 + " " + personInfo.Item2;
+                                            Admin.Admin.UpdateRevenue(ticketcode);
                                             break;
                                         }
                                         else if (confirm == "2")
