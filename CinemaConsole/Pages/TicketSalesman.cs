@@ -70,7 +70,7 @@ namespace CinemaConsole.Pages.TicketSalesman
                     if (MovieIDs.Contains(Convert.ToInt32(line)))
                     {
                         // this will return the movie details for the number you entered
-                        Tuple<string, string> movieInfo = SD.ShowMovieByID(line);
+                        Tuple<string, string, string> movieInfo = SD.ShowMovieByID(line);
                         string whichMovie = movieInfo.Item1;
 
                         while (true)

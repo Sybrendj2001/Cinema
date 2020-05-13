@@ -329,7 +329,7 @@ namespace CinemaConsole.Data.BackEnd
 					DisplayProduct();
 				}
 
-				else if(name != "" && price == -1)
+				else if (name != "" && price == -1)
 				{
 					string stringToUpdate = @"UPDATE restaurantitems SET ItemName = @NewName WHERE ItemID = @ItemID";
 
@@ -369,14 +369,14 @@ namespace CinemaConsole.Data.BackEnd
 					DisplayProduct();
 				}
 			}
-            catch (MySqlException ex)
-            {
-                throw;
-            }
-            finally
-            {
-                Connection.Close();
-            }
+			catch (MySqlException ex)
+			{
+				throw;
+			}
+			finally
+			{
+				Connection.Close();
+			}	
         }
 
         public void DeleteProduct(int deleteItem)
@@ -398,6 +398,7 @@ namespace CinemaConsole.Data.BackEnd
 				command.ExecuteNonQuery();
 
 				DisplayProduct();
+
 			}
 			catch (MySqlException ex)
 			{
@@ -453,7 +454,7 @@ namespace CinemaConsole.Data.BackEnd
 			try
 			{
 				Connection.Open();
-				string stringToInsert = "INSERT INTO Movie (MovieName, MovieYear, MovieMinimumAge, MovieSummary, MovieActors) VALUES (@Name, @Year, @MAge, @MSummary, @MovieActors)";
+				string stringToInsert = "INSERT INTO movie (MovieName, MovieYear, MovieMinimumAge, MovieSummary, MovieActors) VALUES (@Name, @Year, @MAge, @MSummary, @MovieActors)";
 
 				MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
 				MySqlParameter NameParam = new MySqlParameter("@Name", MySqlDbType.VarChar);
@@ -668,6 +669,90 @@ namespace CinemaConsole.Data.BackEnd
             {
                 Connection.Close();
             }
+
         }
+
+		public void ReservationAmount()
+		{
+			try
+			{
+				Connection.Open();
+				int amount = 0;
+
+				string AddToTicketAmount = @"SELECT * FROM ticket";				
+
+				MySqlCommand command = new MySqlCommand(AddToTicketAmount, Connection);
+
+				MySqlDataReader dataReader = command.ExecuteReader();
+				while (dataReader.Read())
+				{
+					amount += dataReader.GetInt32("amount");
+				}
+
+				dataReader.Close();
+
+				Console.Write($"\nThere are currently reservations for ");
+
+				Console.ForegroundColor = ConsoleColor.Green;
+				Console.Write($"{amount}");
+				Console.ResetColor();
+
+				Console.Write(" people.\n");
+
+				Console.WriteLine("Press [enter] to continue.");
+				Console.ReadLine();
+				Console.Clear();
+			}
+			catch (MySqlException ex)
+			{
+				throw;
+			}
+			finally
+			{
+				Connection.Close();
+			}
+		}
+
+		public bool checkIfPExists(int ItemID)
+		{
+			List<int> ProductIDs = new List<int>();
+			ProductIDs.Clear();
+
+			try
+			{
+				Connection.Open();
+				string IntToCheck = @"SELECT * FROM restaurantitems";
+
+				MySqlCommand command = new MySqlCommand(IntToCheck, Connection);
+
+				MySqlDataReader dataReader = command.ExecuteReader();
+				while (dataReader.Read())
+				{
+					int test = dataReader.GetInt32("ItemID");
+					ProductIDs.Add(test);
+				}
+				dataReader.Close();
+
+				if (ProductIDs.Contains(ItemID) == true)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			catch (MySqlException ex)
+			{
+				throw;
+			}
+			finally
+			{
+				Connection.Close();
+			}
+
+			//door ID column lopen zoals bij reservation amount en dan elke item in een list gooien.
+			//Daarna checken of de ID in de list zit. Zo ja, dan gaat ie in restaurant door naar edit. Zo nee geeft ie een error.
+		}
     }
 }
