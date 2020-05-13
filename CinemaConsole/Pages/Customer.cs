@@ -739,6 +739,8 @@ namespace CinemaConsole.Pages.Customer
                                     Console.WriteLine("\nYou're not old enough for this movie\nPress enter to continue");
                                 }
                                 Console.ReadLine();
+                                Console.Clear();
+                                break;
                             }
                             else
                             {
