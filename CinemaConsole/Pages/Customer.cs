@@ -157,7 +157,7 @@ namespace CinemaConsole.Pages.Customer
                     {
                         try
                         {
-                            Console.WriteLine("\nPlease enter how many seats you want. (Maximum of 10 seats)");
+                            Console.WriteLine("\nPlease enter how many seats you want. e.g. (Maximum of 10 seats)");
                             amount = Convert.ToInt32(Console.ReadLine());
                             if (amount > 10 || amount < 1)
                             {
@@ -408,7 +408,7 @@ namespace CinemaConsole.Pages.Customer
 
             while (true)
             {
-                Console.WriteLine("Please enter the most left seat you want to reserve like this x/y or type [exit] to leave the reservation. (5/3)");
+                Console.WriteLine("Please enter the most left seat you want to reserve like this x/y or type [exit] to leave the reservation. e.g. (5/3)");
                 string selected = Console.ReadLine();
                 
                 free = true;

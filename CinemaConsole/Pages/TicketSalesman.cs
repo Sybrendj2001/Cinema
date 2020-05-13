@@ -42,7 +42,7 @@ namespace CinemaConsole.Pages.TicketSalesman
             ShowData SD = new ShowData();
             ChangeData CD = new ChangeData();
             List<int> MovieIDs = SD.ShowMovies();
-            Console.WriteLine("\nPlease enter the number or word that stands before the movie you want to reserve or action you want to do.");
+            Console.WriteLine("\nPlease enter the number or word that stands before the movie you want to see or action you want to do.");
             Console.WriteLine("\n[menu] Restaurant Menu");
             Console.WriteLine("\n[exit] Exit to menu");
 
@@ -60,7 +60,7 @@ namespace CinemaConsole.Pages.TicketSalesman
                     CD.DisplayProducts();
                     Console.WriteLine("\nMovies:");
                     SD.ShowMovies();
-                    Console.WriteLine("\nPlease enter the number or word that stands before the movie you want to reserve or action you want to do.");
+                    Console.WriteLine("\nPlease enter the number or word that stands before the movie you want to see or action you want to do.");
                     Console.WriteLine("\n[menu] Restaurant Menu");
                     Console.WriteLine("\n[exit] Exit to menu");
                 }

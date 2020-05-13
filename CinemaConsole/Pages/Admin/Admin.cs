@@ -953,7 +953,7 @@ namespace CinemaConsole.Pages.Admin
                         while (isFound)
                         {
                             Console.Clear();
-                            Console.WriteLine("Please enter a year you would like to see (2020)");
+                            Console.WriteLine("Please enter a year you would like to see e.g. (2020)");
                             string selectedYear2 = Console.ReadLine();
                             int selectedYear = Convert.ToInt32(selectedYear2);
 
@@ -980,7 +980,7 @@ namespace CinemaConsole.Pages.Admin
                         while (isFound)
                         {
                             Console.Clear();
-                            Console.WriteLine("Please enter a month you would like to see (5) for may");
+                            Console.WriteLine("Please enter a month you would like to see e.g. (5) for may");
                             string selectedMonth2 = Console.ReadLine();
                             int selectedMonth = Convert.ToInt32(selectedMonth2);
                             Console.Clear();

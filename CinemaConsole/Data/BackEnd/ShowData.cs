@@ -268,10 +268,10 @@ namespace CinemaConsole.Data.BackEnd
                             Console.WriteLine("\nPlease enter the movie");
                             string movie = Console.ReadLine();
 
-                            Console.WriteLine("\nPlease enter the time (12:00)");
+                            Console.WriteLine("\nPlease enter the time e.g. (12:00)");
                             string time = Console.ReadLine();
 
-                            Console.WriteLine("\nPlease enter the date (12/04/2020)");
+                            Console.WriteLine("\nPlease enter the date e.g. (12/04/2020)");
                             string date = Console.ReadLine();
 
                             string DT = date + " " + time;
