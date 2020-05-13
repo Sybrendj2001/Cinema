@@ -952,6 +952,7 @@ namespace CinemaConsole.Data.BackEnd
                         {
                             totalPrice = Convert.ToDouble(row["TotalPrice"]);
                             int DateID = Convert.ToInt32(row["DateID"]);
+                            Connection.Close();
                             date = GetDate(DateID);
                             isFound = false;
                             break;
@@ -965,7 +966,7 @@ namespace CinemaConsole.Data.BackEnd
             }
             finally
             {
-                Connection.Close();
+                //Connection.Close();
             }
 
             return Tuple.Create(totalPrice, date);
@@ -1032,22 +1033,18 @@ namespace CinemaConsole.Data.BackEnd
                 dataTable.Load(getYeartInfo);
                 
                 int year;
-                bool isFound = true;
-
-                while (isFound)
+               
+                foreach (DataRow row in dataTable.Rows)
                 {
-                    foreach (DataRow row in dataTable.Rows)
-                    {
-                        year = Convert.ToInt32(row["year"]);
+                    year = Convert.ToInt32(row["year"]);
 
-                        if (Year == year)
-                        {
-                            yearYN = true;
-                            isFound = false;
-                            break;
-                        }
+                    if (Year == year)
+                    {
+                        yearYN = true;
+                        break;
                     }
                 }
+                
 
                 MySqlCommand command2 = new MySqlCommand(MonthInfo, Connection);
                 MySqlDataReader getMonthInfo = command2.ExecuteReader();
