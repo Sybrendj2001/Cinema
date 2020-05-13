@@ -110,7 +110,7 @@ namespace CinemaConsole.Pages.Restaurant
                     catch (FormatException f)
                     {
                         SD.ClearAndErrorMessage("Invalid Input. Please try again.");
-                        Console.WriteLine("Press[enter] to continue.");
+                        Console.WriteLine("Press [enter] to continue.");
                         Console.ReadLine();
                         Console.Clear();
                     }
