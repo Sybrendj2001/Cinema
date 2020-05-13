@@ -33,6 +33,9 @@ namespace CinemaConsole.Pages.Customer
         {
             ShowData SD = new ShowData();
             Console.Clear();
+
+            ProgressBalk(3);
+
             Console.WriteLine("\nPlease enter your first name");
             string first_name2 = Console.ReadLine();
             string first_name = first_name2.ToString().ToLower();
@@ -156,6 +159,8 @@ namespace CinemaConsole.Pages.Customer
                     {
                         try
                         {
+                            ProgressBalk(2);
+
                             Console.WriteLine("\nPlease enter how many seats you want. (Maximum of 10 seats)");
                             amount = Convert.ToInt32(Console.ReadLine());
                             if (amount > 10 || amount < 1)
@@ -167,6 +172,9 @@ namespace CinemaConsole.Pages.Customer
                                 if (seatCheck(hallseatInfo.Item1, hallseatInfo.Item2, amount))
                                 {
                                     Console.Clear();
+
+                                    ProgressBalk(2);
+
                                     showHall(hallseatInfo.Item1, hallseatInfo.Item2);
                                     Tuple<int, int, double> chosenseats = chooseSeat(hallseatInfo.Item1, hallseatInfo.Item2, amount);
                                     seatX = chosenseats.Item1;
@@ -387,6 +395,9 @@ namespace CinemaConsole.Pages.Customer
             AdminData AD = new AdminData();
             Tuple<List<DateTime>, List<int>, List<int>> times = AD.GetTime(Convert.ToInt32(whichMovie));
             Console.WriteLine("");
+
+            ProgressBalk(1);
+
             for (int i = 0; i < times.Item1.Count; i++)
             {
                 Console.WriteLine("[" + (i + 1) + "] " + times.Item1[i].ToString("HH:mm dd/MM/yyyy"));
@@ -495,8 +506,13 @@ namespace CinemaConsole.Pages.Customer
         //Customer get an overview of all the information about the movie and contact details before booking
         public static void overviewCustomer(Tuple<string, string, string> personInfo, Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> ticketInfo, string title, string ticketCode)
         {
+            Console.Clear();
             string totalprice = ticketInfo.Item6.Item1.ToString("0.00");
             string datetime = Convert.ToDateTime(ticketInfo.Item1).ToString("dd/MM/yyyy HH:mm");
+
+
+            ProgressBalk(4);
+
             Console.WriteLine("\n" + title + '\n'+ datetime + "\nTotal price: €" + totalprice);
 
             int Y = 0;
@@ -534,6 +550,81 @@ namespace CinemaConsole.Pages.Customer
 
             return MovieTicketData;
         }
+
+        private static void ProgressBalk(int place)
+        {
+            if(place == 1)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Choose time");
+                Console.ResetColor();
+                Console.Write(" - ");
+                Console.Write("Choose seat(s)");
+                Console.Write(" - ");
+                Console.Write("Personal information");
+                Console.Write(" - ");
+                Console.Write("Overview");
+                Console.Write(" - ");
+                Console.Write("Ticket\n\n");
+            }
+            else if(place == 2)
+            {
+                Console.Write("Choose time");
+                Console.Write(" - ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Choose seat(s)");
+                Console.ResetColor();
+                Console.Write(" - ");
+                Console.Write("Personal information");
+                Console.Write(" - ");
+                Console.Write("Overview");
+                Console.Write(" - ");
+                Console.Write("Ticket\n\n");
+            }
+            else if (place == 3)
+            {
+                Console.Write("\nChoose time");
+                Console.Write(" - ");
+                Console.Write("Choose seat(s)");
+                Console.Write(" - ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Personal information");
+                Console.ResetColor();
+                Console.Write(" - ");
+                Console.Write("Overview");
+                Console.Write(" - ");
+                Console.Write("Ticket\n");
+            }
+            else if (place == 4)
+            {
+                Console.Write("\nChoose time");
+                Console.Write(" - ");
+                Console.Write("Choose seat(s)");
+                Console.Write(" - ");
+                Console.Write("Personal information");
+                Console.Write(" - ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Overview");
+                Console.ResetColor();
+                Console.Write(" - ");
+                Console.Write("Ticket\n");
+            }
+            else if (place == 5)
+            {
+                Console.Write("\nChoose time");
+                Console.Write(" - ");
+                Console.Write("Choose seat(s)");
+                Console.Write(" - ");
+                Console.Write("Personal information");
+                Console.Write(" - ");
+                Console.Write("Overview");
+                Console.Write(" - ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Ticket\n");
+                Console.ResetColor();
+            }
+        }
+
         public static void Menu()
         {
             Console.Clear();
@@ -568,7 +659,7 @@ namespace CinemaConsole.Pages.Customer
                     else if (MovieIDs.Contains(Convert.ToInt32(line)))
                     {
                         // this will return the movie details for the number you entered
-                        Tuple<string, string,string> showmovieinfo = SD.ShowMovieByID(line);
+                        Tuple<string, string, string> showmovieinfo = SD.ShowMovieByID(line);
                         title = showmovieinfo.Item2;
                         whichMovie = showmovieinfo.Item1;
                         movieAgeQualification = showmovieinfo.Item3;
@@ -605,8 +696,14 @@ namespace CinemaConsole.Pages.Customer
                                             if (confirm == "1")
                                             {
                                                 Console.Clear();
+
+                                                ProgressBalk(5);
+
                                                 CD.ReserveTicket((personInfo.Item1 + " " + personInfo.Item2), personInfo.Item3, ticketcode, Convert.ToInt32(whichMovie), ticket.Item3, ticket.Item4, ticket.Item5, ticket.Item2, ticket.Item6.Item2, ticket.Item6.Item1, ticket.Item6.Item3);
                                                 Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticketcode);
+                                                Console.WriteLine("\nPress enter to continue");
+                                                Console.ReadLine();
+                                                Console.Clear();
                                                 break;
                                             }
                                             else if (confirm == "2")
@@ -642,18 +739,12 @@ namespace CinemaConsole.Pages.Customer
                                     Console.WriteLine("\nYou're not old enough for this movie\nPress enter to continue");
                                 }
                                 Console.ReadLine();
-                                Console.Clear();
-                                break;
                             }
                             else
                             {
-                                SD.ErrorMessage("\nPlease enter an option that exists");
+                                SD.ClearAndErrorMessage("\nPlease enter an option that exists");
                             }
                         }
-                    }
-                    else
-                    {
-                        SD.ClearAndErrorMessage("\nPlease enter an option that exists");
                     }
                 }
                 catch (FormatException)
