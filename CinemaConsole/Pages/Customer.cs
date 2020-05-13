@@ -704,6 +704,7 @@ namespace CinemaConsole.Pages.Customer
                                                 Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticketcode);
                                                 Console.WriteLine("\nPress enter to continue");
                                                 Console.ReadLine();
+                                                Admin.Admin.UpdateRevenue(ticketcode);
                                                 Console.Clear();
                                                 break;
                                             }
