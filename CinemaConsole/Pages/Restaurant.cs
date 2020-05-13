@@ -242,6 +242,7 @@ namespace CinemaConsole.Pages.Restaurant
                                     {
                                         CD.DeleteProduct(itemID);
                                         Console.Clear();
+                                        CD.DisplayProducts();
                                         break;
                                     }
                                     else if (response == "2")
