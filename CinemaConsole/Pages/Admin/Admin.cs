@@ -1192,41 +1192,44 @@ namespace CinemaConsole.Pages.Admin
                             Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.Customer.showTime(choice);
                             string choice3 = Customer.Customer.selectTime(dates);
 
-                            Console.Clear();
-                            Console.ForegroundColor = ConsoleColor.DarkYellow;
-                            Console.WriteLine("\nAre you sure you want to delete: " + AD.getTitle(Convert.ToInt32(choice)) + "  " + dates.Item1[Convert.ToInt32(choice3) - 1].ToString("HH:mm dd/MM/yyyy"));
-                            Console.ResetColor();
-                            Console.WriteLine("[1] Confirm delete [2] Cancel delete");
-                            while (true)
+                            if (choice3 != "exit")
                             {
-                                string choice4 = Console.ReadLine();
-                                if (choice4 == "1")
+                                Console.Clear();
+                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                Console.WriteLine("\nAre you sure you want to delete: " + AD.getTitle(Convert.ToInt32(choice)) + "  " + dates.Item1[Convert.ToInt32(choice3) - 1].ToString("HH:mm dd/MM/yyyy"));
+                                Console.ResetColor();
+                                Console.WriteLine("[1] Confirm delete [2] Cancel delete");
+                                while (true)
                                 {
-                                    AD.DeleteTime(dates.Item2[Convert.ToInt32(choice3) - 1]);
-                                    Console.WriteLine("\n" + AD.getTitle(Convert.ToInt32(choice)) + ":");
-                                    Console.Clear();
-                                    Console.WriteLine("\nMovie times:");
-                                    Customer.Customer.showTime(choice);
-                                    Console.WriteLine("\nPress enter to continue");
-                                    Console.ReadLine();
-                                    Console.Clear();
-                                    break;
+                                    string choice4 = Console.ReadLine();
+                                    if (choice4 == "1")
+                                    {
+                                        AD.DeleteTime(dates.Item2[Convert.ToInt32(choice3) - 1]);
+                                        Console.WriteLine("\n" + AD.getTitle(Convert.ToInt32(choice)) + ":");
+                                        Console.Clear();
+                                        Console.WriteLine("\nMovie times:");
+                                        Customer.Customer.showTime(choice);
+                                        Console.WriteLine("\nPress enter to continue");
+                                        Console.ReadLine();
+                                        Console.Clear();
+                                        break;
+                                    }
+                                    else if (choice4 == "2")
+                                    {
+                                        Console.Clear();
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        SD.ClearAndErrorMessage("Please enter a valid option");
+                                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                        Console.WriteLine("\nAre you sure you want to delete: " + AD.getTitle(Convert.ToInt32(choice)) + "  " + dates.Item1[Convert.ToInt32(choice3) - 1].ToString("HH:mm dd/MM/yyyy"));
+                                        Console.ResetColor();
+                                        Console.WriteLine("[1] Confirm delete [2] Cancel delete");
+                                    }
                                 }
-                                else if (choice4 == "2")
-                                {
-                                    Console.Clear();
-                                    break;
-                                }
-                                else
-                                {
-                                    SD.ClearAndErrorMessage("Please enter a valid option");
-                                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                    Console.WriteLine("\nAre you sure you want to delete: " + AD.getTitle(Convert.ToInt32(choice)) + "  " + dates.Item1[Convert.ToInt32(choice3) - 1].ToString("HH:mm dd/MM/yyyy"));
-                                    Console.ResetColor();
-                                    Console.WriteLine("[1] Confirm delete [2] Cancel delete");
-                                }
+                                break;
                             }
-                            break;
                         }
                         else
                         {
