@@ -1600,7 +1600,6 @@ namespace CinemaConsole.Data.BackEnd
                 int Year;
                 int Month;
 
-
                 foreach (DataRow row in dataTable.Rows)
                 {
                     Year = Convert.ToInt32(row["year"]);
@@ -1648,7 +1647,6 @@ namespace CinemaConsole.Data.BackEnd
 
                 command.Prepare();
                 command.ExecuteNonQuery();
-
             }
             catch (MySqlException)
             {
