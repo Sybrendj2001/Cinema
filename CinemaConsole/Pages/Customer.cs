@@ -9,6 +9,7 @@ using CinemaConsole.Data;
 using CinemaConsole.Data.BackEnd;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Pages.Restaurant;
+using CinemaConsole.Pages.Admin;
 
 
 namespace CinemaConsole.Pages.Customer
@@ -418,7 +419,7 @@ namespace CinemaConsole.Pages.Customer
 
             while (true)
             {
-                Console.WriteLine("Please enter the most left seat you want to reserve like this x/y or type [exit] to leave the reservation. (5/3)");
+                Console.WriteLine("Please enter the most left seat you want to reserve like this x/y or type [exit] to leave the reservation. e.g. (5/3)");
                 string selected = Console.ReadLine();
                 
                 free = true;
@@ -703,6 +704,7 @@ namespace CinemaConsole.Pages.Customer
                                                 Console.WriteLine("\nReservation completed\nPlease write this down or remember it well.\nTicket: " + ticketcode);
                                                 Console.WriteLine("\nPress enter to continue");
                                                 Console.ReadLine();
+                                                Admin.Admin.UpdateRevenue(ticketcode);
                                                 Console.Clear();
                                                 break;
                                             }
@@ -739,6 +741,8 @@ namespace CinemaConsole.Pages.Customer
                                     Console.WriteLine("\nYou're not old enough for this movie\nPress enter to continue");
                                 }
                                 Console.ReadLine();
+                                Console.Clear();
+                                break;
                             }
                             else
                             {
