@@ -1253,23 +1253,42 @@ namespace CinemaConsole.Pages.Admin
                         while (isFound)
                         {
                             Console.Clear();
-                            Console.WriteLine("Please enter a year you would like to see e.g. (2020)");
-                            string selectedYear2 = Console.ReadLine();
-                            int selectedYear = Convert.ToInt32(selectedYear2);
+                            try
+                            {
+                                Console.WriteLine("Please enter a year you would like to see (e.g. 2020) or type [exit] to exit");
+                                string selectedYear = Console.ReadLine();
 
-                            AdminData AD = new AdminData();
-                            Tuple<bool, double> TotalRev = AD.GetYearRevenue(selectedYear);
-                            Console.Clear();
-                            if (TotalRev.Item1 == true)
-                            {
-                                isFound = false;
-                                Console.WriteLine("Total revenue of " + selectedYear2 + "     €" + TotalRev.Item2.ToString("0.00") + "\nPress enter to go back to the menu");
-                                Console.ReadLine();
-                                break;
+                                if (selectedYear == "exit")
+                                {
+                                    isFound = false;
+                                    break;
+                                }
+
+                                int selectedYear2 = Convert.ToInt32(selectedYear);
+
+                               
+
+                                AdminData AD = new AdminData();
+                                Tuple<bool, double> TotalRev = AD.GetYearRevenue(selectedYear2);
+                                Console.Clear();
+                                if (TotalRev.Item1 == true)
+                                {
+                                    isFound = false;
+                                    Console.WriteLine("Total revenue of " + selectedYear + "     €" + TotalRev.Item2.ToString("0.00") + "\nPress enter to go back to the menu");
+                                    Console.ReadLine();
+                                    break;
+                                }
+                                else if (TotalRev.Item1 == false)
+                                {
+                                    Console.WriteLine("There was no revenue found in " + selectedYear + "\nPress enter to go back to the menu");
+                                    Console.ReadLine();
+                                }
                             }
-                            else if (TotalRev.Item1 == false)
+                            catch (FormatException)
                             {
-                                Console.WriteLine("There was no revenue found in " + selectedYear + "\nPress enter to go back to the menu");
+                                ShowData SD = new ShowData();
+                                SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                                Console.WriteLine("Press [enter] to continue.");
                                 Console.ReadLine();
                             }
                         }
@@ -1280,28 +1299,51 @@ namespace CinemaConsole.Pages.Admin
                         while (isFound)
                         {
                             Console.Clear();
-                            Console.WriteLine("Please enter a month you would like to see e.g. (5) for may");
-                            string selectedMonth2 = Console.ReadLine();
-                            int selectedMonth = Convert.ToInt32(selectedMonth2);
-                            Console.Clear();
-                            Console.WriteLine("Please enter a year you would like to see (2020)");
-                            string selectedYear2 = Console.ReadLine();
-                            int selectedYear = Convert.ToInt32(selectedYear2);
-
-
-                            AdminData AD = new AdminData();
-                            Tuple<bool, double> TotalRev = AD.GetMonthRevenue(selectedMonth, selectedYear);
-                            Console.Clear();
-                            if (TotalRev.Item1 == true)
+                            try
                             {
-                                isFound = false;
-                                Console.WriteLine("Total revenue of " + selectedMonth2 +"/"+ selectedYear + "     €" + TotalRev.Item2.ToString("0.00") + "\nPress enter to go back to the menu");
-                                Console.ReadLine();
-                                break;
+                                Console.WriteLine("Please enter a month you would like to see (e.g. 5) for may or type [exit] to exit");
+                                string selectedMonth2 = Console.ReadLine();
+
+                                if (selectedMonth2 == "exit")
+                                {
+                                    isFound = false;
+                                    break;
+                                }
+
+                                int selectedMonth = Convert.ToInt32(selectedMonth2);
+                                Console.Clear();
+                                Console.WriteLine("Please enter a year you would like to see (e.g. 2020) or type [exit] to exit");
+                                string selectedYear2 = Console.ReadLine();
+
+                                if (selectedYear2 == "exit")
+                                {
+                                    isFound = false;
+                                    break;
+                                }
+
+                                int selectedYear = Convert.ToInt32(selectedYear2);
+
+                                AdminData AD = new AdminData();
+                                Tuple<bool, double> TotalRev = AD.GetMonthRevenue(selectedMonth, selectedYear);
+                                Console.Clear();
+                                if (TotalRev.Item1 == true)
+                                {
+                                    isFound = false;
+                                    Console.WriteLine("Total revenue of " + selectedMonth2 + "/" + selectedYear + "     €" + TotalRev.Item2.ToString("0.00") + "\nPress enter to go back to the menu");
+                                    Console.ReadLine();
+                                    break;
+                                }
+                                else if (TotalRev.Item1 == false)
+                                {
+                                    Console.WriteLine("There was no revenue found in this month/year: " + selectedMonth + "/" + selectedYear + "\nPress enter to go back to the menu");
+                                    Console.ReadLine();
+                                }
                             }
-                            else if (TotalRev.Item1 == false)
+                            catch (FormatException)
                             {
-                                Console.WriteLine("There was no revenue found in this month/year: " + selectedMonth + "/" + selectedYear + "\nPress enter to go back to the menu");
+                                ShowData SD = new ShowData();
+                                SD.ClearAndErrorMessage("Invalid Input. Please try again.");
+                                Console.WriteLine("Press [enter] to continue.");
                                 Console.ReadLine();
                             }
                         }
