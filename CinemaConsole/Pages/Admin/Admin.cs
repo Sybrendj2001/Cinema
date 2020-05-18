@@ -1036,7 +1036,6 @@ namespace CinemaConsole.Pages.Admin
                                 Customer.Customer.showHall(hallseatInfo.Item1,hallseatInfo.Item2);
                                 //select which price to change
                                 Console.WriteLine("\nWhich area would you like to change the prize of");
-
                                 Console.OutputEncoding = Encoding.UTF8;
 
                                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -1218,7 +1217,6 @@ namespace CinemaConsole.Pages.Admin
                                     Console.WriteLine("\nAre you sure you want to delete: " + AD.getTitle(Convert.ToInt32(choice)) + "  " + dates.Item1[Convert.ToInt32(choice3) - 1].ToString("HH:mm dd/MM/yyyy"));
                                     Console.WriteLine("[1] Confirm delete [2] Cancel delete");
                                 }
-
                             }
                             break;
                         }
@@ -1265,9 +1263,7 @@ namespace CinemaConsole.Pages.Admin
                                 }
 
                                 int selectedYear2 = Convert.ToInt32(selectedYear);
-
-                               
-
+                             
                                 AdminData AD = new AdminData();
                                 Tuple<bool, double> TotalRev = AD.GetYearRevenue(selectedYear2);
                                 Console.Clear();

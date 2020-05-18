@@ -619,7 +619,6 @@ namespace CinemaConsole.Data.BackEnd
 									Connection.Close();
 									var MonthMM = Convert.ToDateTime(MonthYear).ToString("MM");
 									int Month = Convert.ToInt32(MonthMM);
-
 									var Yearyyyy = Convert.ToDateTime(MonthYear).ToString("yyyy");
 									int Year = Convert.ToInt32(Yearyyyy);
 
@@ -628,7 +627,6 @@ namespace CinemaConsole.Data.BackEnd
 
 									// This set the seats back to available
 									AD.switchAvail((seatX - 1), (seatY - 1), hallID, amount, true);
-
 									Console.WriteLine("\nReservation removed. Press enter to go back to the menu");
 									Console.ReadLine();
 									Console.Clear();
@@ -669,7 +667,6 @@ namespace CinemaConsole.Data.BackEnd
             {
                 Connection.Close();
             }
-
         }
 
 		public void ReservationAmount()
