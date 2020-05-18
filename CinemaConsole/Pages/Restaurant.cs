@@ -41,15 +41,16 @@ namespace CinemaConsole.Pages.Restaurant
                     try
                     {
                         Console.WriteLine("\nPlease enter the new name of the product. If you wish to return to the menu, please enter [exit] instead.");
-                        string inputName = Console.ReadLine();
-                        string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
+                        string inputName = Console.ReadLine().ToLower();                        
                         Console.WriteLine(" ");
-                        if (newName == "Exit")
+                        if (inputName == "exit")
                         {
-                            break;
+                            Console.Clear();
+                            
                         }
                         else
                         {
+                            string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
                             CD.UpdateProduct(productID, newName);
                             CD.DisplayProducts();
                             break;
@@ -58,7 +59,7 @@ namespace CinemaConsole.Pages.Restaurant
                     catch (FormatException f)
                     {
                         SD.ClearAndErrorMessage("Invalid Input. Please try again.");
-                        Console.WriteLine("Press[enter] to continue.");
+                        Console.WriteLine("Press [enter] to continue.");
                         Console.ReadLine();
                         Console.Clear();
                     }
@@ -71,13 +72,22 @@ namespace CinemaConsole.Pages.Restaurant
                     try
                     {
                         double example = 5.50;
-                        Console.WriteLine("\nPlease enter the new price of the product in euro's. E.g.: (" + example.ToString("0.00") + ")");
-                        double newPrice = double.Parse(Console.ReadLine());
-                        Console.WriteLine(" ");
+                        Console.WriteLine("\nPlease enter the new price of the product in euro's. (e.g. " + example.ToString("0.00") + ") or write [exit] to go back.");
+                        string temp = Console.ReadLine().ToLower();
+                        if (temp == "exit")
+                        {
+                            Console.Clear();
+                            
+                        }
+                        else
+                        {
+                            double newPrice = double.Parse(temp);
+                            Console.WriteLine(" ");
 
-                        CD.UpdateProduct(productID, "", newPrice);
-                        CD.DisplayProducts();
-                        break;
+                            CD.UpdateProduct(productID, "", newPrice);
+                            CD.DisplayProducts();
+                            break;
+                        }                        
                     }
                     catch (FormatException f)
                     {
@@ -95,17 +105,34 @@ namespace CinemaConsole.Pages.Restaurant
                     Console.Clear();
                     try
                     {
-                        Console.WriteLine("\nPlease enter the new name of the product.");
-                        string inputName = Console.ReadLine();
-                        string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
-                        double example = 5.50;
-                        Console.WriteLine($"\nPlease enter the new price of the product in euro's. E.g.: (" + example.ToString("0.00") + ")");
-                        double newPrice = double.Parse(Console.ReadLine());
-                        Console.WriteLine(" ");
+                        Console.WriteLine("\nPlease enter the new name of the product or write [exit] to go back.");
+                        string inputName = Console.ReadLine().ToLower();
+                        if(inputName == "exit")
+                        {
+                            Console.Clear();
+                            
+                        }
+                        else
+                        {
+                            string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
+                            double example = 5.50;
+                            Console.WriteLine($"\nPlease enter the new price of the product in euro's. (e.g. " + example.ToString("0.00") + ") or write [exit] to go back.");
+                            string temp = Console.ReadLine().ToLower();
+                            if(temp == "exit")
+                            {
+                                Console.Clear();
+                                
+                            }
+                            else
+                            {
+                                double newPrice = double.Parse(temp);
+                                Console.WriteLine(" ");
 
-                        CD.UpdateProduct(productID, newName, newPrice);
-                        CD.DisplayProducts();
-                        break;
+                                CD.UpdateProduct(productID, newName, newPrice);
+                                CD.DisplayProducts();
+                                break;
+                            }
+                        }                   
                     }
                     catch (FormatException f)
                     {
@@ -127,7 +154,7 @@ namespace CinemaConsole.Pages.Restaurant
                 else
                 {
                     SD.ClearAndErrorMessage("Invalid Input. Please try again.");
-                    Console.WriteLine("Press[enter] to continue.");
+                    Console.WriteLine("Press [enter] to continue.");
                     Console.ReadLine();
                     Console.Clear();
                 }
@@ -185,7 +212,7 @@ namespace CinemaConsole.Pages.Restaurant
                                 double example = 5.50;
 
                                 //Requests the price of the product to be added.
-                                Console.WriteLine("Please fill in the price of the product in euro's (E.g.: " + example.ToString("0.00") + ") or write [exit] to go back to the menu.");
+                                Console.WriteLine("Please fill in the price of the product in euro's (e.g. " + example.ToString("0.00") + ") or write [exit] to go back to the menu.");
                                 string inputPrice = Console.ReadLine();
                                 if (inputPrice == "exit")
                                 {
