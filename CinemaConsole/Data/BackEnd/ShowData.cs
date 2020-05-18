@@ -188,7 +188,8 @@ namespace CinemaConsole.Data.BackEnd
                         {
                             Console.Clear();
                             Console.WriteLine("\nPlease enter the customer full name");
-                            string name = Console.ReadLine();
+                            string name2 = Console.ReadLine();
+                            string name = name2.ToString().ToLower();
 
                             bool isFound = false;
 
@@ -315,10 +316,10 @@ namespace CinemaConsole.Data.BackEnd
                             Console.WriteLine("\nPlease enter the movie");
                             string movie = Console.ReadLine();
 
-                            Console.WriteLine("\nPlease enter the time (12:00)");
+                            Console.WriteLine("\nPlease enter the time (e.g. 12:00)");
                             string time = Console.ReadLine();
 
-                            Console.WriteLine("\nPlease enter the date (12/04/2020)");
+                            Console.WriteLine("\nPlease enter the date ( e.g. 12/04/2020)");
                             string date = Console.ReadLine();
 
                             string DT = date + " " + time;
@@ -403,6 +404,12 @@ namespace CinemaConsole.Data.BackEnd
                                     break;
                                 }
                             }
+                        }
+
+                        else if(SearchOption == "exit")
+                        {
+                            Console.Clear();
+                            break;
                         }
                     }
                 }

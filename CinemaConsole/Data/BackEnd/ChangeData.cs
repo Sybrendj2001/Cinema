@@ -578,7 +578,9 @@ namespace CinemaConsole.Data.BackEnd
                     string TicketID;
                     string MovieID;
                     string DateID;
+					int dateid;
 					bool isFound = false;
+					double TotalPrice;
 
 					while (true)
 					{
@@ -592,6 +594,9 @@ namespace CinemaConsole.Data.BackEnd
 							amount = Convert.ToInt32(row["amount"]);
 							seatX = Convert.ToInt32(row["seatX"]);
 							seatY = Convert.ToInt32(row["seatY"]);
+							dateid = Convert.ToInt32(row["DateID"]);
+							TotalPrice = Convert.ToDouble(row["TotalPrice"]);
+							double pricedelete = -TotalPrice;
 
 							if (TicketCode == ticketcode)
 							{
@@ -609,10 +614,19 @@ namespace CinemaConsole.Data.BackEnd
 									command.Parameters.Add(TicketCodeParam);
 									command.Prepare();
 									command.ExecuteNonQuery();
+									
+									DateTime MonthYear = AD.GetDate(dateid);
 									Connection.Close();
+									var MonthMM = Convert.ToDateTime(MonthYear).ToString("MM");
+									int Month = Convert.ToInt32(MonthMM);
+									var Yearyyyy = Convert.ToDateTime(MonthYear).ToString("yyyy");
+									int Year = Convert.ToInt32(Yearyyyy);
+
+									AD.UpdateRevenueYear(Year, pricedelete);
+									AD.UpdateRevenueMonth(Month, Year, pricedelete);
+
 									// This set the seats back to available
 									AD.switchAvail((seatX - 1), (seatY - 1), hallID, amount, true);
-
 									Console.WriteLine("\nReservation removed. Press enter to go back to the menu");
 									Console.ReadLine();
 									Console.Clear();
@@ -653,7 +667,6 @@ namespace CinemaConsole.Data.BackEnd
             {
                 Connection.Close();
             }
-
         }
 
 		public void ReservationAmount()
