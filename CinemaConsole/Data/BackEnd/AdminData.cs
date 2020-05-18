@@ -1377,7 +1377,6 @@ namespace CinemaConsole.Data.BackEnd
                     }
                 }
                 
-
                 MySqlCommand command2 = new MySqlCommand(MonthInfo, Connection);
                 MySqlDataReader getMonthInfo = command2.ExecuteReader();
                 DataTable dataTable2 = new DataTable();
