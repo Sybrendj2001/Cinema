@@ -1412,7 +1412,7 @@ namespace CinemaConsole.Pages.Admin
             Console.Clear();
             while (k)
             {
-                Console.WriteLine("\nPlease enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Edit a movie or add a time\n[3] Remove a movie.\n[4] Show all the movies.\n[5] Edit hall prices\n[6] Show revenue\n[exit] Back to the menu.");
+                Console.WriteLine("\nPlease enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Edit a movie or add a time or change the price of a movie at a specific time\n[3] Remove a movie.\n[4] Show all the movies.\n[5] Edit hall prices\n[6] Show revenue\n[exit] Back to the menu.");
                 string nummer = Console.ReadLine();
                 if (nummer == "1")
                 {

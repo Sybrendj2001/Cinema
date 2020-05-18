@@ -134,7 +134,7 @@ namespace CinemaConsole.Pages.Customer
             double price = 0.0;
             int hall = 0;
             int HallID = 0;
-
+            ProgressBalk(1);
             Tuple<List<DateTime>, List<int>, List<int>> date = showTime(whichMovie);
             while (true)
             {
@@ -395,9 +395,6 @@ namespace CinemaConsole.Pages.Customer
         {
             AdminData AD = new AdminData();
             Tuple<List<DateTime>, List<int>, List<int>> times = AD.GetTime(Convert.ToInt32(whichMovie));
-            Console.WriteLine("");
-
-            ProgressBalk(1);
 
             for (int i = 0; i < times.Item1.Count; i++)
             {
