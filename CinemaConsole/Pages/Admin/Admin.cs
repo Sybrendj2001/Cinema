@@ -1301,7 +1301,7 @@ namespace CinemaConsole.Pages.Admin
                             Console.Clear();
                             try
                             {
-                                Console.WriteLine("Please enter a month you would like to see (e.g. 5) for may or type [exit] to exit");
+                                Console.WriteLine("Please enter a month you would like to see (e.g. 5 for may) or type [exit] to exit");
                                 string selectedMonth2 = Console.ReadLine();
 
                                 if (selectedMonth2 == "exit")
