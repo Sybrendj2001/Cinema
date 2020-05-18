@@ -3,10 +3,12 @@
     "",
     "\\CinemaConsole",
     "\\CinemaConsole\\Data",
+    "\\CinemaConsole\\Data\\BackEnd",
     "\\CinemaConsole\\Data\\Employee",
     "\\CinemaConsole\\Data\\Login",
     "\\CinemaConsole\\Pages",
     "\\CinemaConsole\\Pages\\Admin"
   ],
+  "SelectedNode": "\\CinemaConsole",
   "PreviewInSolutionExplorer": false
 }

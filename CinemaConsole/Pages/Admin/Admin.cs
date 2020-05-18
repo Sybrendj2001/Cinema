@@ -1158,7 +1158,9 @@ namespace CinemaConsole.Pages.Admin
                         if (choice2 == "1")
                         {
                             Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
                             Console.WriteLine("\nAre you sure you want to delete the movie: " + AD.getTitle(Convert.ToInt32(choice)));
+                            Console.ResetColor();
                             Console.WriteLine("[1] Confirm delete [2] Cancel delete");
                             while (true)
                             {
@@ -1179,7 +1181,9 @@ namespace CinemaConsole.Pages.Admin
                                 else
                                 {
                                     SD.ClearAndErrorMessage("Please enter a valid option");
+                                    Console.ForegroundColor = ConsoleColor.DarkYellow;
                                     Console.WriteLine("\nAre you sure you want to delete the movie: " + AD.getTitle(Convert.ToInt32(choice)));
+                                    Console.ResetColor();
                                     Console.WriteLine("[1] Confirm delete [2] Cancel delete");
                                 }
                             }
@@ -1190,7 +1194,9 @@ namespace CinemaConsole.Pages.Admin
                             string choice3 = Customer.Customer.selectTime(dates);
 
                             Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
                             Console.WriteLine("\nAre you sure you want to delete: " + AD.getTitle(Convert.ToInt32(choice)) + "  " + dates.Item1[Convert.ToInt32(choice3) - 1].ToString("HH:mm dd/MM/yyyy"));
+                            Console.ResetColor();
                             Console.WriteLine("[1] Confirm delete [2] Cancel delete");
                             while (true)
                             {
@@ -1215,7 +1221,9 @@ namespace CinemaConsole.Pages.Admin
                                 else
                                 {
                                     SD.ClearAndErrorMessage("Please enter a valid option");
+                                    Console.ForegroundColor = ConsoleColor.DarkYellow;
                                     Console.WriteLine("\nAre you sure you want to delete: " + AD.getTitle(Convert.ToInt32(choice)) + "  " + dates.Item1[Convert.ToInt32(choice3) - 1].ToString("HH:mm dd/MM/yyyy"));
+                                    Console.ResetColor();
                                     Console.WriteLine("[1] Confirm delete [2] Cancel delete");
                                 }
 
