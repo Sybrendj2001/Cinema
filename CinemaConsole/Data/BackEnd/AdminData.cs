@@ -795,6 +795,39 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
+        public Tuple<List<DateTime>, List<int>, List<DateTime>> GetAllDates()
+        {
+            List<DateTime> StartTime = new List<DateTime>();
+            List<int> Hall = new List<int>();
+            List<DateTime> Endtime = new List<DateTime>();
+            try
+            {
+                Connection.Open();
+                string IntToCheck = @"SELECT date.DateTime, date.hall, movie.MovieDuration FROM Cinema.date LEFT JOIN Cinema.movie ON date.MovieID = movie.MovieID";
+
+                MySqlCommand command = new MySqlCommand(IntToCheck, Connection);
+
+                MySqlDataReader dataReader = command.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    StartTime.Add(dataReader.GetDateTime("DateTime"));
+                    Hall.Add(dataReader.GetInt32("Hall"));
+                    Endtime.Add(dataReader.GetDateTime("DateTime").AddMinutes(dataReader.GetInt32("Duration")));
+                }
+                dataReader.Close();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+            return Tuple.Create(StartTime, Hall, Endtime);
+        }
+
         public Tuple<double, double, double> getPrices(int hall)
         {
             double InnerCircle = 0.0;

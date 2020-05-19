@@ -7,7 +7,6 @@ using CinemaConsole.Pages.Admin;
 using CinemaConsole.Pages;
 using CinemaConsole.Pages.Restaurant;
 using CinemaConsole.Pages.TicketSalesman;
-using CinemaConsole.Pages;
 using CinemaConsole.Data.BackEnd;
 
 namespace CinemaConsole

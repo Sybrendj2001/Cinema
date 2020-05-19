@@ -814,16 +814,16 @@ namespace CinemaConsole.Pages.Admin
         /// <summary>
         /// add a movie time to the given movie.
         /// </summary>
-        public static void addTime(string title, int id = -1)
+        public static void addTime(string title)
         {
             ChangeData CD = new ChangeData();
             ShowData SD = new ShowData();
             bool k = true;
             Console.Clear();
             AdminData AD = new AdminData();
-            Tuple<List<DateTime>, List<int>, List<int>> check = AD.GetTime(id);
             while (k)
             {
+                Tuple<List<DateTime>, List<int>, List<DateTime>> check = AD.GetAllDates();
                 try
                 {
                     bool checksdone = false;
@@ -847,7 +847,7 @@ namespace CinemaConsole.Pages.Admin
                             try
                             {
                                 hall = Convert.ToInt32(SHall);
-                                if (hall > 0 && hall < 4 && !(check.Item3.Contains(hall) && check.Item1.Contains(DT)))
+                                if (hall > 0 && hall < 4 && !(check.Item2.Contains(hall) && check.Item3.Contains(DT) || check.Item1.Contains(DT)))
                                 {
                                     checksdone = true;
                                     break;
@@ -1027,7 +1027,7 @@ namespace CinemaConsole.Pages.Admin
                     else if (option == "2")
                     {
                         Console.Clear();
-                        addTime(AD.getTitle(movieID),movieID);
+                        addTime(AD.getTitle(movieID));
                         Customer.showTime(ID);
                         Console.Clear();
                         break;
