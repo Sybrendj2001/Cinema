@@ -118,23 +118,19 @@ namespace CinemaConsole.Pages.TicketSalesman
                 }
             }
         }
-    
 
-        // The the ticket salesman is able to make a reservation for customers. You can make a movie choice, pick a date and time, 
-        // put in the amount of tickets, put in the contact information of the customer.
-        public static void AddReservation()
-        {
-            Customer.Customer.Menu();
-        }
 
-        // Menu with the options for the ticket salesman to choose from.
+
+        /// <summary>
+        /// Menu with the options for the ticket salesman to choose from.
+        /// </summary>
         public static void Menu()
         {
             ShowData SD = new ShowData();
             Console.Clear();
             while (true)
             {
-                Console.WriteLine("\nPlease input the desired action:\n[1] Search for reservation.\n[2] Add reservation.\n[3] Remove reservation.\n[4] Show movie information\n[exit] Exit the program.");
+                Console.WriteLine("\nPlease input the desired action:\n[1] Search for reservation\n[2] Add reservation\n[3] Remove reservation\n[4] Show movie information\n[exit] Exit the program");
                 string TicketSalesmanOption = Console.ReadLine();
 
                 if (TicketSalesmanOption == "1")
@@ -145,7 +141,7 @@ namespace CinemaConsole.Pages.TicketSalesman
 
                 else if (TicketSalesmanOption == "2")
                 {
-                    AddReservation();
+                    Customer.Customer.Menu();
                     Console.Clear();
                 }
 
