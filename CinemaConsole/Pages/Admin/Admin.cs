@@ -830,6 +830,7 @@ namespace CinemaConsole.Pages.Admin
                 Tuple<List<DateTime>, List<int>, List<DateTime>> check = AD.GetAllDates();
                 try
                 {
+                    bool checksdone = false;
                     Console.WriteLine("\nPlease enter a date and time when you want " + title + " to play. (e.g. " + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + ")");
                     string dateTime = Console.ReadLine();
 
@@ -1037,10 +1038,10 @@ namespace CinemaConsole.Pages.Admin
                     }
                     else if (option == "3")
                     {
-                        Tuple<List<DateTime>, List<int>, List<int>> date = Customer.Customer.showTime(ID);
+                        Tuple<List<DateTime>, List<int>, List<int>> date = Customer.showTime(ID);
                         while (true)
                         {
-                            string choice = Customer.Customer.selectTime(date);
+                            string choice = Customer.selectTime(date);
 
                             if (choice == "exit")
                             {
@@ -1049,11 +1050,11 @@ namespace CinemaConsole.Pages.Admin
                             }
                             else
                             {
-                                Tuple<Tuple<int, int, int, int, double, double, double>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(choice, date);
+                                Tuple<Tuple<int, int, int, int, double, double, double>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.hallSeatInfo(choice, date);
 
                                 //showhall with prices
                                 Console.Clear();
-                                Customer.Customer.showHall(hallseatInfo.Item1,hallseatInfo.Item2);
+                                Customer.showHall(hallseatInfo.Item1,hallseatInfo.Item2);
                                 //select which price to change
                                 Console.WriteLine("\nWhich area would you like to change the prize of");
                                 Console.OutputEncoding = Encoding.UTF8;
@@ -1112,8 +1113,8 @@ namespace CinemaConsole.Pages.Admin
                                         AD.UpdatePriceSeatHall(hallseatInfo.Item1.Item4, price, Convert.ToInt32(choice2), date.Item3[Convert.ToInt32(choice)-1]);
                                         //show hall with prices to see the changes
                                         Console.Clear();
-                                        hallseatInfo = Customer.Customer.hallSeatInfo(choice, date);
-                                        Customer.Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
+                                        hallseatInfo = Customer.hallSeatInfo(choice, date);
+                                        Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
                                         Console.WriteLine("Press enter to continue");
                                         Console.ReadLine();
                                         break;
@@ -1228,7 +1229,7 @@ namespace CinemaConsole.Pages.Admin
                                         Console.WriteLine("\n" + AD.getTitle(Convert.ToInt32(choice)) + ":");
                                         Console.Clear();
                                         Console.WriteLine("\nMovie times:");
-                                        Customer.Customer.showTime(choice);
+                                        Customer.showTime(choice);
                                         Console.WriteLine("\nPress enter to continue");
                                         Console.ReadLine();
                                         Console.Clear();
