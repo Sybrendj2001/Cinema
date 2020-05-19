@@ -815,6 +815,22 @@ namespace CinemaConsole.Pages.Admin
             return age;
         }
 
+        private static bool checkdoubletimes(int hall, DateTime date)
+        {
+            AdminData AD = new AdminData();
+            Tuple<List<DateTime>, List<int>, List<DateTime>> check = AD.GetAllDates();
+            bool checking = false;
+            for (int i = 0; i < check.Item1.Count; i++)
+            {
+                if ((date > check.Item1[i]) && (date < check.Item3[i]) && (hall == check.Item2[i]))
+                {
+                    checking = true;
+                    break;
+                }
+            }
+            return checking;
+        }
+
         /// <summary>
         /// add a movie time to the given movie.
         /// </summary>
@@ -851,7 +867,7 @@ namespace CinemaConsole.Pages.Admin
                             try
                             {
                                 hall = Convert.ToInt32(SHall);
-                                if (hall > 0 && hall < 4 && !(check.Item2.Contains(hall) && check.Item3.Contains(DT) || check.Item1.Contains(DT)))
+                                if (hall > 0 && hall < 4 && !checkdoubletimes(hall,DT))
                                 {
                                     checksdone = true;
                                     break;

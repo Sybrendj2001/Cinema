@@ -813,7 +813,7 @@ namespace CinemaConsole.Data.BackEnd
                 {
                     StartTime.Add(dataReader.GetDateTime("DateTime"));
                     Hall.Add(dataReader.GetInt32("Hall"));
-                    Endtime.Add(dataReader.GetDateTime("DateTime").AddMinutes(dataReader.GetInt32("Duration")));
+                    Endtime.Add(dataReader.GetDateTime("DateTime").AddMinutes(dataReader.GetInt32("MovieDuration")));
                 }
                 dataReader.Close();
             }
