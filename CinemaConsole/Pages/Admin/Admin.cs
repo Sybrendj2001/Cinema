@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CinemaConsole.Pages;
 using CinemaConsole.Pages.TicketSalesman;
 using CinemaConsole.Pages.Customer;
+using CinemaConsole.Pages.Restaurant;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Data;
 using CinemaConsole.Data.BackEnd;
@@ -1402,10 +1403,9 @@ namespace CinemaConsole.Pages.Admin
             }
         }
          
-
-            /// <summary>
-            /// Display all the movies by using a foreach loop
-            /// </summary>
+        /// <summary>
+        /// Display all the movies by using a foreach loop
+        /// </summary>
         private static void Display()
         {
             TicketSalesman.TicketSalesman.MovieInfo();
@@ -1418,12 +1418,18 @@ namespace CinemaConsole.Pages.Admin
         public static void Menu()
         {
             ShowData SD = new ShowData();
+            ChangeData CD = new ChangeData();
             bool k = true;
 
             Console.Clear();
             while (k)
             {
-                Console.WriteLine("\nPlease enter the number that stands before the option you want.\n[1] Add a new movie.\n[2] Edit a movie or add a time\n[3] Remove a movie.\n[4] Show all the movies.\n[5] Edit hall prices\n[6] Show revenue\n[exit] Back to the menu.");
+                // used some enters to make it more readable here
+                Console.WriteLine("\nPlease enter the number that stands before the option you want" +
+                    "\n\nMovies:\n[1] Add a new movie\n[2] Edit a movie / Add a time to a movie / Edit price at a specific time\n[3] Remove a movie.\n[4] Show all the movies / See reservations" +
+                    "\n\nRestaurant:\n[5] Add product\n[6] Edit product\n[8] Remove product\n[8] Show all products" +
+                    "\n\nReservations:\n[9] Add reservation\n[10] Remove reservation\n[11] Search for a reservation" +
+                    "\n\nGeneral:\n[12] Edit hall prices\n[13] Show revenue\n[exit] Back to the menu");
                 string nummer = Console.ReadLine();
                 if (nummer == "1")
                 {
@@ -1443,9 +1449,40 @@ namespace CinemaConsole.Pages.Admin
                 }
                 else if (nummer == "5")
                 {
-                    editPrice();
+                    Restaurant.Restaurant.AddProduct();
                 }
                 else if (nummer == "6")
+                {
+                    Restaurant.Restaurant.EditProduct();
+                }
+                else if (nummer == "7")
+                {
+                    Restaurant.Restaurant.RemoveProduct();
+                }
+                else if (nummer == "8")
+                {
+                    CD.DisplayProducts();
+                }
+                else if (nummer == "9")
+                {
+                    Customer.Customer.Menu();
+                    Console.Clear();
+                }
+                else if (nummer == "10")
+                {
+                    Console.Clear();
+                    TicketSalesman.TicketSalesman.RemoveReservation();
+                }
+                else if (nummer == "11")
+                {
+                    SD.DisplayTickets();
+                    Console.Clear();
+                }
+                else if (nummer == "12")
+                {
+                    editPrice();
+                }
+                else if (nummer == "13")
                 {
                     Revenue();
                 }
