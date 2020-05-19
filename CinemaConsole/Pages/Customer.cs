@@ -134,7 +134,7 @@ namespace CinemaConsole.Pages
             double price = 0.0;
             int hall = 0;
             int HallID = 0;
-
+            ProgressBalk(1);
             Tuple<List<DateTime>, List<int>, List<int>> date = showTime(whichMovie);
             while (true)
             {
@@ -395,9 +395,6 @@ namespace CinemaConsole.Pages
         {
             AdminData AD = new AdminData();
             Tuple<List<DateTime>, List<int>, List<int>> times = AD.GetTime(Convert.ToInt32(whichMovie));
-            Console.WriteLine("");
-
-            ProgressBalk(1);
 
             for (int i = 0; i < times.Item1.Count; i++)
             {
@@ -419,7 +416,7 @@ namespace CinemaConsole.Pages
 
             while (true)
             {
-                Console.WriteLine("Please enter the most left seat you want to reserve like this x/y or type [exit] to leave the reservation. e.g. (5/3)");
+                Console.WriteLine("Please enter the most left seat you want to reserve like this x/y or type [exit] to leave the reservation. (e.g. 5/3)");
                 string selected = Console.ReadLine();
                 
                 free = true;
