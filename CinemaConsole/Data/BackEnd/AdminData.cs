@@ -586,7 +586,7 @@ namespace CinemaConsole.Data.BackEnd
 
                 //Delete movie with movieID
                 MySqlCommand commandMovie = new MySqlCommand(DeleteMovie, Connection);
-                
+
                 commandMovie.Parameters.Add(movieIDParam);
 
                 commandMovie.Prepare();
@@ -603,7 +603,7 @@ namespace CinemaConsole.Data.BackEnd
 
                 for (int i = 0; i < dateHallIDs.Item1.Count; i++)
                 {
-                    
+
 
                     MySqlParameter dateIDParam = new MySqlParameter("@ID", MySqlDbType.Int32);
                     dateIDParam.Value = dateHallIDs.Item1[i];
@@ -611,7 +611,7 @@ namespace CinemaConsole.Data.BackEnd
                     //Delete halls with dateIDs
                     string DeleteHall = @"DELETE FROM hall WHERE DateID = @ID";
                     MySqlCommand commandhall = new MySqlCommand(DeleteHall, Connection);
-                    
+
                     commandhall.Parameters.Add(dateIDParam);
 
                     commandhall.Prepare();
@@ -695,9 +695,9 @@ namespace CinemaConsole.Data.BackEnd
 
                 MySqlCommand commandSeat = new MySqlCommand(DeleteSeat, Connection);
                 MySqlParameter hallIDParam = new MySqlParameter("@ID", MySqlDbType.Int32);
-                
+
                 hallIDParam.Value = hallID;
-                
+
                 commandSeat.Parameters.Add(hallIDParam);
 
                 commandSeat.Prepare();
@@ -875,9 +875,9 @@ namespace CinemaConsole.Data.BackEnd
             try
             {
                 Connection.Open();
-
+                double example = 10.50;
                 double price = 0.0;
-                Console.WriteLine("\nPlease give the price you want. And write it down like in the example (7.50)");
+                Console.WriteLine("\nPlease give the price you want. And write it down like in the example (e.g. " + example.ToString("0.00") + ")");
                 while (true)
                 {
                     try
@@ -890,13 +890,13 @@ namespace CinemaConsole.Data.BackEnd
                         }
                         else
                         {
-                            Console.WriteLine("\nPlease enter a price above 0.00 (7.50)");
+                            Console.WriteLine("\nPlease enter a price above 0.00 (e.g. " + example.ToString("0.00") + ")");
                         }
                     }
                     catch (FormatException)
                     {
                         SD.ErrorMessage("\nThe price was not put in correctly.");
-                        Console.WriteLine("Please write it down like in the example(7.50)");
+                        Console.WriteLine("Please write it down like in the example(e.g. " + example.ToString("0.00") + ")");
                     }
                 }
 
@@ -906,12 +906,12 @@ namespace CinemaConsole.Data.BackEnd
                 priceParam.Value = price;
                 hallParam.Value = hall;
 
-                if (circle == 1) 
+                if (circle == 1)
                 {
                     string StringtoUpdate = @"UPDATE prices SET InnerCircle = @price WHERE Hall = @hall";
 
                     MySqlCommand command = new MySqlCommand(StringtoUpdate, Connection);
-                    
+
                     command.Parameters.Add(priceParam);
                     command.Parameters.Add(hallParam);
 
@@ -943,6 +943,774 @@ namespace CinemaConsole.Data.BackEnd
                     command.ExecuteNonQuery();
                 }
 
+
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+        public void UpdatePriceSeatHall(int HallID, double price, int circle, int hall)
+        {
+            Connection.Open();
+            try
+            {
+                UpdatePriceSeat(HallID, price, circle, hall);
+
+                string StringtoUpdate = "";
+
+                if (circle == 1)
+                {
+                    StringtoUpdate = @"UPDATE hall SET InnerCircle = @price WHERE HallID = @HallID";
+                }
+                else if (circle == 2)
+                {
+                    StringtoUpdate = @"UPDATE hall SET MiddleCircle = @price WHERE HallID = @HallID";
+                }
+                else
+                {
+                    StringtoUpdate = @"UPDATE hall SET OuterCircle = @price WHERE HallID = @HallID";
+                }
+
+                MySqlCommand command = new MySqlCommand(StringtoUpdate, Connection);
+
+                MySqlParameter priceParam = new MySqlParameter("@price", MySqlDbType.Double);
+                MySqlParameter hallIDParam = new MySqlParameter("@HallID", MySqlDbType.Int32);
+
+                priceParam.Value = price;
+                hallIDParam.Value = HallID;
+
+                command.Parameters.Add(priceParam);
+                command.Parameters.Add(hallIDParam);
+
+                command.Prepare();
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+        public void UpdatePriceSeat(int HallID, double price, int circle, int hall)
+        {
+            try
+            {
+                string StringtoUpdate = @"UPDATE seats SET Price = @price WHERE RowSeat = @RowSeat AND ColumnSeat = @ColumnSeat AND HallID = @HallID";
+
+                MySqlParameter priceParam = new MySqlParameter("@price", MySqlDbType.Double);
+                MySqlParameter hallIDParam = new MySqlParameter("@HallID", MySqlDbType.Int32);
+
+                priceParam.Value = price;
+                hallIDParam.Value = HallID;
+
+                if (hall == 1)
+                {
+                    for (int i = 0; i < 14; i++)
+                    {
+                        for (int j = 0; j < 12; j++)
+                        {
+
+                            MySqlCommand command = new MySqlCommand(StringtoUpdate, Connection);
+
+                            MySqlParameter rowParam = new MySqlParameter("@RowSeat", MySqlDbType.Int32);
+                            MySqlParameter colParam = new MySqlParameter("@ColumnSeat", MySqlDbType.Int32);
+
+                            rowParam.Value = i;
+                            colParam.Value = j;
+
+                            command.Parameters.Add(priceParam);
+                            command.Parameters.Add(hallIDParam);
+                            command.Parameters.Add(rowParam);
+                            command.Parameters.Add(colParam);
+
+                            if ((j == 5 || j == 6) && (i > 4 && i < 9))
+                            {
+                                if (circle == 1)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 5 || j == 6) && (i > 2 && i < 11))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 4 || j == 7) && (i > 3 && i < 10))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 3 || j == 8) && (i > 4 && i < 9))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else
+                            {
+                                if (circle == 3)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (hall == 2)
+                {
+                    for (int i = 0; i < 19; i++)
+                    {
+                        for (int j = 0; j < 18; j++)
+                        {
+                            MySqlCommand command = new MySqlCommand(StringtoUpdate, Connection);
+
+                            MySqlParameter rowParam = new MySqlParameter("@RowSeat", MySqlDbType.Int32);
+                            MySqlParameter colParam = new MySqlParameter("@ColumnSeat", MySqlDbType.Int32);
+
+                            rowParam.Value = i;
+                            colParam.Value = j;
+
+                            command.Parameters.Add(priceParam);
+                            command.Parameters.Add(hallIDParam);
+                            command.Parameters.Add(rowParam);
+                            command.Parameters.Add(colParam);
+
+                            if ((j == 8 || j == 9) && (i > 4 && i < 13))
+                            {
+                                if (circle == 1)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 7 || j == 10) && (i > 5 && i < 12))
+                            {
+                                if (circle == 1)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 6 || j == 11) && (i > 6 && i < 11))
+                            {
+                                if (circle == 1)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j > 5 && j < 12) && (i > 0 && i < 16))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 5 || j == 12) && (i > 1 && i < 14))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 4 || j == 13) && (i > 3 && i < 13))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 3 || j == 14) && (i > 5 && i < 12))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 2 || j == 15) && (i > 7 && i < 11))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else
+                            {
+                                if (circle == 3)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (hall == 3)
+                {
+                    for (int i = 0; i < 20; i++)
+                    {
+                        for (int j = 0; j < 30; j++)
+                        {
+                            MySqlCommand command = new MySqlCommand(StringtoUpdate, Connection);
+
+                            MySqlParameter rowParam = new MySqlParameter("@RowSeat", MySqlDbType.Int32);
+                            MySqlParameter colParam = new MySqlParameter("@ColumnSeat", MySqlDbType.Int32);
+
+                            rowParam.Value = i;
+                            colParam.Value = j;
+
+                            command.Parameters.Add(priceParam);
+                            command.Parameters.Add(hallIDParam);
+                            command.Parameters.Add(rowParam);
+                            command.Parameters.Add(colParam);
+
+                            if ((j > 12 && j < 17) && (i > 3 && i < 13))
+                            {
+                                if (circle == 1)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 12 || j == 17) && (i > 4 && i < 12))
+                            {
+                                if (circle == 1)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 11 || j == 18) && (i > 5 && i < 12))
+                            {
+                                if (circle == 1)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j > 11 && j < 18) && (i > 0 && i < 17))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 10 || j == 11 || j == 18 || j == 19) && (i > 0 && i < 16))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 9 || j == 20) && (i > 0 && i < 15))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 8 || j == 21) && (i > 1 && i < 14))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 7 || j == 22) && (i > 3 && i < 12))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 6 || j == 23) && (i > 5 && i < 11))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else if ((j == 5 || j == 24) && (i > 7 && i < 10))
+                            {
+                                if (circle == 2)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else
+                            {
+                                if (circle == 3)
+                                {
+                                    command.Prepare();
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+        }
+
+        public Tuple<double, DateTime> GetDatePrice(string ticketcode)
+        {
+            double totalPrice = 0.00;
+            DateTime date = new DateTime();
+            
+            try
+            {
+                Connection.Open();
+
+                string TicketInfo = @"SELECT * FROM ticket";
+
+                MySqlCommand command = new MySqlCommand(TicketInfo, Connection);
+                MySqlDataReader getTicketInfo = command.ExecuteReader();
+                string ticketcode2 = ticketcode.ToString();
+
+                DataTable dataTable = new DataTable();
+
+                dataTable.Load(getTicketInfo);
+                string TicketCode;
+                bool isFound = true;
+
+                while (isFound)
+                {
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        TicketCode = row["TicketCode"].ToString();
+
+                        if (ticketcode2 == TicketCode)
+                        {
+                            totalPrice = Convert.ToDouble(row["TotalPrice"]);
+                            int DateID = Convert.ToInt32(row["DateID"]);
+                            Connection.Close();
+                            date = GetDate(DateID);
+                            isFound = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                //Connection.Close();
+            }
+
+            return Tuple.Create(totalPrice, date);
+        }
+
+        public DateTime GetDate(int DateID)
+        {
+            Connection.Open();
+            try
+            {
+                string DateInfo = @"SELECT * FROM date";
+
+                MySqlCommand oCmd = new MySqlCommand(DateInfo, Connection);
+
+                MySqlDataReader getDateInfo = oCmd.ExecuteReader();
+                DataTable dataTable = new DataTable();
+
+                dataTable.Load(getDateInfo);
+                DateTime date = new DateTime();
+                while (true)
+                {
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        int dateindb = Convert.ToInt32(row["DateID"]);
+
+                        string datetime = Convert.ToDateTime(row["DateTime"]).ToString("dd/MM/yyyy HH:mm");
+
+                        if (DateID == dateindb)
+                        {
+                            date = Convert.ToDateTime(row["DateTime"]);
+                            break;
+                        }
+                    }
+                    return date;
+                }
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+        public Tuple<bool, bool> EditCreateRev(int Month, int Year)
+        {
+            bool yearYN = false;
+            bool monthYN = false;
+
+            try
+            {
+                Connection.Open();
+
+                string YearInfo = @"SELECT * FROM revenueyear";
+                string MonthInfo = @"SELECT * FROM revenuemonth";
+
+                MySqlCommand command = new MySqlCommand(YearInfo, Connection);
+                MySqlDataReader getYeartInfo = command.ExecuteReader();
+
+                DataTable dataTable = new DataTable();
+
+                dataTable.Load(getYeartInfo);
+                
+                int year;
+               
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    year = Convert.ToInt32(row["year"]);
+
+                    if (Year == year)
+                    {
+                        yearYN = true;
+                        break;
+                    }
+                }
+                
+                MySqlCommand command2 = new MySqlCommand(MonthInfo, Connection);
+                MySqlDataReader getMonthInfo = command2.ExecuteReader();
+                DataTable dataTable2 = new DataTable();
+
+                dataTable2.Load(getMonthInfo);
+                
+                int month;           
+
+                foreach (DataRow row in dataTable2.Rows)
+                {
+                    month = Convert.ToInt32(row["month"]);
+                    year = Convert.ToInt32(row["year"]);
+
+                    if (Month == month && Year == year)
+                    {
+                        monthYN = true;
+                        break;
+                    }
+                }
+            }
+            catch(MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+            return Tuple.Create(monthYN, yearYN);
+        }
+
+        public void UpdateRevenueMonth(int Month, int Year, double Price)
+        {
+            try
+            {
+                Connection.Open();
+
+                string MonthInfo = @"SELECT * FROM revenuemonth";
+
+                MySqlCommand command = new MySqlCommand(MonthInfo, Connection);
+                MySqlDataReader getMonthInfo = command.ExecuteReader();
+                DataTable dataTable = new DataTable();
+
+                dataTable.Load(getMonthInfo);
+
+                int year;
+                int month;
+                double OldTotalRevenue = 0.00;
+                
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    month = Convert.ToInt32(row["month"]);
+                    year = Convert.ToInt32(row["year"]);
+
+
+                    if (Month == month && Year == year)
+                    {
+                        OldTotalRevenue = Convert.ToDouble(row["revenue"]);
+                        break;
+                    }
+                }
+                
+                double NewTotalRevenue = OldTotalRevenue + Price;
+
+                MySqlParameter ParamMonth = new MySqlParameter("@month", MySqlDbType.Int32);
+                ParamMonth.Value = Month;
+
+                string stringToUpdate = @"UPDATE revenuemonth SET revenue = @Newrevenue WHERE month = @month";
+
+                MySqlCommand command2 = new MySqlCommand(stringToUpdate, Connection);
+                MySqlParameter ParamNewrevenue = new MySqlParameter("@Newrevenue", MySqlDbType.Double);
+
+                ParamNewrevenue.Value = NewTotalRevenue;
+
+                command2.Parameters.Add(ParamMonth);
+
+                command2.Parameters.Add(ParamNewrevenue);
+
+                command2.Prepare();
+                command2.ExecuteNonQuery();
+
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+
+        public void UpdateRevenueYear(int Year, double Price)
+        {
+            try
+            {
+                Connection.Open();
+
+                string YearInfo = @"SELECT * FROM revenueyear";
+
+                MySqlCommand command = new MySqlCommand(YearInfo, Connection);
+                MySqlDataReader getYearInfo = command.ExecuteReader();
+
+                DataTable dataTable = new DataTable();
+
+                dataTable.Load(getYearInfo);
+
+                int year;
+                bool isFound = true;
+                double OldTotalRevenue = 0.00;
+
+                while (isFound)
+                {
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        year = Convert.ToInt32(row["year"]);
+
+
+                        if (Year == year)
+                        {
+                            OldTotalRevenue = Convert.ToDouble(row["revenue"]);
+                            isFound = false;
+                            break;
+                        }
+                    }
+                }
+
+                double NewTotalRevenue = OldTotalRevenue + Price;
+
+                MySqlParameter ParamYear = new MySqlParameter("@year", MySqlDbType.Int32);
+                ParamYear.Value = Year;
+
+                string stringToUpdate = @"UPDATE revenueyear SET revenue = @Newrevenue WHERE year = @year";
+
+                MySqlCommand command2 = new MySqlCommand(stringToUpdate, Connection);
+                MySqlParameter ParamNewrevenue = new MySqlParameter("@Newrevenue", MySqlDbType.Double);
+
+                ParamNewrevenue.Value = NewTotalRevenue;
+
+                command2.Parameters.Add(ParamYear);
+
+                command2.Parameters.Add(ParamNewrevenue);
+
+                command2.Prepare();
+                command2.ExecuteNonQuery();
+
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+        public Tuple<bool, double> GetYearRevenue(int year)
+        {
+            double TotalRevenue = 0.00;
+            bool Found = false;
+            
+            try
+            {
+                Connection.Open();
+
+                string YearInfo = @"SELECT * FROM revenueyear";
+
+                MySqlCommand command = new MySqlCommand(YearInfo, Connection);
+                MySqlDataReader getYearInfo = command.ExecuteReader();
+
+                DataTable dataTable = new DataTable();
+
+                dataTable.Load(getYearInfo);
+
+                int Year;
+                
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    Year = Convert.ToInt32(row["year"]);
+
+                    if (Year == year)
+                    {
+                        TotalRevenue = Convert.ToDouble(row["revenue"]);
+                        Found = true;
+                        break;
+                    }
+                } 
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+            return Tuple.Create(Found, TotalRevenue);
+        }
+
+
+        public Tuple<bool, double> GetMonthRevenue(int month, int year)
+        {
+            double TotalRevenue = 0.00;
+            bool Found = false;
+
+            try
+            {
+                Connection.Open();
+
+                string YearInfo = @"SELECT * FROM revenuemonth";
+
+                MySqlCommand command = new MySqlCommand(YearInfo, Connection);
+                MySqlDataReader getYearInfo = command.ExecuteReader();
+
+                DataTable dataTable = new DataTable();
+
+                dataTable.Load(getYearInfo);
+
+                int Year;
+                int Month;
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    Year = Convert.ToInt32(row["year"]);
+                    Month = Convert.ToInt32(row["month"]);
+
+                    if (Year == year && Month == month)
+                    {
+                        TotalRevenue = Convert.ToDouble(row["revenue"]);
+                        Found = true;
+                        break;
+                    }
+                }
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+            return Tuple.Create(Found, TotalRevenue);
+        }
+
+        public void RevenueMonth(int month, int year, double revenue)
+        {
+            try
+            {
+                Connection.Open();
+
+                string stringToInsert = @"INSERT INTO revenuemonth (month, year, revenue)VALUES (@month, @year, @revenue)";
+
+                MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
+                MySqlParameter MonthParam = new MySqlParameter("@month", MySqlDbType.Int32);
+                MySqlParameter YearParam = new MySqlParameter("@year", MySqlDbType.Int32);
+                MySqlParameter RevenueParam = new MySqlParameter("@revenue", MySqlDbType.Double);
+
+                MonthParam.Value = month;
+                YearParam.Value = year;
+                RevenueParam.Value = revenue;
+
+                command.Parameters.Add(MonthParam);
+                command.Parameters.Add(YearParam);
+                command.Parameters.Add(RevenueParam);
+
+                command.Prepare();
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+        public void RevenueYear(int year, double revenue)
+        {
+            try
+            {
+                Connection.Open();
+
+                string stringToInsert = @"INSERT INTO revenueyear (year, revenue)VALUES (@year, @revenue)";
+
+                MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
+                MySqlParameter YearParam = new MySqlParameter("@year", MySqlDbType.Int32);
+                MySqlParameter RevenueParam = new MySqlParameter("@revenue", MySqlDbType.Double);
+
+                YearParam.Value = year;
+                RevenueParam.Value = revenue;
+
+                command.Parameters.Add(YearParam);
+                command.Parameters.Add(RevenueParam);
+
+                command.Prepare();
+                command.ExecuteNonQuery();
 
             }
             catch (MySqlException)

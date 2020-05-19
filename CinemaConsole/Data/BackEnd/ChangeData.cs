@@ -329,7 +329,7 @@ namespace CinemaConsole.Data.BackEnd
 					DisplayProduct();
 				}
 
-				else if(name != "" && price == -1)
+				else if (name != "" && price == -1)
 				{
 					string stringToUpdate = @"UPDATE restaurantitems SET ItemName = @NewName WHERE ItemID = @ItemID";
 
@@ -369,14 +369,14 @@ namespace CinemaConsole.Data.BackEnd
 					DisplayProduct();
 				}
 			}
-            catch (MySqlException ex)
-            {
-                throw;
-            }
-            finally
-            {
-                Connection.Close();
-            }
+			catch (MySqlException ex)
+			{
+				throw;
+			}
+			finally
+			{
+				Connection.Close();
+			}	
         }
 
         public void DeleteProduct(int deleteItem)
@@ -398,6 +398,7 @@ namespace CinemaConsole.Data.BackEnd
 				command.ExecuteNonQuery();
 
 				DisplayProduct();
+
 			}
 			catch (MySqlException ex)
 			{
@@ -584,7 +585,9 @@ namespace CinemaConsole.Data.BackEnd
                     string TicketID;
                     string MovieID;
                     string DateID;
+					int dateid;
 					bool isFound = false;
+					double TotalPrice;
 
 					while (true)
 					{
@@ -598,6 +601,9 @@ namespace CinemaConsole.Data.BackEnd
 							amount = Convert.ToInt32(row["amount"]);
 							seatX = Convert.ToInt32(row["seatX"]);
 							seatY = Convert.ToInt32(row["seatY"]);
+							dateid = Convert.ToInt32(row["DateID"]);
+							TotalPrice = Convert.ToDouble(row["TotalPrice"]);
+							double pricedelete = -TotalPrice;
 
 							if (TicketCode == ticketcode)
 							{
@@ -615,10 +621,19 @@ namespace CinemaConsole.Data.BackEnd
 									command.Parameters.Add(TicketCodeParam);
 									command.Prepare();
 									command.ExecuteNonQuery();
+									
+									DateTime MonthYear = AD.GetDate(dateid);
 									Connection.Close();
+									var MonthMM = Convert.ToDateTime(MonthYear).ToString("MM");
+									int Month = Convert.ToInt32(MonthMM);
+									var Yearyyyy = Convert.ToDateTime(MonthYear).ToString("yyyy");
+									int Year = Convert.ToInt32(Yearyyyy);
+
+									AD.UpdateRevenueYear(Year, pricedelete);
+									AD.UpdateRevenueMonth(Month, Year, pricedelete);
+
 									// This set the seats back to available
 									AD.switchAvail((seatX - 1), (seatY - 1), hallID, amount, true);
-
 									Console.WriteLine("\nReservation removed. Press enter to go back to the menu");
 									Console.ReadLine();
 									Console.Clear();
@@ -659,7 +674,89 @@ namespace CinemaConsole.Data.BackEnd
             {
                 Connection.Close();
             }
-
         }
+
+		public void ReservationAmount()
+		{
+			try
+			{
+				Connection.Open();
+				int amount = 0;
+
+				string AddToTicketAmount = @"SELECT * FROM ticket";				
+
+				MySqlCommand command = new MySqlCommand(AddToTicketAmount, Connection);
+
+				MySqlDataReader dataReader = command.ExecuteReader();
+				while (dataReader.Read())
+				{
+					amount += dataReader.GetInt32("amount");
+				}
+
+				dataReader.Close();
+
+				Console.Write($"\nThere are currently reservations for ");
+
+				Console.ForegroundColor = ConsoleColor.Green;
+				Console.Write($"{amount}");
+				Console.ResetColor();
+
+				Console.Write(" people.\n");
+
+				Console.WriteLine("Press [enter] to continue.");
+				Console.ReadLine();
+				Console.Clear();
+			}
+			catch (MySqlException ex)
+			{
+				throw;
+			}
+			finally
+			{
+				Connection.Close();
+			}
+		}
+
+		public bool checkIfPExists(int ItemID)
+		{
+			List<int> ProductIDs = new List<int>();
+			ProductIDs.Clear();
+
+			try
+			{
+				Connection.Open();
+				string IntToCheck = @"SELECT * FROM restaurantitems";
+
+				MySqlCommand command = new MySqlCommand(IntToCheck, Connection);
+
+				MySqlDataReader dataReader = command.ExecuteReader();
+				while (dataReader.Read())
+				{
+					int test = dataReader.GetInt32("ItemID");
+					ProductIDs.Add(test);
+				}
+				dataReader.Close();
+
+				if (ProductIDs.Contains(ItemID) == true)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			catch (MySqlException ex)
+			{
+				throw;
+			}
+			finally
+			{
+				Connection.Close();
+			}
+
+			//door ID column lopen zoals bij reservation amount en dan elke item in een list gooien.
+			//Daarna checken of de ID in de list zit. Zo ja, dan gaat ie in restaurant door naar edit. Zo nee geeft ie een error.
+		}
     }
 }

@@ -25,7 +25,6 @@ namespace CinemaConsole.Data.BackEnd
         
         private void Initialize()
         {
-            
             MySqlConnectionStringBuilder Builder = new MySqlConnectionStringBuilder();
             Builder.UserID = "cloginv3";
             Builder.Password = "Coockiedough";
