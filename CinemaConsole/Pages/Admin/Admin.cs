@@ -864,7 +864,7 @@ namespace CinemaConsole.Pages.Admin
                             }
                             catch
                             {
-                                //TODO: Add add catch
+                                SD.ClearAndErrorMessage("\nPlease write an option that exists.");
                             }
                         }
 
