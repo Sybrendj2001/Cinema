@@ -1427,7 +1427,7 @@ namespace CinemaConsole.Pages.Admin
                 // used some enters to make it more readable here
                 Console.WriteLine("\nPlease enter the number that stands before the option you want" +
                     "\n\nMovies:\n[1] Add a new movie\n[2] Edit a movie / Add a time to a movie / Edit price at a specific time\n[3] Remove a movie\n[4] Show all the movies / See reservations" +
-                    "\n\nRestaurant:\n[5] Add product\n[6] Edit product\n[8] Remove product\n[8] Show all products" +
+                    "\n\nRestaurant:\n[5] Add product\n[6] Edit product\n[7] Remove product\n[8] Show all products" +
                     "\n\nReservations:\n[9] Add reservation\n[10] Remove reservation\n[11] Search for a reservation" +
                     "\n\nGeneral:\n[12] Edit hall prices\n[13] Show revenue\n[exit] Back to the menu");
                 string nummer = Console.ReadLine();
