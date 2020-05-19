@@ -795,6 +795,42 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
+        public int getDuration(int id)
+        {
+            int duration = 0;
+            try
+            {
+                Connection.Open();
+                string query = @"SELECT MovieDuration FROM Movie WHERE MovieID = @ID";
+
+                MySqlCommand command = new MySqlCommand(query, Connection);
+
+                MySqlParameter ParamID = new MySqlParameter("@ID", MySqlDbType.Int32);
+
+                ParamID.Value = id;
+
+                command.Parameters.Add(ParamID);
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    duration = reader.GetInt32("MovieDuration");
+                }
+                reader.Close();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+            return duration;
+        }
+
         public Tuple<List<DateTime>, List<int>, List<DateTime>> GetAllDates()
         {
             List<DateTime> StartTime = new List<DateTime>();

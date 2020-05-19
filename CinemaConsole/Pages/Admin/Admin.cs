@@ -621,7 +621,7 @@ namespace CinemaConsole.Pages.Admin
 
                 
                 // adding the movie times to the given movie
-                addTime(name);
+                addTime(name,duration);
                 Console.WriteLine("\nMovies:");
                 SD.ShowMovies();
                 Console.WriteLine("\nPress enter to continue");
@@ -815,17 +815,22 @@ namespace CinemaConsole.Pages.Admin
             return age;
         }
 
-        private static bool checkdoubletimes(int hall, DateTime date)
+        private static bool checkdoubletimes(int hall, DateTime date, int duration)
         {
             AdminData AD = new AdminData();
             Tuple<List<DateTime>, List<int>, List<DateTime>> check = AD.GetAllDates();
             bool checking = false;
-            for (int i = 0; i < check.Item1.Count; i++)
+            for (int j = 0; j < duration; j++)
             {
-                if ((date > check.Item1[i]) && (date < check.Item3[i]) && (hall == check.Item2[i]))
+                date.AddMinutes(1);
+                for (int i = 0; i < check.Item1.Count; i++)
                 {
-                    checking = true;
-                    break;
+                    if ((date > check.Item1[i]) && (date < check.Item3[i]) && (hall == check.Item2[i]))
+                    {
+                        checking = true;
+                        break;
+                    }
+                    
                 }
             }
             return checking;
@@ -834,7 +839,7 @@ namespace CinemaConsole.Pages.Admin
         /// <summary>
         /// add a movie time to the given movie.
         /// </summary>
-        public static void addTime(string title)
+        public static void addTime(string title,int duration)
         {
             ChangeData CD = new ChangeData();
             ShowData SD = new ShowData();
@@ -867,7 +872,7 @@ namespace CinemaConsole.Pages.Admin
                             try
                             {
                                 hall = Convert.ToInt32(SHall);
-                                if (hall > 0 && hall < 4 && !checkdoubletimes(hall,DT))
+                                if (hall > 0 && hall < 4 && !checkdoubletimes(hall,DT,duration))
                                 {
                                     checksdone = true;
                                     break;
@@ -1046,8 +1051,9 @@ namespace CinemaConsole.Pages.Admin
                     }
                     else if (option == "2")
                     {
+                        int duration = AD.getDuration(movieID);
                         Console.Clear();
-                        addTime(AD.getTitle(movieID));
+                        addTime(AD.getTitle(movieID),duration);
                         Customer.showTime(ID);
                         Console.Clear();
                         break;
