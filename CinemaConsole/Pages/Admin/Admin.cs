@@ -863,7 +863,7 @@ namespace CinemaConsole.Pages.Admin
                     else
                     {
                         int hall = 1;
-                        Console.Clear();
+                        //Console.Clear();
                         while (!checksdone)
                         {
                             Console.WriteLine("\nPlease enter the theaterhall [1],[2] or [3] you want '" + title + "' to play in on '" + dateTime + "'");
@@ -894,7 +894,7 @@ namespace CinemaConsole.Pages.Admin
                             Console.Clear();
                         }
 
-                        while (!checksdone)
+                        while (checksdone)
                         {
                             Customer.showTime(AD.GetMovieID(title).ToString());
                             
