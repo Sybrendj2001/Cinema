@@ -5,13 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Pages;
 using CinemaConsole.Pages.TicketSalesman;
-using CinemaConsole.Pages.Customer;
 using CinemaConsole.Pages.Restaurant;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Data;
 using CinemaConsole.Data.BackEnd;
 using System.Globalization;
-using CinemaConsole.Data.BackEnd;
 using System.Dynamic;
 
 namespace CinemaConsole.Pages.Admin
@@ -609,10 +607,20 @@ namespace CinemaConsole.Pages.Admin
                     break;
                 }
 
-                CD.InsertMovie(name, releaseDate, age, sum, actors);
+                Console.Clear();
+                Console.WriteLine("\nPlease enter the movie duration in minutes");
+                int duration = Convert.ToInt32(Console.ReadLine());
 
+                Console.Clear();
+                Console.WriteLine("\nPlease enter the movie genre");
+                string genre = Console.ReadLine();
+
+                CD.InsertMovie(name, releaseDate, age, sum, actors, duration, genre);
+
+
+                
                 // adding the movie times to the given movie
-                addTime(name);
+                addTime(name,duration);
                 Console.WriteLine("\nMovies:");
                 SD.ShowMovies();
                 Console.WriteLine("\nPress enter to continue");
@@ -806,19 +814,43 @@ namespace CinemaConsole.Pages.Admin
             return age;
         }
 
+        private static bool checkdoubletimes(int hall, DateTime date, int duration)
+        {
+            AdminData AD = new AdminData();
+            Tuple<List<DateTime>, List<int>, List<DateTime>> check = AD.GetAllDates();
+            bool checking = false;
+            for (int j = 0; j < duration; j++)
+            {
+                date.AddMinutes(1);
+                for (int i = 0; i < check.Item1.Count; i++)
+                {
+                    if ((date > check.Item1[i]) && (date < check.Item3[i]) && (hall == check.Item2[i]))
+                    {
+                        checking = true;
+                        break;
+                    }
+                    
+                }
+            }
+            return checking;
+        }
+
         /// <summary>
         /// add a movie time to the given movie.
         /// </summary>
-        public static void addTime(string title)
+        public static void addTime(string title,int duration)
         {
+            ChangeData CD = new ChangeData();
             ShowData SD = new ShowData();
             bool k = true;
             Console.Clear();
             AdminData AD = new AdminData();
             while (k)
             {
+                Tuple<List<DateTime>, List<int>, List<DateTime>> check = AD.GetAllDates();
                 try
                 {
+                    bool checksdone = false;
                     Console.WriteLine("\nPlease enter a date and time when you want " + title + " to play. (e.g. " + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + ")");
                     string dateTime = Console.ReadLine();
 
@@ -831,37 +863,45 @@ namespace CinemaConsole.Pages.Admin
                     else
                     {
                         int hall = 1;
-                        bool y = true;
-                        Console.Clear();
-                        while (y)
+                        //Console.Clear();
+                        while (!checksdone)
                         {
                             Console.WriteLine("\nPlease enter the theaterhall [1],[2] or [3] you want '" + title + "' to play in on '" + dateTime + "'");
                             string SHall = Console.ReadLine();
                             try
                             {
                                 hall = Convert.ToInt32(SHall);
-                                if (hall > 0 && hall < 4)
+                                if (hall > 0 && hall < 4 && !checkdoubletimes(hall,DT,duration))
                                 {
-                                    y = false;
+                                    checksdone = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("This movie already exists at this time in this theather");
+                                    break;
                                 }
                             }
                             catch
                             {
+                                SD.ClearAndErrorMessage("\nPlease write an option that exists.");
                             }
                         }
 
-                        DateTimeHall datetimehall1 = new DateTimeHall(DT, hall, title);
-                        Console.Clear();
-
-                        while (true)
+                        if (checksdone)
                         {
-                            Customer.Customer.showTime(AD.GetMovieID(title).ToString());
+                            DateTimeHall datetimehall1 = new DateTimeHall(DT, hall, title);
+                            Console.Clear();
+                        }
 
+                        while (checksdone)
+                        {
+                            Customer.showTime(AD.GetMovieID(title).ToString());
+                            
                             //delete the last line writen
                             Console.SetCursorPosition(0, Console.CursorTop - 1);
                             ClearCurrentConsoleLine();
 
-                            //Console.WriteLine("\n[add] Add another date and time\n[exit] Exit to menu");
                             Console.WriteLine("\n[add] To add another date and time for '"+ title +"'\n[exit] Exit to menu");
                             string exit = Console.ReadLine();
                             if (exit == "exit")
@@ -1010,18 +1050,19 @@ namespace CinemaConsole.Pages.Admin
                     }
                     else if (option == "2")
                     {
+                        int duration = AD.getDuration(movieID);
                         Console.Clear();
-                        addTime(AD.getTitle(movieID));
-                        Customer.Customer.showTime(ID);
+                        addTime(AD.getTitle(movieID),duration);
+                        Customer.showTime(ID);
                         Console.Clear();
                         break;
                     }
                     else if (option == "3")
                     {
-                        Tuple<List<DateTime>, List<int>, List<int>> date = Customer.Customer.showTime(ID);
+                        Tuple<List<DateTime>, List<int>, List<int>> date = Customer.showTime(ID);
                         while (true)
                         {
-                            string choice = Customer.Customer.selectTime(date);
+                            string choice = Customer.selectTime(date);
 
                             if (choice == "exit")
                             {
@@ -1030,11 +1071,11 @@ namespace CinemaConsole.Pages.Admin
                             }
                             else
                             {
-                                Tuple<Tuple<int, int, int, int, double, double, double>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.Customer.hallSeatInfo(choice, date);
+                                Tuple<Tuple<int, int, int, int, double, double, double>, List<Tuple<double, int, int, string, bool>>> hallseatInfo = Customer.hallSeatInfo(choice, date);
 
                                 //showhall with prices
                                 Console.Clear();
-                                Customer.Customer.showHall(hallseatInfo.Item1,hallseatInfo.Item2);
+                                Customer.showHall(hallseatInfo.Item1,hallseatInfo.Item2);
                                 //select which price to change
                                 Console.WriteLine("\nWhich area would you like to change the prize of");
                                 Console.OutputEncoding = Encoding.UTF8;
@@ -1093,8 +1134,8 @@ namespace CinemaConsole.Pages.Admin
                                         AD.UpdatePriceSeatHall(hallseatInfo.Item1.Item4, price, Convert.ToInt32(choice2), date.Item3[Convert.ToInt32(choice)-1]);
                                         //show hall with prices to see the changes
                                         Console.Clear();
-                                        hallseatInfo = Customer.Customer.hallSeatInfo(choice, date);
-                                        Customer.Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
+                                        hallseatInfo = Customer.hallSeatInfo(choice, date);
+                                        Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
                                         Console.WriteLine("Press enter to continue");
                                         Console.ReadLine();
                                         break;
@@ -1190,8 +1231,8 @@ namespace CinemaConsole.Pages.Admin
                         }
                         else if (choice2 == "2")
                         {
-                            Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.Customer.showTime(choice);
-                            string choice3 = Customer.Customer.selectTime(dates);
+                            Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.showTime(choice);
+                            string choice3 = Customer.selectTime(dates);
 
                             if (choice3 != "exit")
                             {
@@ -1209,7 +1250,7 @@ namespace CinemaConsole.Pages.Admin
                                         Console.WriteLine("\n" + AD.getTitle(Convert.ToInt32(choice)) + ":");
                                         Console.Clear();
                                         Console.WriteLine("\nMovie times:");
-                                        Customer.Customer.showTime(choice);
+                                        Customer.showTime(choice);
                                         Console.WriteLine("\nPress enter to continue");
                                         Console.ReadLine();
                                         Console.Clear();
@@ -1465,7 +1506,7 @@ namespace CinemaConsole.Pages.Admin
                 }
                 else if (nummer == "9")
                 {
-                    Customer.Customer.Menu();
+                    Customer.Menu();
                     Console.Clear();
                 }
                 else if (nummer == "10")

@@ -268,6 +268,7 @@ namespace CinemaConsole.Data.BackEnd
             }
             catch (MySqlException ex)
             {
+                
                 if (ex.Message.Contains("Duplicate"))
                 {
                     Console.WriteLine("You already have a movie on this time in this hall");
@@ -792,6 +793,75 @@ namespace CinemaConsole.Data.BackEnd
             {
                 Connection.Close();
             }
+        }
+
+        public int getDuration(int id)
+        {
+            int duration = 0;
+            try
+            {
+                Connection.Open();
+                string query = @"SELECT MovieDuration FROM movie WHERE MovieID = @ID";
+
+                MySqlCommand command = new MySqlCommand(query, Connection);
+
+                MySqlParameter ParamID = new MySqlParameter("@ID", MySqlDbType.Int32);
+
+                ParamID.Value = id;
+
+                command.Parameters.Add(ParamID);
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    duration = reader.GetInt32("MovieDuration");
+                }
+                reader.Close();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+            return duration;
+        }
+
+        public Tuple<List<DateTime>, List<int>, List<DateTime>> GetAllDates()
+        {
+            List<DateTime> StartTime = new List<DateTime>();
+            List<int> Hall = new List<int>();
+            List<DateTime> Endtime = new List<DateTime>();
+            try
+            {
+                Connection.Open();
+                string IntToCheck = @"SELECT date.DateTime, date.hall, movie.MovieDuration FROM Cinema.date LEFT JOIN Cinema.movie ON date.MovieID = movie.MovieID";
+
+                MySqlCommand command = new MySqlCommand(IntToCheck, Connection);
+
+                MySqlDataReader dataReader = command.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    StartTime.Add(dataReader.GetDateTime("DateTime"));
+                    Hall.Add(dataReader.GetInt32("Hall"));
+                    Endtime.Add(dataReader.GetDateTime("DateTime").AddMinutes(dataReader.GetInt32("MovieDuration")));
+                }
+                dataReader.Close();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+            return Tuple.Create(StartTime, Hall, Endtime);
         }
 
         public Tuple<double, double, double> getPrices(int hall)

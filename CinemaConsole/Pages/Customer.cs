@@ -12,7 +12,7 @@ using CinemaConsole.Pages.Restaurant;
 using CinemaConsole.Pages.Admin;
 
 
-namespace CinemaConsole.Pages.Customer
+namespace CinemaConsole.Pages
 {
     public class Customer
     {
