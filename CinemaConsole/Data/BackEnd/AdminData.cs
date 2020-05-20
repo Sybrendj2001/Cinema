@@ -801,7 +801,7 @@ namespace CinemaConsole.Data.BackEnd
             try
             {
                 Connection.Open();
-                string query = @"SELECT MovieDuration FROM Movie WHERE MovieID = @ID";
+                string query = @"SELECT MovieDuration FROM movie WHERE MovieID = @ID";
 
                 MySqlCommand command = new MySqlCommand(query, Connection);
 
