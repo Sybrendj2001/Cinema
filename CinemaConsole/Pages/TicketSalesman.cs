@@ -141,7 +141,7 @@ namespace CinemaConsole.Pages.TicketSalesman
 
                 else if (TicketSalesmanOption == "2")
                 {
-                    Customer.Customer.Menu();
+                    Customer.Menu();
                     Console.Clear();
                 }
 

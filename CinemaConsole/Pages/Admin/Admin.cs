@@ -5,14 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Pages;
 using CinemaConsole.Pages.TicketSalesman;
-using CinemaConsole.Pages.Customer;
 using CinemaConsole.Pages.Restaurant;
-using CinemaConsole.Pages;
 using CinemaConsole.Data.Employee;
 using CinemaConsole.Data;
 using CinemaConsole.Data.BackEnd;
 using System.Globalization;
-using CinemaConsole.Data.BackEnd;
 using System.Dynamic;
 
 namespace CinemaConsole.Pages.Admin
@@ -1509,7 +1506,7 @@ namespace CinemaConsole.Pages.Admin
                 }
                 else if (nummer == "9")
                 {
-                    Customer.Customer.Menu();
+                    Customer.Menu();
                     Console.Clear();
                 }
                 else if (nummer == "10")
