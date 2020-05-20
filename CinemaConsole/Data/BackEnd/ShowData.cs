@@ -212,16 +212,16 @@ namespace CinemaConsole.Data.BackEnd
 
                                         // going to the overview with all the details
                                         Overview(TicketID, MovieID, DateID);
-                                        Console.WriteLine("\nPress enter to go back to the menu");
-                                        Console.ReadLine();
-                                        // using k to break out of the outer loop
-                                        k = false;
-                                        break;
+                                        
+                                        //break;
                                     }
                                 }
+                               
 
                                 if (isFound)
                                 {
+                                    Console.WriteLine("\nPress enter to go back to the menu");
+                                    Console.ReadLine();
                                     // using k to break out of the outer loop
                                     k = false;
                                     break;
@@ -427,7 +427,7 @@ namespace CinemaConsole.Data.BackEnd
         // Overview of all the information about the customer and the movie they reserved.
         public void Overview(string TicketID, string MovieID, string DateID)
         {
-            Console.Clear();
+            //Console.Clear();
             Console.OutputEncoding = Encoding.UTF8;
             try
             {

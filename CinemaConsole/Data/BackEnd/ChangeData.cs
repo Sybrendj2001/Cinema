@@ -609,6 +609,8 @@ namespace CinemaConsole.Data.BackEnd
 							{
 								ShowData DeleteTicket = new ShowData();
 								// Ticket and contact information overview to check if you want to remove the right ticket.
+								Console.Clear();
+
 								DeleteTicket.Overview(TicketID, MovieID, DateID);
 								isFound = true;
 
