@@ -665,6 +665,9 @@ namespace CinemaConsole.Pages
                     else if (line == "menu")
                     {
                         CD.DisplayProducts();
+                        Console.WriteLine("\nPress enter to get back to the movielist");
+                        Console.ReadLine();
+                        Console.Clear();
                     }
                     else if (MovieIDs.Contains(Convert.ToInt32(line)))
                     {
