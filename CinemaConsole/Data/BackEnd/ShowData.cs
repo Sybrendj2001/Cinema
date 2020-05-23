@@ -8,6 +8,8 @@ using MySql;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Globalization;
+using CinemaConsole.Pages;
+
 
 namespace CinemaConsole.Data.BackEnd
 {
@@ -147,8 +149,23 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-            // Search funtion ticketsalesman. Search on name, search on ticketnumber and surch on movie name and date/time
-            public void DisplayTickets()
+        // Search funtion ticketsalesman. Search on name, search on ticketnumber and surch on movie name and date/time
+
+
+        public static Tuple<List<DateTime>, List<int>, List<int>> showTime(string whichMovie)
+        {
+            AdminData AD = new AdminData();
+            Tuple<List<DateTime>, List<int>, List<int>> times = AD.GetTime(Convert.ToInt32(whichMovie));
+
+            for (int i = 0; i < times.Item1.Count; i++)
+            {
+                Console.WriteLine(times.Item1[i].ToString("HH:mm dd/MM/yyyy"));
+            }
+            Console.WriteLine("[exit] Exit to menu");
+            return times;
+        }
+
+        public void DisplayTickets()
         {
             ShowData SD = new ShowData();
             Console.OutputEncoding = Encoding.UTF8;
@@ -308,19 +325,24 @@ namespace CinemaConsole.Data.BackEnd
                             }
                         }
 
+                       
                         else if (SearchOption == "3")
                         {
                             Console.Clear();
                             bool isFound = false;
-
+                            Connection.Close();
+                            ShowMovies();
                             Console.WriteLine("\nPlease enter the movie");
                             string movie = Console.ReadLine();
+
+                            Tuple<List<DateTime>, List<int>, List<int>> dates = showTime(movie);
 
                             Console.WriteLine("\nPlease enter the time (e.g. 12:00)");
                             string time = Console.ReadLine();
 
                             Console.WriteLine("\nPlease enter the date ( e.g. 12/04/2020)");
                             string date = Console.ReadLine();
+                            Connection.Open();
 
                             string DT = date + " " + time;
 
@@ -339,17 +361,7 @@ namespace CinemaConsole.Data.BackEnd
 
                             while (true)
                             {
-                                // going through all movie data
-                                foreach (DataRow row in dataTable2.Rows)
-                                {
-                                    MovieName = row["MovieName"].ToString();
-
-                                    if (movie == MovieName)
-                                    {
-                                        movieID = Convert.ToInt32(row["MovieID"]);
-                                        break;
-                                    }
-                                }
+                                movieID = Convert.ToInt32(movie);
 
                                 // going through all the date data
                                 foreach (DataRow row in dataTable3.Rows)
@@ -378,16 +390,17 @@ namespace CinemaConsole.Data.BackEnd
 
                                         // going to the overview with all the details
                                         Overview(TicketID, MovieID, DateID);
-                                        Console.WriteLine("\nPress enter to go back to the menu");
-                                        string exit = Console.ReadLine();
+                                        
                                         // using k to break out of the outer loop
                                         k = false;
-                                        break;
+                                        
                                     }
                                 }
 
                                 if (isFound)
                                 {
+                                    Console.WriteLine("\nPress enter to go back to the menu");
+                                    string exit = Console.ReadLine();
                                     // using k to break out of the outer loop
                                     k = false;
                                     break;
@@ -406,7 +419,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                         }
 
-                        else if(SearchOption == "exit")
+                        else if (SearchOption == "exit")
                         {
                             Console.Clear();
                             break;
@@ -414,6 +427,8 @@ namespace CinemaConsole.Data.BackEnd
                     }
                 }
             }
+
+
             catch (MySqlException ex)
             {
                 throw;
