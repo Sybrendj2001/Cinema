@@ -508,11 +508,20 @@ namespace CinemaConsole.Pages
             string totalprice = ticketInfo.Item6.Item1.ToString("0.00");
             string datetime = Convert.ToDateTime(ticketInfo.Item1).ToString("dd/MM/yyyy HH:mm");
 
-
             ProgressBalk(4);
 
-            Console.WriteLine("\n" + title + '\n'+ datetime + "\nTotal price: €" + totalprice);
-
+            Console.Write("\nMovie: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(title);
+            Console.ResetColor();
+            Console.Write("\nTime: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(datetime);
+            Console.ResetColor();
+            Console.Write("\nTotal price: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("€" + totalprice);
+            Console.ResetColor();
             int Y = 0;
 
             if (ticketInfo.Item6.Item2 == 1)
@@ -528,13 +537,16 @@ namespace CinemaConsole.Pages
                 Y = 20 - ticketInfo.Item5 + 1;
             }
 
-            string seats = "Seats:";
+            Console.Write("\nSeats:");
+            string seats = "";
             for (int i = ticketInfo.Item4; i < ticketInfo.Item4 + ticketInfo.Item3; i++)
             {
                 seats += " (" + i + "/" + Y + ")";
             }
-            Console.WriteLine(seats);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(seats+ "\n");
             Console.WriteLine(personInfo.Item1 + " " + personInfo.Item2 + "  " + personInfo.Item3);
+            Console.ResetColor();
         }
 
         private static string createTicketID(DateTime Time, string MovieName, int X, int Y, int TheatherHall)
