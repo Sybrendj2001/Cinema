@@ -29,7 +29,7 @@ namespace CinemaConsole.Pages.TicketSalesman
         {
             ChangeData CD = new ChangeData();
 
-            Console.WriteLine("\n[1] Remove using ticketnumber\n[2] Remove using emailadress\n[2] Remove using name\n[exit] Exit to the menu");
+            Console.WriteLine("\n[1] Remove using customers ticketnumber\n[2] Remove using customers email address\n[3] Remove using  name\n[exit] Exit to the menu");
             Console.WriteLine("\nPlease enter the number or word that stands before the movie you want to see or action you want to do.");
 
             while (true)
@@ -43,14 +43,26 @@ namespace CinemaConsole.Pages.TicketSalesman
                 }
                 else if (line == "1")
                 {
-                    Console.WriteLine("\nPlease enter the ticketnumber of the reservation you want to remove:");
+                    Console.WriteLine("\nPlease enter the customers ticketnumber of the reservation you want to remove:");
                     string Cticketnumber = Console.ReadLine();
-                    CD.DeleteReservation(Cticketnumber);
+                    CD.DeleteReservationWithTicket(Cticketnumber);
+                    break;
+                }
+                else if (line == "2")
+                {
+                    Console.WriteLine("\nPlease enter the customers email address of the reservation you want to remove:");
+                    string emailaddress = Console.ReadLine();
+                    CD.DeleteReservationWithEmail(emailaddress);
+                    break;
+                }
+                else if (line == "3")
+                {
+                    Console.WriteLine("\nPlease enter the customers full name of the reservation you want to remove:");
+                    string fullname = Console.ReadLine();
+                    CD.DeleteReservationWithName(fullname);
                     break;
                 }
             }
-
-            
         }
 
         // Ticketsalesman able to select a movie and see all the movie informarion.
