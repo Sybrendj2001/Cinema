@@ -40,6 +40,7 @@ namespace CinemaConsole.Pages.Restaurant
                     Console.Clear();
                     try
                     {
+                        CD.ShowProductItem(productID, 1);
                         Console.WriteLine("\nPlease enter the new name of the product. If you wish to return to the menu, please enter [exit] instead.");
                         string inputName = Console.ReadLine().ToLower();                        
                         Console.WriteLine(" ");
@@ -72,6 +73,7 @@ namespace CinemaConsole.Pages.Restaurant
                     try
                     {
                         double example = 5.50;
+                        CD.ShowProductItem(productID, 2);
                         Console.WriteLine("\nPlease enter the new price of the product in euro's. (e.g. " + example.ToString("0.00") + ") or write [exit] to go back.");
                         string temp = Console.ReadLine().ToLower();
                         if (temp == "exit")
@@ -105,6 +107,7 @@ namespace CinemaConsole.Pages.Restaurant
                     Console.Clear();
                     try
                     {
+                        CD.ShowProductItem(productID, 1);
                         Console.WriteLine("\nPlease enter the new name of the product or write [exit] to go back.");
                         string inputName = Console.ReadLine().ToLower();
                         if(inputName == "exit")
@@ -116,6 +119,7 @@ namespace CinemaConsole.Pages.Restaurant
                         {
                             string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
                             double example = 5.50;
+                            CD.ShowProductItem(productID, 2);
                             Console.WriteLine($"\nPlease enter the new price of the product in euro's. (e.g. " + example.ToString("0.00") + ") or write [exit] to go back.");
                             string temp = Console.ReadLine().ToLower();
                             if(temp == "exit")

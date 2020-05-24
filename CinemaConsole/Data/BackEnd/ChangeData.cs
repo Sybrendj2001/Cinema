@@ -262,8 +262,47 @@ namespace CinemaConsole.Data.BackEnd
 			}
 			catch (MySqlException ex)
 			{
-
 				throw;
+			}
+		}
+		/// <summary>
+		/// show an item of a product (name or price)
+		/// </summary>
+		/// <param name="productid">id of the product</param>
+		/// <param name="option">select 1 = name, 2 = price</param>
+		public void ShowProductItem(int productid, int option)
+        {
+			try
+            {
+				Connection.Open();
+				string stringToDisplay = @"SELECT * FROM restaurantitems WHERE ItemID = @ItemID";
+				MySqlCommand command = new MySqlCommand(stringToDisplay, Connection);
+				MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
+				command.Parameters.AddWithValue("@ItemID", productid);
+
+				using (MySqlDataReader getProductInfo = command.ExecuteReader())
+				{
+					while (getProductInfo.Read())
+					{
+						switch (option)
+						{
+							case 1:
+								Console.WriteLine("\nCurrent item name: " + getProductInfo["ItemName"].ToString());
+								break;
+							case 2:
+								Console.WriteLine("\nCurrent price: " + getProductInfo["Price"].ToString());
+								break;
+						}
+					}
+				}
+			}
+			catch (MySqlException ex)
+			{
+				throw;
+			}
+			finally
+			{
+				Connection.Close();
 			}
 		}
 
