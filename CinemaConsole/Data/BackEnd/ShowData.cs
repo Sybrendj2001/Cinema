@@ -392,8 +392,7 @@ namespace CinemaConsole.Data.BackEnd
                                         Overview(TicketID, MovieID, DateID);
                                         
                                         // using k to break out of the outer loop
-                                        k = false;
-                                        
+                                        k = false;                                     
                                     }
                                 }
 
@@ -427,7 +426,6 @@ namespace CinemaConsole.Data.BackEnd
                     }
                 }
             }
-
 
             catch (MySqlException ex)
             {
