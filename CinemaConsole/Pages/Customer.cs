@@ -236,17 +236,17 @@ namespace CinemaConsole.Pages
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("O");
             Console.ResetColor();
-            Console.Write(" - €" + HallInfo.Item5.ToString("0.00") + "\n");
+            Console.Write(" - €" + HallInfo.Item5.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "\n");
             
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("O");
             Console.ResetColor();
-            Console.Write(" - €" + HallInfo.Item6.ToString("0.00") + "\n");
+            Console.Write(" - €" + HallInfo.Item6.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "\n");
             
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("O");
             Console.ResetColor();
-            Console.Write(" - €" + HallInfo.Item7.ToString("0.00") + "\n");
+            Console.Write(" - €" + HallInfo.Item7.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "\n");
             
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("X");

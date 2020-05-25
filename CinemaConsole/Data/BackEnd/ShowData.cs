@@ -510,7 +510,7 @@ namespace CinemaConsole.Data.BackEnd
                             Owner = row["Owner"].ToString();
                             Email = row["Email"].ToString();
                             TicketCode = row["TicketCode"].ToString();
-                            TotalPrice = Convert.ToDouble(row["TotalPrice"]);
+                            TotalPrice = Convert.ToDouble(row["TotalPrice"], System.Globalization.CultureInfo.InvariantCulture);
 
                             SeatX = Convert.ToInt32(row["seatX"]);
                             SeatY = Convert.ToInt32(row["seatY"]);

@@ -1115,15 +1115,15 @@ namespace CinemaConsole.Pages.Admin
                                 Console.OutputEncoding = Encoding.UTF8;
 
                                 Console.ForegroundColor = ConsoleColor.Yellow;
-                                Console.Write("[1] €" + hallseatInfo.Item1.Item5.ToString("0.00"));
+                                Console.Write("[1] €" + hallseatInfo.Item1.Item5.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
                                 Console.ResetColor();
 
                                 Console.ForegroundColor = ConsoleColor.Cyan;
-                                Console.Write("\n[2] €" + hallseatInfo.Item1.Item6.ToString("0.00"));
+                                Console.Write("\n[2] €" + hallseatInfo.Item1.Item6.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
                                 Console.ResetColor();
 
                                 Console.ForegroundColor = ConsoleColor.Green;
-                                Console.Write("\n[3] €" + hallseatInfo.Item1.Item7.ToString("0.00"));
+                                Console.Write("\n[3] €" + hallseatInfo.Item1.Item7.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
                                 Console.ResetColor();
 
                                 Console.WriteLine("\n[exit] Back");
