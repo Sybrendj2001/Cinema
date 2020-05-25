@@ -346,7 +346,7 @@ namespace CinemaConsole.Data.BackEnd
 
                             //int movieID = 0;
                             //int dateID = 0;
-
+                            Console.Clear();
                             while (true)
                             {
                                 // going through ticket data
