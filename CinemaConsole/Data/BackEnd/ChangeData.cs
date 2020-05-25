@@ -223,7 +223,7 @@ namespace CinemaConsole.Data.BackEnd
 				while (dataReader.Read())
 				{
 					double test = dataReader.GetDouble("Price");
-					Console.WriteLine("(" + dataReader["ItemID"] + ") " + dataReader["ItemName"] + "    €" + test.ToString("0.00"));
+					Console.WriteLine("(" + dataReader["ItemID"] + ") " + dataReader["ItemName"] + "    €" + test.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
 				}
 
 				dataReader.Close();
