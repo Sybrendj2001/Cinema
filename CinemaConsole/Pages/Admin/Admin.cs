@@ -975,7 +975,7 @@ namespace CinemaConsole.Pages.Admin
                     }
                     else
                     {
-                        Console.WriteLine("You are writting a hall that is too big");
+                        SD.ErrorMessage("Please enter an option that exists");
                     }
 
                 }
