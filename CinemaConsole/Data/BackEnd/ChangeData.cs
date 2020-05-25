@@ -617,7 +617,7 @@ namespace CinemaConsole.Data.BackEnd
 
 								if (CancelOrDelete.Length > 5)
 								{
-									Console.WriteLine("Input is too big");
+									SD.ClearAndErrorMessage("Your input is too big");
 								}
 								else if (CancelOrDelete == "1")
 								{

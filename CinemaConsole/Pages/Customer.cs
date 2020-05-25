@@ -91,7 +91,7 @@ namespace CinemaConsole.Pages
                     }
                     else if (CustomerReserve.Length > 5)
                     {
-                        Console.WriteLine("Input is too big");
+                        SD.ClearAndErrorMessage("Your input is too big");
                     }
                     else if (Convert.ToInt32(CustomerReserve) >= date.Item1.Count + 1 || Convert.ToInt32(CustomerReserve) < 1)
                     {
@@ -687,7 +687,7 @@ namespace CinemaConsole.Pages
                             CustomerAge = Console.ReadLine();
                             if (CustomerAge.Length > 5)
                             {
-                                Console.WriteLine("Input is too big");
+                                SD.ClearAndErrorMessage("Your input is too big");
                             }
                             else if (CustomerAge == "1")
                             {
@@ -696,7 +696,7 @@ namespace CinemaConsole.Pages
                                 // this will return the movie times for the movie you entered
                                 if (CustomerTimeOption.Length > 5)
                                 {
-                                    Console.WriteLine("Input is too big");
+                                    SD.ClearAndErrorMessage("Your input is too big");
                                 }
                                 else if (CustomerTimeOption == "1")
                                 {
@@ -719,7 +719,7 @@ namespace CinemaConsole.Pages
                                             confirm = Console.ReadLine();
                                             if (confirm.Length > 5)
                                             {
-                                                Console.WriteLine("Input is too big");
+                                                SD.ClearAndErrorMessage("Your input is too big");
                                             }
                                             else if (confirm == "1")
                                             {

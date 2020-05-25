@@ -135,7 +135,7 @@ namespace CinemaConsole.Pages.TicketSalesman
 
                 if (TicketSalesmanOption.Length > 5)
                 {
-                    Console.WriteLine("Input is too big");
+                    SD.ClearAndErrorMessage("Your input is too big");
                 }
                 else if (TicketSalesmanOption == "1")
                 {
