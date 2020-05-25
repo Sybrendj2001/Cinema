@@ -81,7 +81,7 @@ namespace CinemaConsole.Pages.TicketSalesman
                             {
                                 // this will return the movie times for the movie you entered
                                 Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.showTime(whichMovie);
-                                string timeSelect = Customer.selectTime(dates);
+                                string timeSelect = Customer.selectTime(dates, whichMovie);
 
                                 if (timeSelect != "exit")
                                 {
@@ -133,7 +133,11 @@ namespace CinemaConsole.Pages.TicketSalesman
                 Console.WriteLine("\nPlease input the desired action:\n[1] Search for reservation\n[2] Add reservation\n[3] Remove reservation\n[4] Show movie information\n[exit] Exit the program");
                 string TicketSalesmanOption = Console.ReadLine();
 
-                if (TicketSalesmanOption == "1")
+                if (TicketSalesmanOption.Length > 5)
+                {
+                    SD.ClearAndErrorMessage("Your input is too big");
+                }
+                else if (TicketSalesmanOption == "1")
                 {
                     Display();
                     Console.Clear();
