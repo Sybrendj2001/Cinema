@@ -913,26 +913,27 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Open();
                 double example = 10.50;
                 double price = 0.0;
-                Console.WriteLine("\nPlease give the price you want. And write it down like in the example (e.g. " + example.ToString("0.00") + ")");
+                Console.WriteLine("\nPlease give the price you want. And write it down like in the example (e.g. " + example.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + ")");
                 while (true)
                 {
                     try
                     {
                         string priceString = Console.ReadLine();
-                        price = Convert.ToDouble(priceString);
+                        string tempPrice = priceString.Replace(',', '.');
+                        price = Convert.ToDouble(tempPrice, System.Globalization.CultureInfo.InvariantCulture);
                         if (price > 0.0)
                         {
                             break;
                         }
                         else
                         {
-                            Console.WriteLine("\nPlease enter a price above 0.00 (e.g. " + example.ToString("0.00") + ")");
+                            Console.WriteLine("\nPlease enter a price above 0.00 (e.g. " + example.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + ")");
                         }
                     }
                     catch (FormatException)
                     {
                         SD.ErrorMessage("\nThe price was not put in correctly.");
-                        Console.WriteLine("Please write it down like in the example(e.g. " + example.ToString("0.00") + ")");
+                        Console.WriteLine("Please write it down like in the example(e.g. " + example.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + ")");
                     }
                 }
 
