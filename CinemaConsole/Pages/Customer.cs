@@ -674,7 +674,7 @@ namespace CinemaConsole.Pages
                     }
                     else if (line.Length > 5)
                     {
-                        SD.ClearAndErrorMessage("Your input is too big");
+                        SD.ErrorMessage("Your input is too big");
                     }
                     else if (line == "menu")
                     {
