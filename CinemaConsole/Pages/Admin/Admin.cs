@@ -441,7 +441,7 @@ namespace CinemaConsole.Pages.Admin
                 {
                     if (choice.Length > 5)
                     {
-                        Console.WriteLine("Input is too big");
+                        SD.ErrorMessage("Your input is too big");
                     }
                     else if (choice == "exit")
                     {
@@ -478,7 +478,7 @@ namespace CinemaConsole.Pages.Admin
                             {
                                 if (choice2.Length > 5)
                                 {
-                                    Console.WriteLine("Input is too big");
+                                    SD.ErrorMessage("Your input is too big");
                                 }
                                 else if (choice2 == "exit")
                                 {
@@ -588,7 +588,7 @@ namespace CinemaConsole.Pages.Admin
                 ageString = Console.ReadLine();
                 if (ageString.Length > 5)
                 {
-                    Console.WriteLine("Input is too big");
+                    SD.ErrorMessage("Your input is too big");
                 }
                 else if (ageString == "exit")
                 {
@@ -878,7 +878,7 @@ namespace CinemaConsole.Pages.Admin
                                                             }
                             else
                             {
-                                Console.WriteLine("You are writting a hall that is too big");
+                                SD.ErrorMessage("Your input is too big");
                             }
                             try
                             {
@@ -999,7 +999,7 @@ namespace CinemaConsole.Pages.Admin
                     
                     if (option.Length > 5)
                     {
-                        Console.WriteLine("You are writting a hall that is too big");
+                        SD.ErrorMessage("Your input is too big");
                     }
                     else if (option == "1")
                     {
@@ -1028,7 +1028,7 @@ namespace CinemaConsole.Pages.Admin
 
                         if (releaseDateString.Length > 5)
                         {
-                            Console.WriteLine("You are writting too big of a number");
+                            SD.ErrorMessage("Your input is too big");
                         }
                         else if (releaseDateString == "skip")
                         {
@@ -1046,7 +1046,7 @@ namespace CinemaConsole.Pages.Admin
 
                         if (ageString.Length > 5)
                         {
-                            Console.WriteLine("You are writting too big of a number");
+                            SD.ErrorMessage("Your input is too big");
                         }
                         else if (ageString == "skip")
                         {
@@ -1132,7 +1132,7 @@ namespace CinemaConsole.Pages.Admin
                                 string choice2 = Console.ReadLine();
                                 if (choice2.Length > 10)
                                 {
-                                    Console.WriteLine("You are writting to big of a number");
+                                    SD.ErrorMessage("Your input is too big");
                                 }
                                 else
                                 {
@@ -1169,7 +1169,7 @@ namespace CinemaConsole.Pages.Admin
                                                     }
                                                     else
                                                     {
-                                                        Console.WriteLine("Your string is too big");
+                                                        SD.ErrorMessage("Your input is too big");
                                                     }
                                                 }
                                                 catch (FormatException)
@@ -1243,7 +1243,7 @@ namespace CinemaConsole.Pages.Admin
                     }
                     else if (choice.Length > 5)
                     {
-                        Console.WriteLine("Your input is too big");
+                        SD.ErrorMessage("Your input is too big");
                     }
                     else if (MovieIDs.Contains(Convert.ToInt32(choice)))
                     {
@@ -1251,7 +1251,7 @@ namespace CinemaConsole.Pages.Admin
                         string choice2 = Console.ReadLine();
                         if (choice2.Length > 5)
                         {
-                            Console.WriteLine("Input is too big");
+                            SD.ErrorMessage("Your input is too big");
                         }
                         else if (choice2 == "1")
                         {
@@ -1265,7 +1265,7 @@ namespace CinemaConsole.Pages.Admin
                                 string choice3 = Console.ReadLine();
                                 if (choice3.Length > 5)
                                 {
-                                    Console.WriteLine("Input is too big");
+                                    SD.ErrorMessage("Your input is too big");
                                 }
                                 else if (choice3 == "1")
                                 {
@@ -1307,7 +1307,7 @@ namespace CinemaConsole.Pages.Admin
                                     string choice4 = Console.ReadLine();
                                     if (choice4.Length > 5)
                                     {
-                                        Console.WriteLine("Input is too big");
+                                        SD.ErrorMessage("Your input is too big");
                                     }
                                     if (choice4 == "1")
                                     {
@@ -1354,6 +1354,7 @@ namespace CinemaConsole.Pages.Admin
         private static void Revenue()
         {
             Console.OutputEncoding = Encoding.UTF8;
+            ShowData SD = new ShowData();
 
             while (true)
             {
@@ -1365,7 +1366,7 @@ namespace CinemaConsole.Pages.Admin
 
                     if (option.Length > 5)
                     {
-                        Console.WriteLine("Input is too big");
+                        SD.ErrorMessage("Your input is too big");
                     }
                     else if (option == "1")
                     {
@@ -1403,14 +1404,13 @@ namespace CinemaConsole.Pages.Admin
                                     }
                                 }
                                 else 
-                                { 
-                                    Console.WriteLine("Input is too big");
+                                {
+                                    SD.ErrorMessage("Your input is too big");
                                 }
                              
                             }
                             catch (FormatException)
                             {
-                                ShowData SD = new ShowData();
                                 SD.ClearAndErrorMessage("Invalid Input. Please try again.");
                                 Console.WriteLine("Press [enter] to continue.");
                                 Console.ReadLine();
@@ -1435,7 +1435,7 @@ namespace CinemaConsole.Pages.Admin
                                 }
                                 else if (selectedMonth2.Length > 5)
                                 {
-                                    Console.WriteLine("Input is too big");
+                                    SD.ErrorMessage("Your input is too big");
                                 }
                                 else
                                 {
@@ -1479,7 +1479,6 @@ namespace CinemaConsole.Pages.Admin
                             }
                             catch (FormatException)
                             {
-                                ShowData SD = new ShowData();
                                 SD.ClearAndErrorMessage("Invalid Input. Please try again.");
                                 Console.WriteLine("Press [enter] to continue.");
                                 Console.ReadLine();
@@ -1563,7 +1562,7 @@ namespace CinemaConsole.Pages.Admin
                 string nummer = Console.ReadLine();
                 if (nummer.Length > 5)
                 {
-                    Console.WriteLine("Input is too big");
+                    SD.ErrorMessage("Your input is too big");
                 }
                 else if (nummer == "1")
                 {

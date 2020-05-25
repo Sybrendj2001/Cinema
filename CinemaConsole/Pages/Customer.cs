@@ -170,7 +170,7 @@ namespace CinemaConsole.Pages
                             string amount1 = Console.ReadLine();
                             if (amount1.Length > 5)
                             {
-                                Console.WriteLine("Your input is too big");
+                                SD.ErrorMessage("Your input is too big");
                             }
                             else
                             {
@@ -666,7 +666,7 @@ namespace CinemaConsole.Pages
                     }
                     else if (line.Length > 5)
                     {
-                        Console.WriteLine("Your input is too big");
+                        SD.ErrorMessage("Your input is too big");
                     }
                     else if (line == "menu")
                     {

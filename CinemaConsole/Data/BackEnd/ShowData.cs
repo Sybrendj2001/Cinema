@@ -8,6 +8,7 @@ using MySql;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Globalization;
+using CinemaConsole.Data.BackEnd;
 
 namespace CinemaConsole.Data.BackEnd
 {
@@ -186,7 +187,7 @@ namespace CinemaConsole.Data.BackEnd
                     {
                         if (SearchOption.Length > 5)
                         {
-                            Console.WriteLine("Your input is to big");
+                            SD.ErrorMessage("Your input is to big");
                         }
                         else if (SearchOption == "1")
                         {
