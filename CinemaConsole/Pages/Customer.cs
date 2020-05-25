@@ -530,11 +530,20 @@ namespace CinemaConsole.Pages
             string totalprice = ticketInfo.Item6.Item1.ToString("0.00");
             string datetime = Convert.ToDateTime(ticketInfo.Item1).ToString("dd/MM/yyyy HH:mm");
 
-
             ProgressBalk(4);
-
-            Console.WriteLine("\n" + title + '\n'+ datetime + "\nTotal price: €" + totalprice);
-
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.Write("\nMovie: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(title);
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.Write("\nTime: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(datetime);
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.Write("\nTotal price: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("€" + totalprice);
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             int Y = 0;
 
             if (ticketInfo.Item6.Item2 == 1)
@@ -550,13 +559,23 @@ namespace CinemaConsole.Pages
                 Y = 20 - ticketInfo.Item5 + 1;
             }
 
-            string seats = "Seats:";
+            Console.Write("\nSeats:");
+            string seats = "";
             for (int i = ticketInfo.Item4; i < ticketInfo.Item4 + ticketInfo.Item3; i++)
             {
                 seats += " (" + i + "/" + Y + ")";
             }
-            Console.WriteLine(seats);
-            Console.WriteLine(personInfo.Item1 + " " + personInfo.Item2 + "  " + personInfo.Item3);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(seats);
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.Write("\nName: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(personInfo.Item1 + " " + personInfo.Item2);
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.Write("\nEmail: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(personInfo.Item3 + "\n");
+            Console.ResetColor();
         }
 
         private static string createTicketID(DateTime Time, string MovieName, int X, int Y, int TheatherHall)
@@ -680,6 +699,9 @@ namespace CinemaConsole.Pages
                     else if (line == "menu")
                     {
                         CD.DisplayProducts();
+                        Console.WriteLine("\nPress enter to get back to the movielist");
+                        Console.ReadLine();
+                        Console.Clear();
                     }
                     else if (MovieIDs.Contains(Convert.ToInt32(line)))
                     {
