@@ -81,7 +81,7 @@ namespace CinemaConsole.Pages.TicketSalesman
                             {
                                 // this will return the movie times for the movie you entered
                                 Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.showTime(whichMovie);
-                                string timeSelect = Customer.selectTime(dates);
+                                string timeSelect = Customer.selectTime(dates, whichMovie);
 
                                 if (timeSelect != "exit")
                                 {

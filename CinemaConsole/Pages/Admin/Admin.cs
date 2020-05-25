@@ -1096,7 +1096,7 @@ namespace CinemaConsole.Pages.Admin
                         Tuple<List<DateTime>, List<int>, List<int>> date = Customer.showTime(ID);
                         while (true)
                         {
-                            string choice = Customer.selectTime(date);
+                            string choice = Customer.selectTime(date, ID);
 
                             if (choice == "exit")
                             {
@@ -1225,12 +1225,12 @@ namespace CinemaConsole.Pages.Admin
         {
             ShowData SD = new ShowData();
             AdminData AD = new AdminData();
+            Console.Clear();
 
             while (true)
             {
                 try
                 {
-                    Console.Clear();
                     Console.WriteLine("\nMovies:");
                     List<int> MovieIDs = SD.ShowMovies();
                     Console.WriteLine("\n[exit] Exit to menu");
@@ -1293,7 +1293,7 @@ namespace CinemaConsole.Pages.Admin
                         else if (choice2 == "2")
                         {
                             Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.showTime(choice);
-                            string choice3 = Customer.selectTime(dates);
+                            string choice3 = Customer.selectTime(dates, choice);
 
                             if (choice3 != "exit")
                             {
@@ -1341,12 +1341,14 @@ namespace CinemaConsole.Pages.Admin
                         else
                         {
                             Console.WriteLine("\nPlease enter a option that stands in the menu");
+                            Console.Clear();
                         }
                     }
                 }
                 catch (FormatException)
                 {
                     Console.WriteLine("\nPlease enter a option that stands in the menu");
+                    Console.Clear();
                 }
             }
         }

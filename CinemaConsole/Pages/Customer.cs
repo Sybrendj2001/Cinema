@@ -74,7 +74,7 @@ namespace CinemaConsole.Pages
             return Tuple.Create(first_name, last_name, email);
         }
 
-        public static string selectTime(Tuple<List<DateTime>, List<int>, List<int>> date)
+        public static string selectTime(Tuple<List<DateTime>, List<int>, List<int>> date, string Id)
         {
             string CustomerReserve;
             while (true)
@@ -92,6 +92,7 @@ namespace CinemaConsole.Pages
                     else if (CustomerReserve.Length > 5)
                     {
                         SD.ClearAndErrorMessage("Your input is too big");
+                        showTime(Id);
                     }
                     else if (Convert.ToInt32(CustomerReserve) >= date.Item1.Count + 1 || Convert.ToInt32(CustomerReserve) < 1)
                     {
@@ -139,10 +140,11 @@ namespace CinemaConsole.Pages
             int hall = 0;
             int HallID = 0;
             ProgressBalk(1);
-            Tuple<List<DateTime>, List<int>, List<int>> date = showTime(whichMovie);
+ 
             while (true)
             {
-                string CustomerReserve = selectTime(date);
+                Tuple<List<DateTime>, List<int>, List<int>> date = showTime(whichMovie);
+                string CustomerReserve = selectTime(date, whichMovie);
 
                 if (CustomerReserve == "exit")
                 {
@@ -525,7 +527,6 @@ namespace CinemaConsole.Pages
         //Customer get an overview of all the information about the movie and contact details before booking
         public static void overviewCustomer(Tuple<string, string, string> personInfo, Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> ticketInfo, string title, string ticketCode)
         {
-            Console.Clear();
             string totalprice = ticketInfo.Item6.Item1.ToString("0.00");
             string datetime = Convert.ToDateTime(ticketInfo.Item1).ToString("dd/MM/yyyy HH:mm");
 
@@ -719,10 +720,11 @@ namespace CinemaConsole.Pages
                                         Console.Clear();
                                         Tuple<string, string, string> personInfo = Name();
                                         string ticketcode = createTicketID(ticket.Item1, title, ticket.Item4, ticket.Item5, ticket.Item6.Item2);
-                                        overviewCustomer(personInfo, ticket, title, ticketcode);
                                         string confirm;
+                                        Console.Clear();
                                         while (true)
                                         {
+                                            overviewCustomer(personInfo, ticket, title, ticketcode);
                                             Console.WriteLine("\nDo you want to confirm the reservation? \n[1] Confirm reservation\n[2] Cancel reservation");
                                             confirm = Console.ReadLine();
                                             if (confirm.Length > 5)
