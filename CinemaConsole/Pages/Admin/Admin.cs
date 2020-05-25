@@ -1081,15 +1081,15 @@ namespace CinemaConsole.Pages.Admin
                                 Console.OutputEncoding = Encoding.UTF8;
 
                                 Console.ForegroundColor = ConsoleColor.Yellow;
-                                Console.Write("[1] €" + hallseatInfo.Item1.Item5.ToString("0.00"));
+                                Console.Write("[1] €" + hallseatInfo.Item1.Item5.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
                                 Console.ResetColor();
 
                                 Console.ForegroundColor = ConsoleColor.Cyan;
-                                Console.Write("\n[2] €" + hallseatInfo.Item1.Item6.ToString("0.00"));
+                                Console.Write("\n[2] €" + hallseatInfo.Item1.Item6.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
                                 Console.ResetColor();
 
                                 Console.ForegroundColor = ConsoleColor.Green;
-                                Console.Write("\n[3] €" + hallseatInfo.Item1.Item7.ToString("0.00"));
+                                Console.Write("\n[3] €" + hallseatInfo.Item1.Item7.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
                                 Console.ResetColor();
 
                                 Console.WriteLine("\n[exit] Back");
@@ -1108,26 +1108,27 @@ namespace CinemaConsole.Pages.Admin
                                         //Get the price it has to change into
                                         double price = 0.0;
                                         double example = 10.50;
-                                        Console.WriteLine("\nPlease give the price you want. And write it down like in the example (e.g. "+ example.ToString("0.00") +")");
+                                        Console.WriteLine("\nPlease give the price you want. And write it down like in the example (e.g. "+ example.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) +")");
                                         while (true)
                                         {
                                             try
                                             {
                                                 string priceString = Console.ReadLine();
-                                                price = Convert.ToDouble(priceString);
+                                                string tempPrice = priceString.Replace(',', '.');
+                                                price = Convert.ToDouble(tempPrice, System.Globalization.CultureInfo.InvariantCulture);
                                                 if (price > 0.0)
                                                 {
                                                     break;
                                                 }
                                                 else
                                                 {
-                                                    Console.WriteLine("\nPlease enter a price above 0.00 (e.g. " + example.ToString("0.00") + ")");
+                                                    Console.WriteLine("\nPlease enter a price above 0.00 (e.g. " + example.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + ")");
                                                 }
                                             }
                                             catch (FormatException)
                                             {
                                                 SD.ErrorMessage("\nThe price was not put in correctly.");
-                                                Console.WriteLine("Please write it down like in the example(e.g. " + example.ToString("0.00") + ")");
+                                                Console.WriteLine("Please write it down like in the example(e.g. " + example.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + ")");
                                             }
                                         }
                                         //change the price in seats and hall
