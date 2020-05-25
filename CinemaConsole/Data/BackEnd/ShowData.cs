@@ -328,7 +328,7 @@ namespace CinemaConsole.Data.BackEnd
                             
                             AdminData AD = new AdminData();
 
-                            Tuple<List<DateTime>, List<int>, List<int>> times = AD.GetTime(Convert.ToInt32(SelectedTime));
+                            Tuple<List<DateTime>, List<int>, List<int>> times = AD.GetTime(Convert.ToInt32(movie));
 
                             int GetDateID = times.Item2[0];
 
