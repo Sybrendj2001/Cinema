@@ -72,16 +72,17 @@ namespace CinemaConsole.Pages.Restaurant
                     try
                     {
                         double example = 5.50;
-                        Console.WriteLine("\nPlease enter the new price of the product in euro's. (e.g. " + example.ToString("0.00") + ") or write [exit] to go back.");
-                        string temp = Console.ReadLine().ToLower();
-                        if (temp == "exit")
+                        Console.WriteLine("\nPlease enter the new price of the product in euro's. (e.g. " + example.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + ") or write [exit] to go back.");
+                        string input = Console.ReadLine().ToLower();
+                        if (input == "exit")
                         {
                             Console.Clear();
                             
                         }
                         else
                         {
-                            double newPrice = double.Parse(temp);
+                            string temp = input.Replace(',', '.');
+                            double newPrice = double.Parse(temp, System.Globalization.CultureInfo.InvariantCulture);
                             Console.WriteLine(" ");
 
                             CD.UpdateProduct(productID, "", newPrice);
@@ -116,16 +117,16 @@ namespace CinemaConsole.Pages.Restaurant
                         {
                             string newName = inputName.First().ToString().ToUpper() + inputName.Substring(1);
                             double example = 5.50;
-                            Console.WriteLine($"\nPlease enter the new price of the product in euro's. (e.g. " + example.ToString("0.00") + ") or write [exit] to go back.");
-                            string temp = Console.ReadLine().ToLower();
-                            if(temp == "exit")
+                            Console.WriteLine($"\nPlease enter the new price of the product in euro's. (e.g. " + example.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + ") or write [exit] to go back.");
+                            string inputprice = Console.ReadLine().ToLower();
+                            if (inputprice == "exit")
                             {
                                 Console.Clear();
-                                
                             }
                             else
                             {
-                                double newPrice = double.Parse(temp);
+                                string temp = inputprice.Replace(',', '.');
+                                double newPrice = double.Parse(temp, System.Globalization.CultureInfo.InvariantCulture);
                                 Console.WriteLine(" ");
 
                                 CD.UpdateProduct(productID, newName, newPrice);
@@ -189,7 +190,7 @@ namespace CinemaConsole.Pages.Restaurant
                         double example = 5.50;
 
                         //Requests the price of the product to be added.
-                        Console.WriteLine("Please fill in the price of the product in euro's (e.g. " + example.ToString("0.00") + ") or write [exit] to go back to the menu.");
+                        Console.WriteLine("Please fill in the price of the product in euro's (e.g. " + example.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + ") or write [exit] to go back to the menu.");
                         string inputPrice = Console.ReadLine();
                         if (inputPrice == "exit")
                         {
@@ -198,7 +199,8 @@ namespace CinemaConsole.Pages.Restaurant
                         }
                         else
                         {
-                            double price = double.Parse(inputPrice);
+                            string temp = inputPrice.Replace(',', '.');
+                            double price = double.Parse(temp, System.Globalization.CultureInfo.InvariantCulture);
                             Console.WriteLine(" ");
 
                             CD.CreateProduct(name, price);

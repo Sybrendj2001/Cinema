@@ -221,17 +221,17 @@ namespace CinemaConsole.Pages
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("O");
             Console.ResetColor();
-            Console.Write(" - €" + HallInfo.Item5.ToString("0.00") + "\n");
+            Console.Write(" - €" + HallInfo.Item5.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "\n");
             
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("O");
             Console.ResetColor();
-            Console.Write(" - €" + HallInfo.Item6.ToString("0.00") + "\n");
+            Console.Write(" - €" + HallInfo.Item6.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "\n");
             
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("O");
             Console.ResetColor();
-            Console.Write(" - €" + HallInfo.Item7.ToString("0.00") + "\n");
+            Console.Write(" - €" + HallInfo.Item7.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "\n");
             
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("X");
@@ -505,7 +505,7 @@ namespace CinemaConsole.Pages
         public static void overviewCustomer(Tuple<string, string, string> personInfo, Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> ticketInfo, string title, string ticketCode)
         {
             Console.Clear();
-            string totalprice = ticketInfo.Item6.Item1.ToString("0.00");
+            string totalprice = ticketInfo.Item6.Item1.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
             string datetime = Convert.ToDateTime(ticketInfo.Item1).ToString("dd/MM/yyyy HH:mm");
 
 
