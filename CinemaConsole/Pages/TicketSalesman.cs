@@ -133,7 +133,11 @@ namespace CinemaConsole.Pages.TicketSalesman
                 Console.WriteLine("\nPlease input the desired action:\n[1] Search for reservation\n[2] Add reservation\n[3] Remove reservation\n[4] Show movie information\n[exit] Exit the program");
                 string TicketSalesmanOption = Console.ReadLine();
 
-                if (TicketSalesmanOption == "1")
+                if (TicketSalesmanOption.Length > 5)
+                {
+                    Console.WriteLine("Input is too big");
+                }
+                else if (TicketSalesmanOption == "1")
                 {
                     Display();
                     Console.Clear();

@@ -919,7 +919,14 @@ namespace CinemaConsole.Data.BackEnd
                     try
                     {
                         string priceString = Console.ReadLine();
-                        price = Convert.ToDouble(priceString);
+                        if (priceString.Length > 1000)
+                        {
+                            price = Convert.ToDouble(priceString);
+                        }
+                        else
+                        {
+                            Console.WriteLine("You are writting a price that is too large");
+                        }
                         if (price > 0.0)
                         {
                             break;

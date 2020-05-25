@@ -615,7 +615,11 @@ namespace CinemaConsole.Data.BackEnd
 								Console.WriteLine("\nDo you really want to remove this reservation?\n[1] Remove reservation\n[2] Cancel");
 								string CancelOrDelete = Console.ReadLine();
 
-								if (CancelOrDelete == "1")
+								if (CancelOrDelete.Length > 5)
+								{
+									Console.WriteLine("Input is too big");
+								}
+								else if (CancelOrDelete == "1")
 								{
 									TicketCodeParam.Value = ticketcode;
 									command.Parameters.Add(TicketCodeParam);

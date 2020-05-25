@@ -184,7 +184,11 @@ namespace CinemaConsole.Data.BackEnd
                     string SearchOption = Console.ReadLine();
                     while (k)
                     {
-                        if (SearchOption == "1")
+                        if (SearchOption.Length > 5)
+                        {
+                            Console.WriteLine("Your input is to big");
+                        }
+                        else if (SearchOption == "1")
                         {
                             Console.Clear();
                             Console.WriteLine("\nPlease enter the customer full name");

@@ -89,6 +89,10 @@ namespace CinemaConsole.Pages
                         Console.Clear();
                         break;
                     }
+                    else if (CustomerReserve.Length > 5)
+                    {
+                        Console.WriteLine("Input is too big");
+                    }
                     else if (Convert.ToInt32(CustomerReserve) >= date.Item1.Count + 1 || Convert.ToInt32(CustomerReserve) < 1)
                     {
                         SD.ErrorMessage("\nPlease enter an option that exists");
@@ -163,43 +167,52 @@ namespace CinemaConsole.Pages
                             ProgressBalk(2);
 
                             Console.WriteLine("\nPlease enter how many seats you want. (Maximum of 10 seats)");
-                            amount = Convert.ToInt32(Console.ReadLine());
-                            if (amount > 10 || amount < 1)
+                            string amount1 = Console.ReadLine();
+                            if (amount1.Length > 5)
                             {
-                                SD.ClearAndErrorMessage("\nPlease enter a number that is between 0 and 10.");                               
+                                Console.WriteLine("Your input is too big");
                             }
                             else
                             {
-                                if (seatCheck(hallseatInfo.Item1, hallseatInfo.Item2, amount))
+                                amount = Convert.ToInt32(amount1);
+                                if (amount > 10 || amount < 1)
                                 {
-                                    Console.Clear();
-
-                                    ProgressBalk(2);
-
-                                    showHall(hallseatInfo.Item1, hallseatInfo.Item2);
-                                    Tuple<int, int, double> chosenseats = chooseSeat(hallseatInfo.Item1, hallseatInfo.Item2, amount);
-                                    seatX = chosenseats.Item1;
-                                    seatY = chosenseats.Item2;
-                                    price = chosenseats.Item3;
-                                    break;
+                                    SD.ClearAndErrorMessage("\nPlease enter a number that is between 0 and 10.");                               
                                 }
                                 else
                                 {
-                                    string seatsamount;
-                                    while (true)
+                                    if (seatCheck(hallseatInfo.Item1, hallseatInfo.Item2, amount))
                                     {
-                                        SD.ClearAndErrorMessage("\nThere are not enough seats left.\n[1] Choose another amount of seats\n[exit] Exit to movie list");
-                                        seatsamount = Console.ReadLine();
-                                        if (seatsamount == "1" || seatsamount == "exit")
+                                        Console.Clear();
+
+                                        ProgressBalk(2);
+
+                                        showHall(hallseatInfo.Item1, hallseatInfo.Item2);
+                                        Tuple<int, int, double> chosenseats = chooseSeat(hallseatInfo.Item1, hallseatInfo.Item2, amount);
+                                        seatX = chosenseats.Item1;
+                                        seatY = chosenseats.Item2;
+                                        price = chosenseats.Item3;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        string seatsamount;
+                                        while (true)
+                                        {
+                                            SD.ClearAndErrorMessage("\nThere are not enough seats left.\n[1] Choose another amount of seats\n[exit] Exit to movie list");
+                                            seatsamount = Console.ReadLine();
+                                            if (seatsamount == "1" || seatsamount == "exit")
+                                            {
+                                                break;
+                                            }
+                                        }
+                                        if (seatsamount == "exit")
                                         {
                                             break;
                                         }
                                     }
-                                    if (seatsamount == "exit")
-                                    {
-                                        break;
-                                    }
                                 }
+
                             }
                         }
                         catch (FormatException)
@@ -645,10 +658,15 @@ namespace CinemaConsole.Pages
                 string line = Console.ReadLine();
                 try
                 {
+
                     // check if user wants to go back 
                     if (line == "exit")
                     {
                         break;
+                    }
+                    else if (line.Length > 5)
+                    {
+                        Console.WriteLine("Your input is too big");
                     }
                     else if (line == "menu")
                     {
@@ -667,12 +685,20 @@ namespace CinemaConsole.Pages
                             Console.WriteLine("\nAre you over " + movieAgeQualification + " years old?");
                             Console.WriteLine("[1] Yes\n[2] No");
                             CustomerAge = Console.ReadLine();
-                            if (CustomerAge == "1")
+                            if (CustomerAge.Length > 5)
+                            {
+                                Console.WriteLine("Input is too big");
+                            }
+                            else if (CustomerAge == "1")
                             {
                                 Console.WriteLine("\nWould you like to see the dates and times? \n[1] Yes\n[exit] To return to movielist");
                                 CustomerTimeOption = Console.ReadLine();
                                 // this will return the movie times for the movie you entered
-                                if (CustomerTimeOption == "1")
+                                if (CustomerTimeOption.Length > 5)
+                                {
+                                    Console.WriteLine("Input is too big");
+                                }
+                                else if (CustomerTimeOption == "1")
                                 {
                                     Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> ticket = reserveSeat(whichMovie);
 
@@ -691,7 +717,11 @@ namespace CinemaConsole.Pages
                                         {
                                             Console.WriteLine("\nDo you want to confirm the reservation? \n[1] Confirm reservation\n[2] Cancel reservation");
                                             confirm = Console.ReadLine();
-                                            if (confirm == "1")
+                                            if (confirm.Length > 5)
+                                            {
+                                                Console.WriteLine("Input is too big");
+                                            }
+                                            else if (confirm == "1")
                                             {
                                                 Console.Clear();
 
