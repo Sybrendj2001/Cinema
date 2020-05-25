@@ -152,19 +152,6 @@ namespace CinemaConsole.Data.BackEnd
         // Search funtion ticketsalesman. Search on name, search on ticketnumber and surch on movie name and date/time
 
 
-        public static Tuple<List<DateTime>, List<int>, List<int>> showTime(string whichMovie)
-        {
-            AdminData AD = new AdminData();
-            Tuple<List<DateTime>, List<int>, List<int>> times = AD.GetTime(Convert.ToInt32(whichMovie));
-
-            for (int i = 0; i < times.Item1.Count; i++)
-            {
-                Console.WriteLine(times.Item1[i].ToString("HH:mm dd/MM/yyyy"));
-            }
-            Console.WriteLine("[exit] Exit to menu");
-            return times;
-        }
-
         public void DisplayTickets()
         {
             ShowData SD = new ShowData();
@@ -186,7 +173,6 @@ namespace CinemaConsole.Data.BackEnd
                 string Owner;
                 string MovieID;
                 string DateID;
-                string MovieName;
 
                 using (MySqlDataReader getTicketInfo = oCmd.ExecuteReader())
                 {
@@ -333,17 +319,20 @@ namespace CinemaConsole.Data.BackEnd
                             ShowMovies();
                             Console.WriteLine("\nPlease enter the movie");
                             string movie = Console.ReadLine();
+                            Console.Clear();
 
                             Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.showTime(movie);
+                            string SelectedTime = Customer.selectTime(dates);
 
-                            Console.WriteLine("\nPlease enter the time (e.g. 12:00)");
-                            string time = Console.ReadLine();
+                            int movieid = Convert.ToInt32(movie);
+                            
+                            AdminData AD = new AdminData();
 
-                            Console.WriteLine("\nPlease enter the date ( e.g. 12/04/2020)");
-                            string date = Console.ReadLine();
+                            Tuple<List<DateTime>, List<int>, List<int>> times = AD.GetTime(Convert.ToInt32(SelectedTime));
+
+                            int GetDateID = times.Item2[0];
+
                             Connection.Open();
-
-                            string DT = date + " " + time;
 
                             MySqlDataReader getMovieInfo = oCmd2.ExecuteReader();
                             DataTable dataTable2 = new DataTable();
@@ -355,25 +344,11 @@ namespace CinemaConsole.Data.BackEnd
 
                             dataTable3.Load(getDateInfo);
 
-                            int movieID = 0;
-                            int dateID = 0;
+                            //int movieID = 0;
+                            //int dateID = 0;
 
                             while (true)
                             {
-                                movieID = Convert.ToInt32(movie);
-
-                                // going through all the date data
-                                foreach (DataRow row in dataTable3.Rows)
-                                {
-                                    string datetime = Convert.ToDateTime(row["DateTime"]).ToString("dd/MM/yyyy HH:mm");
-
-                                    if (DT == datetime)
-                                    {
-                                        dateID = Convert.ToInt32(row["DateID"]);
-                                        break;
-                                    }
-                                }
-
                                 // going through ticket data
                                 foreach (DataRow row in dataTable.Rows)
                                 {
@@ -382,7 +357,7 @@ namespace CinemaConsole.Data.BackEnd
                                     DateID = row["DateID"].ToString();
 
                                     // going through all the ticket data to see if there is a match between all the given information
-                                    if (movieID == Convert.ToInt32(row["MovieID"]) && dateID == Convert.ToInt32(row["DateID"]))
+                                    if (movieid == Convert.ToInt32(row["MovieID"]) && GetDateID == Convert.ToInt32(row["DateID"]))
                                     {
                                         isFound = true;
                                         Connection.Close();
