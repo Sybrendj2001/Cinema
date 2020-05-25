@@ -1357,12 +1357,12 @@ namespace CinemaConsole.Pages.Admin
         {
             Console.OutputEncoding = Encoding.UTF8;
             ShowData SD = new ShowData();
-
+            Console.Clear();
             while (true)
             {
                 try
                 {
-                    Console.Clear();
+                    
                     Console.WriteLine("Please enter an option:\n[1] Show total year revenue\n[2] Show monthly revenue\n[exit] Back to the menu");
                     string option = Console.ReadLine();
 
@@ -1373,9 +1373,9 @@ namespace CinemaConsole.Pages.Admin
                     else if (option == "1")
                     {
                         bool isFound = true;
+                        Console.Clear();
                         while (isFound)
                         {
-                            Console.Clear();
                             try
                             {
                                 Console.WriteLine("Please enter a year you would like to see (e.g. 2020) or type [exit] to exit");
@@ -1384,6 +1384,7 @@ namespace CinemaConsole.Pages.Admin
                                 if (selectedYear == "exit")
                                 {
                                     isFound = false;
+                                    Console.Clear();
                                     break;
                                 }
                                 else if (selectedYear.Length < 5)
@@ -1403,6 +1404,7 @@ namespace CinemaConsole.Pages.Admin
                                     {
                                         Console.WriteLine("There was no revenue found in " + selectedYear + "\nPress enter to go back to the menu");
                                         Console.ReadLine();
+                                        Console.Clear();
                                     }
                                 }
                                 else 
@@ -1416,15 +1418,16 @@ namespace CinemaConsole.Pages.Admin
                                 SD.ClearAndErrorMessage("Invalid Input. Please try again.");
                                 Console.WriteLine("Press [enter] to continue.");
                                 Console.ReadLine();
+                                Console.Clear();
                             }
                         }
                     }                    
                     else if(option == "2")
                     {
                         bool isFound = true;
+                        Console.Clear();
                         while (isFound)
                         {
-                            Console.Clear();
                             try
                             {
                                 Console.WriteLine("Please enter a month you would like to see (e.g. 5 for may) or type [exit] to exit");
@@ -1433,6 +1436,7 @@ namespace CinemaConsole.Pages.Admin
                                 if (selectedMonth2 == "exit")
                                 {
                                     isFound = false;
+                                    Console.Clear();
                                     break;
                                 }
                                 else if (selectedMonth2.Length > 5)
@@ -1449,6 +1453,7 @@ namespace CinemaConsole.Pages.Admin
                                     if (selectedYear2 == "exit")
                                     {
                                         isFound = false;
+                                        Console.Clear();
                                         break;
                                     }
                                     else if (selectedYear2.Length > 5)
@@ -1473,6 +1478,7 @@ namespace CinemaConsole.Pages.Admin
                                         {
                                             Console.WriteLine("There was no revenue found in this month/year: " + selectedMonth + "/" + selectedYear + "\nPress enter to go back to the menu");
                                             Console.ReadLine();
+                                            Console.Clear();
                                         }
                                     }
 
@@ -1496,6 +1502,7 @@ namespace CinemaConsole.Pages.Admin
                 catch (FormatException)
                 {
                     Console.WriteLine("\nPlease enter an option that stands in the menu");
+                    Console.Clear();
                 }
             }
         }

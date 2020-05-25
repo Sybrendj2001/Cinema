@@ -181,13 +181,13 @@ namespace CinemaConsole.Data.BackEnd
                     bool k = true;
 
                     // menu of the three search options
-                    Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date\n[exit] To go back to the menu");
-                    string SearchOption = Console.ReadLine();
                     while (k)
                     {
+                        Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date\n[exit] To go back to the menu");
+                        string SearchOption = Console.ReadLine();
                         if (SearchOption.Length > 5)
                         {
-                            SD.ErrorMessage("Your input is to big");
+                            SD.ClearAndErrorMessage("Your input is to big");
                         }
                         else if (SearchOption == "1")
                         {
