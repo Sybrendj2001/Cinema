@@ -439,7 +439,11 @@ namespace CinemaConsole.Pages.Admin
                 Console.Clear();
                 try
                 {
-                    if (choice == "exit")
+                    if (choice.Length > 5)
+                    {
+                        SD.ClearAndErrorMessage("Your input is too big");
+                    }
+                    else if (choice == "exit")
                     {
                         break;
                     }
@@ -472,7 +476,11 @@ namespace CinemaConsole.Pages.Admin
                             string choice2 = Console.ReadLine();
                             try
                             {
-                                if (choice2 == "exit")
+                                if (choice2.Length > 5)
+                                {
+                                    SD.ClearAndErrorMessage("Your input is too big");
+                                }
+                                else if (choice2 == "exit")
                                 {
                                     Console.Clear();
                                     break;
@@ -578,54 +586,50 @@ namespace CinemaConsole.Pages.Admin
                 Console.Clear();
                 Console.WriteLine("\nPlease enter the age restriction. (e.g. 12) or enter [exit] to go back to the menu");
                 ageString = Console.ReadLine();
-                if (ageString == "exit")
+                if (ageString.Length > 5)
+                {
+                    SD.ClearAndErrorMessage("Your input is too big");
+                }
+                else if (ageString == "exit")
                 {
                     break;
                 }
-
-                int age = AddAge(ageString);
-
-                // if age returns a 0 the user typed exit so it should break;
-                if (age == 0)
+                else
                 {
+                    int age = AddAge(ageString);
+                    Console.Clear();
+                    Console.WriteLine("\nPlease enter a short summary of the movie or enter [exit] to go back to the menu");
+                    string sum = Console.ReadLine();
+                    if (sum == "exit")
+                    {
+                        break;
+                    }
+
+                    Console.Clear();
+                    Console.WriteLine("\nPlease give some actors.(e.g. Tom Cruise, Brad Pitt) or enter [exit] to go back to the menu");
+                    string actors = Console.ReadLine();
+                    if (actors == "exit")
+                    {
+                        break;
+                    }
+
+                    Console.Clear();
+                    Console.WriteLine("\nPlease enter the movie duration in minutes");
+                    int duration = Convert.ToInt32(Console.ReadLine());
+
+                    Console.Clear();
+                    Console.WriteLine("\nPlease enter the movie genre");
+                    string genre = Console.ReadLine();
+
+                    CD.InsertMovie(name, releaseDate, age, sum, actors, duration, genre);
+                    // adding the movie times to the given movie
+                    addTime(name, duration);
+                    Console.WriteLine("\nMovies:");
+                    SD.ShowMovies();
+                    Console.WriteLine("\nPress enter to continue");
+                    Console.ReadLine();
                     break;
                 }
-
-                Console.Clear();
-                Console.WriteLine("\nPlease enter a short summary of the movie or enter [exit] to go back to the menu");
-                string sum = Console.ReadLine();
-                if (sum == "exit")
-                {
-                    break;
-                }
-
-                Console.Clear();
-                Console.WriteLine("\nPlease give some actors.(e.g. Tom Cruise, Brad Pitt) or enter [exit] to go back to the menu");
-                string actors = Console.ReadLine();
-                if (actors == "exit")
-                {
-                    break;
-                }
-
-                Console.Clear();
-                Console.WriteLine("\nPlease enter the movie duration in minutes");
-                int duration = Convert.ToInt32(Console.ReadLine());
-
-                Console.Clear();
-                Console.WriteLine("\nPlease enter the movie genre");
-                string genre = Console.ReadLine();
-
-                CD.InsertMovie(name, releaseDate, age, sum, actors, duration, genre);
-
-
-                
-                // adding the movie times to the given movie
-                addTime(name,duration);
-                Console.WriteLine("\nMovies:");
-                SD.ShowMovies();
-                Console.WriteLine("\nPress enter to continue");
-                Console.ReadLine();
-                break;
             }
             Console.Clear();
 
@@ -868,9 +872,16 @@ namespace CinemaConsole.Pages.Admin
                         {
                             Console.WriteLine("\nPlease enter the theaterhall [1],[2] or [3] you want '" + title + "' to play in on '" + dateTime + "'");
                             string SHall = Console.ReadLine();
-                            try
+                            if (SHall.Length < 5)
                             {
                                 hall = Convert.ToInt32(SHall);
+                                                            }
+                            else
+                            {
+                                SD.ClearAndErrorMessage("Your input is too big");
+                            }
+                            try
+                            {
                                 if (hall > 0 && hall < 4 && !checkdoubletimes(hall,DT,duration))
                                 {
                                     checksdone = true;
@@ -946,20 +957,27 @@ namespace CinemaConsole.Pages.Admin
                     List<int> movieIDs = SD.ShowMovies();
                     Console.WriteLine("\nEnter the number of the movie you want to edit\n[exit] Go back to the menu");
                     ID = Console.ReadLine();
-
-                    if (ID == "exit")
+                    if (ID.Length < 5)
                     {
-                        Console.Clear();
-                        break;
-                    }
-                    else if (movieIDs.Contains(Convert.ToInt32(ID)))
-                    {
-                        break;
+                        if (ID == "exit")
+                        {
+                            Console.Clear();
+                            break;
+                        }
+                        else if (movieIDs.Contains(Convert.ToInt32(ID)))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            SD.ClearAndErrorMessage("Please enter an option that exist");
+                        }
                     }
                     else
                     {
-                        SD.ClearAndErrorMessage("Please enter an option that exist");
+                        SD.ErrorMessage("Please enter an option that exists");
                     }
+
                 }
                 catch (FormatException)
                 {
@@ -978,8 +996,12 @@ namespace CinemaConsole.Pages.Admin
 
                     // readline again
                     string option = Console.ReadLine();
-
-                    if (option == "1")
+                    
+                    if (option.Length > 5)
+                    {
+                        SD.ClearAndErrorMessage("Your input is too big");
+                    }
+                    else if (option == "1")
                     {
                         string name = "";
                         string releaseDateString;
@@ -1004,24 +1026,36 @@ namespace CinemaConsole.Pages.Admin
                         Console.WriteLine("Please enter the release year. (e.g. 2020) or enter [skip] if you want to skip and keep the original");
                         releaseDateString = Console.ReadLine();
 
-                        if (releaseDateString == "skip")
+                        if (releaseDateString.Length > 5)
+                        {
+                            SD.ClearAndErrorMessage("Your input is too big");
+                        }
+                        else if (releaseDateString == "skip")
                         {
                             releaseDate = -1; ;
                         }
-
-                        releaseDate = EditYear(releaseDateString, ID);
+                        else
+                        {
+                            releaseDate = EditYear(releaseDateString, ID);
+                        }
 
                         Console.Clear();
                         SD.ShowMovieInfoPartlyByID(ID, 3);
                         Console.WriteLine("Please enter the age restriction. (e.g. 12) or enter [skip] if you want to skip and keep the original");
                         ageString = Console.ReadLine();
 
-                        if (ageString == "skip")
+                        if (ageString.Length > 5)
+                        {
+                            SD.ClearAndErrorMessage("Your input is too big");
+                        }
+                        else if (ageString == "skip")
                         {
                             age = -1;
                         }
-
-                        age = EditAge(ageString, ID);
+                        else
+                        {
+                            age = EditAge(ageString, ID);
+                        }
 
                         Console.Clear();
                         SD.ShowMovieInfoPartlyByID(ID, 4);
@@ -1062,7 +1096,7 @@ namespace CinemaConsole.Pages.Admin
                         Tuple<List<DateTime>, List<int>, List<int>> date = Customer.showTime(ID);
                         while (true)
                         {
-                            string choice = Customer.selectTime(date);
+                            string choice = Customer.selectTime(date, ID);
 
                             if (choice == "exit")
                             {
@@ -1096,59 +1130,73 @@ namespace CinemaConsole.Pages.Admin
 
 
                                 string choice2 = Console.ReadLine();
-                                try
+                                if (choice2.Length > 10)
                                 {
-                                    if (choice2 == "exit")
+                                    SD.ClearAndErrorMessage("Your input is too big");
+                                }
+                                else
+                                {
+
+                                    try
                                     {
-                                        Console.Clear();
-                                        break;
-                                    }
-                                    else if (Convert.ToInt32(choice2) > 0 && Convert.ToInt32(choice2) < 4)
-                                    {
-                                        //Get the price it has to change into
-                                        double price = 0.0;
-                                        double example = 10.50;
-                                        Console.WriteLine("\nPlease give the price you want. And write it down like in the example (e.g. "+ example.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) +")");
-                                        while (true)
+                                        if (choice2 == "exit")
                                         {
-                                            try
-                                            {
-                                                string priceString = Console.ReadLine();
-                                                string tempPrice = priceString.Replace(',', '.');
-                                                price = Convert.ToDouble(tempPrice, System.Globalization.CultureInfo.InvariantCulture);
-                                                if (price > 0.0)
-                                                {
-                                                    break;
-                                                }
-                                                else
-                                                {
-                                                    Console.WriteLine("\nPlease enter a price above 0.00 (e.g. " + example.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + ")");
-                                                }
-                                            }
-                                            catch (FormatException)
-                                            {
-                                                SD.ErrorMessage("\nThe price was not put in correctly.");
-                                                Console.WriteLine("Please write it down like in the example(e.g. " + example.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + ")");
-                                            }
+                                            Console.Clear();
+                                            break;
                                         }
-                                        //change the price in seats and hall
-                                        AD.UpdatePriceSeatHall(hallseatInfo.Item1.Item4, price, Convert.ToInt32(choice2), date.Item3[Convert.ToInt32(choice)-1]);
-                                        //show hall with prices to see the changes
-                                        Console.Clear();
-                                        hallseatInfo = Customer.hallSeatInfo(choice, date);
-                                        Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
-                                        Console.WriteLine("Press enter to continue");
-                                        Console.ReadLine();
-                                        break;
+                                        else if (Convert.ToInt32(choice2) > 0 && Convert.ToInt32(choice2) < 4)
+                                        {
+                                            //Get the price it has to change into
+                                            double price = 0.0;
+                                            double example = 10.50;
+                                            Console.WriteLine("\nPlease give the price you want. And write it down like in the example (e.g. "+ example.ToString("0.00") +")");
+                                            while (true)
+                                            {
+                                                try
+                                                {
+                                                    string priceString = Console.ReadLine();
+                                                    if (priceString.Length < 10)
+                                                    {
+                                                        price = Convert.ToDouble(priceString);
+                                                        if (price > 0.0)
+                                                        {
+                                                            break;
+                                                        }
+                                                        else
+                                                        {
+                                                            Console.WriteLine("\nPlease enter a price above 0.00 (e.g. " + example.ToString("0.00") + ")");
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        SD.ClearAndErrorMessage("Your input is too big");
+                                                    }
+                                                }
+                                                catch (FormatException)
+                                                {
+                                                    SD.ErrorMessage("\nThe price was not put in correctly.");
+                                                    Console.WriteLine("Please write it down like in the example(e.g. " + example.ToString("0.00") + ")");
+                                                }
+                                            }
+                                            //change the price in seats and hall
+                                            AD.UpdatePriceSeatHall(hallseatInfo.Item1.Item4, price, Convert.ToInt32(choice2), date.Item3[Convert.ToInt32(choice)-1]);
+                                            //show hall with prices to see the changes
+                                            Console.Clear();
+                                            hallseatInfo = Customer.hallSeatInfo(choice, date);
+                                            Customer.showHall(hallseatInfo.Item1, hallseatInfo.Item2);
+                                            Console.WriteLine("Press enter to continue");
+                                            Console.ReadLine();
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            SD.ClearAndErrorMessage("Please enter a option that is available");
+                                        }
                                     }
-                                    else
+                                    catch (FormatException)
                                     {
                                         SD.ClearAndErrorMessage("Please enter a option that is available");
                                     }
-                                }
-                                catch (FormatException)
-                                {
-                                    SD.ClearAndErrorMessage("Please enter a option that is available");
                                 }
                             }
                         }
@@ -1177,12 +1225,12 @@ namespace CinemaConsole.Pages.Admin
         {
             ShowData SD = new ShowData();
             AdminData AD = new AdminData();
+            Console.Clear();
 
             while (true)
             {
                 try
                 {
-                    Console.Clear();
                     Console.WriteLine("\nMovies:");
                     List<int> MovieIDs = SD.ShowMovies();
                     Console.WriteLine("\n[exit] Exit to menu");
@@ -1193,11 +1241,19 @@ namespace CinemaConsole.Pages.Admin
                         Console.Clear();
                         break;
                     }
+                    else if (choice.Length > 5)
+                    {
+                        SD.ClearAndErrorMessage("Your input is too big");
+                    }
                     else if (MovieIDs.Contains(Convert.ToInt32(choice)))
                     {
                         Console.WriteLine("\n[1] Remove the entire movie\n[2] Remove a certain time of the movie");
                         string choice2 = Console.ReadLine();
-                        if (choice2 == "1")
+                        if (choice2.Length > 5)
+                        {
+                            SD.ClearAndErrorMessage("Your input is too big");
+                        }
+                        else if (choice2 == "1")
                         {
                             Console.Clear();
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -1207,7 +1263,11 @@ namespace CinemaConsole.Pages.Admin
                             while (true)
                             {
                                 string choice3 = Console.ReadLine();
-                                if (choice3 == "1")
+                                if (choice3.Length > 5)
+                                {
+                                    SD.ClearAndErrorMessage("Your input is too big");
+                                }
+                                else if (choice3 == "1")
                                 {
                                     AD.DeleteMovie(Convert.ToInt32(choice));
                                     Console.Clear();
@@ -1233,7 +1293,7 @@ namespace CinemaConsole.Pages.Admin
                         else if (choice2 == "2")
                         {
                             Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.showTime(choice);
-                            string choice3 = Customer.selectTime(dates);
+                            string choice3 = Customer.selectTime(dates, choice);
 
                             if (choice3 != "exit")
                             {
@@ -1245,6 +1305,10 @@ namespace CinemaConsole.Pages.Admin
                                 while (true)
                                 {
                                     string choice4 = Console.ReadLine();
+                                    if (choice4.Length > 5)
+                                    {
+                                        SD.ClearAndErrorMessage("Your input is too big");
+                                    }
                                     if (choice4 == "1")
                                     {
                                         AD.DeleteTime(dates.Item2[Convert.ToInt32(choice3) - 1]);
@@ -1277,12 +1341,14 @@ namespace CinemaConsole.Pages.Admin
                         else
                         {
                             Console.WriteLine("\nPlease enter a option that stands in the menu");
+                            Console.Clear();
                         }
                     }
                 }
                 catch (FormatException)
                 {
                     Console.WriteLine("\nPlease enter a option that stands in the menu");
+                    Console.Clear();
                 }
             }
         }
@@ -1290,21 +1356,26 @@ namespace CinemaConsole.Pages.Admin
         private static void Revenue()
         {
             Console.OutputEncoding = Encoding.UTF8;
-
+            ShowData SD = new ShowData();
+            Console.Clear();
             while (true)
             {
                 try
                 {
-                    Console.Clear();
+                    
                     Console.WriteLine("Please enter an option:\n[1] Show total year revenue\n[2] Show monthly revenue\n[exit] Back to the menu");
                     string option = Console.ReadLine();
 
-                    if (option == "1")
+                    if (option.Length > 5)
+                    {
+                        SD.ClearAndErrorMessage("Your input is too big");
+                    }
+                    else if (option == "1")
                     {
                         bool isFound = true;
+                        Console.Clear();
                         while (isFound)
                         {
-                            Console.Clear();
                             try
                             {
                                 Console.WriteLine("Please enter a year you would like to see (e.g. 2020) or type [exit] to exit");
@@ -1313,42 +1384,50 @@ namespace CinemaConsole.Pages.Admin
                                 if (selectedYear == "exit")
                                 {
                                     isFound = false;
+                                    Console.Clear();
                                     break;
                                 }
-
-                                int selectedYear2 = Convert.ToInt32(selectedYear);
+                                else if (selectedYear.Length < 5)
+                                {
+                                    int selectedYear2 = Convert.ToInt32(selectedYear);
+                                    AdminData AD = new AdminData();
+                                    Tuple<bool, double> TotalRev = AD.GetYearRevenue(selectedYear2);
+                                    Console.Clear();
+                                    if (TotalRev.Item1 == true)
+                                    {
+                                        isFound = false;
+                                        Console.WriteLine("Total revenue of " + selectedYear + "     €" + TotalRev.Item2.ToString("0.00") + "\nPress enter to go back to the menu");
+                                        Console.ReadLine();
+                                        break;
+                                    }
+                                    else if (TotalRev.Item1 == false)
+                                    {
+                                        Console.WriteLine("There was no revenue found in " + selectedYear + "\nPress enter to go back to the menu");
+                                        Console.ReadLine();
+                                        Console.Clear();
+                                    }
+                                }
+                                else 
+                                {
+                                    SD.ClearAndErrorMessage("Your input is too big");
+                                }
                              
-                                AdminData AD = new AdminData();
-                                Tuple<bool, double> TotalRev = AD.GetYearRevenue(selectedYear2);
-                                Console.Clear();
-                                if (TotalRev.Item1 == true)
-                                {
-                                    isFound = false;
-                                    Console.WriteLine("Total revenue of " + selectedYear + "     €" + TotalRev.Item2.ToString("0.00") + "\nPress enter to go back to the menu");
-                                    Console.ReadLine();
-                                    break;
-                                }
-                                else if (TotalRev.Item1 == false)
-                                {
-                                    Console.WriteLine("There was no revenue found in " + selectedYear + "\nPress enter to go back to the menu");
-                                    Console.ReadLine();
-                                }
                             }
                             catch (FormatException)
                             {
-                                ShowData SD = new ShowData();
                                 SD.ClearAndErrorMessage("Invalid Input. Please try again.");
                                 Console.WriteLine("Press [enter] to continue.");
                                 Console.ReadLine();
+                                Console.Clear();
                             }
                         }
                     }                    
                     else if(option == "2")
                     {
                         bool isFound = true;
+                        Console.Clear();
                         while (isFound)
                         {
-                            Console.Clear();
                             try
                             {
                                 Console.WriteLine("Please enter a month you would like to see (e.g. 5 for may) or type [exit] to exit");
@@ -1357,41 +1436,57 @@ namespace CinemaConsole.Pages.Admin
                                 if (selectedMonth2 == "exit")
                                 {
                                     isFound = false;
+                                    Console.Clear();
                                     break;
                                 }
-
-                                int selectedMonth = Convert.ToInt32(selectedMonth2);
-                                Console.Clear();
-                                Console.WriteLine("Please enter a year you would like to see (e.g. 2020) or type [exit] to exit");
-                                string selectedYear2 = Console.ReadLine();
-
-                                if (selectedYear2 == "exit")
+                                else if (selectedMonth2.Length > 5)
                                 {
-                                    isFound = false;
-                                    break;
+                                    SD.ClearAndErrorMessage("Your input is not correct");
+                                }
+                                else
+                                {
+                                    int selectedMonth = Convert.ToInt32(selectedMonth2);
+                                    Console.Clear();
+                                    Console.WriteLine("Please enter a year you would like to see (e.g. 2020) or type [exit] to exit");
+                                    string selectedYear2 = Console.ReadLine();
+
+                                    if (selectedYear2 == "exit")
+                                    {
+                                        isFound = false;
+                                        Console.Clear();
+                                        break;
+                                    }
+                                    else if (selectedYear2.Length > 5)
+                                    {
+                                        SD.ClearAndErrorMessage("Your input is too big");
+                                    }
+                                    else
+                                    {
+                                        int selectedYear = Convert.ToInt32(selectedYear2);
+
+                                        AdminData AD = new AdminData();
+                                        Tuple<bool, double> TotalRev = AD.GetMonthRevenue(selectedMonth, selectedYear);
+                                        Console.Clear();
+                                        if (TotalRev.Item1 == true)
+                                        {
+                                            isFound = false;
+                                            Console.WriteLine("Total revenue of " + selectedMonth2 + "/" + selectedYear + "     €" + TotalRev.Item2.ToString("0.00") + "\nPress enter to go back to the menu");
+                                            Console.ReadLine();
+                                            break;
+                                        }
+                                        else if (TotalRev.Item1 == false)
+                                        {
+                                            Console.WriteLine("There was no revenue found in this month/year: " + selectedMonth + "/" + selectedYear + "\nPress enter to go back to the menu");
+                                            Console.ReadLine();
+                                            Console.Clear();
+                                        }
+                                    }
+
                                 }
 
-                                int selectedYear = Convert.ToInt32(selectedYear2);
-
-                                AdminData AD = new AdminData();
-                                Tuple<bool, double> TotalRev = AD.GetMonthRevenue(selectedMonth, selectedYear);
-                                Console.Clear();
-                                if (TotalRev.Item1 == true)
-                                {
-                                    isFound = false;
-                                    Console.WriteLine("Total revenue of " + selectedMonth2 + "/" + selectedYear + "     €" + TotalRev.Item2.ToString("0.00") + "\nPress enter to go back to the menu");
-                                    Console.ReadLine();
-                                    break;
-                                }
-                                else if (TotalRev.Item1 == false)
-                                {
-                                    Console.WriteLine("There was no revenue found in this month/year: " + selectedMonth + "/" + selectedYear + "\nPress enter to go back to the menu");
-                                    Console.ReadLine();
-                                }
                             }
                             catch (FormatException)
                             {
-                                ShowData SD = new ShowData();
                                 SD.ClearAndErrorMessage("Invalid Input. Please try again.");
                                 Console.WriteLine("Press [enter] to continue.");
                                 Console.ReadLine();
@@ -1407,6 +1502,7 @@ namespace CinemaConsole.Pages.Admin
                 catch (FormatException)
                 {
                     Console.WriteLine("\nPlease enter an option that stands in the menu");
+                    Console.Clear();
                 }
             }
         }
@@ -1473,7 +1569,11 @@ namespace CinemaConsole.Pages.Admin
                     "\n\nReservations:\n[9] Add reservation\n[10] Remove reservation\n[11] Search for a reservation" +
                     "\n\nGeneral:\n[12] Edit hall prices\n[13] Show revenue\n[exit] Back to the menu");
                 string nummer = Console.ReadLine();
-                if (nummer == "1")
+                if (nummer.Length > 5)
+                {
+                    SD.ClearAndErrorMessage("Your input is too big");
+                }
+                else if (nummer == "1")
                 {
                     Add();
                 }

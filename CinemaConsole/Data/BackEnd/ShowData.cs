@@ -8,6 +8,7 @@ using MySql;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Globalization;
+using CinemaConsole.Data.BackEnd;
 
 namespace CinemaConsole.Data.BackEnd
 {
@@ -180,11 +181,15 @@ namespace CinemaConsole.Data.BackEnd
                     bool k = true;
 
                     // menu of the three search options
-                    Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date\n[exit] To go back to the menu");
-                    string SearchOption = Console.ReadLine();
                     while (k)
                     {
-                        if (SearchOption == "1")
+                        Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date\n[exit] To go back to the menu");
+                        string SearchOption = Console.ReadLine();
+                        if (SearchOption.Length > 5)
+                        {
+                            SD.ClearAndErrorMessage("Your input is to big");
+                        }
+                        else if (SearchOption == "1")
                         {
                             Console.Clear();
                             Console.WriteLine("\nPlease enter the customer full name");

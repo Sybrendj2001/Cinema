@@ -919,8 +919,14 @@ namespace CinemaConsole.Data.BackEnd
                     try
                     {
                         string priceString = Console.ReadLine();
-                        string tempPrice = priceString.Replace(',', '.');
-                        price = Convert.ToDouble(tempPrice, System.Globalization.CultureInfo.InvariantCulture);
+                        if (priceString.Length > 10)
+                        {
+                            price = Convert.ToDouble(priceString);
+                        }
+                        else
+                        {
+                            Console.WriteLine("You are writting a price that is too large");
+                        }
                         if (price > 0.0)
                         {
                             break;

@@ -562,6 +562,7 @@ namespace CinemaConsole.Data.BackEnd
             try
             {
 				AdminData AD = new AdminData();
+				ShowData SD = new ShowData();
 				int seatX = 0;
 				int seatY = 0;
 				int hallID;
@@ -615,7 +616,11 @@ namespace CinemaConsole.Data.BackEnd
 								Console.WriteLine("\nDo you really want to remove this reservation?\n[1] Remove reservation\n[2] Cancel");
 								string CancelOrDelete = Console.ReadLine();
 
-								if (CancelOrDelete == "1")
+								if (CancelOrDelete.Length > 5)
+								{
+									SD.ClearAndErrorMessage("Your input is too big");
+								}
+								else if (CancelOrDelete == "1")
 								{
 									TicketCodeParam.Value = ticketcode;
 									command.Parameters.Add(TicketCodeParam);
