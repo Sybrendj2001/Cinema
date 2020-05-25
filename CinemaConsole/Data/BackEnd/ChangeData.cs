@@ -562,6 +562,7 @@ namespace CinemaConsole.Data.BackEnd
             try
             {
 				AdminData AD = new AdminData();
+				ShowData SD = new ShowData();
 				int seatX = 0;
 				int seatY = 0;
 				int hallID;
