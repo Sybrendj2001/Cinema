@@ -442,67 +442,75 @@ namespace CinemaConsole.Pages
                     free = false;
                     break;
                 }
-
-                string[] selectedSeat = selected.Split('/');
-
-                try
+                else if (selected.Length > 7)
                 {
-                    
-                    seatX = Convert.ToInt32(selectedSeat[0]);
-                    seatY = HallInfo.Item1 - Convert.ToInt32(selectedSeat[1]) + 1;
+                    SD.ErrorMessage("Your input is too big");
+                }
+                else
+                {
 
 
-                    for (int i = 0; i < seats.Count; i++)
+                    string[] selectedSeat = selected.Split('/');
+
+                    try
                     {
-                        if ((seatY - 1 == seats[i].Item2) && ((seats[i].Item3 >= seatX - 1) && (seats[i].Item3 < seatX - 1 + amount)) && !seats[i].Item5)
-                        {
-                            free = false;
-                            price = 0.0;
-                            //break;
-                        }
-                        if ((seatY - 1 == seats[i].Item2) && ((seats[i].Item3 >= seatX - 1) && (seats[i].Item3 < seatX - 1 + amount)) && seats[i].Item5)
-                        {
-                            price += seats[i].Item1;
-                        }
-                        if(seatY-1 == seats[i].Item2 && seats[i].Item3 == seatX - 1 && seats[i].Item4 != "(No Seat)")
-                        {
-                            exist1 = true;
-                        }
-                        if (seatY - 1 == seats[i].Item2 && seats[i].Item3 == seatX +amount- 2 && seats[i].Item4 != "(No Seat)")
-                        {
-                            exist2 = true;
-                        }
-                    }
 
-                    if((exist1 && exist2) || !free)
-                    {
-                        if (free)
+                        seatX = Convert.ToInt32(selectedSeat[0]);
+                        seatY = HallInfo.Item1 - Convert.ToInt32(selectedSeat[1]) + 1;
+
+
+                        for (int i = 0; i < seats.Count; i++)
                         {
-                            break;
+                            if ((seatY - 1 == seats[i].Item2) && ((seats[i].Item3 >= seatX - 1) && (seats[i].Item3 < seatX - 1 + amount)) && !seats[i].Item5)
+                            {
+                                free = false;
+                                price = 0.0;
+                                //break;
+                            }
+                            if ((seatY - 1 == seats[i].Item2) && ((seats[i].Item3 >= seatX - 1) && (seats[i].Item3 < seatX - 1 + amount)) && seats[i].Item5)
+                            {
+                                price += seats[i].Item1;
+                            }
+                            if (seatY - 1 == seats[i].Item2 && seats[i].Item3 == seatX - 1 && seats[i].Item4 != "(No Seat)")
+                            {
+                                exist1 = true;
+                            }
+                            if (seatY - 1 == seats[i].Item2 && seats[i].Item3 == seatX + amount - 2 && seats[i].Item4 != "(No Seat)")
+                            {
+                                exist2 = true;
+                            }
                         }
-                        else if (!exist1 || !exist2)
+
+                        if ((exist1 && exist2) || !free)
                         {
-                            Console.WriteLine("\nMake sure your seats are in the theatherhall");
+                            if (free)
+                            {
+                                break;
+                            }
+                            else if (!exist1 || !exist2)
+                            {
+                                Console.WriteLine("\nMake sure your seats are in the theatherhall");
+                            }
+                            else
+                            {
+                                SD.ErrorMessage("\nThere are not enough seats free from this point.");
+                            }
                         }
                         else
                         {
-                            SD.ErrorMessage("\nThere are not enough seats free from this point.");
+                            SD.ErrorMessage("\nMake sure your seats are in the theatherhall");
                         }
+
                     }
-                    else
+                    catch (FormatException)
                     {
-                        SD.ErrorMessage("\nMake sure your seats are in the theatherhall");
+                        SD.ErrorMessage("\nPlease enter it like in the example.");
                     }
-                    
-                }
-                catch (FormatException)
-                {
-                    SD.ErrorMessage("\nPlease enter it like in the example.");
-                }
-                //Catches if the user put in no / and if it is not out of bounce the theaterhall
-                catch (IndexOutOfRangeException)
-                {
-                    SD.ErrorMessage("\nMake sure your seats are in the theatherhall and it is written like in the example.");
+                    //Catches if the user put in no / and if it is not out of bounce the theaterhall
+                    catch (IndexOutOfRangeException)
+                    {
+                        SD.ErrorMessage("\nMake sure your seats are in the theatherhall and it is written like in the example.");
+                    }
                 }
             }
 
