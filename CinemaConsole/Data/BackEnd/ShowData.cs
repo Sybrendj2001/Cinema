@@ -334,7 +334,7 @@ namespace CinemaConsole.Data.BackEnd
                             Console.WriteLine("\nPlease enter the movie");
                             string movie = Console.ReadLine();
 
-                            Tuple<List<DateTime>, List<int>, List<int>> dates = showTime(movie);
+                            Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.showTime(movie);
 
                             Console.WriteLine("\nPlease enter the time (e.g. 12:00)");
                             string time = Console.ReadLine();
