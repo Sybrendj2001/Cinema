@@ -325,7 +325,6 @@ namespace CinemaConsole.Data.BackEnd
                             }
                         }
 
-                       
                         else if (SearchOption == "3")
                         {
                             Console.Clear();
