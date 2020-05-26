@@ -322,12 +322,50 @@ namespace CinemaConsole.Data.BackEnd
                             bool isFound = false;
                             Connection.Close();
                             ShowMovies();
-                            Console.WriteLine("\nPlease enter the movie");
-                            string movie = Console.ReadLine();
+                            string movie = "";
+
+                            Connection.Open();
+
+                            using (MySqlDataReader getMovieInfo = oCmd2.ExecuteReader())
+                            {
+                                DataTable dataTable2 = new DataTable();
+                                dataTable2.Load(getMovieInfo);
+
+                                string MovieName;
+                                isFound = true;
+
+                                while (isFound)
+                                {
+                                    Console.WriteLine("\nPlease enter the movie");
+                                    movie = Console.ReadLine();
+                                    foreach (DataRow row in dataTable2.Rows)
+                                    {
+                                        MovieName = row["MovieID"].ToString();
+
+                                        if (movie == MovieName)
+                                        {
+                                            isFound = false;
+                                            break;
+                                        }
+                                    }
+                                    if(isFound == true)
+                                    { 
+                                        ErrorMessage("Your input was too big");
+                                        
+                                    }
+                                }
+                            }
+
+                            Connection.Close();
+
                             Console.Clear();
 
                             Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.showTime(movie);
                             string SelectedTime = Customer.selectTime(dates, movie);
+                            if(SelectedTime == "exit")
+                            {
+                                break;
+                            }
 
                             int movieid = Convert.ToInt32(movie);
                             
@@ -338,11 +376,6 @@ namespace CinemaConsole.Data.BackEnd
                             int GetDateID = times.Item2[0];
 
                             Connection.Open();
-
-                            MySqlDataReader getMovieInfo = oCmd2.ExecuteReader();
-                            DataTable dataTable2 = new DataTable();
-
-                            dataTable2.Load(getMovieInfo);
 
                             MySqlDataReader getDateInfo = oCmd3.ExecuteReader();
                             DataTable dataTable3 = new DataTable();
