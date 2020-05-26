@@ -327,7 +327,7 @@ namespace CinemaConsole.Data.BackEnd
                             Console.Clear();
 
                             Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.showTime(movie);
-                            string SelectedTime = Customer.selectTime(dates);
+                            string SelectedTime = Customer.selectTime(dates, movie);
 
                             int movieid = Convert.ToInt32(movie);
                             
