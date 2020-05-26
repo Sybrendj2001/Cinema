@@ -435,13 +435,15 @@ namespace CinemaConsole.Data.BackEnd
                             Console.Clear();
                             break;
                         }
+                        else
+                            SD.ClearAndErrorMessage("Your input is too big");
                     }
                 }
             }
 
             catch (MySqlException ex)
             {
-                throw;
+                ErrorMessage("Your input was too big");
             }
             finally
             {
