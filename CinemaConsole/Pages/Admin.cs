@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using CinemaConsole.Pages;
 using CinemaConsole.Pages.TicketSalesman;
 using CinemaConsole.Pages.Restaurant;
-using CinemaConsole.Data.Employee;
 using CinemaConsole.Data;
 using CinemaConsole.Data.BackEnd;
 using System.Globalization;

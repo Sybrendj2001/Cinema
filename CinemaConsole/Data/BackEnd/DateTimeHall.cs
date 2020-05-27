@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using CinemaConsole.Data.BackEnd;
-using CinemaConsole.Data.Employee;
 
 namespace CinemaConsole.Data
 {
