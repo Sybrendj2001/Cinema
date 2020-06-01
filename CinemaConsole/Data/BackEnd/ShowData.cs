@@ -214,6 +214,7 @@ namespace CinemaConsole.Data.BackEnd
                                 // going through the data
                                 foreach (DataRow row in dataTable.Rows)
                                 {
+                                    amountofticketscounted += 1;
                                     Owner = row["Owner"].ToString();
                                     TicketCode = row["TicketCode"].ToString();
                                     TicketID = row["TicketID"].ToString();
@@ -248,16 +249,7 @@ namespace CinemaConsole.Data.BackEnd
                                     Console.Clear();
                                     break;
                                 }
-                                if (isFound)
-                                {
-                                    Console.WriteLine("\nPress enter to go back to the menu");
-                                    Console.ReadLine();
-                                    // using k to break out of the outer loop
-                                    k = false;
-                                    break;
-                                }
                             }
-                            break;
                         }
 
                         else if (SearchOption == "2")
@@ -279,6 +271,7 @@ namespace CinemaConsole.Data.BackEnd
                                 // going through the data
                                 foreach (DataRow row in dataTable.Rows)
                                 {
+                                    amountofticketscounted += 1;
                                     Owner = row["Owner"].ToString();
                                     TicketCode = row["TicketCode"].ToString();
                                     TicketID = row["TicketID"].ToString();
@@ -465,22 +458,20 @@ namespace CinemaConsole.Data.BackEnd
                                 }
 
                                 // check if all tickets were checked
-                                if (amountoftickets == amountofticketscounted)
+                                if (isFound)
                                 {
-                                    if (isFound)
-                                    {
-                                        Console.WriteLine("\nPress enter to continue");
-                                        k = false;
-                                    }
-                                    else
-                                    {
-                                        Console.Clear();
-                                        Console.WriteLine("\nThere were no results found. Press enter to continue");
-                                    }
-                                    Console.ReadLine();
-                                    Console.Clear();
-                                    break;
+                                    Console.WriteLine("\nPress enter to continue");
+                                    k = false;
                                 }
+                                else
+                                {
+                                    Console.Clear();
+                                    Console.WriteLine("\nThere were no results found. Press enter to continue");
+                                }
+                                Console.ReadLine();
+                                Console.Clear();
+                                break;
+                                
                             }
                         }
 

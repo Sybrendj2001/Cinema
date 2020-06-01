@@ -606,6 +606,8 @@ namespace CinemaConsole.Data.BackEnd
             try
             {
 				AdminData AD = new AdminData();
+				ShowData SD = new ShowData();
+
 				int seatX = 0;
 				int seatY = 0;
 				int hallID;
@@ -630,13 +632,24 @@ namespace CinemaConsole.Data.BackEnd
                     string MovieID;
                     string DateID;
 					int dateid;
-					bool isFound = false;
+					bool isFound;
+					int deletedAmount;
+					int foundAmount;
 					double TotalPrice;
+					int amountofticketscounted;
+					int amountoftickets;
 
 					while (true)
 					{
+						isFound = false;
+						deletedAmount = 0;
+						foundAmount = 0;
+						amountofticketscounted = 0;
+						amountoftickets = dataTable.Rows.Count;
+
 						foreach (DataRow row in dataTable.Rows)
 						{
+							amountofticketscounted += 1;
 							TicketCode = row["TicketCode"].ToString();
 							TicketID = row["TicketID"].ToString();
 							MovieID = row["MovieID"].ToString();
@@ -651,13 +664,13 @@ namespace CinemaConsole.Data.BackEnd
 
 							if (TicketCode == ticketcode)
 							{
-								ShowData SD = new ShowData();
 								// Ticket and contact information overview to check if you want to remove the right ticket.
 								Console.Clear();
 								SD.Overview(TicketID, MovieID, DateID);
 								isFound = true;
+								foundAmount += 1;
 
-								Console.WriteLine("\nDo you really want to remove this reservation?\n[1] Remove reservation\n[2] Cancel");
+								Console.WriteLine("\nDo you want to remove this reservation?\n[1] Yes, remove reservation\n[2] No");
 								string CancelOrDelete = Console.ReadLine();
 
 								if (CancelOrDelete == "1")
@@ -679,39 +692,45 @@ namespace CinemaConsole.Data.BackEnd
 
 									// This set the seats back to available
 									AD.switchAvail((seatX - 1), (seatY - 1), hallID, amount, true);
-									Console.WriteLine("\nReservation removed. Press enter to go back to the menu");
-									Console.ReadLine();
-									Console.Clear();
-									break;
+									deletedAmount += 1;
 								}
 
 								else if (CancelOrDelete == "2")
 								{
 									Console.Clear();
-									break;
 								}
-								break;
 							}
 						}
 
-						if (isFound)
+						// check if all tickets were checked
+						if (amountoftickets == amountofticketscounted)
 						{
-							Console.Clear();
-							break;
-						}
+							if (isFound)
+							{
+								if (deletedAmount > 0)
+								{
+									Console.WriteLine(deletedAmount.ToString() + " reservation(s) out of " + foundAmount.ToString() + " removed. Press enter to continue");
+								}
+								else
+								{
+									Console.WriteLine("\nReservation(s) not removed. Press enter to continue");
+								}
 
-						else
-						{
-							Console.Clear();
-							Console.WriteLine("\nThere were no results found with ticketnumber: " + ticketcode + "\nPress enter to go back to the menu");
+							}
+
+							else
+							{
+								Console.Clear();
+								Console.WriteLine("\nThere were no results found with the ticketcode: " + ticketcode + "\nPress enter to go back to the menu");
+							}
 							Console.ReadLine();
 							Console.Clear();
 							break;
 						}
 					}
-                }
-            }
-            catch (MySqlException)
+				}
+			}
+			catch (MySqlException)
             {
                 throw;
             }
@@ -738,11 +757,11 @@ namespace CinemaConsole.Data.BackEnd
 
 				Connection.Open();
 
-				string stringToDelete = @"DELETE FROM ticket WHERE Email = @Email";
+				string stringToDelete = @"DELETE FROM ticket WHERE TicketID = @TicketID";
 				string TicketInfo = @"SELECT * FROM ticket";
 
 				MySqlCommand command = new MySqlCommand(stringToDelete, Connection);
-				MySqlParameter EmailPar = new MySqlParameter("@Email", MySqlDbType.String);
+				MySqlParameter TicketIDParam = new MySqlParameter("@TicketID", MySqlDbType.String);
 				MySqlCommand oCmd = new MySqlCommand(TicketInfo, Connection);
 
 				using (MySqlDataReader getTicketInfo = oCmd.ExecuteReader())
@@ -755,13 +774,24 @@ namespace CinemaConsole.Data.BackEnd
 					string MovieID;
 					string DateID;
 					int dateid;
-					bool isFound = false;
+					bool isFound;
+					int deletedAmount;
+					int foundAmount;
 					double TotalPrice;
+					int amountofticketscounted;
+					int amountoftickets;
 
 					while (true)
 					{
+						isFound = false;
+						deletedAmount = 0;
+						foundAmount = 0;
+						amountofticketscounted = 0;
+						amountoftickets = dataTable.Rows.Count;
+
 						foreach (DataRow row in dataTable.Rows)
 						{
+							amountofticketscounted += 1;
 							Email = row["Email"].ToString();
 							TicketID = row["TicketID"].ToString();
 							MovieID = row["MovieID"].ToString();
@@ -780,14 +810,16 @@ namespace CinemaConsole.Data.BackEnd
 								Console.Clear();
 								SD.Overview(TicketID, MovieID, DateID);
 								isFound = true;
+								foundAmount += 1;
 
-								Console.WriteLine("\nDo you really want to remove this reservation?\n[1] Remove reservation\n[2] Cancel");
+								Console.WriteLine("\nDo you want to remove this reservation?\n[1] Yes, remove reservation\n[2] No");
 								string CancelOrDelete = Console.ReadLine();
+
 
 								if (CancelOrDelete == "1")
 								{
-									EmailPar.Value = emailaddress;
-									command.Parameters.Add(EmailPar);
+									TicketIDParam.Value = TicketID;
+									command.Parameters.Add(TicketIDParam);
 									command.Prepare();
 									command.ExecuteNonQuery();
 
@@ -803,31 +835,37 @@ namespace CinemaConsole.Data.BackEnd
 
 									// This set the seats back to available
 									AD.switchAvail((seatX - 1), (seatY - 1), hallID, amount, true);
-									Console.WriteLine("\nReservation removed. Press enter to go back to the menu");
-									Console.ReadLine();
-									Console.Clear();
-									break;
+									deletedAmount += 1;
 								}
 
 								else if (CancelOrDelete == "2")
 								{
 									Console.Clear();
-									break;
 								}
-								break;
 							}
 						}
 
-						if (isFound)
+						// check if all tickets were checked
+						if (amountoftickets == amountofticketscounted)
 						{
-							Console.Clear();
-							break;
-						}
+							if (isFound)
+							{
+								if (deletedAmount > 0)
+								{
+									Console.WriteLine(deletedAmount.ToString() + " reservation(s) out of " + foundAmount.ToString() + " removed. Press enter to continue");
+								}
+								else
+								{
+									Console.WriteLine("\nReservation(s) not removed. Press enter to continue");
+								}
 
-						else
-						{
-							Console.Clear();
-							Console.WriteLine("\nThere were no results found with email: " + emailaddress + "\nPress enter to go back to the menu");
+							}
+
+							else
+							{
+								Console.Clear();
+								Console.WriteLine("\nThere were no results found with the emailaddress: " + emailaddress + "\nPress enter to go back to the menu");
+							}
 							Console.ReadLine();
 							Console.Clear();
 							break;
@@ -854,6 +892,8 @@ namespace CinemaConsole.Data.BackEnd
 			try
 			{
 				AdminData AD = new AdminData();
+				ShowData SD = new ShowData();
+
 				int seatX = 0;
 				int seatY = 0;
 				int hallID;
@@ -861,11 +901,11 @@ namespace CinemaConsole.Data.BackEnd
 
 				Connection.Open();
 
-				string stringToDelete = @"DELETE FROM ticket WHERE Owner = @FullName";
+				string stringToDelete = @"DELETE FROM ticket WHERE TicketID = @TicketID";
 				string TicketInfo = @"SELECT * FROM ticket";
 
 				MySqlCommand command = new MySqlCommand(stringToDelete, Connection);
-				MySqlParameter NamePar = new MySqlParameter("@FullName", MySqlDbType.String);
+				MySqlParameter TicketIDParam = new MySqlParameter("@TicketID", MySqlDbType.String);
 				MySqlCommand oCmd = new MySqlCommand(TicketInfo, Connection);
 
 				using (MySqlDataReader getTicketInfo = oCmd.ExecuteReader())
@@ -878,13 +918,24 @@ namespace CinemaConsole.Data.BackEnd
 					string MovieID;
 					string DateID;
 					int dateid;
-					bool isFound = false;
+					bool isFound;
+					int deletedAmount;
+					int foundAmount;
 					double TotalPrice;
+					int amountofticketscounted;
+					int amountoftickets;
 
 					while (true)
 					{
+						isFound = false;
+						deletedAmount = 0;
+						foundAmount = 0;
+						amountofticketscounted = 0;
+						amountoftickets = dataTable.Rows.Count;
+
 						foreach (DataRow row in dataTable.Rows)
 						{
+							amountofticketscounted += 1;
 							Owner = row["Owner"].ToString();
 							TicketID = row["TicketID"].ToString();
 							MovieID = row["MovieID"].ToString();
@@ -899,19 +950,19 @@ namespace CinemaConsole.Data.BackEnd
 
 							if (Owner == fullname)
 							{
-								ShowData SD = new ShowData();
 								// Ticket and contact information overview to check if you want to remove the right ticket.
 								Console.Clear();
 								SD.Overview(TicketID, MovieID, DateID);
 								isFound = true;
+								foundAmount += 1;
 
-								Console.WriteLine("\nDo you really want to remove this reservation?\n[1] Remove reservation\n[2] Cancel");
+								Console.WriteLine("\nDo you want to remove this reservation?\n[1] Yes, remove reservation\n[2] No");
 								string CancelOrDelete = Console.ReadLine();
 
 								if (CancelOrDelete == "1")
 								{
-									NamePar.Value = fullname;
-									command.Parameters.Add(NamePar);
+									TicketIDParam.Value = TicketID;
+									command.Parameters.Add(TicketIDParam);
 									command.Prepare();
 									command.ExecuteNonQuery();
 
@@ -927,31 +978,37 @@ namespace CinemaConsole.Data.BackEnd
 
 									// This set the seats back to available
 									AD.switchAvail((seatX - 1), (seatY - 1), hallID, amount, true);
-									Console.WriteLine("\nReservation removed. Press enter to go back to the menu");
-									Console.ReadLine();
-									Console.Clear();
-									break;
+									deletedAmount += 1;
 								}
 
 								else if (CancelOrDelete == "2")
 								{
 									Console.Clear();
-									break;
 								}
-								break;
 							}
 						}
 
-						if (isFound)
+						// check if all tickets were checked
+						if (amountoftickets == amountofticketscounted)
 						{
-							Console.Clear();
-							break;
-						}
-
-						else
-						{
-							Console.Clear();
-							Console.WriteLine("\nThere were no results found with name: " + fullname + "\nPress enter to go back to the menu");
+							if (isFound)
+							{
+								if (deletedAmount > 0)
+								{
+									Console.WriteLine(deletedAmount.ToString() + " reservation(s) out of "+ foundAmount.ToString() + " removed. Press enter to continue");
+								}
+								else
+                                {
+									Console.WriteLine("\nReservation(s) not removed. Press enter to continue");
+								}
+								
+							}
+							
+							else
+							{
+								Console.Clear();
+								Console.WriteLine("\nThere were no results found with name: " + fullname + "\nPress enter to go back to the menu");
+							}
 							Console.ReadLine();
 							Console.Clear();
 							break;
