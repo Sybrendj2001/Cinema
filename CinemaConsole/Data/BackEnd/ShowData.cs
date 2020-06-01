@@ -192,11 +192,11 @@ namespace CinemaConsole.Data.BackEnd
                         isFound = false;
                         amountofticketscounted = 0;
                         amountoftickets = dataTable.Rows.Count;
-                        Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date\n[exit] To go back to the menu");
+                        Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search using customer's emailaddress\n[4] Search on movie, time and date\n[exit] To go back to the menu");
                         string SearchOption = Console.ReadLine();
                         if (SearchOption.Length > 5)
                         {
-                            SD.ClearAndErrorMessage("Your input is to big");
+                            ClearAndErrorMessage("Your input is to big");
                         }
                         else if (SearchOption == "1")
                         {
@@ -373,17 +373,8 @@ namespace CinemaConsole.Data.BackEnd
                             Console.Clear();
                             Connection.Close();
                             ShowMovies();
+
                             string movie = "";
-
-                            Console.WriteLine("\nPlease enter the movie");
-                            string movie = Console.ReadLine();
-
-                            if (movie == "exit")
-                            {
-                                // using k to break out of the outer loop
-                                k = false;
-                                break;
-                            }
 
                             Console.WriteLine("\nPlease enter the time (e.g. 12:00) or enter [exit] to go back to the menu");
                             string time = Console.ReadLine();
@@ -406,36 +397,42 @@ namespace CinemaConsole.Data.BackEnd
                             }
 
                             string DT = date + " " + time;
-
+                            Connection.Open();
                             MySqlDataReader getMovieInfo = oCmd2.ExecuteReader();
                             DataTable dataTable2 = new DataTable();
 
                             dataTable2.Load(getMovieInfo);
 
-                                string MovieName;
-                                isFound = true;
+                            string MovieName;
+                            isFound = true;
 
-                                while (isFound)
+                            while (isFound)
+                            {
+                                Console.WriteLine("\nPlease enter the movie or enter [exit] to go back to the menu");
+                                movie = Console.ReadLine();
+                                if (movie == "exit")
                                 {
-                                    Console.WriteLine("\nPlease enter the movie");
-                                    movie = Console.ReadLine();
-                                    foreach (DataRow row in dataTable2.Rows)
-                                    {
-                                        MovieName = row["MovieID"].ToString();
+                                    // using k to break out of the outer loop
+                                    k = false;
+                                    break;
+                                }
+                                foreach (DataRow row in dataTable2.Rows)
+                                {
+                                    MovieName = row["MovieID"].ToString();
 
-                                        if (movie == MovieName)
-                                        {
-                                            isFound = false;
-                                            break;
-                                        }
-                                    }
-                                    if(isFound == true)
-                                    { 
-                                        ErrorMessage("Your input was too big");
-                                        
+                                    if (movie == MovieName)
+                                    {
+                                        isFound = false;
+                                        break;
                                     }
                                 }
+                                if(isFound == true)
+                                { 
+                                    ErrorMessage("Your input was too big");
+                                        
+                                }
                             }
+                        
 
                             Connection.Close();
 

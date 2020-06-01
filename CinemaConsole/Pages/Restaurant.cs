@@ -122,8 +122,8 @@ namespace CinemaConsole.Pages.Restaurant
                             double example = 5.50;
                             CD.ShowProductItem(productID, 2);
                             Console.WriteLine($"\nPlease enter the new price of the product in euro's. (e.g. " + example.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + ") or write [exit] to go back.");
-                            string temp = Console.ReadLine().ToLower();
-                            if(temp == "exit")
+                            string inputprice = Console.ReadLine().ToLower();
+                            if(inputprice == "exit")
                             {
                                 Console.Clear();
                             }
