@@ -150,9 +150,7 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        // Search funtion ticketsalesman. Search on name, search on ticketnumber and surch on movie name and date/time
-
-
+        //Search funtion ticketsalesman. Search on name, search on ticketnumber and surch on movie name and date/time
         public void DisplayTickets()
         {
             ShowData SD = new ShowData();
@@ -172,8 +170,13 @@ namespace CinemaConsole.Data.BackEnd
                 string TicketID;
                 string TicketCode;
                 string Owner;
+                string Email;
                 string MovieID;
                 string DateID;
+
+                bool isFound;
+                int amountofticketscounted;
+                int amountoftickets;
 
                 using (MySqlDataReader getTicketInfo = oCmd.ExecuteReader())
                 {
@@ -186,26 +189,37 @@ namespace CinemaConsole.Data.BackEnd
                     // menu of the three search options
                     while (k)
                     {
-                        Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date\n[exit] To go back to the menu");
+                        isFound = false;
+                        amountofticketscounted = 0;
+                        amountoftickets = dataTable.Rows.Count;
+                        Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search using customer's emailaddress\n[4] Search on movie, time and date\n[exit] To go back to the menu");
                         string SearchOption = Console.ReadLine();
                         if (SearchOption.Length > 5)
                         {
-                            SD.ClearAndErrorMessage("Your input is to big");
+                            ClearAndErrorMessage("Your input is to big");
                         }
                         else if (SearchOption == "1")
                         {
                             Console.Clear();
-                            Console.WriteLine("\nPlease enter the customer full name");
+                            Console.WriteLine("\nPlease enter the customer full name or enter [exit] to exit");
+
                             string name2 = Console.ReadLine();
                             string name = name2.ToString().ToLower();
 
-                            bool isFound = false;
-
                             while (true)
                             {
+                                Console.Clear();
+                                if (name2 == "exit")
+                                {
+                                    // using k to break out of the outer loop
+                                    k = false;
+                                    break;
+                                }
+
                                 // going through the data
                                 foreach (DataRow row in dataTable.Rows)
                                 {
+                                    amountofticketscounted += 1;
                                     Owner = row["Owner"].ToString();
                                     TicketCode = row["TicketCode"].ToString();
                                     TicketID = row["TicketID"].ToString();
@@ -219,51 +233,50 @@ namespace CinemaConsole.Data.BackEnd
                                         Connection.Close();
 
                                         // going to the overview with all the details
+                                        Console.WriteLine("\nTicket [" + TicketID + "]");
                                         Overview(TicketID, MovieID, DateID);
-                                        
-                                        //break;
                                     }
                                 }
-                               
 
-                                if (isFound)
+                                // check if all tickets were checked
+                                if (amountoftickets == amountofticketscounted)
                                 {
-                                    Console.WriteLine("\nPress enter to go back to the menu");
+                                    if (isFound)
+                                    {
+                                        Console.WriteLine("\nPress enter to continue");
+                                        k = false;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("\nThere were no results found with the name: " + name + "\nPress enter to go back to the menu");
+                                    }
                                     Console.ReadLine();
+                                    Console.Clear();
+                                    break;
+                                }
+                            }
+                        }
+
+                        else if (SearchOption == "2")
+                        {
+                            Console.Clear();
+
+                            while (true)
+                            {
+                                Console.WriteLine("\nPlease enter the ticketnumber or enter [exit] to go back to the menu");
+                                string ticketnumber = Console.ReadLine();
+                                if (ticketnumber == "exit")
+                                {
+                                    Console.Clear();
                                     // using k to break out of the outer loop
                                     k = false;
                                     break;
                                 }
 
-                                else
-                                {
-                                    ErrorMessage("\nThe name you entered was not found. Please enter again or type [exit] to exit");
-                                    name = Console.ReadLine();
-
-                                    if (name == "exit")
-                                    {
-                                        // using k to break out of the outer loop
-                                        k = false;
-                                        break;
-                                    }
-                                }
-                            }
-                            break;
-                        }
-
-                        else if (SearchOption == "2")
-                        {
-                            bool isFound = false;
-                            string line;
-                            Console.Clear();
-
-                            while (true)
-                            {
-                                Console.WriteLine("\nPlease enter the ticketnumber");
-                                string ticketnumber = Console.ReadLine();
                                 // going through the data
                                 foreach (DataRow row in dataTable.Rows)
                                 {
+                                    amountofticketscounted += 1;
                                     Owner = row["Owner"].ToString();
                                     TicketCode = row["TicketCode"].ToString();
                                     TicketID = row["TicketID"].ToString();
@@ -277,49 +290,88 @@ namespace CinemaConsole.Data.BackEnd
                                         Connection.Close();
 
                                         // going to the overview with all the details
+                                        Console.Clear();
                                         Overview(TicketID, MovieID, DateID);
-                                        Console.WriteLine("\nPress enter to go back to the menu");
+                                        Console.WriteLine("\nPress enter to continue");
                                         Console.ReadLine();
                                         break;
                                     }
                                 }
 
-                                if (isFound)
+                                // check if all tickets were checked
+                                if (amountoftickets == amountofticketscounted)
                                 {
-                                    Console.Clear();
-                                    // using k to break out of the outer loop
-                                    k = false;
-                                    break;
-                                }
-
-                                else if (ticketnumber == "exit")
-                                {
-                                    Console.Clear();
-                                    // using k to break out of the outer loop
-                                    k = false;
-                                    break;
-                                }
-
-                                else
-                                {
-                                    Console.Clear();
-                                    Console.WriteLine("\nThere were no results found with ticketnumber: " + ticketnumber + " Please enter again or type [exit] to exit");
-                                    line = Console.ReadLine();
-                                    if (line == "exit")
+                                    if (isFound)
+                                    {
+                                        Console.WriteLine("\nPress enter to continue");
+                                        k = false;
+                                    }
+                                    else
                                     {
                                         Console.Clear();
-                                        // using k to break out of the outer loop
-                                        k = false;
-                                        break;
+                                        Console.WriteLine("\nThere were no results found with ticketnumber: " + ticketnumber + " Please enter to continue");
                                     }
+                                    Console.ReadLine();
+                                    Console.Clear();
+                                    break;
+                                }
+                            }
+                        }
+                        else if (SearchOption == "3")
+                        {
+                            while (true)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("\nPlease enter the customer's emailaddress or enter [exit] to go back");
+                                string emailaddress = Console.ReadLine();
+                                Console.Clear();
+                                if (emailaddress == "exit")
+                                {
+                                    // using k to break out of the outer loop
+                                    k = false;
+                                    break;
+                                }
+
+                                foreach (DataRow row in dataTable.Rows)
+                                {
+                                    amountofticketscounted += 1;
+                                    Email = row["Email"].ToString();
+                                    TicketID = row["TicketID"].ToString();
+                                    MovieID = row["MovieID"].ToString();
+                                    DateID = row["DateID"].ToString();
+                                    if (Email == emailaddress)
+                                    {
+                                        Connection.Close();
+                                        // Ticket and contact information overview
+                                        Console.WriteLine("\nTicket [" + TicketID + "]");
+                                        Overview(TicketID, MovieID, DateID);
+                                        isFound = true;
+                                    }
+                                }
+
+                                // check if all tickets were checked
+                                if (amountoftickets == amountofticketscounted)
+                                {
+                                    if (isFound)
+                                    {
+                                        Console.WriteLine("\nPress enter to continue");
+                                        k = false;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("\nThere were no results found with email: " + emailaddress + "\nPress enter to go back to the menu");
+                                    }
+                                    Console.ReadLine();
+                                    Console.Clear();
+                                    break;
                                 }
                             }
                         }
 
-                        else if (SearchOption == "3")
+                        else if (SearchOption == "4")
                         {
                             Console.Clear();
-                            bool isFound = false;
+                            isFound = false;
                             Connection.Close();
                             ShowMovies();
                             string movie = "";
@@ -348,10 +400,10 @@ namespace CinemaConsole.Data.BackEnd
                                             break;
                                         }
                                     }
-                                    if(isFound == true)
-                                    { 
+                                    if (isFound == true)
+                                    {
                                         ErrorMessage("Your input was too big");
-                                        
+
                                     }
                                 }
                             }
@@ -362,13 +414,13 @@ namespace CinemaConsole.Data.BackEnd
 
                             Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.showTime(movie);
                             string SelectedTime = Customer.selectTime(dates, movie);
-                            if(SelectedTime == "exit")
+                            if (SelectedTime == "exit")
                             {
                                 break;
                             }
 
                             int movieid = Convert.ToInt32(movie);
-                            
+
                             AdminData AD = new AdminData();
 
                             Tuple<List<DateTime>, List<int>, List<int>> times = AD.GetTime(Convert.ToInt32(movie));
@@ -382,8 +434,6 @@ namespace CinemaConsole.Data.BackEnd
 
                             dataTable3.Load(getDateInfo);
 
-                            //int movieID = 0;
-                            //int dateID = 0;
                             Console.Clear();
                             while (true)
                             {
@@ -402,9 +452,9 @@ namespace CinemaConsole.Data.BackEnd
 
                                         // going to the overview with all the details
                                         Overview(TicketID, MovieID, DateID);
-                                        
+
                                         // using k to break out of the outer loop
-                                        k = false;                                     
+                                        k = false;
                                     }
                                 }
 
@@ -454,7 +504,6 @@ namespace CinemaConsole.Data.BackEnd
         // Overview of all the information about the customer and the movie they reserved.
         public void Overview(string TicketID, string MovieID, string DateID)
         {
-            //Console.Clear();
             Console.OutputEncoding = Encoding.UTF8;
             try
             {
@@ -493,7 +542,6 @@ namespace CinemaConsole.Data.BackEnd
                         {
                             movieTitle = row["MovieName"].ToString();
                             movieYear = row["MovieYear"].ToString();
-
                             Console.WriteLine("\n" + movieTitle + "   " + movieYear);
                         }
                     }
