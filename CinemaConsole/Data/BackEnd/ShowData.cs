@@ -371,68 +371,42 @@ namespace CinemaConsole.Data.BackEnd
                         else if (SearchOption == "4")
                         {
                             Console.Clear();
+                            isFound = false;
                             Connection.Close();
                             ShowMovies();
-
                             string movie = "";
 
-                            Console.WriteLine("\nPlease enter the time (e.g. 12:00) or enter [exit] to go back to the menu");
-                            string time = Console.ReadLine();
-
-                            if (time == "exit")
-                            {
-                                // using k to break out of the outer loop
-                                k = false;
-                                break;
-                            }
-
-                            Console.WriteLine("\nPlease enter the date ( e.g. 12/04/2020) or enter [exit] to go back to the menu");
-                            string date = Console.ReadLine();
-
-                            if (date == "exit")
-                            {
-                                // using k to break out of the outer loop
-                                k = false;
-                                break;
-                            }
-
-                            string DT = date + " " + time;
                             Connection.Open();
-                            MySqlDataReader getMovieInfo = oCmd2.ExecuteReader();
-                            DataTable dataTable2 = new DataTable();
 
-                            dataTable2.Load(getMovieInfo);
-
-                            string MovieName;
-                            isFound = true;
-
-                            while (isFound)
+                            using (MySqlDataReader getMovieInfo = oCmd2.ExecuteReader())
                             {
-                                Console.WriteLine("\nPlease enter the movie or enter [exit] to go back to the menu");
-                                movie = Console.ReadLine();
-                                if (movie == "exit")
-                                {
-                                    // using k to break out of the outer loop
-                                    k = false;
-                                    break;
-                                }
-                                foreach (DataRow row in dataTable2.Rows)
-                                {
-                                    MovieName = row["MovieID"].ToString();
+                                DataTable dataTable2 = new DataTable();
+                                dataTable2.Load(getMovieInfo);
 
-                                    if (movie == MovieName)
+                                string MovieName;
+                                isFound = true;
+
+                                while (isFound)
+                                {
+                                    Console.WriteLine("\nPlease enter the movie");
+                                    movie = Console.ReadLine();
+                                    foreach (DataRow row in dataTable2.Rows)
                                     {
-                                        isFound = false;
-                                        break;
+                                        MovieName = row["MovieID"].ToString();
+
+                                        if (movie == MovieName)
+                                        {
+                                            isFound = false;
+                                            break;
+                                        }
+                                    }
+                                    if (isFound == true)
+                                    {
+                                        ErrorMessage("Your input was too big");
+
                                     }
                                 }
-                                if(isFound == true)
-                                { 
-                                    ErrorMessage("Your input was too big");
-                                        
-                                }
                             }
-                        
 
                             Connection.Close();
 
@@ -440,13 +414,13 @@ namespace CinemaConsole.Data.BackEnd
 
                             Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.showTime(movie);
                             string SelectedTime = Customer.selectTime(dates, movie);
-                            if(SelectedTime == "exit")
+                            if (SelectedTime == "exit")
                             {
                                 break;
                             }
 
                             int movieid = Convert.ToInt32(movie);
-                            
+
                             AdminData AD = new AdminData();
 
                             Tuple<List<DateTime>, List<int>, List<int>> times = AD.GetTime(Convert.ToInt32(movie));
@@ -460,8 +434,6 @@ namespace CinemaConsole.Data.BackEnd
 
                             dataTable3.Load(getDateInfo);
 
-                            //int movieID = 0;
-                            //int dateID = 0;
                             Console.Clear();
                             while (true)
                             {
@@ -480,24 +452,31 @@ namespace CinemaConsole.Data.BackEnd
 
                                         // going to the overview with all the details
                                         Overview(TicketID, MovieID, DateID);
+
+                                        // using k to break out of the outer loop
+                                        k = false;
                                     }
                                 }
 
-                                // check if all tickets were checked
                                 if (isFound)
                                 {
-                                    Console.WriteLine("\nPress enter to continue");
+                                    Console.WriteLine("\nPress enter to go back to the menu");
+                                    string exit = Console.ReadLine();
+                                    // using k to break out of the outer loop
                                     k = false;
+                                    break;
                                 }
+
                                 else
                                 {
                                     Console.Clear();
-                                    Console.WriteLine("\nThere were no results found. Press enter to continue");
+                                    Console.WriteLine("\nThere were no results found. Press enter to go back to the menu");
+                                    string exit = Console.ReadLine();
+                                    Console.Clear();
+                                    // using k to break out of the outer loop
+                                    k = false;
+                                    break;
                                 }
-                                Console.ReadLine();
-                                Console.Clear();
-                                break;
-                                
                             }
                         }
 
