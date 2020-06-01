@@ -8,6 +8,9 @@ using MySql;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Globalization;
+using CinemaConsole.Pages;
+using CinemaConsole.Data.BackEnd;
+
 
 namespace CinemaConsole.Data.BackEnd
 {
@@ -170,7 +173,6 @@ namespace CinemaConsole.Data.BackEnd
                 string Email;
                 string MovieID;
                 string DateID;
-                string MovieName;
 
                 bool isFound;
                 int amountofticketscounted;
@@ -185,15 +187,18 @@ namespace CinemaConsole.Data.BackEnd
                     bool k = true;
 
                     // menu of the three search options
-                    Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on email\n[4] Search on movie, time and date\n[exit] To go back to the menu");
-                    string SearchOption = Console.ReadLine();
                     while (k)
                     {
                         isFound = false;
                         amountofticketscounted = 0;
                         amountoftickets = dataTable.Rows.Count;
-
-                        if (SearchOption == "1")
+                        Console.WriteLine("\n[1] Search on name\n[2] Search on ticket number\n[3] Search on movie, time and date\n[exit] To go back to the menu");
+                        string SearchOption = Console.ReadLine();
+                        if (SearchOption.Length > 5)
+                        {
+                            SD.ClearAndErrorMessage("Your input is to big");
+                        }
+                        else if (SearchOption == "1")
                         {
                             Console.Clear();
                             Console.WriteLine("\nPlease enter the customer full name or enter [exit] to exit");
@@ -366,10 +371,12 @@ namespace CinemaConsole.Data.BackEnd
                         else if (SearchOption == "4")
                         {
                             Console.Clear();
+                            Connection.Close();
+                            ShowMovies();
+                            string movie = "";
 
-                            Console.WriteLine("\nPlease enter the movie or enter [exit] to go back to the menu");
+                            Console.WriteLine("\nPlease enter the movie");
                             string movie = Console.ReadLine();
-                            Console.Clear();
 
                             if (movie == "exit")
                             {
@@ -405,40 +412,62 @@ namespace CinemaConsole.Data.BackEnd
 
                             dataTable2.Load(getMovieInfo);
 
+                                string MovieName;
+                                isFound = true;
+
+                                while (isFound)
+                                {
+                                    Console.WriteLine("\nPlease enter the movie");
+                                    movie = Console.ReadLine();
+                                    foreach (DataRow row in dataTable2.Rows)
+                                    {
+                                        MovieName = row["MovieID"].ToString();
+
+                                        if (movie == MovieName)
+                                        {
+                                            isFound = false;
+                                            break;
+                                        }
+                                    }
+                                    if(isFound == true)
+                                    { 
+                                        ErrorMessage("Your input was too big");
+                                        
+                                    }
+                                }
+                            }
+
+                            Connection.Close();
+
+                            Console.Clear();
+
+                            Tuple<List<DateTime>, List<int>, List<int>> dates = Customer.showTime(movie);
+                            string SelectedTime = Customer.selectTime(dates, movie);
+                            if(SelectedTime == "exit")
+                            {
+                                break;
+                            }
+
+                            int movieid = Convert.ToInt32(movie);
+                            
+                            AdminData AD = new AdminData();
+
+                            Tuple<List<DateTime>, List<int>, List<int>> times = AD.GetTime(Convert.ToInt32(movie));
+
+                            int GetDateID = times.Item2[0];
+
+                            Connection.Open();
+
                             MySqlDataReader getDateInfo = oCmd3.ExecuteReader();
                             DataTable dataTable3 = new DataTable();
 
                             dataTable3.Load(getDateInfo);
 
-                            int movieID = 0;
-                            int dateID = 0;
-
+                            //int movieID = 0;
+                            //int dateID = 0;
+                            Console.Clear();
                             while (true)
                             {
-                                // going through all movie data
-                                foreach (DataRow row in dataTable2.Rows)
-                                {
-                                    MovieName = row["MovieName"].ToString();
-
-                                    if (movie == MovieName)
-                                    {
-                                        movieID = Convert.ToInt32(row["MovieID"]);
-                                        break;
-                                    }
-                                }
-
-                                // going through all the date data
-                                foreach (DataRow row in dataTable3.Rows)
-                                {
-                                    string datetime = Convert.ToDateTime(row["DateTime"]).ToString("dd/MM/yyyy HH:mm");
-
-                                    if (DT == datetime)
-                                    {
-                                        dateID = Convert.ToInt32(row["DateID"]);
-                                        break;
-                                    }
-                                }
-
                                 // going through ticket data
                                 foreach (DataRow row in dataTable.Rows)
                                 {
@@ -447,7 +476,7 @@ namespace CinemaConsole.Data.BackEnd
                                     DateID = row["DateID"].ToString();
 
                                     // going through all the ticket data to see if there is a match between all the given information
-                                    if (movieID == Convert.ToInt32(row["MovieID"]) && dateID == Convert.ToInt32(row["DateID"]))
+                                    if (movieid == Convert.ToInt32(row["MovieID"]) && GetDateID == Convert.ToInt32(row["DateID"]))
                                     {
                                         isFound = true;
                                         Connection.Close();
@@ -475,17 +504,20 @@ namespace CinemaConsole.Data.BackEnd
                             }
                         }
 
-                        else if(SearchOption == "exit")
+                        else if (SearchOption == "exit")
                         {
                             Console.Clear();
                             break;
                         }
+                        else
+                            SD.ClearAndErrorMessage("Your input is too big");
                     }
                 }
             }
+
             catch (MySqlException ex)
             {
-                throw;
+                ErrorMessage("Your input was too big");
             }
             finally
             {
@@ -572,7 +604,7 @@ namespace CinemaConsole.Data.BackEnd
                             Owner = row["Owner"].ToString();
                             Email = row["Email"].ToString();
                             TicketCode = row["TicketCode"].ToString();
-                            TotalPrice = Convert.ToDouble(row["TotalPrice"]);
+                            TotalPrice = Convert.ToDouble(row["TotalPrice"], System.Globalization.CultureInfo.InvariantCulture);
 
                             SeatX = Convert.ToInt32(row["seatX"]);
                             SeatY = Convert.ToInt32(row["seatY"]);

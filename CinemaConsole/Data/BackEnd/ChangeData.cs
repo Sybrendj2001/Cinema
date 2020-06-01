@@ -228,7 +228,7 @@ namespace CinemaConsole.Data.BackEnd
 				while (dataReader.Read())
 				{
 					double test = dataReader.GetDouble("Price");
-					Console.WriteLine("(" + dataReader["ItemID"] + ") " + dataReader["ItemName"] + "    €" + test.ToString("0.00"));
+					Console.WriteLine("(" + dataReader["ItemID"] + ") " + dataReader["ItemName"] + "    €" + test.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
 				}
 
 				dataReader.Close();
@@ -673,7 +673,11 @@ namespace CinemaConsole.Data.BackEnd
 								Console.WriteLine("\nDo you want to remove this reservation?\n[1] Yes, remove reservation\n[2] No");
 								string CancelOrDelete = Console.ReadLine();
 
-								if (CancelOrDelete == "1")
+								if (CancelOrDelete.Length > 5)
+								{
+									SD.ClearAndErrorMessage("Your input is too big");
+								}
+								else if (CancelOrDelete == "1")
 								{
 									TicketCodeParam.Value = ticketcode;
 									command.Parameters.Add(TicketCodeParam);
