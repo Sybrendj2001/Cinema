@@ -94,15 +94,11 @@
     <Compile Include="Data\BackEnd\ShowData.cs" />
     <Compile Include="Data\BackEnd\Connecter.cs" />
     <Compile Include="Data\BackEnd\ChangeData.cs" />
-    <Compile Include="Data\BackEnd\Profiles.cs" />
     <Compile Include="Data\Employee\ProductList.cs" />
-    <Compile Include="Data\Employee\TicketReservations.cs" />
     <Compile Include="Data\Employee\RestaurantProduct.cs" />
     <Compile Include="Data\BackEnd\TicketInfo.cs" />
     <Compile Include="Data\Employee\DateTimeHall.cs" />
-    <Compile Include="Data\Revenue Data\RestaurantRevenue.cs" />
-    <Compile Include="Data\Revenue Data\TheatherHallRevenue.cs" />
-    <Compile Include="Pages\Admin\Admin.cs" />
+    <Compile Include="Pages\Admin.cs" />
     <Compile Include="Pages\TicketSalesman.cs" />
     <Compile Include="Pages\Restaurant.cs" />
     <Compile Include="Pages\Customer.cs" />
@@ -115,12 +111,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\Retailer\" />
-    <Folder Include="Pages\Salesperson\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Data\BackEnd\TicketSafe.txt" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

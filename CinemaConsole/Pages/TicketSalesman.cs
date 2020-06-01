@@ -12,11 +12,6 @@ namespace CinemaConsole.Pages.TicketSalesman
 {
     public class TicketSalesman : Employee
     {
-        public TicketSalesman()
-        {
-
-        }
-
         // Ticketsalesman able to search to on customer name or ticketnumber or movie
         private static void Display()
         {

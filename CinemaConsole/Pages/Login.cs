@@ -11,18 +11,9 @@ namespace CinemaConsole.Pages
 {
     public class Login
     {
-        private string Username { get; set; }
-
-        private string Password { get; set; }
-
         public string Function = "";
 
         public bool loggedIn = false;
-
-        public Login()
-        {
-
-        }
 
         public static string sha256_hash(string valueToEncrypt)
         {

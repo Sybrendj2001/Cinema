@@ -9,5 +9,6 @@ namespace CinemaConsole.Data.Employee
     class ProductList
     {
         public static List<RestaurantProduct> productList = new List<RestaurantProduct>();
+        //TODO: Place list somewhere else
     }
 }

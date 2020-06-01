@@ -15,14 +15,14 @@ namespace CinemaConsole.Data.BackEnd
     {
         protected MySqlConnection Connection;
 
-        MySqlConnectionStringBuilder Builder = new MySqlConnectionStringBuilder();
-
-
         protected Connecter()
         {
             Initialize();
         }
         
+        /// <summary>
+        /// Initiliazes all secret components
+        /// </summary>
         private void Initialize()
         {
             MySqlConnectionStringBuilder Builder = new MySqlConnectionStringBuilder();

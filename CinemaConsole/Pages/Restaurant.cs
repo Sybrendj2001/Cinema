@@ -12,11 +12,6 @@ namespace CinemaConsole.Pages.Restaurant
 {
     public class Restaurant : Employee
     {
-        public Restaurant()
-        {
-
-        }
-
         //Allows the retailer to edit items on the list of products.
         public static void EditItem(int productID)
         {
