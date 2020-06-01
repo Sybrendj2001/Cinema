@@ -165,6 +165,11 @@ namespace CinemaConsole.Data.BackEnd
 			}
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="ticketid"></param>
+		/// <returns></returns>
 		public bool CheckTicket(string ticketid)
 		{
 			bool TicketExists = false;
@@ -646,9 +651,10 @@ namespace CinemaConsole.Data.BackEnd
 
 							if (TicketCode == ticketcode)
 							{
-								ShowData DeleteTicket = new ShowData();
+								ShowData SD = new ShowData();
 								// Ticket and contact information overview to check if you want to remove the right ticket.
-								DeleteTicket.Overview(TicketID, MovieID, DateID);
+								Console.Clear();
+								SD.Overview(TicketID, MovieID, DateID);
 								isFound = true;
 
 								Console.WriteLine("\nDo you really want to remove this reservation?\n[1] Remove reservation\n[2] Cancel");
@@ -724,6 +730,7 @@ namespace CinemaConsole.Data.BackEnd
 			try
 			{
 				AdminData AD = new AdminData();
+				ShowData SD = new ShowData();
 				int seatX = 0;
 				int seatY = 0;
 				int hallID;
@@ -769,9 +776,9 @@ namespace CinemaConsole.Data.BackEnd
 
 							if (Email == emailaddress)
 							{
-								ShowData DeleteTicket = new ShowData();
 								// Ticket and contact information overview to check if you want to remove the right ticket.
-								DeleteTicket.Overview(TicketID, MovieID, DateID);
+								Console.Clear();
+								SD.Overview(TicketID, MovieID, DateID);
 								isFound = true;
 
 								Console.WriteLine("\nDo you really want to remove this reservation?\n[1] Remove reservation\n[2] Cancel");
@@ -892,9 +899,10 @@ namespace CinemaConsole.Data.BackEnd
 
 							if (Owner == fullname)
 							{
-								ShowData DeleteTicket = new ShowData();
+								ShowData SD = new ShowData();
 								// Ticket and contact information overview to check if you want to remove the right ticket.
-								DeleteTicket.Overview(TicketID, MovieID, DateID);
+								Console.Clear();
+								SD.Overview(TicketID, MovieID, DateID);
 								isFound = true;
 
 								Console.WriteLine("\nDo you really want to remove this reservation?\n[1] Remove reservation\n[2] Cancel");
