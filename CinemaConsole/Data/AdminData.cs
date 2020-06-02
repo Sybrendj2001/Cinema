@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using System.Data;
 
-namespace CinemaConsole.Data.BackEnd
+namespace CinemaConsole.Data
 {
     public class AdminData : Connecter
     {

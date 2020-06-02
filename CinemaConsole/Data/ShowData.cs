@@ -5,8 +5,7 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using CinemaConsole.Pages;
 
-
-namespace CinemaConsole.Data.BackEnd
+namespace CinemaConsole.Data
 {
     public class ShowData : Connecter
     {

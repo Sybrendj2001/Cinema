@@ -90,11 +90,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\BackEnd\AdminData.cs" />
-    <Compile Include="Data\BackEnd\ShowData.cs" />
-    <Compile Include="Data\BackEnd\Connecter.cs" />
-    <Compile Include="Data\BackEnd\ChangeData.cs" />
-    <Compile Include="Data\BackEnd\DateTimeHall.cs" />
+    <Compile Include="Data\AdminData.cs" />
+    <Compile Include="Data\ShowData.cs" />
+    <Compile Include="Data\Connecter.cs" />
+    <Compile Include="Data\ChangeData.cs" />
+    <Compile Include="Data\DateTimeHall.cs" />
     <Compile Include="Pages\Admin.cs" />
     <Compile Include="Pages\TicketSalesman.cs" />
     <Compile Include="Pages\Restaurant.cs" />
