@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using CinemaConsole.Data;
 using CinemaConsole.Data.BackEnd;
-using CinemaConsole.Data.Employee;
-using CinemaConsole.Pages.Restaurant;
-using CinemaConsole.Pages.Admin;
 
 
 namespace CinemaConsole.Pages

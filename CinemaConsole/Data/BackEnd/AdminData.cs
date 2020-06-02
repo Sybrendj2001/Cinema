@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySql.Data;
-using MySql;
 using MySql.Data.MySqlClient;
 using System.Data;
-using System.Globalization;
-using MySqlX.XDevAPI.Relational;
 
 namespace CinemaConsole.Data.BackEnd
 {
@@ -1096,7 +1089,6 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Close();
             }
         }
-        //TODO: Update this function so it doesnt use console
 
         /// <summary>
         /// Update one specific halls price
@@ -1507,9 +1499,9 @@ namespace CinemaConsole.Data.BackEnd
         /// <returns>Last date there is available</returns>
         public DateTime GetDate(int DateID)
         {
-            Connection.Open();
             try
             {
+                Connection.Open();
                 string DateInfo = @"SELECT * FROM date";
 
                 MySqlCommand oCmd = new MySqlCommand(DateInfo, Connection);
@@ -1545,7 +1537,6 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Close();
             }
         }
-        //TODO: Fix this connection
 
         /// <summary>
         /// checks if revenue stream is available

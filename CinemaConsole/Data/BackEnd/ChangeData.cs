@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using MySql.Data;
-using MySql;
 using MySql.Data.MySqlClient;
 using System.Data;
 
@@ -171,7 +167,6 @@ namespace CinemaConsole.Data.BackEnd
 				Connection.Close();
 			}
 		}
-		//TODO: Why is this function here
 
 		/// <summary>
 		/// Shows all products in the restaurant
@@ -201,7 +196,6 @@ namespace CinemaConsole.Data.BackEnd
 				throw;
 			}
 		}
-		//TODO: Why are there 2 same functions???
 
 		/// <summary>
 		/// Show an item of a product (name or price)
@@ -1042,9 +1036,6 @@ namespace CinemaConsole.Data.BackEnd
 
 				Console.Write(" people.\n");
 
-				Console.WriteLine("Press [enter] to continue.");
-				Console.ReadLine();
-				Console.Clear();
 			}
 			catch (MySqlException ex)
 			{
@@ -1053,9 +1044,11 @@ namespace CinemaConsole.Data.BackEnd
 			finally
 			{
 				Connection.Close();
+				Console.WriteLine("Press [enter] to continue.");
+				Console.ReadLine();
+				Console.Clear();
 			}
 		}
-		//TODO: waarom is hier readline?
 
 		/// <summary>
 		/// Check if a product exists

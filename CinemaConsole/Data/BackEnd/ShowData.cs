@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using MySql.Data;
-using MySql;
 using MySql.Data.MySqlClient;
 using System.Data;
-using System.Globalization;
 using CinemaConsole.Pages;
-using CinemaConsole.Data.BackEnd;
 
 
 namespace CinemaConsole.Data.BackEnd
@@ -504,7 +498,6 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Close();
             }
         }
-        //TODO: Why is this function build like this
 
         /// <summary>
         /// Overview of all the information about the customer and the movie they reserved.

@@ -94,10 +94,7 @@
     <Compile Include="Data\BackEnd\ShowData.cs" />
     <Compile Include="Data\BackEnd\Connecter.cs" />
     <Compile Include="Data\BackEnd\ChangeData.cs" />
-    <Compile Include="Data\Employee\ProductList.cs" />
-    <Compile Include="Data\Employee\RestaurantProduct.cs" />
-    <Compile Include="Data\BackEnd\TicketInfo.cs" />
-    <Compile Include="Data\Employee\DateTimeHall.cs" />
+    <Compile Include="Data\BackEnd\DateTimeHall.cs" />
     <Compile Include="Pages\Admin.cs" />
     <Compile Include="Pages\TicketSalesman.cs" />
     <Compile Include="Pages\Restaurant.cs" />
