@@ -11,10 +11,17 @@ namespace CinemaConsole.Pages
 {
     public class Login
     {
+        /// <summary>The function of the logged-in person</summary>
         public string Function = "";
 
+        /// <summary>value of if you are logged-in or not</summary>
         public bool loggedIn = false;
 
+        /// <summary>
+        /// Creates a hashed value
+        /// </summary>
+        /// <param name="valueToEncrypt">A unhashed string</param>
+        /// <returns>a hashed string</returns>
         public static string sha256_hash(string valueToEncrypt)
         {
             StringBuilder stringbuilder = new StringBuilder();
@@ -32,6 +39,9 @@ namespace CinemaConsole.Pages
             return stringbuilder.ToString();
         }
 
+        /// <summary>
+        /// Menu for the login
+        /// </summary>
         public void Menu()
         {
             ShowData SD = new ShowData();

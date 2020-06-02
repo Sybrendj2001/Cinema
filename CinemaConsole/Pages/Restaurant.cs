@@ -10,9 +10,12 @@ using CinemaConsole.Data.BackEnd;
 
 namespace CinemaConsole.Pages.Restaurant
 {
-    public class Restaurant : Employee
+    public class Restaurant
     {
-        //Allows the retailer to edit items on the list of products.
+        /// <summary>
+        /// Allows the retailer to edit a product
+        /// </summary>
+        /// <param name="productID">The ID of the product to edit</param>
         public static void EditItem(int productID)
         {
             ChangeData CD = new ChangeData();
@@ -162,6 +165,7 @@ namespace CinemaConsole.Pages.Restaurant
             }
             
         }
+
         /// <summary>
         /// Remove a product
         /// </summary>
@@ -291,6 +295,7 @@ namespace CinemaConsole.Pages.Restaurant
                 }
             }
         }
+
         /// <summary>
         /// Edit a product
         /// </summary>
@@ -342,7 +347,9 @@ namespace CinemaConsole.Pages.Restaurant
             }
         }
 
-        //Presents a menu with options to choose from.
+        /// <summary>
+        /// The menu of the restaurant
+        /// </summary>
         public static void Menu()
         {
             ChangeData CD = new ChangeData();

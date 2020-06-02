@@ -8,25 +8,41 @@ namespace CinemaConsole.Data.Employee
 {
 	class RestaurantProduct
 	{
+		/// <summary>Product ID</summary>
 		private int Pid { get; set; } = ProductID();
-		private string name { get; set; }
-		private double price { get; set; }
+		/// <summary>Product Name</summary>
+		private string Name { get; set; }
+		/// <summary>Product Price</summary>
+		private double Price { get; set; }
 
-		public RestaurantProduct(string productName, double productPrice)
+		/// <summary>
+		/// Create a product
+		/// </summary>
+		/// <param name="ProductName">Name of the product</param>
+		/// <param name="ProductPrice">Price of the product</param>
+		public RestaurantProduct(string ProductName, double ProductPrice)
 		{
-			name = productName;
-			price = productPrice;
+			Name = ProductName;
+			Price = ProductPrice;
 		}
 
+		/// <summary>
+		/// Gets the info of a product
+		/// </summary>
+		/// <returns>Info of the products</returns>
 		public Tuple<int, string, double> getProductInfo()
 		{
 			int IDP = Pid;
-			string pName = name;
-			double pPrice = price;
+			string pName = Name;
+			double pPrice = Price;
 
 			return Tuple.Create(IDP, pName, pPrice);
 		}
 
+		/// <summary>
+		/// Checks the ID of the product that it would get
+		/// </summary>
+		/// <returns>The ID of the product</returns>
 		private static int ProductID()
 		{
 			int IDP;

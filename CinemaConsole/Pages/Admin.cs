@@ -14,17 +14,16 @@ using System.Dynamic;
 
 namespace CinemaConsole.Pages.Admin
 {
-    public class Admin : Employee
+    public class Admin
     {
-        private static ChangeData Database = new ChangeData();
-        public Admin()
+        /// <summary>
+        /// Shows all the data for that hall
+        /// </summary>
+        /// <param name="HallID">which hall it is</param>
+        private static void ShowHallPriceDistribution(int HallID)
         {
-        }
-
-        private static void ShowHallPriceDistribution(int hall)
-        {
-            Console.WriteLine("\nHall " + hall + ":\n");
-            if (hall == 1)
+            Console.WriteLine("\nHall " + HallID + ":\n");
+            if (HallID == 1)
             {
                 for (int i = 0; i < 14; i++)
                 {
@@ -114,7 +113,7 @@ namespace CinemaConsole.Pages.Admin
                     Console.Write("\n");
                 }
             }
-            else if (hall == 2)
+            else if (HallID == 2)
             {
                 for (int i = 0; i < 19; i++)
                 {
@@ -235,7 +234,7 @@ namespace CinemaConsole.Pages.Admin
                     Console.Write("\n");
                 }
             }
-            else if (hall == 3)
+            else if (HallID == 3)
             {
                 for (int i = 0; i < 20; i++)
                 {
@@ -426,6 +425,9 @@ namespace CinemaConsole.Pages.Admin
             }
         }
 
+        /// <summary>
+        /// Edit the price of a hall
+        /// </summary>
         private static void editPrice()
         {
             AdminData AD = new AdminData();
@@ -547,7 +549,7 @@ namespace CinemaConsole.Pages.Admin
         }
 
         /// <summary>
-        /// adding the movie data to the movielist
+        /// Adding the movie data to the movielist
         /// </summary>
         private static void Add()
         {
@@ -636,8 +638,10 @@ namespace CinemaConsole.Pages.Admin
         }
 
         /// <summary>
-        /// add year as a string and return an int.
+        /// Add year as a string to the database
         /// </summary>
+        /// <param name="yearString">the year the movie is released in</param>
+        /// <returns>The year as a int</returns>
         private static int AddYear(string yearString)
         {
             ShowData SD = new ShowData();
@@ -678,9 +682,12 @@ namespace CinemaConsole.Pages.Admin
             }
             return year;
         }
+
         /// <summary>
-        /// add age as a string and return an int.
+        /// Add age as a string to the database
         /// </summary>
+        /// <param name="ageString">The minimum age</param>
+        /// <returns>Name as a age</returns>
         private static int AddAge(string ageString)
         {
             ShowData SD = new ShowData();
@@ -725,27 +732,30 @@ namespace CinemaConsole.Pages.Admin
         }
 
         /// <summary>
-        /// add year as a string and return an int.
+        /// Edit a year with a selected movie and edit it in the database
         /// </summary>
-        private static int EditYear(string yearString, string MovieID)
+        /// <param name="YearString">String of the year you want to edit it to</param>
+        /// <param name="MovieID">Selected movie ID</param>
+        /// <returns>the year as a int</returns>
+        private static int EditYear(string YearString, string MovieID)
         {
             ShowData SD = new ShowData();
             int year = 0;
 
             while (true)
             {
-                if (yearString != "skip")
+                if (YearString != "skip")
                 {
                     try
                     {
-                        year = Convert.ToInt32(yearString);
+                        year = Convert.ToInt32(YearString);
 
                         if (year <= 1800 || year > Convert.ToInt32((DateTime.Now.ToString("yyyy"))))
                         {
                             SD.ClearAndErrorMessage("\nPlease enter a release date that is possible. (Between 1801 and " + DateTime.Now.ToString("yyyy") + ")");
                             SD.ShowMovieInfoPartlyByID(MovieID, 2);
                             Console.WriteLine("Please enter the release year. (e.g. 2020) or enter [skip] if you want to skip and keep the original");
-                            yearString = Console.ReadLine();
+                            YearString = Console.ReadLine();
                         }
                         else
                         {
@@ -758,7 +768,7 @@ namespace CinemaConsole.Pages.Admin
                         SD.ClearAndErrorMessage("\nThe year was filled in incorrectly, please try again.");
                         SD.ShowMovieInfoPartlyByID(MovieID, 2);
                         Console.WriteLine("Please enter the release year. (e.g. 2020) or enter [skip] if you want to skip and keep the original ");
-                        yearString = Console.ReadLine();
+                        YearString = Console.ReadLine();
                     }
                 }
                 else
@@ -771,28 +781,31 @@ namespace CinemaConsole.Pages.Admin
         }
 
         /// <summary>
-        /// add age as a string and return an int.
+        /// Edit a year with a selected movie and edit it in the database
         /// </summary>
-        private static int EditAge(string ageString, string MovieID)
+        /// <param name="AgeString">String of the age you want to edit it to</param>
+        /// <param name="MovieID">Selected movie ID</param>
+        /// <returns>age as a int</returns>
+        private static int EditAge(string AgeString, string MovieID)
         {
             ShowData SD = new ShowData();
             int age = 0;
 
             while (true)
             {
-                if (ageString != "skip")
+                if (AgeString != "skip")
                 {
                     try
                     {
 
-                        age = Convert.ToInt32(ageString);
+                        age = Convert.ToInt32(AgeString);
 
                         if (age < 0 || age > 99)
                         {
                             SD.ClearAndErrorMessage("\nPlease enter a age that is possible. (Between 0 and 99)");
                             SD.ShowMovieInfoPartlyByID(MovieID, 3);
                             Console.WriteLine("Please enter the age restriction. (e.g. 12) or enter [skip] if you want to skip and keep the original");
-                            ageString = Console.ReadLine();
+                            AgeString = Console.ReadLine();
                         }
                         else
                         {
@@ -805,7 +818,7 @@ namespace CinemaConsole.Pages.Admin
                         SD.ClearAndErrorMessage("\nThe age restriction was filled in incorrectly, please try again.");
                         SD.ShowMovieInfoPartlyByID(MovieID, 3);
                         Console.WriteLine("\nPlease enter the age restriction. (e.g. 12) or enter [skip] if you want to skip and keep the original");
-                        ageString = Console.ReadLine();
+                        AgeString = Console.ReadLine();
                     }
                 }
                 else
@@ -818,17 +831,24 @@ namespace CinemaConsole.Pages.Admin
             return age;
         }
 
-        private static bool checkdoubletimes(int hall, DateTime date, int duration)
+        /// <summary>
+        /// Check if there are double times and if they overlap
+        /// </summary>
+        /// <param name="Hall">Hall you want to check</param>
+        /// <param name="Date">Date you want to check</param>
+        /// <param name="Duration">The duration of the movie to check if it overlaps</param>
+        /// <returns></returns>
+        private static bool checkdoubletimes(int Hall, DateTime Date, int Duration)
         {
             AdminData AD = new AdminData();
             Tuple<List<DateTime>, List<int>, List<DateTime>> check = AD.GetAllDates();
             bool checking = false;
-            for (int j = 0; j < duration; j++)
+            for (int j = 0; j < Duration; j++)
             {
-                date.AddMinutes(1);
+                Date.AddMinutes(1);
                 for (int i = 0; i < check.Item1.Count; i++)
                 {
-                    if ((date > check.Item1[i]) && (date < check.Item3[i]) && (hall == check.Item2[i]))
+                    if ((Date > check.Item1[i]) && (Date < check.Item3[i]) && (Hall == check.Item2[i]))
                     {
                         checking = true;
                         break;
@@ -840,9 +860,11 @@ namespace CinemaConsole.Pages.Admin
         }
 
         /// <summary>
-        /// add a movie time to the given movie.
+        /// Add a time to the database
         /// </summary>
-        public static void addTime(string title,int duration)
+        /// <param name="Title">Title of the movie</param>
+        /// <param name="Duration">the duration the movie last</param>
+        public static void addTime(string Title,int Duration)
         {
             ChangeData CD = new ChangeData();
             ShowData SD = new ShowData();
@@ -855,7 +877,7 @@ namespace CinemaConsole.Pages.Admin
                 try
                 {
                     bool checksdone = false;
-                    Console.WriteLine("\nPlease enter a date and time when you want " + title + " to play. (e.g. " + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + ")");
+                    Console.WriteLine("\nPlease enter a date and time when you want " + Title + " to play. (e.g. " + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + ")");
                     string dateTime = Console.ReadLine();
 
                     DateTime DT = DateTime.ParseExact(dateTime, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
@@ -870,7 +892,7 @@ namespace CinemaConsole.Pages.Admin
                         //Console.Clear();
                         while (!checksdone)
                         {
-                            Console.WriteLine("\nPlease enter the theaterhall [1],[2] or [3] you want '" + title + "' to play in on '" + dateTime + "'");
+                            Console.WriteLine("\nPlease enter the theaterhall [1],[2] or [3] you want '" + Title + "' to play in on '" + dateTime + "'");
                             string SHall = Console.ReadLine();
                             if (SHall.Length < 5)
                             {
@@ -882,7 +904,7 @@ namespace CinemaConsole.Pages.Admin
                             }
                             try
                             {
-                                if (hall > 0 && hall < 4 && !checkdoubletimes(hall,DT,duration))
+                                if (hall > 0 && hall < 4 && !checkdoubletimes(hall,DT,Duration))
                                 {
                                     checksdone = true;
                                     break;
@@ -901,19 +923,19 @@ namespace CinemaConsole.Pages.Admin
 
                         if (checksdone)
                         {
-                            DateTimeHall datetimehall1 = new DateTimeHall(DT, hall, title);
+                            DateTimeHall datetimehall1 = new DateTimeHall(DT, hall, Title);
                             Console.Clear();
                         }
 
                         while (checksdone)
                         {
-                            Customer.showTime(AD.GetMovieID(title).ToString());
+                            Customer.showTime(AD.GetMovieID(Title).ToString());
                             
                             //delete the last line writen
                             Console.SetCursorPosition(0, Console.CursorTop - 1);
                             ClearCurrentConsoleLine();
 
-                            Console.WriteLine("\n[add] To add another date and time for '"+ title +"'\n[exit] Exit to menu");
+                            Console.WriteLine("\n[add] To add another date and time for '"+ Title +"'\n[exit] Exit to menu");
                             string exit = Console.ReadLine();
                             if (exit == "exit")
                             {
@@ -1353,6 +1375,9 @@ namespace CinemaConsole.Pages.Admin
             }
         }
 
+        /// <summary>
+        /// Show the revenue stream
+        /// </summary>
         private static void Revenue()
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -1507,6 +1532,10 @@ namespace CinemaConsole.Pages.Admin
             }
         }
 
+        /// <summary>
+        /// Update the revenue stream 
+        /// </summary>
+        /// <param name="ticketcode">Code of the ticket to check what the worth is</param>
         public static void UpdateRevenue(string ticketcode)
         {
             AdminData AD = new AdminData();

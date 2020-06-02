@@ -12,9 +12,15 @@ namespace CinemaConsole.Data
 {
 	public class DateTimeHall
 	{
+		/// <summary>Data retraction</summary>
+		private readonly AdminData AD = new AdminData();
 
-		private AdminData AD = new AdminData();
-
+		/// <summary>
+		/// Create a new hall
+		/// </summary>
+		/// <param name="DT">The time that hall is needed</param>
+		/// <param name="HallInput">The hall that is needed</param>
+		/// <param name="MovieName">The hall the movie is played in</param>
 		public DateTimeHall(DateTime DT, int HallInput, string MovieName)
 		{
 			string datetime = DT.ToString("yyyy") + "-" + DT.ToString("MM") + "-" + DT.ToString("dd") + " " + DT.ToString("HH") + ":" + DT.ToString("mm");
@@ -30,36 +36,47 @@ namespace CinemaConsole.Data
 
 	public class TheatherHalls
 	{
+		/// <summary>Database</summary>
 		AdminData AD = new AdminData();
-		
+
+		/// <summary>prices for the seats for all the different rings</summary>
 		private Tuple<double, double, double> prices { get; set; }
 
-		public TheatherHalls(int hallNumber, int dateID)
+		/// <summary>
+		/// A hall
+		/// </summary>
+		/// <param name="HallNumber">Number of the hall</param>
+		/// <param name="DateID">Date that the hall is needed</param>
+		public TheatherHalls(int HallNumber, int DateID)
 		{
 
-			prices = AD.getPrices(hallNumber);
+			prices = AD.getPrices(HallNumber);
 
-			if (hallNumber == 1)
+			if (HallNumber == 1)
 			{
-				AD.CreateHall(150, 14, 12, dateID,prices.Item1,prices.Item2,prices.Item3);
-				int hallID = AD.GetHallID(dateID);
+				AD.CreateHall(150, 14, 12, DateID,prices.Item1,prices.Item2,prices.Item3);
+				int hallID = AD.GetHallID(DateID);
 				Hall1(hallID);
 			}
-			else if (hallNumber == 2)
+			else if (HallNumber == 2)
 			{
-				AD.CreateHall(300, 19, 18, dateID, prices.Item1, prices.Item2, prices.Item3);
-				int hallID = AD.GetHallID(dateID);
+				AD.CreateHall(300, 19, 18, DateID, prices.Item1, prices.Item2, prices.Item3);
+				int hallID = AD.GetHallID(DateID);
 				Hall2(hallID);
 			}
-			else if (hallNumber == 3)
+			else if (HallNumber == 3)
 			{
-				AD.CreateHall(500, 20, 30, dateID, prices.Item1, prices.Item2, prices.Item3);
-				int hallID = AD.GetHallID(dateID);
+				AD.CreateHall(500, 20, 30, DateID, prices.Item1, prices.Item2, prices.Item3);
+				int hallID = AD.GetHallID(DateID);
 				Hall3(hallID);
 			}
 		}
 
-		private void Hall1(int hallID)
+		/// <summary>
+		/// Create hall 1
+		/// </summary>
+		/// <param name="HallID">Used connect to a date</param>
+		private void Hall1(int HallID)
 		{
 			string SeatName = "";
 			bool SeatAvail = false;
@@ -110,12 +127,16 @@ namespace CinemaConsole.Data
 					{
 						price = prices.Item3;
 					}
-					AD.CreateSeat(price, i, j, hallID, SeatAvail, SeatName);
+					AD.CreateSeat(price, i, j, HallID, SeatAvail, SeatName);
 				}
 			}
 		}
 
-		private void Hall2(int hallID)
+		/// <summary>
+		/// Create hall 2
+		/// </summary>
+		/// <param name="HallID">Used connect to a date</param>
+		private void Hall2(int HallID)
 		{
 			string SeatName = "";
 			bool SeatAvail = false;
@@ -150,13 +171,17 @@ namespace CinemaConsole.Data
 						SeatAvail = false;
 					}
 					price = Price2(i,j);
-					AD.CreateSeat(price, i, j, hallID, SeatAvail, SeatName);
+					AD.CreateSeat(price, i, j, HallID, SeatAvail, SeatName);
 				}
 			}
 
 		}
 
-		private void Hall3(int hallID)
+		/// <summary>
+		/// Create hall 3
+		/// </summary>
+		/// <param name="HallID">Used connect to a date</param>
+		private void Hall3(int HallID)
 		{
 			string SeatName = "";
 			bool SeatAvail = false;
@@ -208,11 +233,17 @@ namespace CinemaConsole.Data
 					}
 					price = Price3(i, j);
 					
-					AD.CreateSeat(price, i, j, hallID, SeatAvail, SeatName);
+					AD.CreateSeat(price, i, j, HallID, SeatAvail, SeatName);
 				}
 			}
 		}
 
+		/// <summary>
+		/// Create price for the middle circle
+		/// </summary>
+		/// <param name="i">Diameter for the circle</param>
+		/// <param name="j">Diameter for the circle</param>
+		/// <returns>The seats that need their price changed</returns>
 		private double Price2(int i, int j)
 		{
 			double price = 0.0;
@@ -255,6 +286,12 @@ namespace CinemaConsole.Data
 			return price;
 		}
 
+		/// <summary>
+		/// Create price for the inner circle
+		/// </summary>
+		/// <param name="i">Diameter for the circle</param>
+		/// <param name="j">Diameter for the circle</param>
+		/// <returns>The seats that need their price changed</returns>
 		private double Price3(int i, int j)
 		{
 			double price = 0.0;

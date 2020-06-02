@@ -102,7 +102,6 @@
     <Compile Include="Pages\TicketSalesman.cs" />
     <Compile Include="Pages\Restaurant.cs" />
     <Compile Include="Pages\Customer.cs" />
-    <Compile Include="Pages\Employee.cs" />
     <Compile Include="Pages\Login.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

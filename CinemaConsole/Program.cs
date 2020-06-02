@@ -13,6 +13,10 @@ namespace CinemaConsole
 {
     class Program
     {
+        /// <summary>
+        /// Start of the program
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             AdminData AD = new AdminData();
