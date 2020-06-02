@@ -13,8 +13,12 @@ namespace CinemaConsole.Data.BackEnd
 {
     public abstract class Connecter
     {
+        /// <summary>Connection that can only be inherited so you cannot blatently open the database</summary>
         protected MySqlConnection Connection;
 
+        /// <summary>
+        /// Initializes the connection
+        /// </summary>
         protected Connecter()
         {
             Initialize();
@@ -32,9 +36,6 @@ namespace CinemaConsole.Data.BackEnd
             Builder.Database = "Cinema";
             Builder.Port = 3306;
             Connection = new MySqlConnection(Builder.ConnectionString);
-            
-            //string dbstring = "server=localhost;user=root;pwd=admin;database=cinema";
-            //Connection = new MySqlConnection(dbstring);
             
         }
     }
