@@ -204,6 +204,7 @@ namespace CinemaConsole.Data.BackEnd
 		/// <param name="Option">select 1 = name, 2 = price</param>
 		public void ShowProductItem(int ProductID, int Option)
         {
+			Console.OutputEncoding = Encoding.UTF8;
 			try
             {
 				Connection.Open();
@@ -222,7 +223,9 @@ namespace CinemaConsole.Data.BackEnd
 								Console.WriteLine("\nCurrent item name: " + getProductInfo["ItemName"].ToString());
 								break;
 							case 2:
-								Console.WriteLine("\nCurrent price: " + getProductInfo["Price"].ToString());
+								string p = getProductInfo["Price"].ToString();
+								double price = Convert.ToDouble(p);
+								Console.WriteLine("\nCurrent price: €" + price.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
 								break;
 						}
 					}
