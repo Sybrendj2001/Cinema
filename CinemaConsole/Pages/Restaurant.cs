@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
-using CinemaConsole.Data.BackEnd;
-
+using CinemaConsole.Data;
 
 namespace CinemaConsole.Pages.Restaurant
 {
@@ -162,7 +161,7 @@ namespace CinemaConsole.Pages.Restaurant
         }
 
         /// <summary>
-        /// Remove a product
+        /// Add a product
         /// </summary>
         public static void AddProduct()
         {

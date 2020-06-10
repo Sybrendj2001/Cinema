@@ -3,7 +3,7 @@ using CinemaConsole.Pages.Admin;
 using CinemaConsole.Pages;
 using CinemaConsole.Pages.Restaurant;
 using CinemaConsole.Pages.TicketSalesman;
-using CinemaConsole.Data.BackEnd;
+using CinemaConsole.Data;
 
 namespace CinemaConsole
 {

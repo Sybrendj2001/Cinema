@@ -1,7 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 
-
-namespace CinemaConsole.Data.BackEnd
+namespace CinemaConsole.Data
 {
     public abstract class Connecter
     {

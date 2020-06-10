@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using CinemaConsole.Data;
-using CinemaConsole.Data.BackEnd;
 using System.Globalization;
 
 namespace CinemaConsole.Pages.Admin

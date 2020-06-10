@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CinemaConsole.Data.BackEnd;
+using CinemaConsole.Data;
 
 namespace CinemaConsole.Pages.TicketSalesman
 {
