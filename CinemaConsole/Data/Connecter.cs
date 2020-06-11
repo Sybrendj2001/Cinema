@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
+﻿using MySql.Data.MySqlClient;
 
-using MySql.Data;
-using MySql.Data.MySqlClient;
-
-
-namespace CinemaConsole.Data.BackEnd
+namespace CinemaConsole.Data
 {
     public abstract class Connecter
     {
+        /// <summary>Connection that can only be inherited so you cannot blatently open the database</summary>
         protected MySqlConnection Connection;
 
-        MySqlConnectionStringBuilder Builder = new MySqlConnectionStringBuilder();
-
-
+        /// <summary>
+        /// Initializes the connection
+        /// </summary>
         protected Connecter()
         {
             Initialize();
         }
         
+        /// <summary>
+        /// Initiliazes all secret components
+        /// </summary>
         private void Initialize()
         {
             MySqlConnectionStringBuilder Builder = new MySqlConnectionStringBuilder();
@@ -32,9 +27,6 @@ namespace CinemaConsole.Data.BackEnd
             Builder.Database = "Cinema";
             Builder.Port = 3306;
             Connection = new MySqlConnection(Builder.ConnectionString);
-            
-            //string dbstring = "server=localhost;user=root;pwd=admin;database=cinema";
-            //Connection = new MySqlConnection(dbstring);
             
         }
     }

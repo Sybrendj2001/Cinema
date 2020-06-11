@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using MySql.Data;
-using MySql;
 using MySql.Data.MySqlClient;
 using System.Data;
-using System.Globalization;
 using CinemaConsole.Pages;
-using CinemaConsole.Data.BackEnd;
 
-
-namespace CinemaConsole.Data.BackEnd
+namespace CinemaConsole.Data
 {
     public class ShowData : Connecter
     {
@@ -59,18 +52,19 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Close();
             }
         }
+
         /// <summary>
         /// Show the extra movie info with the right ID
         /// </summary>
-        /// <param name="movieID">given movie id</param>
-        public Tuple<string,string,string> ShowMovieByID(string movieID)
+        /// <param name="MovieID">given movie id</param>
+        public Tuple<string,string,string> ShowMovieByID(string MovieID)
         {
             try
             {
                 Connection.Open();
                 string oString = @"SELECT * from movie WHERE MovieID = @id";
                 MySqlCommand oCmd = new MySqlCommand(oString, Connection);
-                oCmd.Parameters.AddWithValue("@id", movieID);
+                oCmd.Parameters.AddWithValue("@id", MovieID);
 
                 using (MySqlDataReader getMovieInfo = oCmd.ExecuteReader())
                 {
@@ -101,25 +95,26 @@ namespace CinemaConsole.Data.BackEnd
             }
             return Tuple.Create("","","");
         }
+
         /// <summary>
         /// Show the extra movie info with the right ID
         /// </summary>
-        /// <param name="movieID">given movie id</param>
-        /// <param name="option">select 1 = title, 2 = year, 3 = age, 4 = actors, 5 = summary</param>
-        public void ShowMovieInfoPartlyByID(string movieID, int option)
+        /// <param name="MovieID">given movie id</param>
+        /// <param name="Option">select 1 = title, 2 = year, 3 = age, 4 = actors, 5 = summary</param>
+        public void ShowMovieInfoPartlyByID(string MovieID, int Option)
         {
             try
             {
                 Connection.Open();
                 string oString = @"SELECT * from movie WHERE MovieID = @id";
                 MySqlCommand oCmd = new MySqlCommand(oString, Connection);
-                oCmd.Parameters.AddWithValue("@id", movieID);
+                oCmd.Parameters.AddWithValue("@id", MovieID);
 
                 using (MySqlDataReader getMovieInfo = oCmd.ExecuteReader())
                 {
                     while (getMovieInfo.Read())
                     {
-                        switch(option)
+                        switch(Option)
                         {
                             case 1:
                                 Console.WriteLine("\nCurrent movie title: " + getMovieInfo["MovieName"].ToString());
@@ -150,7 +145,9 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        //Search funtion ticketsalesman. Search on name, search on ticketnumber and surch on movie name and date/time
+        /// <summary>
+        /// Search funtion ticketsalesman. Search on name, search on ticketnumber and surch on movie name and date/time
+        /// </summary>
         public void DisplayTickets()
         {
             ShowData SD = new ShowData();
@@ -501,7 +498,12 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        // Overview of all the information about the customer and the movie they reserved.
+        /// <summary>
+        /// Overview of all the information about the customer and the movie they reserved.
+        /// </summary>
+        /// <param name="TicketID">The ID of the ticket</param>
+        /// <param name="MovieID">The ID of the movie</param>
+        /// <param name="DateID">The ID of the date</param>
         public void Overview(string TicketID, string MovieID, string DateID)
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -610,6 +612,10 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
+        /// <summary>
+        /// Write a message in an error state
+        /// </summary>
+        /// <param name="message">The message you want to write</param>
         public void ErrorMessage(string message)
         {
             Console.ForegroundColor = ConsoleColor.Red;
@@ -617,6 +623,10 @@ namespace CinemaConsole.Data.BackEnd
             Console.ResetColor();
         }
 
+        /// <summary>
+        /// Write a message in an error state and clear before you write the error message
+        /// </summary>
+        /// <param name="message">The message you want to write</param>
         public void ClearAndErrorMessage(string message)
         {
             Console.Clear();

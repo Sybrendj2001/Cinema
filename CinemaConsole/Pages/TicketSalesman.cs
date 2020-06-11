@@ -1,30 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CinemaConsole.Pages;
 using CinemaConsole.Data;
-using CinemaConsole.Data.Employee;
-using CinemaConsole.Data.BackEnd;
 
 namespace CinemaConsole.Pages.TicketSalesman
 {
-    public class TicketSalesman : Employee
+    public class TicketSalesman
     {
-        public TicketSalesman()
-        {
-
-        }
-
-        // Ticketsalesman able to search to on customer name or ticketnumber or movie
+        /// <summary>
+        /// Ticketsalesman able to search to on customer name or ticketnumber or movie
+        /// </summary>
         private static void Display()
         {
             ShowData SD = new ShowData();
             SD.DisplayTickets();
         }
 
-        // This let the ticket salesman remove/cancel reservations. You have to type in the ticketnumber to remove the reservation.
+        /// <summary>
+        /// This let the ticket salesman remove/cancel reservations
+        /// </summary>
         public static void RemoveReservation()
         {
             ChangeData CD = new ChangeData();
@@ -65,7 +58,9 @@ namespace CinemaConsole.Pages.TicketSalesman
             }
         }
 
-        // Ticketsalesman able to select a movie and see all the movie informarion.
+        /// <summary>
+        /// Ticketsalesman able to select a movie and see all the movie informarion
+        /// </summary>
         public static void MovieInfo()
         {
             Console.Clear();
@@ -149,8 +144,6 @@ namespace CinemaConsole.Pages.TicketSalesman
                 }
             }
         }
-
-
 
         /// <summary>
         /// Menu with the options for the ticket salesman to choose from.

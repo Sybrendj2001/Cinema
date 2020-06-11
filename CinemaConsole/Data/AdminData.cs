@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySql.Data;
-using MySql;
 using MySql.Data.MySqlClient;
 using System.Data;
-using System.Globalization;
-using MySqlX.XDevAPI.Relational;
 
-namespace CinemaConsole.Data.BackEnd
+namespace CinemaConsole.Data
 {
     public class AdminData : Connecter
     {
-
+        /// <summary>
+        /// Gets the title from a movie
+        /// </summary>
+        /// <param name="MovieID">ID that needs to be searched</param>
+        /// <returns>A Title</returns>
         public string getTitle(int MovieID)
         {
             string title = "";
@@ -49,6 +46,11 @@ namespace CinemaConsole.Data.BackEnd
             return title;
         }
 
+        /// <summary>
+        /// Searches for the specific hall for a movie without a connection
+        /// </summary>
+        /// <param name="DateID">ID that hall was originally provided with</param>
+        /// <returns>A Hall ID</returns>
         public int GetHallIDConnectless(int DateID)
         {
             int HallID = -1;
@@ -78,6 +80,11 @@ namespace CinemaConsole.Data.BackEnd
             return HallID;
         }
 
+        /// <summary>
+        /// Searches for the specific hall for a movie with a connection
+        /// </summary>
+        /// <param name="DateID">ID that Hall was originally provided with</param>
+        /// <returns>A Hall ID</returns>
         public int GetHallID(int DateID)
         {
             int HallID = -1;
@@ -113,6 +120,11 @@ namespace CinemaConsole.Data.BackEnd
             return HallID;
         }
 
+        /// <summary>
+        /// Searches for halls with a specific ID
+        /// </summary>
+        /// <param name="MovieID">Specific ID to search</param>
+        /// <returns>Two lists of halls with IDs</returns>
         public Tuple<List<int>, List<int>> GetDateHallIDs(int MovieID)
         {
             List<int> DateIDs = new List<int>();
@@ -170,7 +182,13 @@ namespace CinemaConsole.Data.BackEnd
             return Tuple.Create(DateIDs, HallIDs);
         }
 
-        public int GetDateID(DateTime date, int hall)
+        /// <summary>
+        /// Gets one specific id where you can provide the date and hall
+        /// </summary>
+        /// <param name="Date">Date in Year/Month/Day</param>
+        /// <param name="Hall">Type of hall</param>
+        /// <returns>A ID of the specific date you are searchig for</returns>
+        public int GetDateID(DateTime Date, int Hall)
         {
             int DateID = -1;
             try
@@ -182,8 +200,8 @@ namespace CinemaConsole.Data.BackEnd
                 MySqlParameter HallParam = new MySqlParameter("@Hall", MySqlDbType.Int32);
                 MySqlParameter DateTimeParam = new MySqlParameter("@DataTime", MySqlDbType.DateTime);
 
-                HallParam.Value = hall;
-                DateTimeParam.Value = date;
+                HallParam.Value = Hall;
+                DateTimeParam.Value = Date;
 
                 command.Parameters.Add(HallParam);
                 command.Parameters.Add(DateTimeParam);
@@ -207,7 +225,12 @@ namespace CinemaConsole.Data.BackEnd
             return DateID;
         }
 
-        public int GetMovieID(string movieName)
+        /// <summary>
+        /// Gets one specific id where you can provide the moviename
+        /// </summary>
+        /// <param name="MovieName">Name of the movie</param>
+        /// <returns>A movie ID</returns>
+        public int GetMovieID(string MovieName)
         {
             int movieID = -1;
             try
@@ -218,7 +241,7 @@ namespace CinemaConsole.Data.BackEnd
                 MySqlCommand command = new MySqlCommand(IntToCheck, Connection);
                 MySqlParameter MovieNameParam = new MySqlParameter("@MovieName", MySqlDbType.VarChar);
 
-                MovieNameParam.Value = movieName;
+                MovieNameParam.Value = MovieName;
 
                 command.Parameters.Add(MovieNameParam);
 
@@ -242,6 +265,12 @@ namespace CinemaConsole.Data.BackEnd
             return movieID;
         }
 
+        /// <summary>
+        /// Creates a new date for a movie that is provided
+        /// </summary>
+        /// <param name="DT">Date you want</param>
+        /// <param name="MovieID">The ID of the movie</param>
+        /// <param name="Hall">The hall the movie will be displayed in</param>
         public void CreateDateTime(DateTime DT, int MovieID, int Hall)
         {
             try
@@ -281,6 +310,16 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
+        /// <summary>
+        /// Create a new hall with all the specifications
+        /// </summary>
+        /// <param name="SeatAmount">The total amount of seats</param>
+        /// <param name="RowLength">The length of rows</param>
+        /// <param name="ColLength">The amount of rows there are</param>
+        /// <param name="DateID">The date you want to use the hall</param>
+        /// <param name="InnerCircle">The price of the inner circle</param>
+        /// <param name="MiddleCircle">The price of the middle circle</param>
+        /// <param name="OuterCircle">The price of the outer circle</param>
         public void CreateHall(int SeatAmount, int RowLength, int ColLength, int DateID, double InnerCircle, double MiddleCircle, double OuterCircle)
         {
             try
@@ -331,13 +370,13 @@ namespace CinemaConsole.Data.BackEnd
         /// <summary>
         /// Inserts a seat in the database.
         /// </summary>
-        /// <param name="price"></param>
-        /// <param name="Y"></param>
-        /// <param name="X"></param>
-        /// <param name="hall"></param>
-        /// <param name="avail"></param>
-        /// <param name="name"></param>
-        public void CreateSeat(double price, int Y, int X, int HallID, bool avail, string name)
+        /// <param name="price">The price of a seat</param>
+        /// <param name="Y">The Position of the seat</param>
+        /// <param name="X">The Position of the seat</param>
+        /// <param name="HallID">The ID of the hall where the movie will be displayed</param>
+        /// <param name="Avail">The availability of the seat</param>
+        /// <param name="Name">The name of the customer</param>
+        public void CreateSeat(double price, int Y, int X, int HallID, bool Avail, string Name)
         {
             try
             {
@@ -357,8 +396,8 @@ namespace CinemaConsole.Data.BackEnd
                 RowSeatParam.Value = Y;
                 colSeatParam.Value = X;
                 HallParam.Value = HallID;
-                NameParam.Value = name;
-                if (avail)
+                NameParam.Value = Name;
+                if (Avail)
                 {
                     availParam.Value = 1;
                 }
@@ -388,6 +427,11 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
+        /// <summary>
+        /// Gets all the times a movie is played
+        /// </summary>
+        /// <param name="MovieID">Movie you want to chech</param>
+        /// <returns>Returns a list with times and halls</returns>
         public Tuple<List<DateTime>, List<int>, List<int>> GetTime(int MovieID)
         {
             List<DateTime> dt = new List<DateTime>();
@@ -426,7 +470,12 @@ namespace CinemaConsole.Data.BackEnd
             return Tuple.Create(dt, dateID, Hall);
         }
 
-        public List<Tuple<double, int, int, string, bool>> GetSeat(int hallID)
+        /// <summary>
+        /// Gets all the seats from 1 specific hall
+        /// </summary>
+        /// <param name="HallID">The hall you want to search all the seats for</param>
+        /// <returns>A list of seats with availability, prices and place</returns>
+        public List<Tuple<double, int, int, string, bool>> GetSeat(int HallID)
         {
             List<Tuple<double, int, int, string, bool>> seat = new List<Tuple<double, int, int, string, bool>>();
             try
@@ -437,7 +486,7 @@ namespace CinemaConsole.Data.BackEnd
                 MySqlCommand command = new MySqlCommand(IntToCheck, Connection);
                 MySqlParameter HallIDParam = new MySqlParameter("@HallID", MySqlDbType.Int32);
 
-                HallIDParam.Value = hallID;
+                HallIDParam.Value = HallID;
 
                 command.Parameters.Add(HallIDParam);
 
@@ -471,6 +520,11 @@ namespace CinemaConsole.Data.BackEnd
             return seat;
         }
 
+        /// <summary>
+        /// Gets all the info about a specific hall
+        /// </summary>
+        /// <param name="HallID">The hall you want to search all the info about</param>
+        /// <returns>A Tuple with all the seats and prices</returns>
         public Tuple<int, int, int, int, double, double, double> GetHallInfo(int HallID)
         {
             int row = 0;
@@ -517,7 +571,15 @@ namespace CinemaConsole.Data.BackEnd
             return Tuple.Create(row, col, dateID, HallID, inner, middle, outer);
         }
 
-        public void switchAvail(int seatX, int seatY, int hallID, int amount, bool avail)
+        /// <summary>
+        /// Switch a seat availability
+        /// </summary>
+        /// <param name="SeatX">Place where seat reservation starts</param>
+        /// <param name="SeatY">Place where seat reservation starts</param>
+        /// <param name="HallID">The hall you want to search</param>
+        /// <param name="Amount">The amount of seats you want to switch</param>
+        /// <param name="Avail">The availability you want to change to</param>
+        public void switchAvail(int SeatX, int SeatY, int HallID, int Amount, bool Avail)
         {
             try
             {
@@ -534,7 +596,7 @@ namespace CinemaConsole.Data.BackEnd
                     MySqlParameter Xparam = new MySqlParameter("@seatX", MySqlDbType.Int32);
                     MySqlParameter IDparam = new MySqlParameter("@HallID", MySqlDbType.Int32);
 
-                    if (avail)
+                    if (Avail)
                     {
                         availparam.Value = 1;
                     }
@@ -543,9 +605,9 @@ namespace CinemaConsole.Data.BackEnd
                         availparam.Value = 0;
                     }
 
-                    Yparam.Value = seatY;
-                    Xparam.Value = (seatX + count);
-                    IDparam.Value = hallID;
+                    Yparam.Value = SeatY;
+                    Xparam.Value = (SeatX + count);
+                    IDparam.Value = HallID;
 
                     command.Parameters.Add(availparam);
                     command.Parameters.Add(Yparam);
@@ -556,7 +618,7 @@ namespace CinemaConsole.Data.BackEnd
                     command.ExecuteNonQuery();
 
                     count++;
-                    if (count >= amount)
+                    if (count >= Amount)
                     {
                         break;
                     }
@@ -572,9 +634,13 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public void DeleteMovie(int movieID)
+        /// <summary>
+        /// Delete a movie
+        /// </summary>
+        /// <param name="MovieID">ID of the movie you want to delete</param>
+        public void DeleteMovie(int MovieID)
         {
-            Tuple<List<int>, List<int>> dateHallIDs = GetDateHallIDs(movieID);
+            Tuple<List<int>, List<int>> dateHallIDs = GetDateHallIDs(MovieID);
 
             try
             {
@@ -582,7 +648,7 @@ namespace CinemaConsole.Data.BackEnd
                 string DeleteMovie = @"DELETE FROM movie WHERE MovieID = @ID";
 
                 MySqlParameter movieIDParam = new MySqlParameter("@ID", MySqlDbType.Int32);
-                movieIDParam.Value = movieID;
+                movieIDParam.Value = MovieID;
 
                 //Delete movie with movieID
                 MySqlCommand commandMovie = new MySqlCommand(DeleteMovie, Connection);
@@ -652,16 +718,20 @@ namespace CinemaConsole.Data.BackEnd
 
         }
 
-        public void DeleteTime(int dateID)
+        /// <summary>
+        /// Delete 1 specific time
+        /// </summary>
+        /// <param name="DateID">ID of time you want to delete</param>
+        public void DeleteTime(int DateID)
         {
-            int hallID = GetHallID(dateID);
+            int hallID = GetHallID(DateID);
 
             try
             {
                 Connection.Open();
 
                 MySqlParameter dateIDParam = new MySqlParameter("@ID", MySqlDbType.Int32);
-                dateIDParam.Value = dateID;
+                dateIDParam.Value = DateID;
 
                 //Delete date with DateID
                 string DeleteDate = @"DELETE FROM date WHERE DateID = @ID";
@@ -713,6 +783,9 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
+        /// <summary>
+        /// Delete all the times that have past
+        /// </summary>
         public void DeletepastTimes()
         {
             try
@@ -795,7 +868,12 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public int getDuration(int id)
+        /// <summary>
+        /// Checks for the duration of a movie
+        /// </summary>
+        /// <param name="MovieID">ID of the movie you want to check</param>
+        /// <returns>Returns the duration of the of a </returns>
+        public int getDuration(int MovieID)
         {
             int duration = 0;
             try
@@ -807,7 +885,7 @@ namespace CinemaConsole.Data.BackEnd
 
                 MySqlParameter ParamID = new MySqlParameter("@ID", MySqlDbType.Int32);
 
-                ParamID.Value = id;
+                ParamID.Value = MovieID;
 
                 command.Parameters.Add(ParamID);
 
@@ -831,6 +909,10 @@ namespace CinemaConsole.Data.BackEnd
             return duration;
         }
 
+        /// <summary>
+        /// Gets all the dates that exist
+        /// </summary>
+        /// <returns>3 lists with all the dates that exist</returns>
         public Tuple<List<DateTime>, List<int>, List<DateTime>> GetAllDates()
         {
             List<DateTime> StartTime = new List<DateTime>();
@@ -864,7 +946,12 @@ namespace CinemaConsole.Data.BackEnd
             return Tuple.Create(StartTime, Hall, Endtime);
         }
 
-        public Tuple<double, double, double> getPrices(int hall)
+        /// <summary>
+        /// Returns all the different prices of seats
+        /// </summary>
+        /// <param name="HallID">Hall you want to search prices for</param>
+        /// <returns>All the three different prices</returns>
+        public Tuple<double, double, double> getPrices(int HallID)
         {
             double InnerCircle = 0.0;
             double MiddleCircle = 0.0;
@@ -879,7 +966,7 @@ namespace CinemaConsole.Data.BackEnd
                 MySqlCommand command = new MySqlCommand(StringtoRead, Connection);
                 MySqlParameter hallParam = new MySqlParameter("@hall", MySqlDbType.Int32);
 
-                hallParam.Value = hall;
+                hallParam.Value = HallID;
 
                 command.Parameters.Add(hallParam);
 
@@ -904,7 +991,12 @@ namespace CinemaConsole.Data.BackEnd
             return Tuple.Create(InnerCircle, MiddleCircle, OuterCircle);
         }
 
-        public void UpdatePrice(int hall, int circle)
+        /// <summary>
+        /// Update a price in a specific hall
+        /// </summary>
+        /// <param name="Hall">Hall you want to update</param>
+        /// <param name="Circle">Circle you want to change</param>
+        public void UpdatePrice(int Hall, int Circle)
         {
             ShowData SD = new ShowData();
 
@@ -947,9 +1039,9 @@ namespace CinemaConsole.Data.BackEnd
                 MySqlParameter hallParam = new MySqlParameter("@hall", MySqlDbType.Int32);
 
                 priceParam.Value = price;
-                hallParam.Value = hall;
+                hallParam.Value = Hall;
 
-                if (circle == 1)
+                if (Circle == 1)
                 {
                     string StringtoUpdate = @"UPDATE prices SET InnerCircle = @price WHERE Hall = @hall";
 
@@ -961,7 +1053,7 @@ namespace CinemaConsole.Data.BackEnd
                     command.Prepare();
                     command.ExecuteNonQuery();
                 }
-                else if (circle == 2)
+                else if (Circle == 2)
                 {
                     string StringtoUpdate = @"UPDATE prices SET MiddleCircle = @price WHERE Hall = @hall";
 
@@ -973,7 +1065,7 @@ namespace CinemaConsole.Data.BackEnd
                     command.Prepare();
                     command.ExecuteNonQuery();
                 }
-                else if (circle == 3)
+                else if (Circle == 3)
                 {
                     string StringtoUpdate = @"UPDATE prices SET OuterCircle = @price WHERE Hall = @hall";
 
@@ -998,20 +1090,27 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public void UpdatePriceSeatHall(int HallID, double price, int circle, int hall)
+        /// <summary>
+        /// Update one specific halls price
+        /// </summary>
+        /// <param name="HallID">Hall you want to update</param>
+        /// <param name="Price">New price</param>
+        /// <param name="Circle">Circle you want to update</param>
+        /// <param name="Hall">Hall you want to update</param>
+        public void UpdatePriceSeatHall(int HallID, double Price, int Circle, int Hall)
         {
             Connection.Open();
             try
             {
-                UpdatePriceSeat(HallID, price, circle, hall);
+                UpdatePriceSeat(HallID, Price, Circle, Hall);
 
                 string StringtoUpdate = "";
 
-                if (circle == 1)
+                if (Circle == 1)
                 {
                     StringtoUpdate = @"UPDATE hall SET InnerCircle = @price WHERE HallID = @HallID";
                 }
-                else if (circle == 2)
+                else if (Circle == 2)
                 {
                     StringtoUpdate = @"UPDATE hall SET MiddleCircle = @price WHERE HallID = @HallID";
                 }
@@ -1025,7 +1124,7 @@ namespace CinemaConsole.Data.BackEnd
                 MySqlParameter priceParam = new MySqlParameter("@price", MySqlDbType.Double);
                 MySqlParameter hallIDParam = new MySqlParameter("@HallID", MySqlDbType.Int32);
 
-                priceParam.Value = price;
+                priceParam.Value = Price;
                 hallIDParam.Value = HallID;
 
                 command.Parameters.Add(priceParam);
@@ -1044,7 +1143,14 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public void UpdatePriceSeat(int HallID, double price, int circle, int hall)
+        /// <summary>
+        /// Update all prices for one hall
+        /// </summary>
+        /// <param name="HallID">Hall you want to update</param>
+        /// <param name="Price">New price</param>
+        /// <param name="Circle">Which circle you want</param>
+        /// <param name="Hall">specific</param>
+        public void UpdatePriceSeat(int HallID, double Price, int Circle, int Hall)
         {
             try
             {
@@ -1053,10 +1159,10 @@ namespace CinemaConsole.Data.BackEnd
                 MySqlParameter priceParam = new MySqlParameter("@price", MySqlDbType.Double);
                 MySqlParameter hallIDParam = new MySqlParameter("@HallID", MySqlDbType.Int32);
 
-                priceParam.Value = price;
+                priceParam.Value = Price;
                 hallIDParam.Value = HallID;
 
-                if (hall == 1)
+                if (Hall == 1)
                 {
                     for (int i = 0; i < 14; i++)
                     {
@@ -1078,7 +1184,7 @@ namespace CinemaConsole.Data.BackEnd
 
                             if ((j == 5 || j == 6) && (i > 4 && i < 9))
                             {
-                                if (circle == 1)
+                                if (Circle == 1)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1086,7 +1192,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 5 || j == 6) && (i > 2 && i < 11))
                             {
-                                if (circle == 2)
+                                if (Circle == 2)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1094,7 +1200,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 4 || j == 7) && (i > 3 && i < 10))
                             {
-                                if (circle == 2)
+                                if (Circle == 2)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1102,7 +1208,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 3 || j == 8) && (i > 4 && i < 9))
                             {
-                                if (circle == 2)
+                                if (Circle == 2)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1110,7 +1216,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else
                             {
-                                if (circle == 3)
+                                if (Circle == 3)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1119,7 +1225,7 @@ namespace CinemaConsole.Data.BackEnd
                         }
                     }
                 }
-                else if (hall == 2)
+                else if (Hall == 2)
                 {
                     for (int i = 0; i < 19; i++)
                     {
@@ -1140,7 +1246,7 @@ namespace CinemaConsole.Data.BackEnd
 
                             if ((j == 8 || j == 9) && (i > 4 && i < 13))
                             {
-                                if (circle == 1)
+                                if (Circle == 1)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1148,7 +1254,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 7 || j == 10) && (i > 5 && i < 12))
                             {
-                                if (circle == 1)
+                                if (Circle == 1)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1156,7 +1262,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 6 || j == 11) && (i > 6 && i < 11))
                             {
-                                if (circle == 1)
+                                if (Circle == 1)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1164,7 +1270,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j > 5 && j < 12) && (i > 0 && i < 16))
                             {
-                                if (circle == 2)
+                                if (Circle == 2)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1172,7 +1278,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 5 || j == 12) && (i > 1 && i < 14))
                             {
-                                if (circle == 2)
+                                if (Circle == 2)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1180,7 +1286,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 4 || j == 13) && (i > 3 && i < 13))
                             {
-                                if (circle == 2)
+                                if (Circle == 2)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1188,7 +1294,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 3 || j == 14) && (i > 5 && i < 12))
                             {
-                                if (circle == 2)
+                                if (Circle == 2)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1196,7 +1302,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 2 || j == 15) && (i > 7 && i < 11))
                             {
-                                if (circle == 2)
+                                if (Circle == 2)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1204,7 +1310,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else
                             {
-                                if (circle == 3)
+                                if (Circle == 3)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1213,7 +1319,7 @@ namespace CinemaConsole.Data.BackEnd
                         }
                     }
                 }
-                else if (hall == 3)
+                else if (Hall == 3)
                 {
                     for (int i = 0; i < 20; i++)
                     {
@@ -1234,7 +1340,7 @@ namespace CinemaConsole.Data.BackEnd
 
                             if ((j > 12 && j < 17) && (i > 3 && i < 13))
                             {
-                                if (circle == 1)
+                                if (Circle == 1)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1242,7 +1348,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 12 || j == 17) && (i > 4 && i < 12))
                             {
-                                if (circle == 1)
+                                if (Circle == 1)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1250,7 +1356,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 11 || j == 18) && (i > 5 && i < 12))
                             {
-                                if (circle == 1)
+                                if (Circle == 1)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1258,7 +1364,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j > 11 && j < 18) && (i > 0 && i < 17))
                             {
-                                if (circle == 2)
+                                if (Circle == 2)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1266,7 +1372,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 10 || j == 11 || j == 18 || j == 19) && (i > 0 && i < 16))
                             {
-                                if (circle == 2)
+                                if (Circle == 2)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1274,7 +1380,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 9 || j == 20) && (i > 0 && i < 15))
                             {
-                                if (circle == 2)
+                                if (Circle == 2)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1282,7 +1388,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 8 || j == 21) && (i > 1 && i < 14))
                             {
-                                if (circle == 2)
+                                if (Circle == 2)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1290,7 +1396,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 7 || j == 22) && (i > 3 && i < 12))
                             {
-                                if (circle == 2)
+                                if (Circle == 2)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1298,7 +1404,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 6 || j == 23) && (i > 5 && i < 11))
                             {
-                                if (circle == 2)
+                                if (Circle == 2)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1306,7 +1412,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else if ((j == 5 || j == 24) && (i > 7 && i < 10))
                             {
-                                if (circle == 2)
+                                if (Circle == 2)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1314,7 +1420,7 @@ namespace CinemaConsole.Data.BackEnd
                             }
                             else
                             {
-                                if (circle == 3)
+                                if (Circle == 3)
                                 {
                                     command.Prepare();
                                     command.ExecuteNonQuery();
@@ -1330,7 +1436,12 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public Tuple<double, DateTime> GetDatePrice(string ticketcode)
+        /// <summary>
+        /// Get a date and price from a ticket
+        /// </summary>
+        /// <param name="TicketCode">Ticket you want to search for</param>
+        /// <returns>Date and price of the ticket</returns>
+        public Tuple<double, DateTime> GetDatePrice(string TicketCode)
         {
             double totalPrice = 0.00;
             DateTime date = new DateTime();
@@ -1343,21 +1454,21 @@ namespace CinemaConsole.Data.BackEnd
 
                 MySqlCommand command = new MySqlCommand(TicketInfo, Connection);
                 MySqlDataReader getTicketInfo = command.ExecuteReader();
-                string ticketcode2 = ticketcode.ToString();
+                string ticketcode2 = TicketCode.ToString();
 
                 DataTable dataTable = new DataTable();
 
                 dataTable.Load(getTicketInfo);
-                string TicketCode;
+                string ticketCode;
                 bool isFound = true;
 
                 while (isFound)
                 {
                     foreach (DataRow row in dataTable.Rows)
                     {
-                        TicketCode = row["TicketCode"].ToString();
+                        ticketCode = row["TicketCode"].ToString();
 
-                        if (ticketcode2 == TicketCode)
+                        if (ticketcode2 == ticketCode)
                         {
                             totalPrice = Convert.ToDouble(row["TotalPrice"]);
                             int DateID = Convert.ToInt32(row["DateID"]);
@@ -1381,11 +1492,16 @@ namespace CinemaConsole.Data.BackEnd
             return Tuple.Create(totalPrice, date);
         }
 
+        /// <summary>
+        /// Get all the dates
+        /// </summary>
+        /// <param name="DateID">Date you want to search</param>
+        /// <returns>Last date there is available</returns>
         public DateTime GetDate(int DateID)
         {
-            Connection.Open();
             try
             {
+                Connection.Open();
                 string DateInfo = @"SELECT * FROM date";
 
                 MySqlCommand oCmd = new MySqlCommand(DateInfo, Connection);
@@ -1422,6 +1538,12 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
+        /// <summary>
+        /// checks if revenue stream is available
+        /// </summary>
+        /// <param name="Month">Which month you are searching for</param>
+        /// <param name="Year">Which year you are searching for</param>
+        /// <returns>two bools if they are</returns>
         public Tuple<bool, bool> EditCreateRev(int Month, int Year)
         {
             bool yearYN = false;
@@ -1485,6 +1607,12 @@ namespace CinemaConsole.Data.BackEnd
             return Tuple.Create(monthYN, yearYN);
         }
 
+        /// <summary>
+        /// Update the revenue for a specific month
+        /// </summary>
+        /// <param name="Month">Month you want to update</param>
+        /// <param name="Year">Year you want to update</param>
+        /// <param name="Price">New price</param>
         public void UpdateRevenueMonth(int Month, int Year, double Price)
         {
             try
@@ -1546,7 +1674,11 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-
+        /// <summary>
+        /// Update the revenue for specific year
+        /// </summary>
+        /// <param name="Year">Year you want to update</param>
+        /// <param name="Price">Price you want to set it</param>
         public void UpdateRevenueYear(int Year, double Price)
         {
             try
@@ -1612,7 +1744,12 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public Tuple<bool, double> GetYearRevenue(int year)
+        /// <summary>
+        /// Get the revenue from one year
+        /// </summary>
+        /// <param name="Year">Year you want to check</param>
+        /// <returns>the revenue that is made that year</returns>
+        public Tuple<bool, double> GetYearRevenue(int Year)
         {
             double TotalRevenue = 0.00;
             bool Found = false;
@@ -1630,13 +1767,13 @@ namespace CinemaConsole.Data.BackEnd
 
                 dataTable.Load(getYearInfo);
 
-                int Year;
+                int year;
                 
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    Year = Convert.ToInt32(row["year"]);
+                    year = Convert.ToInt32(row["year"]);
 
-                    if (Year == year)
+                    if (year == Year)
                     {
                         TotalRevenue = Convert.ToDouble(row["revenue"]);
                         Found = true;
@@ -1655,8 +1792,13 @@ namespace CinemaConsole.Data.BackEnd
             return Tuple.Create(Found, TotalRevenue);
         }
 
-
-        public Tuple<bool, double> GetMonthRevenue(int month, int year)
+        /// <summary>
+        /// Get the revenue from one month
+        /// </summary>
+        /// <param name="Month">Month you want to check</param>
+        /// <param name="Year">Year you want to check</param>
+        /// <returns>The revenue for that is made for that month</returns>
+        public Tuple<bool, double> GetMonthRevenue(int Month, int Year)
         {
             double TotalRevenue = 0.00;
             bool Found = false;
@@ -1674,15 +1816,15 @@ namespace CinemaConsole.Data.BackEnd
 
                 dataTable.Load(getYearInfo);
 
-                int Year;
-                int Month;
+                int year;
+                int month;
 
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    Year = Convert.ToInt32(row["year"]);
-                    Month = Convert.ToInt32(row["month"]);
+                    year = Convert.ToInt32(row["year"]);
+                    month = Convert.ToInt32(row["month"]);
 
-                    if (Year == year && Month == month)
+                    if (year == Year && month == Month)
                     {
                         TotalRevenue = Convert.ToDouble(row["revenue"]);
                         Found = true;
@@ -1701,7 +1843,13 @@ namespace CinemaConsole.Data.BackEnd
             return Tuple.Create(Found, TotalRevenue);
         }
 
-        public void RevenueMonth(int month, int year, double revenue)
+        /// <summary>
+        /// Set the revenue for a month
+        /// </summary>
+        /// <param name="Month">The month you want to set that revenue</param>
+        /// <param name="Year">The year you want to set that revenue</param>
+        /// <param name="Revenue">The revenue you want to set it to</param>
+        public void RevenueMonth(int Month, int Year, double Revenue)
         {
             try
             {
@@ -1714,9 +1862,9 @@ namespace CinemaConsole.Data.BackEnd
                 MySqlParameter YearParam = new MySqlParameter("@year", MySqlDbType.Int32);
                 MySqlParameter RevenueParam = new MySqlParameter("@revenue", MySqlDbType.Double);
 
-                MonthParam.Value = month;
-                YearParam.Value = year;
-                RevenueParam.Value = revenue;
+                MonthParam.Value = Month;
+                YearParam.Value = Year;
+                RevenueParam.Value = Revenue;
 
                 command.Parameters.Add(MonthParam);
                 command.Parameters.Add(YearParam);
@@ -1734,7 +1882,13 @@ namespace CinemaConsole.Data.BackEnd
                 Connection.Close();
             }
         }
-        public void RevenueYear(int year, double revenue)
+
+        /// <summary>
+        /// Set the revenue for a year
+        /// </summary>
+        /// <param name="Year">The year you want to sest that revenue</param>
+        /// <param name="Revenue">The revenue you want to set it too</param>
+        public void RevenueYear(int Year, double Revenue)
         {
             try
             {
@@ -1746,8 +1900,8 @@ namespace CinemaConsole.Data.BackEnd
                 MySqlParameter YearParam = new MySqlParameter("@year", MySqlDbType.Int32);
                 MySqlParameter RevenueParam = new MySqlParameter("@revenue", MySqlDbType.Double);
 
-                YearParam.Value = year;
-                RevenueParam.Value = revenue;
+                YearParam.Value = Year;
+                RevenueParam.Value = Revenue;
 
                 command.Parameters.Add(YearParam);
                 command.Parameters.Add(RevenueParam);

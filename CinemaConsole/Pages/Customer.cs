@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using CinemaConsole.Data;
-using CinemaConsole.Data.BackEnd;
-using CinemaConsole.Data.Employee;
-using CinemaConsole.Pages.Restaurant;
-using CinemaConsole.Pages.Admin;
 
 
 namespace CinemaConsole.Pages
 {
     public class Customer
     {
-        public static List<int> display()
+        /// <summary>
+        /// Shows a list of options
+        /// </summary>
+        /// <returns>A list of options</returns>
+        public static List<int> Display()
         {
             Console.WriteLine("\nMovies:");
 
@@ -30,6 +28,10 @@ namespace CinemaConsole.Pages
             return IDList;
         }
 
+        /// <summary>
+        /// Menu to put in your name
+        /// </summary>
+        /// <returns>a tuple with full name and email</returns>
         private static Tuple<string, string, string> Name()
         {
             ShowData SD = new ShowData();
@@ -74,7 +76,13 @@ namespace CinemaConsole.Pages
             return Tuple.Create(first_name, last_name, email);
         }
 
-        public static string selectTime(Tuple<List<DateTime>, List<int>, List<int>> date, string Id)
+        /// <summary>
+        /// Select a time
+        /// </summary>
+        /// <param name="Date">Date to check</param>
+        /// <param name="ID">ID of a time</param>
+        /// <returns></returns>
+        public static string selectTime(Tuple<List<DateTime>, List<int>, List<int>> Date, string ID)
         {
             string CustomerReserve;
             while (true)
@@ -92,9 +100,9 @@ namespace CinemaConsole.Pages
                     else if (CustomerReserve.Length > 5)
                     {
                         SD.ClearAndErrorMessage("Your input is too big");
-                        showTime(Id);
+                        showTime(ID);
                     }
-                    else if (Convert.ToInt32(CustomerReserve) >= date.Item1.Count + 1 || Convert.ToInt32(CustomerReserve) < 1)
+                    else if (Convert.ToInt32(CustomerReserve) >= Date.Item1.Count + 1 || Convert.ToInt32(CustomerReserve) < 1)
                     {
                         SD.ErrorMessage("\nPlease enter an option that exists");
                     }
@@ -111,15 +119,21 @@ namespace CinemaConsole.Pages
             return CustomerReserve;
         }
 
-        public static Tuple<Tuple<int, int, int, int, double, double, double>, List<Tuple<double, int, int, string, bool>>> hallSeatInfo(string CustomerReserve, Tuple<List<DateTime>, List<int>, List<int>> date)
+        /// <summary>
+        /// Retracts all the info about a certain seat when you have the name and date
+        /// </summary>
+        /// <param name="CustomerReserve">ID of customer</param>
+        /// <param name="Date">Date for the playdate</param>
+        /// <returns>Info about the seat</returns>
+        public static Tuple<Tuple<int, int, int, int, double, double, double>, List<Tuple<double, int, int, string, bool>>> hallSeatInfo(string CustomerReserve, Tuple<List<DateTime>, List<int>, List<int>> Date)
         {
             AdminData AD = new AdminData();
 
-            string datetime = date.Item1[Convert.ToInt32(CustomerReserve) - 1].ToString("yyyy") + "-" + date.Item1[Convert.ToInt32(CustomerReserve) - 1].ToString("MM") + "-" + date.Item1[Convert.ToInt32(CustomerReserve) - 1].ToString("dd") + " " + date.Item1[Convert.ToInt32(CustomerReserve) - 1].ToString("HH") + ":" + date.Item1[Convert.ToInt32(CustomerReserve) - 1].ToString("mm");
+            string datetime = Date.Item1[Convert.ToInt32(CustomerReserve) - 1].ToString("yyyy") + "-" + Date.Item1[Convert.ToInt32(CustomerReserve) - 1].ToString("MM") + "-" + Date.Item1[Convert.ToInt32(CustomerReserve) - 1].ToString("dd") + " " + Date.Item1[Convert.ToInt32(CustomerReserve) - 1].ToString("HH") + ":" + Date.Item1[Convert.ToInt32(CustomerReserve) - 1].ToString("mm");
 
             DateTime dt = DateTime.ParseExact(datetime, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
 
-            int HallID = AD.GetHallID(AD.GetDateID(dt, date.Item3[Convert.ToInt32(CustomerReserve) - 1]));
+            int HallID = AD.GetHallID(AD.GetDateID(dt, Date.Item3[Convert.ToInt32(CustomerReserve) - 1]));
             Tuple<int, int, int, int, double, double, double> HallInfo = AD.GetHallInfo(HallID);
 
             List<Tuple<double, int, int, string, bool>> seats = AD.GetSeat(HallID);
@@ -127,7 +141,12 @@ namespace CinemaConsole.Pages
             return Tuple.Create(HallInfo, seats);
         }
 
-        public static Tuple<DateTime,int,int,int,int,Tuple<double,int,int>> reserveSeat(string whichMovie)
+        /// <summary>
+        /// Reserve a seat
+        /// </summary>
+        /// <param name="WhichMovie">Movie</param>
+        /// <returns>A tuple with the info</returns>
+        public static Tuple<DateTime,int,int,int,int,Tuple<double,int,int>> reserveSeat(string WhichMovie)
         {
             AdminData AD = new AdminData();
             ShowData SD = new ShowData();
@@ -143,8 +162,8 @@ namespace CinemaConsole.Pages
  
             while (true)
             {
-                Tuple<List<DateTime>, List<int>, List<int>> date = showTime(whichMovie);
-                string CustomerReserve = selectTime(date, whichMovie);
+                Tuple<List<DateTime>, List<int>, List<int>> date = showTime(WhichMovie);
+                string CustomerReserve = selectTime(date, WhichMovie);
 
                 if (CustomerReserve == "exit")
                 {
@@ -228,7 +247,12 @@ namespace CinemaConsole.Pages
             return Tuple.Create(datetime,DateID, amount, seatX, seatY, Tuple.Create(price, hall, HallID));
         }
 
-        public static void showHall(Tuple<int, int, int, int, double, double, double> HallInfo, List<Tuple<double, int, int, string, bool>> seats)
+        /// <summary>
+        /// Function to show the hall
+        /// </summary>
+        /// <param name="HallInfo">All the info about the hall itself</param>
+        /// <param name="Seats">All the info of the seats</param>
+        public static void showHall(Tuple<int, int, int, int, double, double, double> HallInfo, List<Tuple<double, int, int, string, bool>> Seats)
         {
             Console.OutputEncoding = Encoding.UTF8;
             Console.WriteLine("\nLegend:");
@@ -277,21 +301,21 @@ namespace CinemaConsole.Pages
             {
                 for (int j = 0; j < HallInfo.Item2; j++)
                 {
-                    for (int z = 0; z < seats.Count; z++)
+                    for (int z = 0; z < Seats.Count; z++)
                     {
-                        if (seats[z].Item2 == i && seats[z].Item3 == j)
+                        if (Seats[z].Item2 == i && Seats[z].Item3 == j)
                         {
-                            if (seats[z].Item5)
+                            if (Seats[z].Item5)
                             {
-                                if (seats[z].Item1 == HallInfo.Item5)
+                                if (Seats[z].Item1 == HallInfo.Item5)
                                 {
                                     Console.ForegroundColor = ConsoleColor.Yellow;
                                 }
-                                else if (seats[z].Item1 == HallInfo.Item6)
+                                else if (Seats[z].Item1 == HallInfo.Item6)
                                 {
                                     Console.ForegroundColor = ConsoleColor.Cyan;
                                 }
-                                else if(seats[z].Item1 == HallInfo.Item7)
+                                else if(Seats[z].Item1 == HallInfo.Item7)
                                 {
                                     Console.ForegroundColor = ConsoleColor.Green;
                                 }
@@ -310,7 +334,7 @@ namespace CinemaConsole.Pages
                                 }
                                 Console.ResetColor();
                             }
-                            else if (seats[z].Item4 == "(No Seat)")
+                            else if (Seats[z].Item4 == "(No Seat)")
                             {
                                 if (j > 8)
                                 {
@@ -361,7 +385,14 @@ namespace CinemaConsole.Pages
             Console.WriteLine(screen);
         }
 
-        public static bool seatCheck(Tuple<int, int, int, int, double, double, double> HallInfo, List<Tuple<double, int, int, string, bool>> seats, int amount)
+        /// <summary>
+        /// Check if you can reserve the seats
+        /// </summary>
+        /// <param name="HallInfo">Which hall is selected</param>
+        /// <param name="Seats">Where the seat start</param>
+        /// <param name="Amount">The amount of the seats you want to check</param>
+        /// <returns></returns>
+        public static bool seatCheck(Tuple<int, int, int, int, double, double, double> HallInfo, List<Tuple<double, int, int, string, bool>> Seats, int Amount)
         {
             AdminData AD = new AdminData();
 
@@ -372,14 +403,14 @@ namespace CinemaConsole.Pages
             {
                 for (int j = 0; j < HallInfo.Item2; j++)
                 {
-                    for (int z = 0; z < seats.Count; z++)
+                    for (int z = 0; z < Seats.Count; z++)
                     {
-                        if (seats[z].Item2 == i && seats[z].Item3 == j)
+                        if (Seats[z].Item2 == i && Seats[z].Item3 == j)
                         {
-                            if (seats[z].Item5)
+                            if (Seats[z].Item5)
                             {
                                 count++;
-                                if (count >= amount)
+                                if (count >= Amount)
                                 {
                                     free = true;
                                     break;
@@ -406,10 +437,15 @@ namespace CinemaConsole.Pages
             return free;
         }
         
-        public static Tuple<List<DateTime>, List<int>, List<int>> showTime(string whichMovie)
+        /// <summary>
+        /// Shows all the times of a movie
+        /// </summary>
+        /// <param name="WhichMovie">Movie to check all the times for</param>
+        /// <returns>A list with all the times for that movie</returns>
+        public static Tuple<List<DateTime>, List<int>, List<int>> showTime(string WhichMovie)
         {
             AdminData AD = new AdminData();
-            Tuple<List<DateTime>, List<int>, List<int>> times = AD.GetTime(Convert.ToInt32(whichMovie));
+            Tuple<List<DateTime>, List<int>, List<int>> times = AD.GetTime(Convert.ToInt32(WhichMovie));
 
             for (int i = 0; i < times.Item1.Count; i++)
             {
@@ -419,7 +455,14 @@ namespace CinemaConsole.Pages
             return times;
         }
 
-        public static Tuple<int, int, double> chooseSeat(Tuple<int, int, int, int, double, double, double> HallInfo, List<Tuple<double, int, int, string, bool>> seats, int amount)
+        /// <summary>
+        /// Choose a seat in a certain hall
+        /// </summary>
+        /// <param name="HallInfo">Info about the hall</param>
+        /// <param name="Seats">Where the reservation starts</param>
+        /// <param name="Amount">The amount of seats you want to reserve</param>
+        /// <returns>The start place and price</returns>
+        public static Tuple<int, int, double> chooseSeat(Tuple<int, int, int, int, double, double, double> HallInfo, List<Tuple<double, int, int, string, bool>> Seats, int Amount)
         {
             ShowData SD = new ShowData();
             AdminData AD = new AdminData();
@@ -461,23 +504,23 @@ namespace CinemaConsole.Pages
                         seatY = HallInfo.Item1 - Convert.ToInt32(selectedSeat[1]) + 1;
 
 
-                        for (int i = 0; i < seats.Count; i++)
+                        for (int i = 0; i < Seats.Count; i++)
                         {
-                            if ((seatY - 1 == seats[i].Item2) && ((seats[i].Item3 >= seatX - 1) && (seats[i].Item3 < seatX - 1 + amount)) && !seats[i].Item5)
+                            if ((seatY - 1 == Seats[i].Item2) && ((Seats[i].Item3 >= seatX - 1) && (Seats[i].Item3 < seatX - 1 + Amount)) && !Seats[i].Item5)
                             {
                                 free = false;
                                 price = 0.0;
                                 //break;
                             }
-                            if ((seatY - 1 == seats[i].Item2) && ((seats[i].Item3 >= seatX - 1) && (seats[i].Item3 < seatX - 1 + amount)) && seats[i].Item5)
+                            if ((seatY - 1 == Seats[i].Item2) && ((Seats[i].Item3 >= seatX - 1) && (Seats[i].Item3 < seatX - 1 + Amount)) && Seats[i].Item5)
                             {
-                                price += seats[i].Item1;
+                                price += Seats[i].Item1;
                             }
-                            if (seatY - 1 == seats[i].Item2 && seats[i].Item3 == seatX - 1 && seats[i].Item4 != "(No Seat)")
+                            if (seatY - 1 == Seats[i].Item2 && Seats[i].Item3 == seatX - 1 && Seats[i].Item4 != "(No Seat)")
                             {
                                 exist1 = true;
                             }
-                            if (seatY - 1 == seats[i].Item2 && seats[i].Item3 == seatX + amount - 2 && seats[i].Item4 != "(No Seat)")
+                            if (seatY - 1 == Seats[i].Item2 && Seats[i].Item3 == seatX + Amount - 2 && Seats[i].Item4 != "(No Seat)")
                             {
                                 exist2 = true;
                             }
@@ -518,23 +561,29 @@ namespace CinemaConsole.Pages
 
             if (free)
             {
-                AD.switchAvail((seatX - 1), (seatY - 1), HallInfo.Item4, amount, false);
+                AD.switchAvail((seatX - 1), (seatY - 1), HallInfo.Item4, Amount, false);
             }
 
             return Tuple.Create(seatX, seatY,price);
         }
 
-        //Customer get an overview of all the information about the movie and contact details before booking
-        public static void overviewCustomer(Tuple<string, string, string> personInfo, Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> ticketInfo, string title, string ticketCode)
+        /// <summary>
+        /// Customer get an overview of all the information about the movie and contact details before booking
+        /// </summary>
+        /// <param name="PersonInfo">Information about the person</param>
+        /// <param name="TicketInfo">Information about the ticket that they are about to buy</param>
+        /// <param name="Title">Title of the movie</param>
+        /// <param name="TicketCode">Code of the ticket</param>
+        public static void overviewCustomer(Tuple<string, string, string> PersonInfo, Tuple<DateTime, int, int, int, int, Tuple<double, int, int>> TicketInfo, string Title, string TicketCode)
         {
-            string totalprice = ticketInfo.Item6.Item1.ToString("0.00");
-            string datetime = Convert.ToDateTime(ticketInfo.Item1).ToString("dd/MM/yyyy HH:mm");
+            string totalprice = TicketInfo.Item6.Item1.ToString("0.00");
+            string datetime = Convert.ToDateTime(TicketInfo.Item1).ToString("dd/MM/yyyy HH:mm");
 
             ProgressBalk(4);
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.Write("\nMovie: ");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(title);
+            Console.Write(Title);
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.Write("\nTime: ");
             Console.ForegroundColor = ConsoleColor.White;
@@ -546,22 +595,22 @@ namespace CinemaConsole.Pages
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             int Y = 0;
 
-            if (ticketInfo.Item6.Item2 == 1)
+            if (TicketInfo.Item6.Item2 == 1)
             {
-                Y = 14 - ticketInfo.Item5 + 1;
+                Y = 14 - TicketInfo.Item5 + 1;
             }
-            else if (ticketInfo.Item6.Item2 == 2)
+            else if (TicketInfo.Item6.Item2 == 2)
             {
-                Y = 19 - ticketInfo.Item5 + 1;
+                Y = 19 - TicketInfo.Item5 + 1;
             }
-            else if (ticketInfo.Item6.Item2 == 3)
+            else if (TicketInfo.Item6.Item2 == 3)
             {
-                Y = 20 - ticketInfo.Item5 + 1;
+                Y = 20 - TicketInfo.Item5 + 1;
             }
 
             Console.Write("\nSeats:");
             string seats = "";
-            for (int i = ticketInfo.Item4; i < ticketInfo.Item4 + ticketInfo.Item3; i++)
+            for (int i = TicketInfo.Item4; i < TicketInfo.Item4 + TicketInfo.Item3; i++)
             {
                 seats += " (" + i + "/" + Y + ")";
             }
@@ -570,14 +619,23 @@ namespace CinemaConsole.Pages
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.Write("\nName: ");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(personInfo.Item1 + " " + personInfo.Item2);
+            Console.Write(PersonInfo.Item1 + " " + PersonInfo.Item2);
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.Write("\nEmail: ");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(personInfo.Item3 + "\n");
+            Console.Write(PersonInfo.Item3 + "\n");
             Console.ResetColor();
         }
 
+        /// <summary>
+        /// Creates a ticketID for the customer
+        /// </summary>
+        /// <param name="Time">The time the movie starts</param>
+        /// <param name="MovieName">The name of the movie</param>
+        /// <param name="X">The X start position the reservation</param>
+        /// <param name="Y">The Y start position the reservation</param>
+        /// <param name="TheatherHall">The hall the movie is playing</param>
+        /// <returns>The ticketID</returns>
         private static string createTicketID(DateTime Time, string MovieName, int X, int Y, int TheatherHall)
         {
             //Takes the first 3 letters of the movie and makes them all caps
@@ -590,6 +648,10 @@ namespace CinemaConsole.Pages
             return MovieTicketData;
         }
 
+        /// <summary>
+        /// Switching between menus
+        /// </summary>
+        /// <param name="place">Place the menu is currently at</param>
         private static void ProgressBalk(int place)
         {
             if(place == 1)
@@ -664,6 +726,9 @@ namespace CinemaConsole.Pages
             }
         }
 
+        /// <summary>
+        /// Menu for the customer
+        /// </summary>
         public static void Menu()
         {
             Console.Clear();
@@ -681,7 +746,7 @@ namespace CinemaConsole.Pages
                 // convert movielist count to a string
                 Console.WriteLine("\nPlease enter the number or word that stands before the movie you want to reserve or action you want to do.");
 
-                List<int> MovieIDs = display();
+                List<int> MovieIDs = Display();
 
                 string line = Console.ReadLine();
                 try

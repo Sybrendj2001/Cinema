@@ -1,23 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CinemaConsole.Pages;
-using CinemaConsole.Data.Employee;
-using CinemaConsole.Data.BackEnd;
-
+using CinemaConsole.Data;
 
 namespace CinemaConsole.Pages.Restaurant
 {
-    public class Restaurant : Employee
+    public class Restaurant
     {
-        public Restaurant()
-        {
-
-        }
-
-        //Allows the retailer to edit items on the list of products.
+        /// <summary>
+        /// Allows the retailer to edit a product
+        /// </summary>
+        /// <param name="productID">The ID of the product to edit</param>
         public static void EditItem(int productID)
         {
             ChangeData CD = new ChangeData();
@@ -74,7 +66,7 @@ namespace CinemaConsole.Pages.Restaurant
                     {
                         double example = 5.50;
                         CD.ShowProductItem(productID, 2);
-                        Console.WriteLine("\nPlease enter the new price of the product in euro's. (e.g. " + example.ToString("0.00") + ") or write [exit] to go back.");
+                        Console.WriteLine("\nPlease enter the new price of the product in euro's. (e.g. " + example.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + ") or write [exit] to go back.");
                         string input = Console.ReadLine().ToLower();
                         if (input == "exit")
                         {
@@ -167,8 +159,9 @@ namespace CinemaConsole.Pages.Restaurant
             }
             
         }
+
         /// <summary>
-        /// Remove a product
+        /// Add a product
         /// </summary>
         public static void AddProduct()
         {
@@ -296,6 +289,7 @@ namespace CinemaConsole.Pages.Restaurant
                 }
             }
         }
+
         /// <summary>
         /// Edit a product
         /// </summary>
@@ -347,7 +341,9 @@ namespace CinemaConsole.Pages.Restaurant
             }
         }
 
-        //Presents a menu with options to choose from.
+        /// <summary>
+        /// The menu of the restaurant
+        /// </summary>
         public static void Menu()
         {
             ChangeData CD = new ChangeData();

@@ -1,55 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using MySql.Data;
-using MySql;
 using MySql.Data.MySqlClient;
 using System.Data;
 
-namespace CinemaConsole.Data.BackEnd
+namespace CinemaConsole.Data
 {
 	public class ChangeData : Connecter
 	{
-		public void CreateProfile(int totalprofiles, string username, string password, string function)
-		{
-			try
-			{
-				Connection.Open();
-
-				string stringToInsert = @"INSERT INTO login (ID, Username, Password, Functions) VALUES (@ID, @Username, @Password, @Functions)";
-
-				MySqlCommand command = new MySqlCommand(stringToInsert, Connection);
-				MySqlParameter IDParam = new MySqlParameter("@ID", MySqlDbType.Int32);
-				MySqlParameter UsernameParam = new MySqlParameter("@Username", MySqlDbType.VarChar);
-				MySqlParameter PasswordParam = new MySqlParameter("@Password", MySqlDbType.VarChar);
-				MySqlParameter FunctionParam = new MySqlParameter("@Functions", MySqlDbType.VarChar);
-
-				IDParam.Value = totalprofiles;
-				UsernameParam.Value = username;
-				PasswordParam.Value = password;
-				FunctionParam.Value = function;
-
-				command.Parameters.Add(IDParam);
-				command.Parameters.Add(UsernameParam);
-				command.Parameters.Add(PasswordParam);
-				command.Parameters.Add(FunctionParam);
-
-                command.Prepare();
-                command.ExecuteNonQuery();
-            }
-            catch (MySqlException ex)
-            {
-                throw;
-            }
-            finally
-            {
-                Connection.Close();
-            }
-        }
-
-		public void UpdateMovie(int id, string name = "", int year = -1, int minimumage = -1, string summary = "", string actors = "")
+		/// <summary>
+		/// Update a movie
+		/// </summary>
+		/// <param name="ID">The ID of the movie</param>
+		/// <param name="Name">The new name of the movie</param>
+		/// <param name="Year">The new year of the movie that played in</param>
+		/// <param name="MinimumAge">The minimum age that is required for the movie</param>
+		/// <param name="Summary">The summary for the movie</param>
+		/// <param name="Actors">The actors for the movie</param>
+		public void UpdateMovie(int ID, string Name = "", int Year = -1, int MinimumAge = -1, string Summary = "", string Actors = "")
 		{
 			try
 			{
@@ -59,18 +27,18 @@ namespace CinemaConsole.Data.BackEnd
 				{
 
 					MySqlParameter ParamID = new MySqlParameter("@MovieID", MySqlDbType.Int32);
-					ParamID.Value = id;
+					ParamID.Value = ID;
 
 
 					//Check which variables you need to get
-					if (name != "")
+					if (Name != "")
 					{
 						string UpdateName = @"UPDATE movie SET MovieName = @NewType WHERE MovieID = @MovieID";
 
 						MySqlCommand commandName = new MySqlCommand(UpdateName, Connection);
 						MySqlParameter NameParam = new MySqlParameter("@NewType", MySqlDbType.VarChar);
 						
-						NameParam.Value = name;
+						NameParam.Value = Name;
 
 						commandName.Parameters.Add(ParamID);
 						commandName.Parameters.Add(NameParam);
@@ -78,16 +46,16 @@ namespace CinemaConsole.Data.BackEnd
 						commandName.Prepare();
 						commandName.ExecuteNonQuery();
 
-						name = "";
+						Name = "";
 					}
-					else if (year != -1)
+					else if (Year != -1)
 					{
 						string UpdateYear = @"UPDATE movie SET MovieYear = @NewType WHERE MovieID = @MovieID";
 
 						MySqlCommand commandYear = new MySqlCommand(UpdateYear, Connection);
 						MySqlParameter YearParam = new MySqlParameter("@NewType", MySqlDbType.Int32);
 
-						YearParam.Value = year;
+						YearParam.Value = Year;
 
 						commandYear.Parameters.Add(ParamID);
 						commandYear.Parameters.Add(YearParam);
@@ -95,16 +63,16 @@ namespace CinemaConsole.Data.BackEnd
 						commandYear.Prepare();
 						commandYear.ExecuteNonQuery();
 
-						year = -1;
+						Year = -1;
 					}
-					else if (minimumage != -1)
+					else if (MinimumAge != -1)
 					{
 						string UpdateAge = @"UPDATE movie SET MovieMinimumAge = @NewType WHERE MovieID = @MovieID";
 
 						MySqlCommand commandAge = new MySqlCommand(UpdateAge, Connection);
 						MySqlParameter AgeParam = new MySqlParameter("@NewType", MySqlDbType.Int32);
 
-						AgeParam.Value = minimumage;
+						AgeParam.Value = MinimumAge;
 
 						commandAge.Parameters.Add(ParamID);
 						commandAge.Parameters.Add(AgeParam);
@@ -112,16 +80,16 @@ namespace CinemaConsole.Data.BackEnd
 						commandAge.Prepare();
 						commandAge.ExecuteNonQuery();
 
-						minimumage = -1;
+						MinimumAge = -1;
 					}
-					else if (summary != "")
+					else if (Summary != "")
 					{
 						string UpdateSum = @"UPDATE movie SET MovieSummary = @NewType WHERE MovieID = @MovieID";
 
 						MySqlCommand commandSum = new MySqlCommand(UpdateSum, Connection);
 						MySqlParameter SumParam = new MySqlParameter("@NewType", MySqlDbType.VarChar);
 
-						SumParam.Value = summary;
+						SumParam.Value = Summary;
 
 						commandSum.Parameters.Add(ParamID);
 						commandSum.Parameters.Add(SumParam);
@@ -129,16 +97,16 @@ namespace CinemaConsole.Data.BackEnd
 						commandSum.Prepare();
 						commandSum.ExecuteNonQuery();
 
-						summary = "";
+						Summary = "";
 					}
-					else if (actors != "")
+					else if (Actors != "")
 					{
 						string UpdateActors = @"UPDATE movie SET MovieActors = @NewType WHERE MovieID = @MovieID";
 
 						MySqlCommand commandActor = new MySqlCommand(UpdateActors, Connection);
 						MySqlParameter ActorsParam = new MySqlParameter("@NewType", MySqlDbType.VarChar);
 
-						ActorsParam.Value = actors;
+						ActorsParam.Value = Actors;
 
 						commandActor.Parameters.Add(ParamID);
 						commandActor.Parameters.Add(ActorsParam);
@@ -146,7 +114,7 @@ namespace CinemaConsole.Data.BackEnd
 						commandActor.Prepare();
 						commandActor.ExecuteNonQuery();
 
-						actors = "";
+						Actors = "";
 					}
 					else
 					{
@@ -166,52 +134,8 @@ namespace CinemaConsole.Data.BackEnd
 		}
 
 		/// <summary>
-		/// 
+		/// Displays the restaurant products
 		/// </summary>
-		/// <param name="ticketid"></param>
-		/// <returns></returns>
-		public bool CheckTicket(string ticketid)
-		{
-			bool TicketExists = false;
-			try
-			{
-				Connection.Open();
-				string stringToCheck = @"SELECT TicketCode FROM ticket WHERE TicketCode = @TicketID";
-
-				MySqlCommand command = new MySqlCommand(stringToCheck, Connection);
-				MySqlParameter ParamticketID = new MySqlParameter("@TicketID", MySqlDbType.VarChar);
-
-                ParamticketID.Value = ticketid;
-                command.Parameters.Add(ParamticketID);
-
-                MySqlDataReader dataReader = command.ExecuteReader();
-
-				while (dataReader.Read())
-				{
-					int TicketCheck = dataReader.GetInt32("COUNT(*)");
-					if (TicketCheck == 1)
-					{
-						TicketExists = true;
-						dataReader.Close();
-					}
-					else
-					{
-						TicketExists = false;
-					}
-				}
-			}
-			catch (Exception)
-			{
-				throw;
-			}
-			finally
-			{
-				Connection.Close();
-			}
-			return TicketExists;
-		}
-
-		//Only used when a display function is called individueally.
 		public void DisplayProducts()
 		{
 			Console.Clear();
@@ -244,7 +168,9 @@ namespace CinemaConsole.Data.BackEnd
 			}
 		}
 
-		//Called from within another function. Lacks any connection.open() and connection.Close() functions.
+		/// <summary>
+		/// Shows all products in the restaurant
+		/// </summary>
 		public void DisplayProduct()
 		{
 			Console.Clear();
@@ -270,32 +196,36 @@ namespace CinemaConsole.Data.BackEnd
 				throw;
 			}
 		}
+
 		/// <summary>
-		/// show an item of a product (name or price)
+		/// Show an item of a product (name or price)
 		/// </summary>
-		/// <param name="productid">id of the product</param>
-		/// <param name="option">select 1 = name, 2 = price</param>
-		public void ShowProductItem(int productid, int option)
+		/// <param name="ProductID">id of the product</param>
+		/// <param name="Option">select 1 = name, 2 = price</param>
+		public void ShowProductItem(int ProductID, int Option)
         {
+			Console.OutputEncoding = Encoding.UTF8;
 			try
             {
 				Connection.Open();
 				string stringToDisplay = @"SELECT * FROM restaurantitems WHERE ItemID = @ItemID";
 				MySqlCommand command = new MySqlCommand(stringToDisplay, Connection);
 				MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
-				command.Parameters.AddWithValue("@ItemID", productid);
+				command.Parameters.AddWithValue("@ItemID", ProductID);
 
 				using (MySqlDataReader getProductInfo = command.ExecuteReader())
 				{
 					while (getProductInfo.Read())
 					{
-						switch (option)
+						switch (Option)
 						{
 							case 1:
 								Console.WriteLine("\nCurrent item name: " + getProductInfo["ItemName"].ToString());
 								break;
 							case 2:
-								Console.WriteLine("\nCurrent price: " + getProductInfo["Price"].ToString());
+								string p = getProductInfo["Price"].ToString();
+								double price = Convert.ToDouble(p);
+								Console.WriteLine("\nCurrent price: €" + price.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
 								break;
 						}
 					}
@@ -311,7 +241,12 @@ namespace CinemaConsole.Data.BackEnd
 			}
 		}
 
-		public void CreateProduct(string itemname, double price)
+		/// <summary>
+		/// Create a new product
+		/// </summary>
+		/// <param name="ItemName">Product name</param>
+		/// <param name="Price">Product price</param>
+		public void CreateProduct(string ItemName, double Price)
 		{
 			try
 			{
@@ -323,8 +258,8 @@ namespace CinemaConsole.Data.BackEnd
 				MySqlParameter ItemNameParam = new MySqlParameter("@ItemName", MySqlDbType.VarChar);
 				MySqlParameter PriceParam = new MySqlParameter("@Price", MySqlDbType.Double);
 
-				ItemNameParam.Value = itemname;
-				PriceParam.Value = price;
+				ItemNameParam.Value = ItemName;
+				PriceParam.Value = Price;
 
 				command.Parameters.Add(ItemNameParam);
 				command.Parameters.Add(PriceParam);
@@ -345,12 +280,18 @@ namespace CinemaConsole.Data.BackEnd
 			}
 		}
 
-		public void UpdateProduct(int id = -1, string name = "", double price = -1)
+		/// <summary>
+		/// Update a product name and price
+		/// </summary>
+		/// <param name="ID">The ID of the product you want to update</param>
+		/// <param name="Name">The new name of the product</param>
+		/// <param name="Price">The new price of the product</param>
+		public void UpdateProduct(int ID = -1, string Name = "", double Price = -1)
 		{
 			try
 			{
 				Connection.Open();
-				if (name != "" && price != -1)
+				if (Name != "" && Price != -1)
 				{
 					string stringToUpdate = @"UPDATE restaurantitems SET ItemName = @NewName, Price = @NewPrice WHERE ItemID = @ItemID";
 
@@ -359,9 +300,9 @@ namespace CinemaConsole.Data.BackEnd
 					MySqlParameter ParamNewName = new MySqlParameter("@NewName", MySqlDbType.VarChar);
 					MySqlParameter ParamNewPrice = new MySqlParameter("@NewPrice", MySqlDbType.Double);
 
-					ParamID.Value = id;
-					ParamNewName.Value = name;
-					ParamNewPrice.Value = price;
+					ParamID.Value = ID;
+					ParamNewName.Value = Name;
+					ParamNewPrice.Value = Price;
 
 					command.Parameters.Add(ParamNewName);
 					command.Parameters.Add(ParamNewPrice);
@@ -373,7 +314,7 @@ namespace CinemaConsole.Data.BackEnd
 					DisplayProduct();
 				}
 
-				else if (name != "" && price == -1)
+				else if (Name != "" && Price == -1)
 				{
 					string stringToUpdate = @"UPDATE restaurantitems SET ItemName = @NewName WHERE ItemID = @ItemID";
 
@@ -381,8 +322,8 @@ namespace CinemaConsole.Data.BackEnd
 					MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
 					MySqlParameter ParamNewName = new MySqlParameter("@NewName", MySqlDbType.VarChar);
 
-					ParamID.Value = id;
-					ParamNewName.Value = name;
+					ParamID.Value = ID;
+					ParamNewName.Value = Name;
 
 					command.Parameters.Add(ParamNewName);
 					command.Parameters.Add(ParamID);
@@ -393,7 +334,7 @@ namespace CinemaConsole.Data.BackEnd
 					DisplayProduct();
 				}
 
-				else if (name == "" && price != -1)
+				else if (Name == "" && Price != -1)
 				{
 					string stringToUpdate = @"UPDATE restaurantitems SET Price = @NewPrice WHERE ItemID = @ItemID";
 
@@ -401,8 +342,8 @@ namespace CinemaConsole.Data.BackEnd
 					MySqlParameter ParamID = new MySqlParameter("@ItemID", MySqlDbType.Int32);
 					MySqlParameter ParamNewPrice = new MySqlParameter("@NewPrice", MySqlDbType.Double);
 
-					ParamID.Value = id;
-					ParamNewPrice.Value = price;
+					ParamID.Value = ID;
+					ParamNewPrice.Value = Price;
 
 					command.Parameters.Add(ParamNewPrice);
 					command.Parameters.Add(ParamID);
@@ -423,7 +364,11 @@ namespace CinemaConsole.Data.BackEnd
 			}	
         }
 
-        public void DeleteProduct(int deleteItem)
+		/// <summary>
+		/// Delete a product of the restaurant
+		/// </summary>
+		/// <param name="DeleteItemID">The ID item to delete</param>
+        public void DeleteProduct(int DeleteItemID)
 		{
 			try
 			{
@@ -434,7 +379,7 @@ namespace CinemaConsole.Data.BackEnd
 				MySqlCommand command = new MySqlCommand(stringToDelete, Connection);
 				MySqlParameter ItemIDParam = new MySqlParameter("@ItemID", MySqlDbType.Int32);
 
-				ItemIDParam.Value = deleteItem;
+				ItemIDParam.Value = DeleteItemID;
 
 				command.Parameters.Add(ItemIDParam);
 
@@ -454,7 +399,13 @@ namespace CinemaConsole.Data.BackEnd
 			}
 		}
 
-		public string checkLoginAndFunction(string username, string password)
+		/// <summary>
+		/// Checks if you can login
+		/// </summary>
+		/// <param name="Username">Username for the login</param>
+		/// <param name="Password">Password for the login</param>
+		/// <returns>The function if you get logged in</returns>
+		public string checkLoginAndFunction(string Username, string Password)
 		{
 			//if string is empty it means you are not logged in, otherwise you are
 			string function = "";
@@ -467,8 +418,8 @@ namespace CinemaConsole.Data.BackEnd
 				MySqlParameter ParamUsername = new MySqlParameter("@uname", MySqlDbType.VarChar);
 				MySqlParameter ParamPassword = new MySqlParameter("@pword", MySqlDbType.VarChar);
 
-				ParamUsername.Value = username;
-				ParamPassword.Value = password;
+				ParamUsername.Value = Username;
+				ParamPassword.Value = Password;
 
 				command.Parameters.Add(ParamUsername);
 				command.Parameters.Add(ParamPassword);
@@ -493,7 +444,17 @@ namespace CinemaConsole.Data.BackEnd
 			return function;
 		}
 
-		public void InsertMovie(string name, int year, int mage, string msummary, string actors, int duration, string genre)
+		/// <summary>
+		/// Create a new movie
+		/// </summary>
+		/// <param name="Name">Name of the movie</param>
+		/// <param name="Year">Year the movie was made in</param>
+		/// <param name="MinimumAge">The minimum age for the movie to watch it</param>
+		/// <param name="Summary">The summary of movie in short</param>
+		/// <param name="Actors">Actors that act in the movie</param>
+		/// <param name="Duration">The duration of the movie</param>
+		/// <param name="Genre">The genre of the movie</param>
+		public void InsertMovie(string Name, int Year, int MinimumAge, string Summary, string Actors, int Duration, string Genre)
 		{
 			try
 			{
@@ -510,13 +471,13 @@ namespace CinemaConsole.Data.BackEnd
 				MySqlParameter DurationParam = new MySqlParameter("@MovieDuration", MySqlDbType.Int32);
 				MySqlParameter GenreParam = new MySqlParameter("@MovieGenre", MySqlDbType.VarChar);
 
-				NameParam.Value = name;
-				YearParam.Value = year;
-				MAgeParam.Value = mage;
-				MSummaryParam.Value = msummary;
-				ActorsParam.Value = actors;
-				DurationParam.Value = duration;
-				GenreParam.Value = genre;
+				NameParam.Value = Name;
+				YearParam.Value = Year;
+				MAgeParam.Value = MinimumAge;
+				MSummaryParam.Value = Summary;
+				ActorsParam.Value = Actors;
+				DurationParam.Value = Duration;
+				GenreParam.Value = Genre;
 
 				command.Parameters.Add(NameParam);
 				command.Parameters.Add(YearParam);
@@ -540,7 +501,21 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public void ReserveTicket(string Owner, string Email, string TicketCode, int MovieID, int Amount, int seatX, int seatY, int DateID, int Hall, double TotalPrice, int HallID)
+		/// <summary>
+		/// Reserve a ticket
+		/// </summary>
+		/// <param name="Owner">Name of the owner of the ticket</param>
+		/// <param name="Email">Mail of the owener of the ticket</param>
+		/// <param name="TicketCode">The code for the ticket</param>
+		/// <param name="MovieID">The ID of the movie</param>
+		/// <param name="Amount">The amount of seats reserved</param>
+		/// <param name="SeatX">The X value the reservation starts</param>
+		/// <param name="SeatY">The Y value the reservation starts</param>
+		/// <param name="DateID">The ID of the date the movie is played</param>
+		/// <param name="Hall">The hall the movie is played in</param>
+		/// <param name="TotalPrice">The total price for all the tickets</param>
+		/// <param name="HallID">The ID of the hall the movie is played in</param>
+		public void ReserveTicket(string Owner, string Email, string TicketCode, int MovieID, int Amount, int SeatX, int SeatY, int DateID, int Hall, double TotalPrice, int HallID)
         {
             try
             {
@@ -568,8 +543,8 @@ namespace CinemaConsole.Data.BackEnd
                 TicketCodeParam.Value = TicketCode;
                 MovieIDParam.Value = MovieID;
                 AmountParam.Value = Amount;
-                seatXParam.Value = seatX;
-                seatYParam.Value = seatY;
+                seatXParam.Value = SeatX;
+                seatYParam.Value = SeatY;
                 DateIDParam.Value = DateID;
                 HallParam.Value = Hall;
 				HallIDParam.Value = HallID;
@@ -601,7 +576,11 @@ namespace CinemaConsole.Data.BackEnd
             }
         }
 
-        public void DeleteReservationWithTicket(string ticketcode)
+		/// <summary>
+		/// Delete a ticket with a ticketcode
+		/// </summary>
+		/// <param name="Ticketcode">The code of a ticket</param>
+        public void DeleteReservationWithTicket(string Ticketcode)
         {
             try
             {
@@ -631,7 +610,7 @@ namespace CinemaConsole.Data.BackEnd
                     string TicketID;
                     string MovieID;
                     string DateID;
-					int dateid;
+					int dateID;
 					bool isFound;
 					int deletedAmount;
 					int foundAmount;
@@ -658,11 +637,11 @@ namespace CinemaConsole.Data.BackEnd
 							amount = Convert.ToInt32(row["amount"]);
 							seatX = Convert.ToInt32(row["seatX"]);
 							seatY = Convert.ToInt32(row["seatY"]);
-							dateid = Convert.ToInt32(row["DateID"]);
+							dateID = Convert.ToInt32(row["DateID"]);
 							TotalPrice = Convert.ToDouble(row["TotalPrice"]);
 							double pricedelete = -TotalPrice;
 
-							if (TicketCode == ticketcode)
+							if (TicketCode == Ticketcode)
 							{
 								// Ticket and contact information overview to check if you want to remove the right ticket.
 								Console.Clear();
@@ -679,12 +658,12 @@ namespace CinemaConsole.Data.BackEnd
 								}
 								else if (CancelOrDelete == "1")
 								{
-									TicketCodeParam.Value = ticketcode;
+									TicketCodeParam.Value = Ticketcode;
 									command.Parameters.Add(TicketCodeParam);
 									command.Prepare();
 									command.ExecuteNonQuery();
 									
-									DateTime MonthYear = AD.GetDate(dateid);
+									DateTime MonthYear = AD.GetDate(dateID);
 									Connection.Close();
 									var MonthMM = Convert.ToDateTime(MonthYear).ToString("MM");
 									int Month = Convert.ToInt32(MonthMM);
@@ -725,7 +704,7 @@ namespace CinemaConsole.Data.BackEnd
 							else
 							{
 								Console.Clear();
-								Console.WriteLine("\nThere were no results found with the ticketcode: " + ticketcode + "\nPress enter to go back to the menu");
+								Console.WriteLine("\nThere were no results found with the ticketcode: " + Ticketcode + "\nPress enter to go back to the menu");
 							}
 							Console.ReadLine();
 							Console.Clear();
@@ -747,8 +726,8 @@ namespace CinemaConsole.Data.BackEnd
 		/// <summary>
 		/// delete a ticket with an emailadress
 		/// </summary>
-		/// <param name="emailaddress">given email address</param>
-		public void DeleteReservationWithEmail(string emailaddress)
+		/// <param name="EmailAddress">given email address</param>
+		public void DeleteReservationWithEmail(string EmailAddress)
         {
 			try
 			{
@@ -808,7 +787,7 @@ namespace CinemaConsole.Data.BackEnd
 							TotalPrice = Convert.ToDouble(row["TotalPrice"]);
 							double pricedelete = -TotalPrice;
 
-							if (Email == emailaddress)
+							if (Email == EmailAddress)
 							{
 								// Ticket and contact information overview to check if you want to remove the right ticket.
 								Console.Clear();
@@ -868,7 +847,7 @@ namespace CinemaConsole.Data.BackEnd
 							else
 							{
 								Console.Clear();
-								Console.WriteLine("\nThere were no results found with the emailaddress: " + emailaddress + "\nPress enter to go back to the menu");
+								Console.WriteLine("\nThere were no results found with the emailaddress: " + EmailAddress + "\nPress enter to go back to the menu");
 							}
 							Console.ReadLine();
 							Console.Clear();
@@ -888,10 +867,10 @@ namespace CinemaConsole.Data.BackEnd
 		}
 
 		/// <summary>
-		/// delete a ticket with an emailadress
+		/// delete a ticket with an name
 		/// </summary>
 		/// <param name="full">given full name</param>
-		public void DeleteReservationWithName(string fullname)
+		public void DeleteReservationWithName(string FullName)
 		{
 			try
 			{
@@ -952,7 +931,7 @@ namespace CinemaConsole.Data.BackEnd
 							TotalPrice = Convert.ToDouble(row["TotalPrice"]);
 							double pricedelete = -TotalPrice;
 
-							if (Owner == fullname)
+							if (Owner == FullName)
 							{
 								// Ticket and contact information overview to check if you want to remove the right ticket.
 								Console.Clear();
@@ -1011,7 +990,7 @@ namespace CinemaConsole.Data.BackEnd
 							else
 							{
 								Console.Clear();
-								Console.WriteLine("\nThere were no results found with name: " + fullname + "\nPress enter to go back to the menu");
+								Console.WriteLine("\nThere were no results found with name: " + FullName + "\nPress enter to go back to the menu");
 							}
 							Console.ReadLine();
 							Console.Clear();
@@ -1030,6 +1009,9 @@ namespace CinemaConsole.Data.BackEnd
 			}
 		}
 		
+		/// <summary>
+		/// Check how much reservations there are at the moment
+		/// </summary>
 		public void ReservationAmount()
 		{
 			try
@@ -1057,9 +1039,6 @@ namespace CinemaConsole.Data.BackEnd
 
 				Console.Write(" people.\n");
 
-				Console.WriteLine("Press [enter] to continue.");
-				Console.ReadLine();
-				Console.Clear();
 			}
 			catch (MySqlException ex)
 			{
@@ -1068,9 +1047,17 @@ namespace CinemaConsole.Data.BackEnd
 			finally
 			{
 				Connection.Close();
+				Console.WriteLine("Press [enter] to continue.");
+				Console.ReadLine();
+				Console.Clear();
 			}
 		}
 
+		/// <summary>
+		/// Check if a product exists
+		/// </summary>
+		/// <param name="ItemID">ID of the product you want to look up</param>
+		/// <returns>If the product exists or not</returns>
 		public bool checkIfPExists(int ItemID)
 		{
 			List<int> ProductIDs = new List<int>();

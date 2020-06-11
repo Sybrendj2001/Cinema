@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CinemaConsole.Pages.Admin;
 using CinemaConsole.Pages;
 using CinemaConsole.Pages.Restaurant;
 using CinemaConsole.Pages.TicketSalesman;
-using CinemaConsole.Data.BackEnd;
+using CinemaConsole.Data;
 
 namespace CinemaConsole
 {
     class Program
     {
+        /// <summary>
+        /// Start of the program
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             AdminData AD = new AdminData();
