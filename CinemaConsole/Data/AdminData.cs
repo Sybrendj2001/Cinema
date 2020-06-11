@@ -1011,7 +1011,7 @@ namespace CinemaConsole.Data
                     try
                     {
                         string priceString = Console.ReadLine();
-                        if (priceString.Length > 10)
+                        if (priceString.Length < 10)
                         {
                             price = Convert.ToDouble(priceString);
                         }
